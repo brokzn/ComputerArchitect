@@ -1,0 +1,463 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище ComputerArchitectDataBaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CPUS">
+          <Key>
+            <PropertyRef Name="CPUId" />
+          </Key>
+          <Property Name="CPUId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Product_code" Type="varchar" MaxLength="15" />
+          <Property Name="Cost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="image" />
+          <Property Name="CPU_Count_on_storage" Type="int" />
+          <Property Name="Seller_warranty" Type="int" />
+          <Property Name="Country_of_origin" Type="int" />
+          <Property Name="Model" Type="varchar" MaxLength="255" />
+          <Property Name="Socket" Type="int" />
+          <Property Name="Manufacturer_Id" Type="int" />
+          <Property Name="Release_year" Type="int" />
+          <Property Name="Cooling_system_included" Type="bit" />
+          <Property Name="Thermal_interface" Type="varchar" MaxLength="255" />
+          <Property Name="Total_cores" Type="int" />
+          <Property Name="Productive_cores" Type="int" />
+          <Property Name="Energy_efficient_cores" Type="int" />
+          <Property Name="Max_threads" Type="int" />
+          <Property Name="L2_cache_size" Type="decimal" Precision="3" Scale="1" />
+          <Property Name="L3_cache_size" Type="decimal" Precision="3" Scale="1" />
+          <Property Name="Technology_process" Type="int" />
+          <Property Name="Core" Type="varchar" MaxLength="255" />
+          <Property Name="Base_processor_speed" Type="decimal" Precision="3" Scale="1" />
+          <Property Name="Max_turbo_speed" Type="decimal" Precision="3" Scale="1" />
+          <Property Name="Base_energy_efficient_speed" Type="decimal" Precision="3" Scale="1" />
+          <Property Name="Turbo_energy_efficient_speed" Type="decimal" Precision="3" Scale="1" />
+          <Property Name="Unlocked_multiplier" Type="bit" />
+          <Property Name="Memory_type" Type="int" />
+          <Property Name="Max_supported_memory" Type="int" />
+          <Property Name="Number_of_channels" Type="int" />
+          <Property Name="Memory_speed" Type="int" />
+          <Property Name="ECC_support" Type="bit" />
+          <Property Name="Thermal_design_power" Type="int" />
+          <Property Name="Base_thermal_design_power" Type="int" />
+          <Property Name="Max_processor_temperature" Type="decimal" Precision="4" Scale="1" />
+          <Property Name="Integrated_graphics_core" Type="bit" />
+          <Property Name="Integrated_PCI_Express_controller" Type="int" />
+          <Property Name="Number_of_PCI_Express_lines" Type="int" />
+          <Property Name="Virtualization_technology" Type="bit" />
+          <Property Name="Additional_info" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Manufacturers">
+          <Key>
+            <PropertyRef Name="ManufacturersId" />
+          </Key>
+          <Property Name="ManufacturersId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ManufacturersName" Type="varchar" MaxLength="10" />
+          <Property Name="ManufacturersLogo" Type="image" />
+        </EntityType>
+        <EntityType Name="Memory_types">
+          <Key>
+            <PropertyRef Name="Memory_typeId" />
+          </Key>
+          <Property Name="Memory_typeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Memory_typeName" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Sockets">
+          <Key>
+            <PropertyRef Name="SocketId" />
+          </Key>
+          <Property Name="SocketId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SocketName" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="SecondName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="GenderId" Type="int" />
+          <Property Name="CountryId" Type="int" />
+          <Property Name="About" Type="nvarchar" MaxLength="300" />
+          <Property Name="Photo" Type="image" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Сountries">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <Association Name="FK_CPUS_Manufacturers">
+          <End Role="Manufacturers" Type="Self.Manufacturers" Multiplicity="0..1" />
+          <End Role="CPUS" Type="Self.CPUS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="ManufacturersId" />
+            </Principal>
+            <Dependent Role="CPUS">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CPUS_Memory_types">
+          <End Role="Memory_types" Type="Self.Memory_types" Multiplicity="0..1" />
+          <End Role="CPUS" Type="Self.CPUS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Memory_types">
+              <PropertyRef Name="Memory_typeId" />
+            </Principal>
+            <Dependent Role="CPUS">
+              <PropertyRef Name="Memory_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CPUS_Sockets">
+          <End Role="Sockets" Type="Self.Sockets" Multiplicity="0..1" />
+          <End Role="CPUS" Type="Self.CPUS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sockets">
+              <PropertyRef Name="SocketId" />
+            </Principal>
+            <Dependent Role="CPUS">
+              <PropertyRef Name="Socket" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Сountries">
+          <End Role="Сountries" Type="Self.Сountries" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ComputerArchitectDataBaseModelContainer">
+          <EntitySet Name="CPUS" EntityType="Self.CPUS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Manufacturers" EntityType="Self.Manufacturers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Memory_types" EntityType="Self.Memory_types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sockets" EntityType="Self.Sockets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Сountries" EntityType="Self.Сountries" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CPUS_Manufacturers" Association="Self.FK_CPUS_Manufacturers">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="CPUS" EntitySet="CPUS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CPUS_Memory_types" Association="Self.FK_CPUS_Memory_types">
+            <End Role="Memory_types" EntitySet="Memory_types" />
+            <End Role="CPUS" EntitySet="CPUS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CPUS_Sockets" Association="Self.FK_CPUS_Sockets">
+            <End Role="Sockets" EntitySet="Sockets" />
+            <End Role="CPUS" EntitySet="CPUS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Сountries" Association="Self.FK_Users_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ComputerArchitectDataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SecondName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="GenderId" Type="Int32" />
+          <Property Name="CountryId" Type="Int32" />
+          <Property Name="About" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Сountries" Relationship="Self.FK_Users_Сountries" FromRole="Users" ToRole="Сountries" />
+        </EntityType>
+        <EntityType Name="Сountries">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="CountryName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_Сountries" FromRole="Сountries" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_Users_Сountries">
+          <End Role="Сountries" Type="Self.Сountries" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ComputerArchitectDataBaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="Сountries" EntityType="Self.Сountries" />
+          <AssociationSet Name="FK_Users_Сountries" Association="Self.FK_Users_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="CPUS" EntityType="ComputerArchitectDataBaseModel.CPUS" />
+          <EntitySet Name="Manufacturers" EntityType="ComputerArchitectDataBaseModel.Manufacturers" />
+          <EntitySet Name="Memory_types" EntityType="ComputerArchitectDataBaseModel.Memory_types" />
+          <EntitySet Name="Sockets" EntityType="ComputerArchitectDataBaseModel.Sockets" />
+          <AssociationSet Name="FK_CPUS_Manufacturers" Association="ComputerArchitectDataBaseModel.FK_CPUS_Manufacturers">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="CPUS" EntitySet="CPUS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CPUS_Memory_types" Association="ComputerArchitectDataBaseModel.FK_CPUS_Memory_types">
+            <End Role="Memory_types" EntitySet="Memory_types" />
+            <End Role="CPUS" EntitySet="CPUS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CPUS_Sockets" Association="ComputerArchitectDataBaseModel.FK_CPUS_Sockets">
+            <End Role="Sockets" EntitySet="Sockets" />
+            <End Role="CPUS" EntitySet="CPUS" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CPUS">
+          <Key>
+            <PropertyRef Name="CPUId" />
+          </Key>
+          <Property Name="CPUId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Product_code" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="CPU_Count_on_storage" Type="Int32" />
+          <Property Name="Seller_warranty" Type="Int32" />
+          <Property Name="Country_of_origin" Type="Int32" />
+          <Property Name="Model" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Socket" Type="Int32" />
+          <Property Name="Manufacturer_Id" Type="Int32" />
+          <Property Name="Release_year" Type="Int32" />
+          <Property Name="Cooling_system_included" Type="Boolean" />
+          <Property Name="Thermal_interface" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Total_cores" Type="Int32" />
+          <Property Name="Productive_cores" Type="Int32" />
+          <Property Name="Energy_efficient_cores" Type="Int32" />
+          <Property Name="Max_threads" Type="Int32" />
+          <Property Name="L2_cache_size" Type="Decimal" Precision="3" Scale="1" />
+          <Property Name="L3_cache_size" Type="Decimal" Precision="3" Scale="1" />
+          <Property Name="Technology_process" Type="Int32" />
+          <Property Name="Core" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Base_processor_speed" Type="Decimal" Precision="3" Scale="1" />
+          <Property Name="Max_turbo_speed" Type="Decimal" Precision="3" Scale="1" />
+          <Property Name="Base_energy_efficient_speed" Type="Decimal" Precision="3" Scale="1" />
+          <Property Name="Turbo_energy_efficient_speed" Type="Decimal" Precision="3" Scale="1" />
+          <Property Name="Unlocked_multiplier" Type="Boolean" />
+          <Property Name="Memory_type" Type="Int32" />
+          <Property Name="Max_supported_memory" Type="Int32" />
+          <Property Name="Number_of_channels" Type="Int32" />
+          <Property Name="Memory_speed" Type="Int32" />
+          <Property Name="ECC_support" Type="Boolean" />
+          <Property Name="Thermal_design_power" Type="Int32" />
+          <Property Name="Base_thermal_design_power" Type="Int32" />
+          <Property Name="Max_processor_temperature" Type="Decimal" Precision="4" Scale="1" />
+          <Property Name="Integrated_graphics_core" Type="Boolean" />
+          <Property Name="Integrated_PCI_Express_controller" Type="Int32" />
+          <Property Name="Number_of_PCI_Express_lines" Type="Int32" />
+          <Property Name="Virtualization_technology" Type="Boolean" />
+          <Property Name="Additional_info" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Manufacturers" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Manufacturers" FromRole="CPUS" ToRole="Manufacturers" />
+          <NavigationProperty Name="Memory_types" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Memory_types" FromRole="CPUS" ToRole="Memory_types" />
+          <NavigationProperty Name="Sockets" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Sockets" FromRole="CPUS" ToRole="Sockets" />
+        </EntityType>
+        <EntityType Name="Manufacturers">
+          <Key>
+            <PropertyRef Name="ManufacturersId" />
+          </Key>
+          <Property Name="ManufacturersId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ManufacturersName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ManufacturersLogo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="CPUS" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Manufacturers" FromRole="Manufacturers" ToRole="CPUS" />
+        </EntityType>
+        <EntityType Name="Memory_types">
+          <Key>
+            <PropertyRef Name="Memory_typeId" />
+          </Key>
+          <Property Name="Memory_typeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Memory_typeName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CPUS" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Memory_types" FromRole="Memory_types" ToRole="CPUS" />
+        </EntityType>
+        <EntityType Name="Sockets">
+          <Key>
+            <PropertyRef Name="SocketId" />
+          </Key>
+          <Property Name="SocketId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SocketName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CPUS" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Sockets" FromRole="Sockets" ToRole="CPUS" />
+        </EntityType>
+        <Association Name="FK_CPUS_Manufacturers">
+          <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.CPUS" Role="CPUS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="ManufacturersId" />
+            </Principal>
+            <Dependent Role="CPUS">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CPUS_Memory_types">
+          <End Type="ComputerArchitectDataBaseModel.Memory_types" Role="Memory_types" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.CPUS" Role="CPUS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Memory_types">
+              <PropertyRef Name="Memory_typeId" />
+            </Principal>
+            <Dependent Role="CPUS">
+              <PropertyRef Name="Memory_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CPUS_Sockets">
+          <End Type="ComputerArchitectDataBaseModel.Sockets" Role="Sockets" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.CPUS" Role="CPUS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sockets">
+              <PropertyRef Name="SocketId" />
+            </Principal>
+            <Dependent Role="CPUS">
+              <PropertyRef Name="Socket" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ComputerArchitectDataBaseModelContainer" CdmEntityContainer="ComputerArchitectDataBaseEntities">
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SecondName" ColumnName="SecondName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="About" ColumnName="About" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Сountries">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.Сountries">
+              <MappingFragment StoreEntitySet="Сountries">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CPUS">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.CPUS">
+              <MappingFragment StoreEntitySet="CPUS">
+                <ScalarProperty Name="Additional_info" ColumnName="Additional_info" />
+                <ScalarProperty Name="Virtualization_technology" ColumnName="Virtualization_technology" />
+                <ScalarProperty Name="Number_of_PCI_Express_lines" ColumnName="Number_of_PCI_Express_lines" />
+                <ScalarProperty Name="Integrated_PCI_Express_controller" ColumnName="Integrated_PCI_Express_controller" />
+                <ScalarProperty Name="Integrated_graphics_core" ColumnName="Integrated_graphics_core" />
+                <ScalarProperty Name="Max_processor_temperature" ColumnName="Max_processor_temperature" />
+                <ScalarProperty Name="Base_thermal_design_power" ColumnName="Base_thermal_design_power" />
+                <ScalarProperty Name="Thermal_design_power" ColumnName="Thermal_design_power" />
+                <ScalarProperty Name="ECC_support" ColumnName="ECC_support" />
+                <ScalarProperty Name="Memory_speed" ColumnName="Memory_speed" />
+                <ScalarProperty Name="Number_of_channels" ColumnName="Number_of_channels" />
+                <ScalarProperty Name="Max_supported_memory" ColumnName="Max_supported_memory" />
+                <ScalarProperty Name="Memory_type" ColumnName="Memory_type" />
+                <ScalarProperty Name="Unlocked_multiplier" ColumnName="Unlocked_multiplier" />
+                <ScalarProperty Name="Turbo_energy_efficient_speed" ColumnName="Turbo_energy_efficient_speed" />
+                <ScalarProperty Name="Base_energy_efficient_speed" ColumnName="Base_energy_efficient_speed" />
+                <ScalarProperty Name="Max_turbo_speed" ColumnName="Max_turbo_speed" />
+                <ScalarProperty Name="Base_processor_speed" ColumnName="Base_processor_speed" />
+                <ScalarProperty Name="Core" ColumnName="Core" />
+                <ScalarProperty Name="Technology_process" ColumnName="Technology_process" />
+                <ScalarProperty Name="L3_cache_size" ColumnName="L3_cache_size" />
+                <ScalarProperty Name="L2_cache_size" ColumnName="L2_cache_size" />
+                <ScalarProperty Name="Max_threads" ColumnName="Max_threads" />
+                <ScalarProperty Name="Energy_efficient_cores" ColumnName="Energy_efficient_cores" />
+                <ScalarProperty Name="Productive_cores" ColumnName="Productive_cores" />
+                <ScalarProperty Name="Total_cores" ColumnName="Total_cores" />
+                <ScalarProperty Name="Thermal_interface" ColumnName="Thermal_interface" />
+                <ScalarProperty Name="Cooling_system_included" ColumnName="Cooling_system_included" />
+                <ScalarProperty Name="Release_year" ColumnName="Release_year" />
+                <ScalarProperty Name="Manufacturer_Id" ColumnName="Manufacturer_Id" />
+                <ScalarProperty Name="Socket" ColumnName="Socket" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Country_of_origin" ColumnName="Country_of_origin" />
+                <ScalarProperty Name="Seller_warranty" ColumnName="Seller_warranty" />
+                <ScalarProperty Name="CPU_Count_on_storage" ColumnName="CPU_Count_on_storage" />
+                <ScalarProperty Name="Preview_Photo" ColumnName="Preview_Photo" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Product_code" ColumnName="Product_code" />
+                <ScalarProperty Name="CPUId" ColumnName="CPUId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Manufacturers">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.Manufacturers">
+              <MappingFragment StoreEntitySet="Manufacturers">
+                <ScalarProperty Name="ManufacturersLogo" ColumnName="ManufacturersLogo" />
+                <ScalarProperty Name="ManufacturersName" ColumnName="ManufacturersName" />
+                <ScalarProperty Name="ManufacturersId" ColumnName="ManufacturersId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Memory_types">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.Memory_types">
+              <MappingFragment StoreEntitySet="Memory_types">
+                <ScalarProperty Name="Memory_typeName" ColumnName="Memory_typeName" />
+                <ScalarProperty Name="Memory_typeId" ColumnName="Memory_typeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sockets">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.Sockets">
+              <MappingFragment StoreEntitySet="Sockets">
+                <ScalarProperty Name="SocketName" ColumnName="SocketName" />
+                <ScalarProperty Name="SocketId" ColumnName="SocketId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
