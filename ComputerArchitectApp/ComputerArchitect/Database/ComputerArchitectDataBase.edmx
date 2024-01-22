@@ -49,6 +49,66 @@
           <Property Name="Virtualization_technology" Type="bit" />
           <Property Name="Additional_info" Type="varchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="Form_Factors">
+          <Key>
+            <PropertyRef Name="Form_FactorId" />
+          </Key>
+          <Property Name="Form_FactorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Form_FactorName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="GPUS">
+          <Key>
+            <PropertyRef Name="GPUId" />
+          </Key>
+          <Property Name="GPUId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="image" />
+          <Property Name="GPU_Count_on_storage" Type="int" />
+          <Property Name="GPU_Model" Type="varchar" MaxLength="255" />
+          <Property Name="Seller_Warranty" Type="int" />
+          <Property Name="Country_of_Origin" Type="int" />
+          <Property Name="Manufacturer_Id" Type="int" />
+          <Property Name="Color" Type="varchar" MaxLength="50" />
+          <Property Name="Mining_Purpose" Type="bit" />
+          <Property Name="LHR" Type="bit" />
+          <Property Name="GPU_Processor" Type="varchar" MaxLength="150" />
+          <Property Name="Microarchitecture" Type="varchar" MaxLength="150" />
+          <Property Name="Technology_Process_nm" Type="int" />
+          <Property Name="GPU_Base_Frequency_MHz" Type="int" />
+          <Property Name="ALU_Count" Type="int" />
+          <Property Name="Texture_Block_Count" Type="int" />
+          <Property Name="Rasterization_Block_Count" Type="int" />
+          <Property Name="Ray_Tracing_Support" Type="bit" />
+          <Property Name="RT_Cores" Type="int" />
+          <Property Name="Tensor_Cores" Type="bit" />
+          <Property Name="Video_Memory_Size_GB" Type="int" />
+          <Property Name="Video_Memory_Type" Type="varchar" MaxLength="20" />
+          <Property Name="Memory_Bus_Width_Bits" Type="int" />
+          <Property Name="Memory_Bandwidth_GBps" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Memory_Frequency_MHz" Type="int" />
+          <Property Name="Video_Output_Type_and_Count" Type="varchar" MaxLength="255" />
+          <Property Name="HDMI_Version" Type="varchar" MaxLength="10" />
+          <Property Name="Max_Monitors_Supported" Type="int" />
+          <Property Name="Max_Resolution" Type="varchar" MaxLength="20" />
+          <Property Name="Connection_Interface" Type="varchar" MaxLength="20" />
+          <Property Name="Connector_Form_Factor" Type="varchar" MaxLength="20" />
+          <Property Name="PCI_Express_Lanes" Type="int" />
+          <Property Name="Additional_Power_Connectors" Type="bit" />
+          <Property Name="Recommended_Power_Supply_Watt" Type="int" />
+          <Property Name="Cooling_Type" Type="varchar" MaxLength="50" />
+          <Property Name="Fan_Type_and_Count" Type="varchar" MaxLength="255" />
+          <Property Name="Liquid_Cooling_Radiator" Type="bit" />
+          <Property Name="RGB_Lighting" Type="bit" />
+          <Property Name="RGB_Sync" Type="bit" />
+          <Property Name="LCD_Display" Type="bit" />
+          <Property Name="BIOS_Switch" Type="bit" />
+          <Property Name="Low_Profile" Type="bit" />
+          <Property Name="Occupied_Expansion_Slots" Type="int" />
+          <Property Name="Length_mm" Type="int" />
+          <Property Name="Width_mm" Type="int" />
+          <Property Name="Thickness_mm" Type="int" />
+          <Property Name="Weight_g" Type="int" />
+        </EntityType>
         <EntityType Name="Manufacturers">
           <Key>
             <PropertyRef Name="ManufacturersId" />
@@ -63,6 +123,74 @@
           </Key>
           <Property Name="Memory_typeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Memory_typeName" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Motherboards">
+          <Key>
+            <PropertyRef Name="MotherboardId" />
+          </Key>
+          <Property Name="MotherboardId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="image" />
+          <Property Name="Motherboard_Count_on_storage" Type="int" />
+          <Property Name="Motherboard_Model" Type="varchar" MaxLength="255" />
+          <Property Name="Seller_warranty" Type="int" />
+          <Property Name="Country_of_Origin" Type="int" />
+          <Property Name="Form_Factor" Type="int" />
+          <Property Name="Height_Mm" Type="int" />
+          <Property Name="Width_Mm" Type="int" />
+          <Property Name="Socket" Type="int" />
+          <Property Name="Chipset" Type="varchar" MaxLength="255" />
+          <Property Name="Compatible_Cpu_Cores" Type="varchar" MaxLength="255" />
+          <Property Name="Memory_Type" Type="int" />
+          <Property Name="Memory_Form_Factor" Type="varchar" MaxLength="20" />
+          <Property Name="Memory_Slots" Type="int" />
+          <Property Name="Memory_Channels" Type="int" />
+          <Property Name="Max_Memory_Gb" Type="int" />
+          <Property Name="Max_Memory_Frequency_Mhz" Type="int" />
+          <Property Name="Pcie_Version" Type="varchar" MaxLength="10" />
+          <Property Name="Pcie_X16_Slots" Type="int" />
+          <Property Name="Sli_Crossfire_Support" Type="bit" />
+          <Property Name="Pcie_X1_Slots" Type="int" />
+          <Property Name="Nvme_Support" Type="bit" />
+          <Property Name="M2_Slots" Type="int" />
+          <Property Name="Sata_Ports" Type="int" />
+          <Property Name="Sata_Raid_Support" Type="bit" />
+          <Property Name="Ide_Ports" Type="int" />
+          <Property Name="Rear_Panel_Usb_2_0" Type="int" />
+          <Property Name="Rear_Panel_Usb_Type_C" Type="bit" />
+          <Property Name="Rear_Panel_Thunderbolt" Type="bit" />
+          <Property Name="Rear_Panel_Vga" Type="bit" />
+          <Property Name="Rear_Panel_Rj45_Ports" Type="int" />
+          <Property Name="Rear_Panel_Analog_Audio_Ports" Type="int" />
+          <Property Name="Rear_Panel_Spdif" Type="bit" />
+          <Property Name="Internal_Usb_2_0" Type="int" />
+          <Property Name="Internal_Usb_Type_C" Type="bit" />
+          <Property Name="Cpu_Cooler_Power_Pin" Type="int" />
+          <Property Name="Case_Fan_4_Pin" Type="bit" />
+          <Property Name="Case_Fan_3_Pin" Type="int" />
+          <Property Name="Argb_Lighting" Type="bit" />
+          <Property Name="Rgb_Lighting" Type="bit" />
+          <Property Name="M2_Wifi_Module" Type="bit" />
+          <Property Name="Rs232_Com_Port" Type="bit" />
+          <Property Name="Lpt_Interface" Type="bit" />
+          <Property Name="Audio_Scheme" Type="varchar" MaxLength="50" />
+          <Property Name="Audio_Chipset" Type="varchar" MaxLength="50" />
+          <Property Name="Network_Speed_Gbps" Type="decimal" Precision="3" Scale="1" />
+          <Property Name="Network_Adapter_Brand" Type="varchar" MaxLength="50" />
+          <Property Name="Wifi_Standard" Type="varchar" MaxLength="50" />
+          <Property Name="Bluetooth_Version" Type="varchar" MaxLength="50" />
+          <Property Name="Main_Power_Connector" Type="varchar" MaxLength="50" />
+          <Property Name="Cpu_Power_Connector" Type="varchar" MaxLength="50" />
+          <Property Name="Power_Phase_Count" Type="int" />
+          <Property Name="Passive_Chipset_Cooling" Type="bit" />
+          <Property Name="Active_Chipset_Cooling" Type="bit" />
+          <Property Name="Onboard_Buttons" Type="bit" />
+          <Property Name="Lighting_Sync_Software" Type="bit" />
+          <Property Name="Bundle_Contents" Type="varchar" MaxLength="255" />
+          <Property Name="Package_Length_Cm" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Package_Width_Cm" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Package_Height_Cm" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Package_Weight_Kg" Type="decimal" Precision="5" Scale="2" />
         </EntityType>
         <EntityType Name="Sockets">
           <Key>
@@ -129,6 +257,90 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CPUS_Сountries">
+          <End Role="Сountries" Type="Self.Сountries" Multiplicity="0..1" />
+          <End Role="CPUS" Type="Self.CPUS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="CPUS">
+              <PropertyRef Name="Country_of_origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GPUS_Manufacturers">
+          <End Role="Manufacturers" Type="Self.Manufacturers" Multiplicity="0..1" />
+          <End Role="GPUS" Type="Self.GPUS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="ManufacturersId" />
+            </Principal>
+            <Dependent Role="GPUS">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GPUS_Сountries">
+          <End Role="Сountries" Type="Self.Сountries" Multiplicity="0..1" />
+          <End Role="GPUS" Type="Self.GPUS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="GPUS">
+              <PropertyRef Name="Country_of_Origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Motherboards_Form_Factors">
+          <End Role="Form_Factors" Type="Self.Form_Factors" Multiplicity="0..1" />
+          <End Role="Motherboards" Type="Self.Motherboards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Form_Factors">
+              <PropertyRef Name="Form_FactorId" />
+            </Principal>
+            <Dependent Role="Motherboards">
+              <PropertyRef Name="Form_Factor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Motherboards_Memory_types">
+          <End Role="Memory_types" Type="Self.Memory_types" Multiplicity="0..1" />
+          <End Role="Motherboards" Type="Self.Motherboards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Memory_types">
+              <PropertyRef Name="Memory_typeId" />
+            </Principal>
+            <Dependent Role="Motherboards">
+              <PropertyRef Name="Memory_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Motherboards_Sockets">
+          <End Role="Sockets" Type="Self.Sockets" Multiplicity="0..1" />
+          <End Role="Motherboards" Type="Self.Motherboards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sockets">
+              <PropertyRef Name="SocketId" />
+            </Principal>
+            <Dependent Role="Motherboards">
+              <PropertyRef Name="Socket" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Motherboards_Сountries">
+          <End Role="Сountries" Type="Self.Сountries" Multiplicity="0..1" />
+          <End Role="Motherboards" Type="Self.Motherboards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Motherboards">
+              <PropertyRef Name="Country_of_Origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_Сountries">
           <End Role="Сountries" Type="Self.Сountries" Multiplicity="0..1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -143,8 +355,11 @@
         </Association>
         <EntityContainer Name="Хранилище ComputerArchitectDataBaseModelContainer">
           <EntitySet Name="CPUS" EntityType="Self.CPUS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Form_Factors" EntityType="Self.Form_Factors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GPUS" EntityType="Self.GPUS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Manufacturers" EntityType="Self.Manufacturers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Memory_types" EntityType="Self.Memory_types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Motherboards" EntityType="Self.Motherboards" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sockets" EntityType="Self.Sockets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Сountries" EntityType="Self.Сountries" Schema="dbo" store:Type="Tables" />
@@ -159,6 +374,34 @@
           <AssociationSet Name="FK_CPUS_Sockets" Association="Self.FK_CPUS_Sockets">
             <End Role="Sockets" EntitySet="Sockets" />
             <End Role="CPUS" EntitySet="CPUS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CPUS_Сountries" Association="Self.FK_CPUS_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="CPUS" EntitySet="CPUS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GPUS_Manufacturers" Association="Self.FK_GPUS_Manufacturers">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="GPUS" EntitySet="GPUS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GPUS_Сountries" Association="Self.FK_GPUS_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="GPUS" EntitySet="GPUS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Motherboards_Form_Factors" Association="Self.FK_Motherboards_Form_Factors">
+            <End Role="Form_Factors" EntitySet="Form_Factors" />
+            <End Role="Motherboards" EntitySet="Motherboards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Motherboards_Memory_types" Association="Self.FK_Motherboards_Memory_types">
+            <End Role="Memory_types" EntitySet="Memory_types" />
+            <End Role="Motherboards" EntitySet="Motherboards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Motherboards_Sockets" Association="Self.FK_Motherboards_Sockets">
+            <End Role="Sockets" EntitySet="Sockets" />
+            <End Role="Motherboards" EntitySet="Motherboards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Motherboards_Сountries" Association="Self.FK_Motherboards_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="Motherboards" EntitySet="Motherboards" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Сountries" Association="Self.FK_Users_Сountries">
             <End Role="Сountries" EntitySet="Сountries" />
@@ -192,6 +435,9 @@
           <Property Name="CountryId" Type="Int32" Nullable="false" />
           <Property Name="CountryName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Users_Сountries" FromRole="Сountries" ToRole="Users" />
+          <NavigationProperty Name="CPUS" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Сountries" FromRole="Сountries" ToRole="CPUS" />
+          <NavigationProperty Name="Motherboards" Relationship="ComputerArchitectDataBaseModel.FK_Motherboards_Сountries" FromRole="Сountries" ToRole="Motherboards" />
+          <NavigationProperty Name="GPUS" Relationship="ComputerArchitectDataBaseModel.FK_GPUS_Сountries" FromRole="Сountries" ToRole="GPUS" />
         </EntityType>
         <Association Name="FK_Users_Сountries">
           <End Role="Сountries" Type="Self.Сountries" Multiplicity="0..1" />
@@ -227,6 +473,37 @@
           <AssociationSet Name="FK_CPUS_Sockets" Association="ComputerArchitectDataBaseModel.FK_CPUS_Sockets">
             <End Role="Sockets" EntitySet="Sockets" />
             <End Role="CPUS" EntitySet="CPUS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CPUS_Сountries" Association="ComputerArchitectDataBaseModel.FK_CPUS_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="CPUS" EntitySet="CPUS" />
+          </AssociationSet>
+          <EntitySet Name="Form_Factors" EntityType="ComputerArchitectDataBaseModel.Form_Factors" />
+          <EntitySet Name="Motherboards" EntityType="ComputerArchitectDataBaseModel.Motherboards" />
+          <AssociationSet Name="FK_Motherboards_Form_Factors" Association="ComputerArchitectDataBaseModel.FK_Motherboards_Form_Factors">
+            <End Role="Form_Factors" EntitySet="Form_Factors" />
+            <End Role="Motherboards" EntitySet="Motherboards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Motherboards_Memory_types" Association="ComputerArchitectDataBaseModel.FK_Motherboards_Memory_types">
+            <End Role="Memory_types" EntitySet="Memory_types" />
+            <End Role="Motherboards" EntitySet="Motherboards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Motherboards_Sockets" Association="ComputerArchitectDataBaseModel.FK_Motherboards_Sockets">
+            <End Role="Sockets" EntitySet="Sockets" />
+            <End Role="Motherboards" EntitySet="Motherboards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Motherboards_Сountries" Association="ComputerArchitectDataBaseModel.FK_Motherboards_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="Motherboards" EntitySet="Motherboards" />
+          </AssociationSet>
+          <EntitySet Name="GPUS" EntityType="ComputerArchitectDataBaseModel.GPUS" />
+          <AssociationSet Name="FK_GPUS_Manufacturers" Association="ComputerArchitectDataBaseModel.FK_GPUS_Manufacturers">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="GPUS" EntitySet="GPUS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GPUS_Сountries" Association="ComputerArchitectDataBaseModel.FK_GPUS_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="GPUS" EntitySet="GPUS" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="CPUS">
@@ -275,6 +552,7 @@
           <NavigationProperty Name="Manufacturers" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Manufacturers" FromRole="CPUS" ToRole="Manufacturers" />
           <NavigationProperty Name="Memory_types" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Memory_types" FromRole="CPUS" ToRole="Memory_types" />
           <NavigationProperty Name="Sockets" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Sockets" FromRole="CPUS" ToRole="Sockets" />
+          <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Сountries" FromRole="CPUS" ToRole="Сountries" />
         </EntityType>
         <EntityType Name="Manufacturers">
           <Key>
@@ -284,6 +562,7 @@
           <Property Name="ManufacturersName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="ManufacturersLogo" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="CPUS" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Manufacturers" FromRole="Manufacturers" ToRole="CPUS" />
+          <NavigationProperty Name="GPUS" Relationship="ComputerArchitectDataBaseModel.FK_GPUS_Manufacturers" FromRole="Manufacturers" ToRole="GPUS" />
         </EntityType>
         <EntityType Name="Memory_types">
           <Key>
@@ -292,6 +571,7 @@
           <Property Name="Memory_typeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Memory_typeName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CPUS" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Memory_types" FromRole="Memory_types" ToRole="CPUS" />
+          <NavigationProperty Name="Motherboards" Relationship="ComputerArchitectDataBaseModel.FK_Motherboards_Memory_types" FromRole="Memory_types" ToRole="Motherboards" />
         </EntityType>
         <EntityType Name="Sockets">
           <Key>
@@ -300,6 +580,7 @@
           <Property Name="SocketId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SocketName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CPUS" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Sockets" FromRole="Sockets" ToRole="CPUS" />
+          <NavigationProperty Name="Motherboards" Relationship="ComputerArchitectDataBaseModel.FK_Motherboards_Sockets" FromRole="Sockets" ToRole="Motherboards" />
         </EntityType>
         <Association Name="FK_CPUS_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -334,6 +615,225 @@
             </Principal>
             <Dependent Role="CPUS">
               <PropertyRef Name="Socket" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CPUS_Сountries">
+          <End Type="ComputerArchitectDataBaseModel.Сountries" Role="Сountries" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.CPUS" Role="CPUS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="CPUS">
+              <PropertyRef Name="Country_of_origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Form_Factors">
+          <Key>
+            <PropertyRef Name="Form_FactorId" />
+          </Key>
+          <Property Name="Form_FactorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Form_FactorName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Motherboards" Relationship="ComputerArchitectDataBaseModel.FK_Motherboards_Form_Factors" FromRole="Form_Factors" ToRole="Motherboards" />
+        </EntityType>
+        <EntityType Name="Motherboards">
+          <Key>
+            <PropertyRef Name="MotherboardId" />
+          </Key>
+          <Property Name="MotherboardId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Motherboard_Count_on_storage" Type="Int32" />
+          <Property Name="Motherboard_Model" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Seller_warranty" Type="Int32" />
+          <Property Name="Country_of_Origin" Type="Int32" />
+          <Property Name="Form_Factor" Type="Int32" />
+          <Property Name="Height_Mm" Type="Int32" />
+          <Property Name="Width_Mm" Type="Int32" />
+          <Property Name="Socket" Type="Int32" />
+          <Property Name="Chipset" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Compatible_Cpu_Cores" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Memory_Type" Type="Int32" />
+          <Property Name="Memory_Form_Factor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Memory_Slots" Type="Int32" />
+          <Property Name="Memory_Channels" Type="Int32" />
+          <Property Name="Max_Memory_Gb" Type="Int32" />
+          <Property Name="Max_Memory_Frequency_Mhz" Type="Int32" />
+          <Property Name="Pcie_Version" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Pcie_X16_Slots" Type="Int32" />
+          <Property Name="Sli_Crossfire_Support" Type="Boolean" />
+          <Property Name="Pcie_X1_Slots" Type="Int32" />
+          <Property Name="Nvme_Support" Type="Boolean" />
+          <Property Name="M2_Slots" Type="Int32" />
+          <Property Name="Sata_Ports" Type="Int32" />
+          <Property Name="Sata_Raid_Support" Type="Boolean" />
+          <Property Name="Ide_Ports" Type="Int32" />
+          <Property Name="Rear_Panel_Usb_2_0" Type="Int32" />
+          <Property Name="Rear_Panel_Usb_Type_C" Type="Boolean" />
+          <Property Name="Rear_Panel_Thunderbolt" Type="Boolean" />
+          <Property Name="Rear_Panel_Vga" Type="Boolean" />
+          <Property Name="Rear_Panel_Rj45_Ports" Type="Int32" />
+          <Property Name="Rear_Panel_Analog_Audio_Ports" Type="Int32" />
+          <Property Name="Rear_Panel_Spdif" Type="Boolean" />
+          <Property Name="Internal_Usb_2_0" Type="Int32" />
+          <Property Name="Internal_Usb_Type_C" Type="Boolean" />
+          <Property Name="Cpu_Cooler_Power_Pin" Type="Int32" />
+          <Property Name="Case_Fan_4_Pin" Type="Boolean" />
+          <Property Name="Case_Fan_3_Pin" Type="Int32" />
+          <Property Name="Argb_Lighting" Type="Boolean" />
+          <Property Name="Rgb_Lighting" Type="Boolean" />
+          <Property Name="M2_Wifi_Module" Type="Boolean" />
+          <Property Name="Rs232_Com_Port" Type="Boolean" />
+          <Property Name="Lpt_Interface" Type="Boolean" />
+          <Property Name="Audio_Scheme" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Audio_Chipset" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Network_Speed_Gbps" Type="Decimal" Precision="3" Scale="1" />
+          <Property Name="Network_Adapter_Brand" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Wifi_Standard" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Bluetooth_Version" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Main_Power_Connector" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Cpu_Power_Connector" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Power_Phase_Count" Type="Int32" />
+          <Property Name="Passive_Chipset_Cooling" Type="Boolean" />
+          <Property Name="Active_Chipset_Cooling" Type="Boolean" />
+          <Property Name="Onboard_Buttons" Type="Boolean" />
+          <Property Name="Lighting_Sync_Software" Type="Boolean" />
+          <Property Name="Bundle_Contents" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Package_Length_Cm" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Package_Width_Cm" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Package_Height_Cm" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Package_Weight_Kg" Type="Decimal" Precision="5" Scale="2" />
+          <NavigationProperty Name="Form_Factors" Relationship="ComputerArchitectDataBaseModel.FK_Motherboards_Form_Factors" FromRole="Motherboards" ToRole="Form_Factors" />
+          <NavigationProperty Name="Memory_types" Relationship="ComputerArchitectDataBaseModel.FK_Motherboards_Memory_types" FromRole="Motherboards" ToRole="Memory_types" />
+          <NavigationProperty Name="Sockets" Relationship="ComputerArchitectDataBaseModel.FK_Motherboards_Sockets" FromRole="Motherboards" ToRole="Sockets" />
+          <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_Motherboards_Сountries" FromRole="Motherboards" ToRole="Сountries" />
+        </EntityType>
+        <Association Name="FK_Motherboards_Form_Factors">
+          <End Type="ComputerArchitectDataBaseModel.Form_Factors" Role="Form_Factors" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.Motherboards" Role="Motherboards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Form_Factors">
+              <PropertyRef Name="Form_FactorId" />
+            </Principal>
+            <Dependent Role="Motherboards">
+              <PropertyRef Name="Form_Factor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Motherboards_Memory_types">
+          <End Type="ComputerArchitectDataBaseModel.Memory_types" Role="Memory_types" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.Motherboards" Role="Motherboards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Memory_types">
+              <PropertyRef Name="Memory_typeId" />
+            </Principal>
+            <Dependent Role="Motherboards">
+              <PropertyRef Name="Memory_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Motherboards_Sockets">
+          <End Type="ComputerArchitectDataBaseModel.Sockets" Role="Sockets" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.Motherboards" Role="Motherboards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sockets">
+              <PropertyRef Name="SocketId" />
+            </Principal>
+            <Dependent Role="Motherboards">
+              <PropertyRef Name="Socket" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Motherboards_Сountries">
+          <End Type="ComputerArchitectDataBaseModel.Сountries" Role="Сountries" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.Motherboards" Role="Motherboards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Motherboards">
+              <PropertyRef Name="Country_of_Origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GPUS">
+          <Key>
+            <PropertyRef Name="GPUId" />
+          </Key>
+          <Property Name="GPUId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="GPU_Count_on_storage" Type="Int32" />
+          <Property Name="GPU_Model" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Seller_Warranty" Type="Int32" />
+          <Property Name="Country_of_Origin" Type="Int32" />
+          <Property Name="Manufacturer_Id" Type="Int32" />
+          <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Mining_Purpose" Type="Boolean" />
+          <Property Name="LHR" Type="Boolean" />
+          <Property Name="GPU_Processor" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Microarchitecture" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Technology_Process_nm" Type="Int32" />
+          <Property Name="GPU_Base_Frequency_MHz" Type="Int32" />
+          <Property Name="ALU_Count" Type="Int32" />
+          <Property Name="Texture_Block_Count" Type="Int32" />
+          <Property Name="Rasterization_Block_Count" Type="Int32" />
+          <Property Name="Ray_Tracing_Support" Type="Boolean" />
+          <Property Name="RT_Cores" Type="Int32" />
+          <Property Name="Tensor_Cores" Type="Boolean" />
+          <Property Name="Video_Memory_Size_GB" Type="Int32" />
+          <Property Name="Video_Memory_Type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Memory_Bus_Width_Bits" Type="Int32" />
+          <Property Name="Memory_Bandwidth_GBps" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Memory_Frequency_MHz" Type="Int32" />
+          <Property Name="Video_Output_Type_and_Count" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HDMI_Version" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Max_Monitors_Supported" Type="Int32" />
+          <Property Name="Max_Resolution" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Connection_Interface" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Connector_Form_Factor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PCI_Express_Lanes" Type="Int32" />
+          <Property Name="Additional_Power_Connectors" Type="Boolean" />
+          <Property Name="Recommended_Power_Supply_Watt" Type="Int32" />
+          <Property Name="Cooling_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fan_Type_and_Count" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Liquid_Cooling_Radiator" Type="Boolean" />
+          <Property Name="RGB_Lighting" Type="Boolean" />
+          <Property Name="RGB_Sync" Type="Boolean" />
+          <Property Name="LCD_Display" Type="Boolean" />
+          <Property Name="BIOS_Switch" Type="Boolean" />
+          <Property Name="Low_Profile" Type="Boolean" />
+          <Property Name="Occupied_Expansion_Slots" Type="Int32" />
+          <Property Name="Length_mm" Type="Int32" />
+          <Property Name="Width_mm" Type="Int32" />
+          <Property Name="Thickness_mm" Type="Int32" />
+          <Property Name="Weight_g" Type="Int32" />
+          <NavigationProperty Name="Manufacturers" Relationship="ComputerArchitectDataBaseModel.FK_GPUS_Manufacturers" FromRole="GPUS" ToRole="Manufacturers" />
+          <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_GPUS_Сountries" FromRole="GPUS" ToRole="Сountries" />
+        </EntityType>
+        <Association Name="FK_GPUS_Manufacturers">
+          <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.GPUS" Role="GPUS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="ManufacturersId" />
+            </Principal>
+            <Dependent Role="GPUS">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GPUS_Сountries">
+          <End Type="ComputerArchitectDataBaseModel.Сountries" Role="Сountries" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.GPUS" Role="GPUS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="GPUS">
+              <PropertyRef Name="Country_of_Origin" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -434,6 +934,137 @@
               <MappingFragment StoreEntitySet="Sockets">
                 <ScalarProperty Name="SocketName" ColumnName="SocketName" />
                 <ScalarProperty Name="SocketId" ColumnName="SocketId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Form_Factors">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.Form_Factors">
+              <MappingFragment StoreEntitySet="Form_Factors">
+                <ScalarProperty Name="Form_FactorName" ColumnName="Form_FactorName" />
+                <ScalarProperty Name="Form_FactorId" ColumnName="Form_FactorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Motherboards">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.Motherboards">
+              <MappingFragment StoreEntitySet="Motherboards">
+                <ScalarProperty Name="Package_Weight_Kg" ColumnName="Package_Weight_Kg" />
+                <ScalarProperty Name="Package_Height_Cm" ColumnName="Package_Height_Cm" />
+                <ScalarProperty Name="Package_Width_Cm" ColumnName="Package_Width_Cm" />
+                <ScalarProperty Name="Package_Length_Cm" ColumnName="Package_Length_Cm" />
+                <ScalarProperty Name="Bundle_Contents" ColumnName="Bundle_Contents" />
+                <ScalarProperty Name="Lighting_Sync_Software" ColumnName="Lighting_Sync_Software" />
+                <ScalarProperty Name="Onboard_Buttons" ColumnName="Onboard_Buttons" />
+                <ScalarProperty Name="Active_Chipset_Cooling" ColumnName="Active_Chipset_Cooling" />
+                <ScalarProperty Name="Passive_Chipset_Cooling" ColumnName="Passive_Chipset_Cooling" />
+                <ScalarProperty Name="Power_Phase_Count" ColumnName="Power_Phase_Count" />
+                <ScalarProperty Name="Cpu_Power_Connector" ColumnName="Cpu_Power_Connector" />
+                <ScalarProperty Name="Main_Power_Connector" ColumnName="Main_Power_Connector" />
+                <ScalarProperty Name="Bluetooth_Version" ColumnName="Bluetooth_Version" />
+                <ScalarProperty Name="Wifi_Standard" ColumnName="Wifi_Standard" />
+                <ScalarProperty Name="Network_Adapter_Brand" ColumnName="Network_Adapter_Brand" />
+                <ScalarProperty Name="Network_Speed_Gbps" ColumnName="Network_Speed_Gbps" />
+                <ScalarProperty Name="Audio_Chipset" ColumnName="Audio_Chipset" />
+                <ScalarProperty Name="Audio_Scheme" ColumnName="Audio_Scheme" />
+                <ScalarProperty Name="Lpt_Interface" ColumnName="Lpt_Interface" />
+                <ScalarProperty Name="Rs232_Com_Port" ColumnName="Rs232_Com_Port" />
+                <ScalarProperty Name="M2_Wifi_Module" ColumnName="M2_Wifi_Module" />
+                <ScalarProperty Name="Rgb_Lighting" ColumnName="Rgb_Lighting" />
+                <ScalarProperty Name="Argb_Lighting" ColumnName="Argb_Lighting" />
+                <ScalarProperty Name="Case_Fan_3_Pin" ColumnName="Case_Fan_3_Pin" />
+                <ScalarProperty Name="Case_Fan_4_Pin" ColumnName="Case_Fan_4_Pin" />
+                <ScalarProperty Name="Cpu_Cooler_Power_Pin" ColumnName="Cpu_Cooler_Power_Pin" />
+                <ScalarProperty Name="Internal_Usb_Type_C" ColumnName="Internal_Usb_Type_C" />
+                <ScalarProperty Name="Internal_Usb_2_0" ColumnName="Internal_Usb_2_0" />
+                <ScalarProperty Name="Rear_Panel_Spdif" ColumnName="Rear_Panel_Spdif" />
+                <ScalarProperty Name="Rear_Panel_Analog_Audio_Ports" ColumnName="Rear_Panel_Analog_Audio_Ports" />
+                <ScalarProperty Name="Rear_Panel_Rj45_Ports" ColumnName="Rear_Panel_Rj45_Ports" />
+                <ScalarProperty Name="Rear_Panel_Vga" ColumnName="Rear_Panel_Vga" />
+                <ScalarProperty Name="Rear_Panel_Thunderbolt" ColumnName="Rear_Panel_Thunderbolt" />
+                <ScalarProperty Name="Rear_Panel_Usb_Type_C" ColumnName="Rear_Panel_Usb_Type_C" />
+                <ScalarProperty Name="Rear_Panel_Usb_2_0" ColumnName="Rear_Panel_Usb_2_0" />
+                <ScalarProperty Name="Ide_Ports" ColumnName="Ide_Ports" />
+                <ScalarProperty Name="Sata_Raid_Support" ColumnName="Sata_Raid_Support" />
+                <ScalarProperty Name="Sata_Ports" ColumnName="Sata_Ports" />
+                <ScalarProperty Name="M2_Slots" ColumnName="M2_Slots" />
+                <ScalarProperty Name="Nvme_Support" ColumnName="Nvme_Support" />
+                <ScalarProperty Name="Pcie_X1_Slots" ColumnName="Pcie_X1_Slots" />
+                <ScalarProperty Name="Sli_Crossfire_Support" ColumnName="Sli_Crossfire_Support" />
+                <ScalarProperty Name="Pcie_X16_Slots" ColumnName="Pcie_X16_Slots" />
+                <ScalarProperty Name="Pcie_Version" ColumnName="Pcie_Version" />
+                <ScalarProperty Name="Max_Memory_Frequency_Mhz" ColumnName="Max_Memory_Frequency_Mhz" />
+                <ScalarProperty Name="Max_Memory_Gb" ColumnName="Max_Memory_Gb" />
+                <ScalarProperty Name="Memory_Channels" ColumnName="Memory_Channels" />
+                <ScalarProperty Name="Memory_Slots" ColumnName="Memory_Slots" />
+                <ScalarProperty Name="Memory_Form_Factor" ColumnName="Memory_Form_Factor" />
+                <ScalarProperty Name="Memory_Type" ColumnName="Memory_Type" />
+                <ScalarProperty Name="Compatible_Cpu_Cores" ColumnName="Compatible_Cpu_Cores" />
+                <ScalarProperty Name="Chipset" ColumnName="Chipset" />
+                <ScalarProperty Name="Socket" ColumnName="Socket" />
+                <ScalarProperty Name="Width_Mm" ColumnName="Width_Mm" />
+                <ScalarProperty Name="Height_Mm" ColumnName="Height_Mm" />
+                <ScalarProperty Name="Form_Factor" ColumnName="Form_Factor" />
+                <ScalarProperty Name="Country_of_Origin" ColumnName="Country_of_Origin" />
+                <ScalarProperty Name="Seller_warranty" ColumnName="Seller_warranty" />
+                <ScalarProperty Name="Motherboard_Model" ColumnName="Motherboard_Model" />
+                <ScalarProperty Name="Motherboard_Count_on_storage" ColumnName="Motherboard_Count_on_storage" />
+                <ScalarProperty Name="Preview_Photo" ColumnName="Preview_Photo" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="MotherboardId" ColumnName="MotherboardId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GPUS">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.GPUS">
+              <MappingFragment StoreEntitySet="GPUS">
+                <ScalarProperty Name="Weight_g" ColumnName="Weight_g" />
+                <ScalarProperty Name="Thickness_mm" ColumnName="Thickness_mm" />
+                <ScalarProperty Name="Width_mm" ColumnName="Width_mm" />
+                <ScalarProperty Name="Length_mm" ColumnName="Length_mm" />
+                <ScalarProperty Name="Occupied_Expansion_Slots" ColumnName="Occupied_Expansion_Slots" />
+                <ScalarProperty Name="Low_Profile" ColumnName="Low_Profile" />
+                <ScalarProperty Name="BIOS_Switch" ColumnName="BIOS_Switch" />
+                <ScalarProperty Name="LCD_Display" ColumnName="LCD_Display" />
+                <ScalarProperty Name="RGB_Sync" ColumnName="RGB_Sync" />
+                <ScalarProperty Name="RGB_Lighting" ColumnName="RGB_Lighting" />
+                <ScalarProperty Name="Liquid_Cooling_Radiator" ColumnName="Liquid_Cooling_Radiator" />
+                <ScalarProperty Name="Fan_Type_and_Count" ColumnName="Fan_Type_and_Count" />
+                <ScalarProperty Name="Cooling_Type" ColumnName="Cooling_Type" />
+                <ScalarProperty Name="Recommended_Power_Supply_Watt" ColumnName="Recommended_Power_Supply_Watt" />
+                <ScalarProperty Name="Additional_Power_Connectors" ColumnName="Additional_Power_Connectors" />
+                <ScalarProperty Name="PCI_Express_Lanes" ColumnName="PCI_Express_Lanes" />
+                <ScalarProperty Name="Connector_Form_Factor" ColumnName="Connector_Form_Factor" />
+                <ScalarProperty Name="Connection_Interface" ColumnName="Connection_Interface" />
+                <ScalarProperty Name="Max_Resolution" ColumnName="Max_Resolution" />
+                <ScalarProperty Name="Max_Monitors_Supported" ColumnName="Max_Monitors_Supported" />
+                <ScalarProperty Name="HDMI_Version" ColumnName="HDMI_Version" />
+                <ScalarProperty Name="Video_Output_Type_and_Count" ColumnName="Video_Output_Type_and_Count" />
+                <ScalarProperty Name="Memory_Frequency_MHz" ColumnName="Memory_Frequency_MHz" />
+                <ScalarProperty Name="Memory_Bandwidth_GBps" ColumnName="Memory_Bandwidth_GBps" />
+                <ScalarProperty Name="Memory_Bus_Width_Bits" ColumnName="Memory_Bus_Width_Bits" />
+                <ScalarProperty Name="Video_Memory_Type" ColumnName="Video_Memory_Type" />
+                <ScalarProperty Name="Video_Memory_Size_GB" ColumnName="Video_Memory_Size_GB" />
+                <ScalarProperty Name="Tensor_Cores" ColumnName="Tensor_Cores" />
+                <ScalarProperty Name="RT_Cores" ColumnName="RT_Cores" />
+                <ScalarProperty Name="Ray_Tracing_Support" ColumnName="Ray_Tracing_Support" />
+                <ScalarProperty Name="Rasterization_Block_Count" ColumnName="Rasterization_Block_Count" />
+                <ScalarProperty Name="Texture_Block_Count" ColumnName="Texture_Block_Count" />
+                <ScalarProperty Name="ALU_Count" ColumnName="ALU_Count" />
+                <ScalarProperty Name="GPU_Base_Frequency_MHz" ColumnName="GPU_Base_Frequency_MHz" />
+                <ScalarProperty Name="Technology_Process_nm" ColumnName="Technology_Process_nm" />
+                <ScalarProperty Name="Microarchitecture" ColumnName="Microarchitecture" />
+                <ScalarProperty Name="GPU_Processor" ColumnName="GPU_Processor" />
+                <ScalarProperty Name="LHR" ColumnName="LHR" />
+                <ScalarProperty Name="Mining_Purpose" ColumnName="Mining_Purpose" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Manufacturer_Id" ColumnName="Manufacturer_Id" />
+                <ScalarProperty Name="Country_of_Origin" ColumnName="Country_of_Origin" />
+                <ScalarProperty Name="Seller_Warranty" ColumnName="Seller_Warranty" />
+                <ScalarProperty Name="GPU_Model" ColumnName="GPU_Model" />
+                <ScalarProperty Name="GPU_Count_on_storage" ColumnName="GPU_Count_on_storage" />
+                <ScalarProperty Name="Preview_Photo" ColumnName="Preview_Photo" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="GPUId" ColumnName="GPUId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

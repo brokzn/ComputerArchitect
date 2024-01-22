@@ -91,10 +91,19 @@
     <Compile Include="Database\CPUS.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\Form_Factors.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\GPUS.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\Manufacturers.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Memory_types.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Motherboards.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Sockets.cs">
@@ -117,6 +126,12 @@
     </Compile>
     <Compile Include="Pages\CatalogPage.xaml.cs">
       <DependentUpon>CatalogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\GPUPage.xaml.cs">
+      <DependentUpon>GPUPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MotherBoardPage.xaml.cs">
+      <DependentUpon>MotherBoardPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\CPUPage.xaml.cs">
       <DependentUpon>CPUPage.xaml</DependentUpon>
@@ -151,6 +166,14 @@
     <Page Include="Pages\CatalogPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\GPUPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\MotherBoardPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\CPUPage.xaml">
       <SubType>Designer</SubType>

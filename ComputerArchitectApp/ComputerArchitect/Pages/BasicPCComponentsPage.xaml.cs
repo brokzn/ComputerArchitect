@@ -43,5 +43,15 @@ namespace ComputerArchitect.Pages
         {
             NavigationService.Navigate(new CPUPage());
         }
+
+        private void OpenMotherBoardPageCard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            NavigationService.Navigate(new MotherBoardPage());
+        }
+
+        private void OpenGPUPageCard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            NavigationService.Navigate(new GPUPage());
+        }
     }
 }

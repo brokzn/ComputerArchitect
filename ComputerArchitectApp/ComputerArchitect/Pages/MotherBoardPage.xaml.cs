@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,9 +23,9 @@ namespace ComputerArchitect.Pages
     /// <summary>
     /// Логика взаимодействия для CPUPage.xaml
     /// </summary>
-    public partial class CPUPage : Page
+    public partial class MotherBoardPage : Page
     {
-        public CPUPage()
+        public MotherBoardPage()
         {
             InitializeComponent();
             LoadComponent();
@@ -32,36 +34,41 @@ namespace ComputerArchitect.Pages
         }
         public class CombinedData
         {
-            public CPUS Processor { get; set; }
+            public Motherboards Motherboard { get; set; }
             public Sockets Socket { get; set; }
-            public Manufacturers Manufacturer { get; set; }
             public Memory_types MemoryType { get; set; }
+            public Form_Factors FormFactor { get; set; }
         }
+
         private void LoadComponent()
         {
-            List<CPUS> processors = App.Database.CPUS.ToList();
-            List<Sockets> sockets = App.Database.Sockets.ToList();
-            List<Manufacturers> manufacturers = App.Database.Manufacturers.ToList();
+            List<Motherboards> motherboards = App.Database.Motherboards.ToList();
+            List<ComputerArchitect.Database.Sockets> sockets = App.Database.Sockets.ToList();
             List<Memory_types> memoryTypes = App.Database.Memory_types.ToList();
+            List<Form_Factors> formFactors = App.Database.Form_Factors.ToList(); 
 
-            var combinedData = from processor in processors
-                               join socket in sockets on processor.Socket equals socket.SocketId into processorSocketGroup
-                               from socketData in processorSocketGroup.DefaultIfEmpty()
-                               join manufacturer in manufacturers on processor.Manufacturer_Id equals manufacturer.ManufacturersId into processorManufacturerGroup
-                               from manufacturerData in processorManufacturerGroup.DefaultIfEmpty()
-                               join memoryType in memoryTypes on processor.Memory_type equals memoryType.Memory_typeId into processorMemoryTypeGroup
-                               from memoryTypeData in processorMemoryTypeGroup.DefaultIfEmpty()
+            var combinedData = from motherboard in motherboards
+                               join socket in sockets on motherboard.Socket equals socket.SocketId into motherboardSocketGroup
+                               from socketData in motherboardSocketGroup.DefaultIfEmpty()
+                               join memoryType in memoryTypes on motherboard.Memory_Type equals memoryType.Memory_typeId into motherboardMemoryTypeGroup
+                               from memoryTypeData in motherboardMemoryTypeGroup.DefaultIfEmpty()
+                               join formFactor in formFactors on motherboard.Form_Factor equals formFactor.Form_FactorId into motherboardFormFactorGroup
+                               from formFactorData in motherboardFormFactorGroup.DefaultIfEmpty()
                                select new CombinedData
                                {
-                                   Processor = processor,
+                                   Motherboard = motherboard,
                                    Socket = socketData,
-                                   Manufacturer = manufacturerData,
-                                   MemoryType = memoryTypeData
+                                   MemoryType = memoryTypeData,
+                                   FormFactor = formFactorData
                                };
 
             ComponentListBox.ItemsSource = combinedData;
-            OnStorageCountLabel.Content = $"Процессоры {ComponentListBox.Items.Count} шт";
+            OnStorageCountLabel.Content = $"Материнские платы {ComponentListBox.Items.Count} шт";
         }
+
+
+
+
 
         private void SearchInCategoryTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -74,15 +81,16 @@ namespace ComputerArchitect.Pages
                 {
                     if (item is CombinedData combinedData)
                     {
-                        string processorModel = combinedData.Processor.Model.ToLower();
-                        string manufacturerName = combinedData.Manufacturer?.ManufacturersName.ToLower() ?? "";
+                        string motherboardModel = combinedData.Motherboard.Motherboard_Model.ToLower();
+                        string socketName = combinedData.Socket?.SocketName.ToLower() ?? "";
 
-                        return processorModel.Contains(searchText) || manufacturerName.Contains(searchText);
+                        return motherboardModel.Contains(searchText) || socketName.Contains(searchText);
                     }
                     return false;
                 };
             }
         }
+
 
         private void SortLabel_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -141,8 +149,8 @@ namespace ComputerArchitect.Pages
 
                 combineds.Sort((a, b) =>
                 {
-                    decimal? costA = a.Processor.Cost ?? 0m;
-                    decimal? costB = b.Processor.Cost ?? 0m;
+                    decimal? costA = a.Motherboard.Cost ?? 0m;
+                    decimal? costB = b.Motherboard.Cost ?? 0m;
 
                     return ascending ? decimal.Compare(costA.Value, costB.Value) : decimal.Compare(costB.Value, costA.Value);
                 });

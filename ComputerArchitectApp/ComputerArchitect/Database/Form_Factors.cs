@@ -15,45 +15,27 @@ namespace ComputerArchitect.Database
 using System;
     using System.Collections.Generic;
     
-public partial class Сountries
+public partial class Form_Factors
 {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public Сountries()
+    public Form_Factors()
     {
 
-        this.Users = new HashSet<Users>();
-
-        this.CPUS = new HashSet<CPUS>();
-
         this.Motherboards = new HashSet<Motherboards>();
-
-        this.GPUS = new HashSet<GPUS>();
 
     }
 
 
-    public int CountryId { get; set; }
+    public int Form_FactorId { get; set; }
 
-    public string CountryName { get; set; }
+    public string Form_FactorName { get; set; }
 
 
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<Users> Users { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<CPUS> CPUS { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<Motherboards> Motherboards { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<GPUS> GPUS { get; set; }
 
 }
 

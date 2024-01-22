@@ -21,9 +21,9 @@ namespace ComputerArchitect.Pages
     /// <summary>
     /// Логика взаимодействия для CPUPage.xaml
     /// </summary>
-    public partial class CPUPage : Page
+    public partial class GPUPage : Page
     {
-        public CPUPage()
+        public GPUPage()
         {
             InitializeComponent();
             LoadComponent();
@@ -32,36 +32,23 @@ namespace ComputerArchitect.Pages
         }
         public class CombinedData
         {
-            public CPUS Processor { get; set; }
-            public Sockets Socket { get; set; }
-            public Manufacturers Manufacturer { get; set; }
-            public Memory_types MemoryType { get; set; }
+            public GPUS GPUProcessor { get; set; }
         }
+
         private void LoadComponent()
         {
-            List<CPUS> processors = App.Database.CPUS.ToList();
-            List<Sockets> sockets = App.Database.Sockets.ToList();
-            List<Manufacturers> manufacturers = App.Database.Manufacturers.ToList();
-            List<Memory_types> memoryTypes = App.Database.Memory_types.ToList();
-
-            var combinedData = from processor in processors
-                               join socket in sockets on processor.Socket equals socket.SocketId into processorSocketGroup
-                               from socketData in processorSocketGroup.DefaultIfEmpty()
-                               join manufacturer in manufacturers on processor.Manufacturer_Id equals manufacturer.ManufacturersId into processorManufacturerGroup
-                               from manufacturerData in processorManufacturerGroup.DefaultIfEmpty()
-                               join memoryType in memoryTypes on processor.Memory_type equals memoryType.Memory_typeId into processorMemoryTypeGroup
-                               from memoryTypeData in processorMemoryTypeGroup.DefaultIfEmpty()
-                               select new CombinedData
-                               {
-                                   Processor = processor,
-                                   Socket = socketData,
-                                   Manufacturer = manufacturerData,
-                                   MemoryType = memoryTypeData
-                               };
+            var combinedData = (from GPU in App.Database.GPUS
+                                select new CombinedData
+                                {
+                                    GPUProcessor = GPU,
+                                }).ToList(); 
 
             ComponentListBox.ItemsSource = combinedData;
-            OnStorageCountLabel.Content = $"Процессоры {ComponentListBox.Items.Count} шт";
+            OnStorageCountLabel.Content = $"Видеокарты {ComponentListBox.Items.Count} шт";
         }
+
+
+
 
         private void SearchInCategoryTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -74,15 +61,15 @@ namespace ComputerArchitect.Pages
                 {
                     if (item is CombinedData combinedData)
                     {
-                        string processorModel = combinedData.Processor.Model.ToLower();
-                        string manufacturerName = combinedData.Manufacturer?.ManufacturersName.ToLower() ?? "";
+                        string GPUModel = combinedData.GPUProcessor.GPU_Model.ToLower();
 
-                        return processorModel.Contains(searchText) || manufacturerName.Contains(searchText);
+                        return GPUModel.Contains(searchText);
                     }
                     return false;
                 };
             }
         }
+
 
         private void SortLabel_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -141,8 +128,8 @@ namespace ComputerArchitect.Pages
 
                 combineds.Sort((a, b) =>
                 {
-                    decimal? costA = a.Processor.Cost ?? 0m;
-                    decimal? costB = b.Processor.Cost ?? 0m;
+                    decimal? costA = a.GPUProcessor.Cost ?? 0m;
+                    decimal? costB = b.GPUProcessor.Cost ?? 0m;
 
                     return ascending ? decimal.Compare(costA.Value, costB.Value) : decimal.Compare(costB.Value, costA.Value);
                 });
