@@ -73,6 +73,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Database\Cases.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\CaseSizes.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\ComputerArchitectDataBase.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -88,6 +94,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ComputerArchitectDataBase.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Database\Coolers.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\CPUS.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
@@ -95,6 +104,9 @@
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\GPUS.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\HDDs.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Manufacturers.cs">
@@ -106,7 +118,16 @@
     <Compile Include="Database\Motherboards.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\PowerSupplies.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\RAMS.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\Sockets.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SSDs.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Users.cs">
@@ -126,6 +147,24 @@
     </Compile>
     <Compile Include="Pages\CatalogPage.xaml.cs">
       <DependentUpon>CatalogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\CasePage.xaml.cs">
+      <DependentUpon>CasePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\CoolerPage.xaml.cs">
+      <DependentUpon>CoolerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\HDDPage.xaml.cs">
+      <DependentUpon>HDDPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SSDPage.xaml.cs">
+      <DependentUpon>SSDPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PowerSuppliesPage.xaml.cs">
+      <DependentUpon>PowerSuppliesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\RAMPage.xaml.cs">
+      <DependentUpon>RAMPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\GPUPage.xaml.cs">
       <DependentUpon>GPUPage.xaml</DependentUpon>
@@ -166,6 +205,30 @@
     <Page Include="Pages\CatalogPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\CasePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\CoolerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\HDDPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SSDPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\PowerSuppliesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\RAMPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\GPUPage.xaml">
       <Generator>MSBuild:Compile</Generator>

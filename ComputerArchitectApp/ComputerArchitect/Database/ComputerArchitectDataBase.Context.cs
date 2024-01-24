@@ -50,6 +50,20 @@ public partial class ComputerArchitectDataBaseEntities : DbContext
 
     public virtual DbSet<GPUS> GPUS { get; set; }
 
+    public virtual DbSet<RAMS> RAMS { get; set; }
+
+    public virtual DbSet<PowerSupplies> PowerSupplies { get; set; }
+
+    public virtual DbSet<CaseSizes> CaseSizes { get; set; }
+
+    public virtual DbSet<Cases> Cases { get; set; }
+
+    public virtual DbSet<Coolers> Coolers { get; set; }
+
+    public virtual DbSet<SSDs> SSDs { get; set; }
+
+    public virtual DbSet<HDDs> HDDs { get; set; }
+
 }
 
 }

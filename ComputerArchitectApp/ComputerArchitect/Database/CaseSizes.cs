@@ -15,39 +15,27 @@ namespace ComputerArchitect.Database
 using System;
     using System.Collections.Generic;
     
-public partial class Sockets
+public partial class CaseSizes
 {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public Sockets()
+    public CaseSizes()
     {
 
-        this.CPUS = new HashSet<CPUS>();
-
-        this.Motherboards = new HashSet<Motherboards>();
-
-        this.Coolers = new HashSet<Coolers>();
+        this.Cases = new HashSet<Cases>();
 
     }
 
 
-    public int SocketId { get; set; }
+    public int CaseSize_Id { get; set; }
 
-    public string SocketName { get; set; }
+    public string CaseSize_Name { get; set; }
 
 
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<CPUS> CPUS { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<Motherboards> Motherboards { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<Coolers> Coolers { get; set; }
+    public virtual ICollection<Cases> Cases { get; set; }
 
 }
 

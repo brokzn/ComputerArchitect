@@ -53,5 +53,35 @@ namespace ComputerArchitect.Pages
         {
             NavigationService.Navigate(new GPUPage());
         }
+
+        private void OpenRAMPageCard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            NavigationService.Navigate(new RAMPage());
+        }
+
+        private void OpenPowerSuppliesPageCard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            NavigationService.Navigate(new PowerSuppliesPage());
+        }
+
+        private void OpenCasePagePageCard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            NavigationService.Navigate(new CasePage());
+        }
+
+        private void OpenCoolerPageCard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            NavigationService.Navigate(new CoolerPage());
+        }
+
+        private void OpenSSDPageCard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            NavigationService.Navigate(new SSDPage());
+        }
+
+        private void OpenHDDPageCard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            NavigationService.Navigate(new HDDPage());
+        }
     }
 }

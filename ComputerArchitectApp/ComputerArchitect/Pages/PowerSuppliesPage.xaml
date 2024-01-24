@@ -1,15 +1,16 @@
-﻿<Page x:Class="ComputerArchitect.Pages.BasicPCComponentsPage"
+﻿<Page x:Class="ComputerArchitect.Pages.PowerSuppliesPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ComputerArchitect.Pages"
       mc:Ignorable="d" 
-            MinHeight="800" 
+      MinHeight="800" 
       MinWidth="1550"
       Background="Transparent"
-      Title="UserCartPage">
+      Title="PowerSuppliesPage">
     <Page.Resources>
+        <CollectionViewSource x:Key="FilteredProcessors" Source="{Binding Path=ProcessorListBox.ItemsSource}" />
         <LinearGradientBrush x:Key="GradientBackground" StartPoint="0,0" EndPoint="1,1">
             <GradientStop Color="#2F3037" Offset="0.25"/>
             <GradientStop Color="#373840"  Offset="0.7512"/>
@@ -290,17 +291,20 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        
+
         <Grid Width="1220">
-            <Label Grid.Column="0" 
+
+            <Label Grid.Column="0"
+               Name="OnStorageCountLabel"
                FontFamily="Arial"
                FontSize="30"
                Margin="0 0 0 20"
                VerticalAlignment="Bottom"
                HorizontalAlignment="Left"
                Foreground="#D6D6D6"
-               FontWeight="Bold"
-               Content="Основные комплектующие для ПК"/>
+               HorizontalContentAlignment="Left"
+               FontWeight="Bold"/>
+
             <Label Grid.Column="0" 
                FontFamily="Arial"
                FontSize="12"
@@ -318,236 +322,298 @@
                HorizontalAlignment="Left"
                Foreground="#D6D6D6"
                FontWeight="Bold"
-               Name="CatalogPageOpenLabel"
-               MouseEnter="CatalogPageOpenLabel_MouseEnter"
-               MouseLeave="CatalogPageOpenLabel_MouseLeave"
-               PreviewMouseLeftButtonDown="CatalogPageOpenLabel_PreviewMouseLeftButtonDown"
+                Name="CatalogPageOpenLabel"
+                MouseEnter="CatalogPageOpenLabel_MouseEnter"
+                MouseLeave="CatalogPageOpenLabel_MouseLeave"
+                MouseLeftButtonDown="CatalogPageOpenLabel_MouseLeftButtonDown"
                Content="Комплектующие для пк"/>
+            <Label Grid.Column="0" 
+                FontFamily="Arial"
+                FontSize="12"
+                Width="230"
+                Margin="207 26 0 20"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                Foreground="#D6D6D6"
+                FontWeight="Bold"
+                Content="> "/>
             <Label Grid.Column="0" 
                FontFamily="Arial"
                FontSize="12"
                Width="230"
                Margin="207 26 0 20"
                VerticalAlignment="Top"
+               Name="BasicPCComponentsPageOpenLabel"
+               MouseEnter="BasicPCComponentsPageOpenLabel_MouseEnter"
+               MouseLeave="BasicPCComponentsPageOpenLabel_MouseLeave"
+               MouseLeftButtonDown="BasicPCComponentsPageOpenLabel_MouseLeftButtonDown"
                HorizontalAlignment="Left"
                Foreground="#D6D6D6"
                FontWeight="Bold"
-               Content="> Основные комплектующие для ПК"/>  
+               Content="   Основные комплектующие для ПК"/>
+            <Label Grid.Column="0" 
+               FontFamily="Arial"
+               FontSize="12"
+               Width="230"
+               Margin="430 26 0 20"
+               VerticalAlignment="Top"
+               HorizontalAlignment="Left"
+               Foreground="#D6D6D6"
+               FontWeight="Bold"
+               Content="> Блоки питания"/>
         </Grid>
 
 
-        <ScrollViewer
-         Grid.Row="1"
-         Background="Transparent"
-        Width="1250"
-         Margin="0 20 0 75"
-         VerticalAlignment="Center" 
-         VerticalScrollBarVisibility="Auto" 
-         HorizontalScrollBarVisibility="Disabled">
-            <StackPanel Width="1200">
+        <Grid Width="1210" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition Height="41"/>
+            </Grid.RowDefinitions>
+            <Border Background="#4B4C52"
+                    HorizontalAlignment="Left"
+                    Margin="18 0 0 0"
+                    CornerRadius="5"
+                    Width="850" Grid.Column="1">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="Black" Opacity="0.3"/>
+                </Border.Effect>
+            </Border>
+            <Border Background="#4B4C52"
+                    HorizontalAlignment="Left"
+                   Margin="0 20 0 20"
+                    CornerRadius="5"
+                    Width="300"
+                    Grid.Row="1"
+                    Grid.Column="0">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="Black" Opacity="0.3"/>
+                </Border.Effect>
+            </Border>
+            <Border Background="#4B4C52"
+                    HorizontalAlignment="Left"
+                    CornerRadius="5"
+                    Width="300"
+                    Height="50"
+                    Grid.Row="0"
+                    Grid.Column="0">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="Black" Opacity="0.3"/>
+                </Border.Effect>
+            </Border>
+
+            <Label Grid.Column="1" 
+                   FontFamily="Arial"
+                   FontSize="16"
+                   Margin="30 0 0 0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Foreground="#D6D6D6"
+                   FontWeight="Bold"
+                   Content="Сортировка:"/>
+
+            
+                    <Label
+                    Name="SortLabel"
+                    MouseEnter="SortLabel_MouseEnter"
+                    MouseLeave="SortLabel_MouseLeave"
+                    MouseLeftButtonDown="SortLabel_MouseLeftButtonDown"
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    FontFamily="Arial"
+                    FontSize="16"
+                    HorizontalContentAlignment="Left"
+                    Width="220"
+                    Margin="135 0 0 0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Foreground="#6DB2E3"
+                    FontWeight="Bold"
+                    Content="сначала недорогие"/>
+
+
+
+            <Border Width="300"
+                    Name="SortBorder"
+                    Visibility="Collapsed"
+                    Height="100"
+                    Grid.Row="1"
+                    Panel.ZIndex="1"
+                    CornerRadius="5"
+                    Margin="18 5 0 0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Grid.Column="1"
+                    BorderThickness="0.9" 
+                    BorderBrush="#42424B"
+                    Background="#2F2F36">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
-                        <RowDefinition/>
                     </Grid.RowDefinitions>
+                    <RadioButton Width="220"
+                     IsChecked="True"
+                     Checked="MostCheapestSort_Checked"
+                     Name="MostCheapestSort"
+                     Margin="10 0 0 0 "
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Left"
+                     Content="Сначала недорогие" 
+                     Style="{StaticResource CustomRadio2ButtonStyle}" 
+                     Grid.Row="0"/>
+                    <RadioButton Width="220"
+                    Checked="MostValueableSort_Checked"
+                    Name="MostValueableSort"
+                    Margin="10 0 0 0 "
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Content="Сначала дорогие" 
+                    Style="{StaticResource CustomRadio2ButtonStyle}" 
+                    Grid.Row="1"/>
                 </Grid>
-                <Grid Grid.Row="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="285"/>
-                        <RowDefinition Height="20"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="285"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="285"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="285"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="285"/>
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="0" 
+                      BlurRadius="20" 
+                      Color="Black" 
+                      Opacity="0.3"/>
+                </Border.Effect>
+            </Border>
+            
+            
 
-                    <Grid Grid.Row="0"
-                          Grid.Column="1">
-                        <Border Name="OpenCPUPageCard" MouseLeftButtonDown="OpenCPUPageCard_MouseLeftButtonDown" 
-                                Style="{StaticResource CatalogBorderStyle}">
-                            <StackPanel>
-                                <Grid Height="285">
-                                    <Image Source="\UI\ComponentsPreviewImages\BasicPCC\image cpu.png" 
-                                           Style="{StaticResource CatalogImageStyle}"/>
-                                    <Label Content="Процессоры" 
-                                           Style="{StaticResource CatalogLabelStyle}"/>
+
+
+            <TextBox Tag="Поиск по категории"
+                     TextChanged="SearchInCategoryTextBox_TextChanged"
+                     Name="SearchInCategoryTextBox"
+                     Style="{StaticResource TextBoxSearchInCategory}">
+                <TextBox.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </TextBox.Resources>
+            </TextBox>
+
+
+            <ListBox x:Name="ComponentListBox"
+                     BorderThickness="0"
+                     Grid.Row="1"
+                     Visibility="Visible"
+                     Margin="0 20 0 20"
+                     Background="Transparent"
+                     Width="894"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Right"
+                     Grid.Column="1">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Grid.Row="1"
+                  Height="180"
+                 Width="850"
+                              
+                  Grid.Column="1">
+                            <Border Background="#4B4C52" CornerRadius="5">
+                                <Grid>
+
+                                    <Image Width="150"
+                                           Stretch="Fill"
+                           Source="{Binding Powersupplies.Preview_Photo}"
+                           Margin="22 0 0 0"
+                           Height="150"
+                           HorizontalAlignment="Left"/>
+                                    <TextBlock
+                                   FontFamily="Arial"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   TextAlignment="Left"
+                                   TextWrapping="Wrap"
+                                   Width="490"
+                                   Height="100"
+                                   Margin="195 20 0 0"
+                                   Foreground="#D6D6D6"
+                                   FontSize="16">
+                                        <Run Text="Блок питания" />
+                                        <Run Text="{Binding Powersupplies.Model}"/>
+                                        <Run Text="{Binding Powersupplies.Power_Watt, StringFormat=' [ {0} Вт,'}"/>
+                                        <Run Text="{Binding Powersupplies.Main_Power_Connector, StringFormat=' {0},'}"/>
+                                        <Run Text="{Binding Powersupplies.CPU_Power_Connector, StringFormat=' {0} CPU,'}"/>
+                                        <Run Text="{Binding Powersupplies.SATA_Connector_Count, StringFormat=' {0} SATA ]'}"/>
+                                    </TextBlock>
+
+                                    <TextBlock Text="В наличии:"
+                                   FontFamily="Arial"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Bottom"
+                                   Width="100"
+                                   Height="21"
+                                   Margin="195 0 0 22"
+                                   Foreground="#D6D6D6"
+                                   FontSize="18"/>
+                                    <TextBlock Text="{Binding Powersupplies.PS__Count_on_storage, StringFormat=' {0} штук'}"
+                                   FontFamily="Arial"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Bottom"
+                                   Width="150"
+                                   Height="21"
+                                   Margin="300 0 0 22"
+                                   Foreground="#6DB2E3"
+                                   FontSize="18"/>
+                                    <Button Width="100"
+                                            Style="{StaticResource Simple3Button}"
+                                    Margin="0 0 15 0"
+                                    HorizontalAlignment="Right"
+                                    Content="Купить"
+                                    Height="45"/>
+                                    <TextBlock Text="{Binding Powersupplies.Cost, StringFormat={}{0:N0} ₽}"
+                                   FontFamily="Arial"
+                                   FontWeight="Bold"
+                                   TextAlignment="Right"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   Width="300"
+                                   Height="20"
+                                   Margin="0 0 19 90"
+                                   Foreground="#D6D6D6"
+                                   FontSize="20"/>
                                 </Grid>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
+                            </Border>
 
-                    <Grid Grid.Row="0" 
-                          Grid.Column="3">
-                        <Border Name="OpenMotherBoardPageCard" MouseLeftButtonDown="OpenMotherBoardPageCard_MouseLeftButtonDown"  Style="{StaticResource CatalogBorderStyle}">
-                            <StackPanel>
-                                <Grid Height="285">
-                                    <Image Source="\UI\ComponentsPreviewImages\BasicPCC\image motherboard.png" 
-                       Style="{StaticResource CatalogImageStyle}"/>
-                                    <Label Content="Материнские платы" 
-                       Style="{StaticResource CatalogLabelStyle}"/>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
 
-                    <Grid Grid.Row="0" 
-                          Grid.Column="5">
-                        <Border Name="OpenGPUPageCard" MouseLeftButtonDown="OpenGPUPageCard_MouseLeftButtonDown" Style="{StaticResource CatalogBorderStyle}">
-                            <StackPanel>
-                                <Grid Height="285">
-                                    <Image Source="\UI\ComponentsPreviewImages\BasicPCC\image gpu.png" 
-                       Style="{StaticResource CatalogImageStyle}"/>
-                                    <Label Content="Видеокарты" 
-                       Style="{StaticResource CatalogLabelStyle}"/>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-
-                    <Grid Grid.Row="0" 
-                          Grid.Column="7">
-                        <Border Name="OpenRAMPageCard" MouseLeftButtonDown="OpenRAMPageCard_MouseLeftButtonDown" Style="{StaticResource CatalogBorderStyle}">
-                            <StackPanel>
-                                <Grid Height="285">
-                                    <Image Source="\UI\ComponentsPreviewImages\BasicPCC\image ozu.png" 
-                       Style="{StaticResource CatalogImageStyle}"/>
-                                    <Label Content="Оперативная память" 
-                       Style="{StaticResource CatalogLabelStyle}"/>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-
-                </Grid>
-
-                <Grid Grid.Row="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="285"/>
-                        <RowDefinition Height="20"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="285"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="285"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="285"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="285"/>
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-                    <Grid Grid.Row="0" 
-                          Grid.Column="1">
-                        <Border Name="OpenPowerSuppliesPageCard" MouseLeftButtonDown="OpenPowerSuppliesPageCard_MouseLeftButtonDown" Style="{StaticResource CatalogBorderStyle}">
-                            <StackPanel>
-                                <Grid Height="285">
-                                    <Image Source="\UI\ComponentsPreviewImages\BasicPCC\image bp.png" 
-                                           Style="{StaticResource CatalogImageStyle}"/>
-                                    <Label Content="Блоки питания" 
-                                           Style="{StaticResource CatalogLabelStyle}"/>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-
-                    <Grid Grid.Row="0" 
-                          Grid.Column="3">
-                        <Border Name="OpenCasePagePageCard" MouseLeftButtonDown="OpenCasePagePageCard_MouseLeftButtonDown" Style="{StaticResource CatalogBorderStyle}">
-                            <StackPanel>
-                                <Grid Height="285">
-                                    <Image Source="\UI\ComponentsPreviewImages\BasicPCC\image box.png" 
-                                           Style="{StaticResource CatalogImageStyle}"/>
-                                    <Label Content="Корпуса" 
-                                           Style="{StaticResource CatalogLabelStyle}"/>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-
-                    <Grid Grid.Row="0" 
-                          Grid.Column="5">
-                        <Border Name="OpenCoolerPageCard" MouseLeftButtonDown="OpenCoolerPageCard_MouseLeftButtonDown" Style="{StaticResource CatalogBorderStyle}">
-                            <StackPanel>
-                                <Grid Height="285">
-                                    <Image Source="\UI\ComponentsPreviewImages\BasicPCC\image vint.png" 
-                                           Style="{StaticResource CatalogImageStyle}"/>
-                                    <Label Content="Охлаждение процессора" 
-                                           Style="{StaticResource CatalogLabelStyle}"/>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-
-                    <Grid Grid.Row="0" 
-                          Grid.Column="7">
-                        <Border Name="OpenSSDPageCard" MouseLeftButtonDown="OpenSSDPageCard_MouseLeftButtonDown" Style="{StaticResource CatalogBorderStyle}">
-                            <StackPanel>
-                                <Grid Height="285">
-                                    <Image Source="\UI\ComponentsPreviewImages\BasicPCC\image ssd.png" 
-                                           Style="{StaticResource CatalogImageStyle}"/>
-                                    <Label Content="Твердотельные накопители" 
-                                           Style="{StaticResource CatalogLabelStyle}"/>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Grid>
-
-                <Grid Grid.Row="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="285"/>
-                        <RowDefinition Height="20"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="285"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="285"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="285"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="285"/>
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-                    <Grid Grid.Row="0" 
-                          Grid.Column="1">
-                        <Border Name="OpenHDDPageCard" MouseLeftButtonDown="OpenHDDPageCard_MouseLeftButtonDown" Style="{StaticResource CatalogBorderStyle}">
-                            <StackPanel>
-                                <Grid Height="285">
-                                    <Image Source="\UI\ComponentsPreviewImages\BasicPCC\image hdd.png" 
-                       Style="{StaticResource CatalogImageStyle}"/>
-                                    <Label Content="Жесткие диски" 
-                       Style="{StaticResource CatalogLabelStyle}"/>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-
-                    <Grid Grid.Row="0" 
-                          Grid.Column="3">
-                        <Border Style="{StaticResource CatalogBorderStyle}">
-                            <StackPanel>
-                                <Grid Height="285">
-                                    <Image Source="\UI\ComponentsPreviewImages\BasicPCC\image monitor.png" 
-                       Style="{StaticResource CatalogImageStyle}"/>
-                                    <Label Content="Мониторы" 
-                       Style="{StaticResource CatalogLabelStyle}"/>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </StackPanel>
-        </ScrollViewer>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Margin" Value="0 0 0 20"/>
+                        <Setter Property="Padding" Value="0 0 0 0"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <Border x:Name="brd" Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" 
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                          ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                          RecognizesAccessKey="True"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </Grid>
     </Grid>
 </Page>
+

@@ -26,6 +26,8 @@ public partial class Memory_types
 
         this.Motherboards = new HashSet<Motherboards>();
 
+        this.RAMS = new HashSet<RAMS>();
+
     }
 
 
@@ -42,6 +44,10 @@ public partial class Memory_types
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<Motherboards> Motherboards { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<RAMS> RAMS { get; set; }
 
 }
 

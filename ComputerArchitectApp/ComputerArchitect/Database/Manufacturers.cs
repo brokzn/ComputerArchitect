@@ -26,6 +26,18 @@ public partial class Manufacturers
 
         this.GPUS = new HashSet<GPUS>();
 
+        this.RAMS = new HashSet<RAMS>();
+
+        this.PowerSupplies = new HashSet<PowerSupplies>();
+
+        this.Cases = new HashSet<Cases>();
+
+        this.Coolers = new HashSet<Coolers>();
+
+        this.SSDs = new HashSet<SSDs>();
+
+        this.HDDs = new HashSet<HDDs>();
+
     }
 
 
@@ -44,6 +56,30 @@ public partial class Manufacturers
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<GPUS> GPUS { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<RAMS> RAMS { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<PowerSupplies> PowerSupplies { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<Cases> Cases { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<Coolers> Coolers { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<SSDs> SSDs { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<HDDs> HDDs { get; set; }
 
 }
 

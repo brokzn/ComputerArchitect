@@ -5,6 +5,115 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Хранилище ComputerArchitectDataBaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cases">
+          <Key>
+            <PropertyRef Name="CaseId" />
+          </Key>
+          <Property Name="CaseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="image" />
+          <Property Name="Cases_Count_on_storage" Type="int" />
+          <Property Name="Seller_Warranty" Type="int" />
+          <Property Name="Country_of_Origin" Type="int" />
+          <Property Name="Model" Type="varchar" MaxLength="255" />
+          <Property Name="Manufacturer_Id" Type="int" />
+          <Property Name="Case_Size" Type="int" />
+          <Property Name="Motherboard_Orientation" Type="varchar" MaxLength="20" />
+          <Property Name="Length_mm" Type="int" />
+          <Property Name="Width_mm" Type="int" />
+          <Property Name="Height_mm" Type="int" />
+          <Property Name="Weight_kg" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Main_Color" Type="varchar" MaxLength="50" />
+          <Property Name="Case_Material" Type="varchar" MaxLength="100" />
+          <Property Name="Side_Panel_Window" Type="bit" />
+          <Property Name="Window_Material" Type="varchar" MaxLength="50" />
+          <Property Name="Front_Panel_Material" Type="varchar" MaxLength="50" />
+          <Property Name="RGB_Lighting_Type" Type="varchar" MaxLength="50" />
+          <Property Name="RGB_Lighting_Color" Type="varchar" MaxLength="50" />
+          <Property Name="RGB_Connection_Type" Type="varchar" MaxLength="50" />
+          <Property Name="RGB_Control_Method" Type="varchar" MaxLength="100" />
+          <Property Name="Compatible_Motherboard_Form_Factors" Type="varchar" MaxLength="100" />
+          <Property Name="Compatible_PSU_Form_Factors" Type="varchar" MaxLength="8" />
+          <Property Name="PSU_Placement" Type="varchar" MaxLength="20" />
+          <Property Name="Max_PSU_Length_mm" Type="int" />
+          <Property Name="Horizontal_Expansion_Slots" Type="int" />
+          <Property Name="Vertical_Expansion_Slots" Type="int" />
+          <Property Name="Max_GPU_Length_mm" Type="int" />
+          <Property Name="Max_CPU_Cooler_Height_mm" Type="int" />
+          <Property Name="Internal_2_5_Drive_Bays" Type="int" />
+          <Property Name="Internal_3_5_Drive_Bays" Type="int" />
+          <Property Name="External_3_5_Drive_Bays" Type="int" />
+          <Property Name="External_5_25_Drive_Bays" Type="int" />
+          <Property Name="Cooling_Fans_Included" Type="int" />
+          <Property Name="Front_Fan_Support" Type="bit" />
+          <Property Name="Rear_Fan_Support" Type="bit" />
+          <Property Name="Top_Fan_Support" Type="bit" />
+          <Property Name="Bottom_Fan_Support" Type="bit" />
+          <Property Name="Side_Fan_Support" Type="bit" />
+          <Property Name="Liquid_Cooling_Support" Type="bit" />
+          <Property Name="Top_Radiator_Size_mm" Type="int" />
+          <Property Name="Rear_Radiator_Size_mm" Type="int" />
+          <Property Name="Bottom_Radiator_Size_mm" Type="int" />
+          <Property Name="Front_Panel_IO_Location" Type="varchar" MaxLength="20" />
+          <Property Name="Front_Panel_IO_Ports" Type="varchar" MaxLength="255" />
+          <Property Name="Built_in_PSU" Type="bit" />
+          <Property Name="Low_Noise_Anti_Vibration_Cases" Type="bit" />
+          <Property Name="Case_Fixing_Method" Type="varchar" MaxLength="50" />
+          <Property Name="Cable_Management_Holes" Type="bit" />
+          <Property Name="Cable_Cover_Plate" Type="bit" />
+          <Property Name="Dust_Filter" Type="bit" />
+          <Property Name="Additional_Features" Type="varchar" MaxLength="255" />
+          <Property Name="Included_Accessories" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="CaseSizes">
+          <Key>
+            <PropertyRef Name="CaseSize_Id" />
+          </Key>
+          <Property Name="CaseSize_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CaseSize_Name" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Coolers">
+          <Key>
+            <PropertyRef Name="CoolerId" />
+          </Key>
+          <Property Name="CoolerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="image" />
+          <Property Name="Cooler_Count_on_storage" Type="int" />
+          <Property Name="Seller_Warranty" Type="int" />
+          <Property Name="Country_of_Origin" Type="int" />
+          <Property Name="Cooler_Type" Type="varchar" MaxLength="50" />
+          <Property Name="Model" Type="varchar" MaxLength="255" />
+          <Property Name="Manufacturer_Id" Type="int" />
+          <Property Name="Socket_Type" Type="int" />
+          <Property Name="TDP" Type="int" />
+          <Property Name="Construction_Type" Type="varchar" MaxLength="20" />
+          <Property Name="Base_Material" Type="varchar" MaxLength="50" />
+          <Property Name="Radiator_Material" Type="varchar" MaxLength="50" />
+          <Property Name="Heat_Pipes_Count" Type="int" />
+          <Property Name="Nickel_Plating" Type="bit" />
+          <Property Name="Radiator_Color" Type="varchar" MaxLength="50" />
+          <Property Name="Fan_Count" Type="int" />
+          <Property Name="Max_Fan_Count" Type="int" />
+          <Property Name="Fan_Size" Type="varchar" MaxLength="20" />
+          <Property Name="Fan_Color" Type="varchar" MaxLength="50" />
+          <Property Name="Fan_Connector_Type" Type="varchar" MaxLength="10" />
+          <Property Name="Max_Fan_Speed_RPM" Type="int" />
+          <Property Name="Min_Fan_Speed_RPM" Type="int" />
+          <Property Name="Fan_Speed_Control" Type="bit" />
+          <Property Name="Max_Airflow_CFM" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="Max_Noise_Level_dB" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="Nominal_Current_Amps" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Nominal_Voltage" Type="int" />
+          <Property Name="Bearing_Type" Type="varchar" MaxLength="50" />
+          <Property Name="Thermal_Paste_Included" Type="bit" />
+          <Property Name="Lighting_Type" Type="varchar" MaxLength="50" />
+          <Property Name="Accessories" Type="varchar" MaxLength="255" />
+          <Property Name="Height_mm" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="Width_mm" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="Length_mm" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="Weight_g" Type="decimal" Precision="8" Scale="2" />
+        </EntityType>
         <EntityType Name="CPUS">
           <Key>
             <PropertyRef Name="CPUId" />
@@ -109,6 +218,41 @@
           <Property Name="Thickness_mm" Type="int" />
           <Property Name="Weight_g" Type="int" />
         </EntityType>
+        <EntityType Name="HDDs">
+          <Key>
+            <PropertyRef Name="HDDId" />
+          </Key>
+          <Property Name="HDDId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="image" />
+          <Property Name="HDD_Count_on_storage" Type="int" />
+          <Property Name="Seller_Warranty" Type="int" />
+          <Property Name="Country_of_Origin" Type="int" />
+          <Property Name="HDD_Type" Type="varchar" MaxLength="50" />
+          <Property Name="Model" Type="varchar" MaxLength="255" />
+          <Property Name="Manufacturer_Id" Type="int" />
+          <Property Name="Capacity_TB" Type="int" />
+          <Property Name="Cache_MB" Type="int" />
+          <Property Name="Spindle_Speed_RPM" Type="int" />
+          <Property Name="Max_Data_Transfer_Speed_MBs" Type="int" />
+          <Property Name="Average_Latency_ms" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Interface" Type="varchar" MaxLength="20" />
+          <Property Name="Interface_Bandwidth_GBps" Type="decimal" Precision="4" Scale="2" />
+          <Property Name="RAID_Optimization" Type="bit" />
+          <Property Name="Recording_Technology" Type="varchar" MaxLength="50" />
+          <Property Name="Operational_Shock_Grating_G" Type="int" />
+          <Property Name="Operating_Noise_Level_dBA" Type="int" />
+          <Property Name="Idle_Noise_Level_dBA" Type="int" />
+          <Property Name="Helium_Filling" Type="bit" />
+          <Property Name="Positioning_Parking_Cycles" Type="int" />
+          <Property Name="Max_Power_Consumption_Watts" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Idle_Power_Consumption_Watts" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Max_Operating_Temperature_Celsius" Type="int" />
+          <Property Name="Width_mm" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="Length_mm" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="Thickness_mm" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="Weight_g" Type="decimal" Precision="8" Scale="2" />
+        </EntityType>
         <EntityType Name="Manufacturers">
           <Key>
             <PropertyRef Name="ManufacturersId" />
@@ -192,12 +336,117 @@
           <Property Name="Package_Height_Cm" Type="decimal" Precision="5" Scale="2" />
           <Property Name="Package_Weight_Kg" Type="decimal" Precision="5" Scale="2" />
         </EntityType>
+        <EntityType Name="PowerSupplies">
+          <Key>
+            <PropertyRef Name="PowerSupplyId" />
+          </Key>
+          <Property Name="PowerSupplyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="image" />
+          <Property Name="Seller_Warranty" Type="int" />
+          <Property Name="Country_of_Origin" Type="int" />
+          <Property Name="Model" Type="varchar" MaxLength="255" />
+          <Property Name="Manufacturer_Id" Type="int" />
+          <Property Name="Power_Watt" Type="int" />
+          <Property Name="Form_Factor" Type="varchar" MaxLength="50" />
+          <Property Name="Color" Type="varchar" MaxLength="50" />
+          <Property Name="Detachable_Cables" Type="bit" />
+          <Property Name="Cable_Sleeving" Type="bit" />
+          <Property Name="Cable_Colors" Type="varchar" MaxLength="50" />
+          <Property Name="LED_Type" Type="varchar" MaxLength="50" />
+          <Property Name="LED_Color" Type="varchar" MaxLength="50" />
+          <Property Name="Main_Power_Connector" Type="varchar" MaxLength="50" />
+          <Property Name="CPU_Power_Connector" Type="varchar" MaxLength="50" />
+          <Property Name="GPU_Power_Connector" Type="varchar" MaxLength="50" />
+          <Property Name="SATA_Connector_Count" Type="int" />
+          <Property Name="Molex_Connector_Count" Type="int" />
+          <Property Name="Floppy_Connector" Type="bit" />
+          <Property Name="Power_12V_Watt" Type="int" />
+          <Property Name="Power_12V1_A" Type="int" />
+          <Property Name="Power_12V2_A" Type="int" />
+          <Property Name="Power_3_3V_A" Type="int" />
+          <Property Name="Power_5V_A" Type="int" />
+          <Property Name="Power_5V_Standby_A" Type="int" />
+          <Property Name="Power_minus12V_A" Type="int" />
+          <Property Name="Input_Voltage_Range" Type="varchar" MaxLength="50" />
+          <Property Name="Cooling_System" Type="varchar" MaxLength="50" />
+          <Property Name="Fan_Size" Type="varchar" MaxLength="50" />
+          <Property Name="Max_Noise_Level" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Certification_80PLUS" Type="bit" />
+          <Property Name="Power_Factor_Correction" Type="bit" />
+          <Property Name="Standards_Compliance" Type="varchar" MaxLength="50" />
+          <Property Name="Protection_Technologies" Type="varchar" MaxLength="50" />
+          <Property Name="Length_mm" Type="int" />
+          <Property Name="Width_mm" Type="int" />
+          <Property Name="Height_mm" Type="int" />
+          <Property Name="Weight_kg" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="PS__Count_on_storage" Type="int" />
+        </EntityType>
+        <EntityType Name="RAMS">
+          <Key>
+            <PropertyRef Name="RAMId" />
+          </Key>
+          <Property Name="RAMId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="image" />
+          <Property Name="RAM_Count_on_storage" Type="int" />
+          <Property Name="RAM_Model" Type="varchar" MaxLength="255" />
+          <Property Name="Seller_Warranty" Type="int" />
+          <Property Name="Country_of_Origin" Type="int" />
+          <Property Name="Manufacturer_Id" Type="int" />
+          <Property Name="Memory_Type" Type="int" />
+          <Property Name="RAM_Form_Factor" Type="varchar" MaxLength="20" />
+          <Property Name="Capacity_GB" Type="int" />
+          <Property Name="Registered_Memory" Type="bit" />
+          <Property Name="ECC_Memory" Type="bit" />
+          <Property Name="RAM_Speed_MHz" Type="int" />
+          <Property Name="AMD_EXPO_Profile" Type="bit" />
+          <Property Name="Intel_XMP_Profile" Type="bit" />
+          <Property Name="CAS_Latency" Type="int" />
+          <Property Name="RAS_to_CAS_Delay" Type="int" />
+          <Property Name="Row_Precharge_Delay" Type="int" />
+          <Property Name="Activate_to_Precharge_Delay" Type="int" />
+          <Property Name="RAM_Heatsink" Type="bit" />
+          <Property Name="RGB_Lighting" Type="bit" />
+          <Property Name="RAM_Height_mm" Type="int" />
+          <Property Name="Low_Profile" Type="bit" />
+          <Property Name="RAM_Voltage" Type="decimal" Precision="3" Scale="1" />
+        </EntityType>
         <EntityType Name="Sockets">
           <Key>
             <PropertyRef Name="SocketId" />
           </Key>
           <Property Name="SocketId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SocketName" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="SSDs">
+          <Key>
+            <PropertyRef Name="SSDId" />
+          </Key>
+          <Property Name="SSDId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="image" />
+          <Property Name="SSD_Count_on_storage" Type="int" />
+          <Property Name="Seller_Warranty" Type="int" />
+          <Property Name="Country_of_Origin" Type="int" />
+          <Property Name="SSD_Type" Type="int" />
+          <Property Name="Model" Type="varchar" MaxLength="255" />
+          <Property Name="Manufacturer_Id" Type="int" />
+          <Property Name="Volume_GB" Type="int" />
+          <Property Name="NVMe" Type="bit" />
+          <Property Name="Connection_Type" Type="varchar" MaxLength="10" />
+          <Property Name="Bits_per_Cell" Type="int" />
+          <Property Name="Memory_Structure" Type="varchar" MaxLength="20" />
+          <Property Name="DRAM_Buffer" Type="bit" />
+          <Property Name="Max_Sequential_Read_Speed_MBs" Type="int" />
+          <Property Name="Max_Sequential_Write_Speed_MBs" Type="int" />
+          <Property Name="Total_Bytes_Written_TB" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="Drive_Writes_Per_Day" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Hardware_Encryption" Type="bit" />
+          <Property Name="Width_mm" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="Length_mm" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="Thickness_mm" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="Weight_g" Type="decimal" Precision="8" Scale="2" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -221,6 +470,78 @@
           <Property Name="CountryId" Type="int" Nullable="false" />
           <Property Name="CountryName" Type="nvarchar" MaxLength="30" />
         </EntityType>
+        <Association Name="FK_Cases_CaseSizes">
+          <End Role="CaseSizes" Type="Self.CaseSizes" Multiplicity="0..1" />
+          <End Role="Cases" Type="Self.Cases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CaseSizes">
+              <PropertyRef Name="CaseSize_Id" />
+            </Principal>
+            <Dependent Role="Cases">
+              <PropertyRef Name="Case_Size" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cases_Manufacturers">
+          <End Role="Manufacturers" Type="Self.Manufacturers" Multiplicity="0..1" />
+          <End Role="Cases" Type="Self.Cases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="ManufacturersId" />
+            </Principal>
+            <Dependent Role="Cases">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cases_Сountries">
+          <End Role="Сountries" Type="Self.Сountries" Multiplicity="0..1" />
+          <End Role="Cases" Type="Self.Cases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Cases">
+              <PropertyRef Name="Country_of_Origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Coolers_Manufacturers">
+          <End Role="Manufacturers" Type="Self.Manufacturers" Multiplicity="0..1" />
+          <End Role="Coolers" Type="Self.Coolers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="ManufacturersId" />
+            </Principal>
+            <Dependent Role="Coolers">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Coolers_Sockets">
+          <End Role="Sockets" Type="Self.Sockets" Multiplicity="0..1" />
+          <End Role="Coolers" Type="Self.Coolers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sockets">
+              <PropertyRef Name="SocketId" />
+            </Principal>
+            <Dependent Role="Coolers">
+              <PropertyRef Name="Socket_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Coolers_Сountries">
+          <End Role="Сountries" Type="Self.Сountries" Multiplicity="0..1" />
+          <End Role="Coolers" Type="Self.Coolers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Coolers">
+              <PropertyRef Name="Country_of_Origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CPUS_Manufacturers">
           <End Role="Manufacturers" Type="Self.Manufacturers" Multiplicity="0..1" />
           <End Role="CPUS" Type="Self.CPUS" Multiplicity="*" />
@@ -293,6 +614,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_HDDs_Manufacturers">
+          <End Role="Manufacturers" Type="Self.Manufacturers" Multiplicity="0..1" />
+          <End Role="HDDs" Type="Self.HDDs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="ManufacturersId" />
+            </Principal>
+            <Dependent Role="HDDs">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HDDs_Сountries">
+          <End Role="Сountries" Type="Self.Сountries" Multiplicity="0..1" />
+          <End Role="HDDs" Type="Self.HDDs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="HDDs">
+              <PropertyRef Name="Country_of_Origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Motherboards_Form_Factors">
           <End Role="Form_Factors" Type="Self.Form_Factors" Multiplicity="0..1" />
           <End Role="Motherboards" Type="Self.Motherboards" Multiplicity="*" />
@@ -341,6 +686,90 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PowerSupplies_Manufacturers">
+          <End Role="Manufacturers" Type="Self.Manufacturers" Multiplicity="0..1" />
+          <End Role="PowerSupplies" Type="Self.PowerSupplies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="ManufacturersId" />
+            </Principal>
+            <Dependent Role="PowerSupplies">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PowerSupplies_Сountries">
+          <End Role="Сountries" Type="Self.Сountries" Multiplicity="0..1" />
+          <End Role="PowerSupplies" Type="Self.PowerSupplies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="PowerSupplies">
+              <PropertyRef Name="Country_of_Origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RAMS_Manufacturers">
+          <End Role="Manufacturers" Type="Self.Manufacturers" Multiplicity="0..1" />
+          <End Role="RAMS" Type="Self.RAMS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="ManufacturersId" />
+            </Principal>
+            <Dependent Role="RAMS">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RAMS_Memory_types">
+          <End Role="Memory_types" Type="Self.Memory_types" Multiplicity="0..1" />
+          <End Role="RAMS" Type="Self.RAMS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Memory_types">
+              <PropertyRef Name="Memory_typeId" />
+            </Principal>
+            <Dependent Role="RAMS">
+              <PropertyRef Name="Memory_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RAMS_Сountries">
+          <End Role="Сountries" Type="Self.Сountries" Multiplicity="0..1" />
+          <End Role="RAMS" Type="Self.RAMS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="RAMS">
+              <PropertyRef Name="Country_of_Origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SSDs_Manufacturers">
+          <End Role="Manufacturers" Type="Self.Manufacturers" Multiplicity="0..1" />
+          <End Role="SSDs" Type="Self.SSDs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="ManufacturersId" />
+            </Principal>
+            <Dependent Role="SSDs">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SSDs_Сountries">
+          <End Role="Сountries" Type="Self.Сountries" Multiplicity="0..1" />
+          <End Role="SSDs" Type="Self.SSDs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="SSDs">
+              <PropertyRef Name="Country_of_Origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_Сountries">
           <End Role="Сountries" Type="Self.Сountries" Multiplicity="0..1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -354,15 +783,46 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище ComputerArchitectDataBaseModelContainer">
+          <EntitySet Name="Cases" EntityType="Self.Cases" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CaseSizes" EntityType="Self.CaseSizes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Coolers" EntityType="Self.Coolers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CPUS" EntityType="Self.CPUS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Form_Factors" EntityType="Self.Form_Factors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GPUS" EntityType="Self.GPUS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HDDs" EntityType="Self.HDDs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Manufacturers" EntityType="Self.Manufacturers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Memory_types" EntityType="Self.Memory_types" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Motherboards" EntityType="Self.Motherboards" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PowerSupplies" EntityType="Self.PowerSupplies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RAMS" EntityType="Self.RAMS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sockets" EntityType="Self.Sockets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SSDs" EntityType="Self.SSDs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Сountries" EntityType="Self.Сountries" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Cases_CaseSizes" Association="Self.FK_Cases_CaseSizes">
+            <End Role="CaseSizes" EntitySet="CaseSizes" />
+            <End Role="Cases" EntitySet="Cases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cases_Manufacturers" Association="Self.FK_Cases_Manufacturers">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="Cases" EntitySet="Cases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cases_Сountries" Association="Self.FK_Cases_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="Cases" EntitySet="Cases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Coolers_Manufacturers" Association="Self.FK_Coolers_Manufacturers">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="Coolers" EntitySet="Coolers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Coolers_Sockets" Association="Self.FK_Coolers_Sockets">
+            <End Role="Sockets" EntitySet="Sockets" />
+            <End Role="Coolers" EntitySet="Coolers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Coolers_Сountries" Association="Self.FK_Coolers_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="Coolers" EntitySet="Coolers" />
+          </AssociationSet>
           <AssociationSet Name="FK_CPUS_Manufacturers" Association="Self.FK_CPUS_Manufacturers">
             <End Role="Manufacturers" EntitySet="Manufacturers" />
             <End Role="CPUS" EntitySet="CPUS" />
@@ -387,6 +847,14 @@
             <End Role="Сountries" EntitySet="Сountries" />
             <End Role="GPUS" EntitySet="GPUS" />
           </AssociationSet>
+          <AssociationSet Name="FK_HDDs_Manufacturers" Association="Self.FK_HDDs_Manufacturers">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="HDDs" EntitySet="HDDs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HDDs_Сountries" Association="Self.FK_HDDs_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="HDDs" EntitySet="HDDs" />
+          </AssociationSet>
           <AssociationSet Name="FK_Motherboards_Form_Factors" Association="Self.FK_Motherboards_Form_Factors">
             <End Role="Form_Factors" EntitySet="Form_Factors" />
             <End Role="Motherboards" EntitySet="Motherboards" />
@@ -402,6 +870,34 @@
           <AssociationSet Name="FK_Motherboards_Сountries" Association="Self.FK_Motherboards_Сountries">
             <End Role="Сountries" EntitySet="Сountries" />
             <End Role="Motherboards" EntitySet="Motherboards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PowerSupplies_Manufacturers" Association="Self.FK_PowerSupplies_Manufacturers">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="PowerSupplies" EntitySet="PowerSupplies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PowerSupplies_Сountries" Association="Self.FK_PowerSupplies_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="PowerSupplies" EntitySet="PowerSupplies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RAMS_Manufacturers" Association="Self.FK_RAMS_Manufacturers">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="RAMS" EntitySet="RAMS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RAMS_Memory_types" Association="Self.FK_RAMS_Memory_types">
+            <End Role="Memory_types" EntitySet="Memory_types" />
+            <End Role="RAMS" EntitySet="RAMS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RAMS_Сountries" Association="Self.FK_RAMS_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="RAMS" EntitySet="RAMS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SSDs_Manufacturers" Association="Self.FK_SSDs_Manufacturers">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="SSDs" EntitySet="SSDs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SSDs_Сountries" Association="Self.FK_SSDs_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="SSDs" EntitySet="SSDs" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Сountries" Association="Self.FK_Users_Сountries">
             <End Role="Сountries" EntitySet="Сountries" />
@@ -438,6 +934,12 @@
           <NavigationProperty Name="CPUS" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Сountries" FromRole="Сountries" ToRole="CPUS" />
           <NavigationProperty Name="Motherboards" Relationship="ComputerArchitectDataBaseModel.FK_Motherboards_Сountries" FromRole="Сountries" ToRole="Motherboards" />
           <NavigationProperty Name="GPUS" Relationship="ComputerArchitectDataBaseModel.FK_GPUS_Сountries" FromRole="Сountries" ToRole="GPUS" />
+          <NavigationProperty Name="RAMS" Relationship="ComputerArchitectDataBaseModel.FK_RAMS_Сountries" FromRole="Сountries" ToRole="RAMS" />
+          <NavigationProperty Name="PowerSupplies" Relationship="ComputerArchitectDataBaseModel.FK_PowerSupplies_Сountries" FromRole="Сountries" ToRole="PowerSupplies" />
+          <NavigationProperty Name="Cases" Relationship="ComputerArchitectDataBaseModel.FK_Cases_Сountries" FromRole="Сountries" ToRole="Cases" />
+          <NavigationProperty Name="Coolers" Relationship="ComputerArchitectDataBaseModel.FK_Coolers_Сountries" FromRole="Сountries" ToRole="Coolers" />
+          <NavigationProperty Name="SSDs" Relationship="ComputerArchitectDataBaseModel.FK_SSDs_Сountries" FromRole="Сountries" ToRole="SSDs" />
+          <NavigationProperty Name="HDDs" Relationship="ComputerArchitectDataBaseModel.FK_HDDs_Сountries" FromRole="Сountries" ToRole="HDDs" />
         </EntityType>
         <Association Name="FK_Users_Сountries">
           <End Role="Сountries" Type="Self.Сountries" Multiplicity="0..1" />
@@ -505,7 +1007,74 @@
             <End Role="Сountries" EntitySet="Сountries" />
             <End Role="GPUS" EntitySet="GPUS" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="RAMS" EntityType="ComputerArchitectDataBaseModel.RAMS" />
+          <AssociationSet Name="FK_RAMS_Manufacturers" Association="ComputerArchitectDataBaseModel.FK_RAMS_Manufacturers">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="RAMS" EntitySet="RAMS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RAMS_Memory_types" Association="ComputerArchitectDataBaseModel.FK_RAMS_Memory_types">
+            <End Role="Memory_types" EntitySet="Memory_types" />
+            <End Role="RAMS" EntitySet="RAMS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RAMS_Сountries" Association="ComputerArchitectDataBaseModel.FK_RAMS_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="RAMS" EntitySet="RAMS" />
+          </AssociationSet>
+          <EntitySet Name="PowerSupplies" EntityType="ComputerArchitectDataBaseModel.PowerSupplies" />
+          <AssociationSet Name="FK_PowerSupplies_Manufacturers" Association="ComputerArchitectDataBaseModel.FK_PowerSupplies_Manufacturers">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="PowerSupplies" EntitySet="PowerSupplies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PowerSupplies_Сountries" Association="ComputerArchitectDataBaseModel.FK_PowerSupplies_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="PowerSupplies" EntitySet="PowerSupplies" />
+          </AssociationSet>
+          <EntitySet Name="CaseSizes" EntityType="ComputerArchitectDataBaseModel.CaseSizes" />
+          <EntitySet Name="Cases" EntityType="ComputerArchitectDataBaseModel.Cases" />
+          <AssociationSet Name="FK_Cases_CaseSizes" Association="ComputerArchitectDataBaseModel.FK_Cases_CaseSizes">
+            <End Role="CaseSizes" EntitySet="CaseSizes" />
+            <End Role="Cases" EntitySet="Cases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cases_Manufacturers" Association="ComputerArchitectDataBaseModel.FK_Cases_Manufacturers">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="Cases" EntitySet="Cases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cases_Сountries" Association="ComputerArchitectDataBaseModel.FK_Cases_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="Cases" EntitySet="Cases" />
+          </AssociationSet>
+          <EntitySet Name="Coolers" EntityType="ComputerArchitectDataBaseModel.Coolers" />
+          <AssociationSet Name="FK_Coolers_Manufacturers" Association="ComputerArchitectDataBaseModel.FK_Coolers_Manufacturers">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="Coolers" EntitySet="Coolers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Coolers_Sockets" Association="ComputerArchitectDataBaseModel.FK_Coolers_Sockets">
+            <End Role="Sockets" EntitySet="Sockets" />
+            <End Role="Coolers" EntitySet="Coolers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Coolers_Сountries" Association="ComputerArchitectDataBaseModel.FK_Coolers_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="Coolers" EntitySet="Coolers" />
+          </AssociationSet>
+          <EntitySet Name="SSDs" EntityType="ComputerArchitectDataBaseModel.SSDs" />
+          <AssociationSet Name="FK_SSDs_Manufacturers" Association="ComputerArchitectDataBaseModel.FK_SSDs_Manufacturers">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="SSDs" EntitySet="SSDs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SSDs_Сountries" Association="ComputerArchitectDataBaseModel.FK_SSDs_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="SSDs" EntitySet="SSDs" />
+          </AssociationSet>
+          <EntitySet Name="HDDs" EntityType="ComputerArchitectDataBaseModel.HDDs" />
+          <AssociationSet Name="FK_HDDs_Manufacturers" Association="ComputerArchitectDataBaseModel.FK_HDDs_Manufacturers">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="HDDs" EntitySet="HDDs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HDDs_Сountries" Association="ComputerArchitectDataBaseModel.FK_HDDs_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="HDDs" EntitySet="HDDs" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="CPUS">
           <Key>
             <PropertyRef Name="CPUId" />
@@ -563,6 +1132,12 @@
           <Property Name="ManufacturersLogo" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="CPUS" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Manufacturers" FromRole="Manufacturers" ToRole="CPUS" />
           <NavigationProperty Name="GPUS" Relationship="ComputerArchitectDataBaseModel.FK_GPUS_Manufacturers" FromRole="Manufacturers" ToRole="GPUS" />
+          <NavigationProperty Name="RAMS" Relationship="ComputerArchitectDataBaseModel.FK_RAMS_Manufacturers" FromRole="Manufacturers" ToRole="RAMS" />
+          <NavigationProperty Name="PowerSupplies" Relationship="ComputerArchitectDataBaseModel.FK_PowerSupplies_Manufacturers" FromRole="Manufacturers" ToRole="PowerSupplies" />
+          <NavigationProperty Name="Cases" Relationship="ComputerArchitectDataBaseModel.FK_Cases_Manufacturers" FromRole="Manufacturers" ToRole="Cases" />
+          <NavigationProperty Name="Coolers" Relationship="ComputerArchitectDataBaseModel.FK_Coolers_Manufacturers" FromRole="Manufacturers" ToRole="Coolers" />
+          <NavigationProperty Name="SSDs" Relationship="ComputerArchitectDataBaseModel.FK_SSDs_Manufacturers" FromRole="Manufacturers" ToRole="SSDs" />
+          <NavigationProperty Name="HDDs" Relationship="ComputerArchitectDataBaseModel.FK_HDDs_Manufacturers" FromRole="Manufacturers" ToRole="HDDs" />
         </EntityType>
         <EntityType Name="Memory_types">
           <Key>
@@ -572,6 +1147,7 @@
           <Property Name="Memory_typeName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CPUS" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Memory_types" FromRole="Memory_types" ToRole="CPUS" />
           <NavigationProperty Name="Motherboards" Relationship="ComputerArchitectDataBaseModel.FK_Motherboards_Memory_types" FromRole="Memory_types" ToRole="Motherboards" />
+          <NavigationProperty Name="RAMS" Relationship="ComputerArchitectDataBaseModel.FK_RAMS_Memory_types" FromRole="Memory_types" ToRole="RAMS" />
         </EntityType>
         <EntityType Name="Sockets">
           <Key>
@@ -581,6 +1157,7 @@
           <Property Name="SocketName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CPUS" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Sockets" FromRole="Sockets" ToRole="CPUS" />
           <NavigationProperty Name="Motherboards" Relationship="ComputerArchitectDataBaseModel.FK_Motherboards_Sockets" FromRole="Sockets" ToRole="Motherboards" />
+          <NavigationProperty Name="Coolers" Relationship="ComputerArchitectDataBaseModel.FK_Coolers_Sockets" FromRole="Sockets" ToRole="Coolers" />
         </EntityType>
         <Association Name="FK_CPUS_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -837,7 +1414,452 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="RAMS">
+          <Key>
+            <PropertyRef Name="RAMId" />
+          </Key>
+          <Property Name="RAMId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="RAM_Count_on_storage" Type="Int32" />
+          <Property Name="RAM_Model" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Seller_Warranty" Type="Int32" />
+          <Property Name="Country_of_Origin" Type="Int32" />
+          <Property Name="Manufacturer_Id" Type="Int32" />
+          <Property Name="Memory_Type" Type="Int32" />
+          <Property Name="RAM_Form_Factor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Capacity_GB" Type="Int32" />
+          <Property Name="Registered_Memory" Type="Boolean" />
+          <Property Name="ECC_Memory" Type="Boolean" />
+          <Property Name="RAM_Speed_MHz" Type="Int32" />
+          <Property Name="AMD_EXPO_Profile" Type="Boolean" />
+          <Property Name="Intel_XMP_Profile" Type="Boolean" />
+          <Property Name="CAS_Latency" Type="Int32" />
+          <Property Name="RAS_to_CAS_Delay" Type="Int32" />
+          <Property Name="Row_Precharge_Delay" Type="Int32" />
+          <Property Name="Activate_to_Precharge_Delay" Type="Int32" />
+          <Property Name="RAM_Heatsink" Type="Boolean" />
+          <Property Name="RGB_Lighting" Type="Boolean" />
+          <Property Name="RAM_Height_mm" Type="Int32" />
+          <Property Name="Low_Profile" Type="Boolean" />
+          <Property Name="RAM_Voltage" Type="Decimal" Precision="3" Scale="1" />
+          <NavigationProperty Name="Manufacturers" Relationship="ComputerArchitectDataBaseModel.FK_RAMS_Manufacturers" FromRole="RAMS" ToRole="Manufacturers" />
+          <NavigationProperty Name="Memory_types" Relationship="ComputerArchitectDataBaseModel.FK_RAMS_Memory_types" FromRole="RAMS" ToRole="Memory_types" />
+          <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_RAMS_Сountries" FromRole="RAMS" ToRole="Сountries" />
+        </EntityType>
+        <Association Name="FK_RAMS_Manufacturers">
+          <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.RAMS" Role="RAMS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="ManufacturersId" />
+            </Principal>
+            <Dependent Role="RAMS">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RAMS_Memory_types">
+          <End Type="ComputerArchitectDataBaseModel.Memory_types" Role="Memory_types" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.RAMS" Role="RAMS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Memory_types">
+              <PropertyRef Name="Memory_typeId" />
+            </Principal>
+            <Dependent Role="RAMS">
+              <PropertyRef Name="Memory_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RAMS_Сountries">
+          <End Type="ComputerArchitectDataBaseModel.Сountries" Role="Сountries" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.RAMS" Role="RAMS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="RAMS">
+              <PropertyRef Name="Country_of_Origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PowerSupplies">
+          <Key>
+            <PropertyRef Name="PowerSupplyId" />
+          </Key>
+          <Property Name="PowerSupplyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Seller_Warranty" Type="Int32" />
+          <Property Name="Country_of_Origin" Type="Int32" />
+          <Property Name="Model" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Manufacturer_Id" Type="Int32" />
+          <Property Name="Power_Watt" Type="Int32" />
+          <Property Name="Form_Factor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Detachable_Cables" Type="Boolean" />
+          <Property Name="Cable_Sleeving" Type="Boolean" />
+          <Property Name="Cable_Colors" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LED_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LED_Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Main_Power_Connector" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CPU_Power_Connector" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GPU_Power_Connector" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SATA_Connector_Count" Type="Int32" />
+          <Property Name="Molex_Connector_Count" Type="Int32" />
+          <Property Name="Floppy_Connector" Type="Boolean" />
+          <Property Name="Power_12V_Watt" Type="Int32" />
+          <Property Name="Power_12V1_A" Type="Int32" />
+          <Property Name="Power_12V2_A" Type="Int32" />
+          <Property Name="Power_3_3V_A" Type="Int32" />
+          <Property Name="Power_5V_A" Type="Int32" />
+          <Property Name="Power_5V_Standby_A" Type="Int32" />
+          <Property Name="Power_minus12V_A" Type="Int32" />
+          <Property Name="Input_Voltage_Range" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Cooling_System" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fan_Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_Noise_Level" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Certification_80PLUS" Type="Boolean" />
+          <Property Name="Power_Factor_Correction" Type="Boolean" />
+          <Property Name="Standards_Compliance" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Protection_Technologies" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Length_mm" Type="Int32" />
+          <Property Name="Width_mm" Type="Int32" />
+          <Property Name="Height_mm" Type="Int32" />
+          <Property Name="Weight_kg" Type="Decimal" Precision="5" Scale="2" />
+          <NavigationProperty Name="Manufacturers" Relationship="ComputerArchitectDataBaseModel.FK_PowerSupplies_Manufacturers" FromRole="PowerSupplies" ToRole="Manufacturers" />
+          <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_PowerSupplies_Сountries" FromRole="PowerSupplies" ToRole="Сountries" />
+          <Property Name="PS__Count_on_storage" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_PowerSupplies_Manufacturers">
+          <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.PowerSupplies" Role="PowerSupplies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="ManufacturersId" />
+            </Principal>
+            <Dependent Role="PowerSupplies">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PowerSupplies_Сountries">
+          <End Type="ComputerArchitectDataBaseModel.Сountries" Role="Сountries" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.PowerSupplies" Role="PowerSupplies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="PowerSupplies">
+              <PropertyRef Name="Country_of_Origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CaseSizes">
+          <Key>
+            <PropertyRef Name="CaseSize_Id" />
+          </Key>
+          <Property Name="CaseSize_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CaseSize_Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cases" Relationship="ComputerArchitectDataBaseModel.FK_Cases_CaseSizes" FromRole="CaseSizes" ToRole="Cases" />
+        </EntityType>
+        <EntityType Name="Cases">
+          <Key>
+            <PropertyRef Name="CaseId" />
+          </Key>
+          <Property Name="CaseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Cases_Count_on_storage" Type="Int32" />
+          <Property Name="Seller_Warranty" Type="Int32" />
+          <Property Name="Country_of_Origin" Type="Int32" />
+          <Property Name="Model" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Manufacturer_Id" Type="Int32" />
+          <Property Name="Case_Size" Type="Int32" />
+          <Property Name="Motherboard_Orientation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Length_mm" Type="Int32" />
+          <Property Name="Width_mm" Type="Int32" />
+          <Property Name="Height_mm" Type="Int32" />
+          <Property Name="Weight_kg" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Main_Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Case_Material" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Side_Panel_Window" Type="Boolean" />
+          <Property Name="Window_Material" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Front_Panel_Material" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RGB_Lighting_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RGB_Lighting_Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RGB_Connection_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RGB_Control_Method" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Compatible_Motherboard_Form_Factors" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Compatible_PSU_Form_Factors" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="PSU_Placement" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Max_PSU_Length_mm" Type="Int32" />
+          <Property Name="Horizontal_Expansion_Slots" Type="Int32" />
+          <Property Name="Vertical_Expansion_Slots" Type="Int32" />
+          <Property Name="Max_GPU_Length_mm" Type="Int32" />
+          <Property Name="Max_CPU_Cooler_Height_mm" Type="Int32" />
+          <Property Name="Internal_2_5_Drive_Bays" Type="Int32" />
+          <Property Name="Internal_3_5_Drive_Bays" Type="Int32" />
+          <Property Name="External_3_5_Drive_Bays" Type="Int32" />
+          <Property Name="External_5_25_Drive_Bays" Type="Int32" />
+          <Property Name="Cooling_Fans_Included" Type="Int32" />
+          <Property Name="Front_Fan_Support" Type="Boolean" />
+          <Property Name="Rear_Fan_Support" Type="Boolean" />
+          <Property Name="Top_Fan_Support" Type="Boolean" />
+          <Property Name="Bottom_Fan_Support" Type="Boolean" />
+          <Property Name="Side_Fan_Support" Type="Boolean" />
+          <Property Name="Liquid_Cooling_Support" Type="Boolean" />
+          <Property Name="Top_Radiator_Size_mm" Type="Int32" />
+          <Property Name="Rear_Radiator_Size_mm" Type="Int32" />
+          <Property Name="Bottom_Radiator_Size_mm" Type="Int32" />
+          <Property Name="Front_Panel_IO_Location" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Front_Panel_IO_Ports" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Built_in_PSU" Type="Boolean" />
+          <Property Name="Low_Noise_Anti_Vibration_Cases" Type="Boolean" />
+          <Property Name="Case_Fixing_Method" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Cable_Management_Holes" Type="Boolean" />
+          <Property Name="Cable_Cover_Plate" Type="Boolean" />
+          <Property Name="Dust_Filter" Type="Boolean" />
+          <Property Name="Additional_Features" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Included_Accessories" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CaseSizes" Relationship="ComputerArchitectDataBaseModel.FK_Cases_CaseSizes" FromRole="Cases" ToRole="CaseSizes" />
+          <NavigationProperty Name="Manufacturers" Relationship="ComputerArchitectDataBaseModel.FK_Cases_Manufacturers" FromRole="Cases" ToRole="Manufacturers" />
+          <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_Cases_Сountries" FromRole="Cases" ToRole="Сountries" />
+        </EntityType>
+        <Association Name="FK_Cases_CaseSizes">
+          <End Type="ComputerArchitectDataBaseModel.CaseSizes" Role="CaseSizes" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.Cases" Role="Cases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CaseSizes">
+              <PropertyRef Name="CaseSize_Id" />
+            </Principal>
+            <Dependent Role="Cases">
+              <PropertyRef Name="Case_Size" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cases_Manufacturers">
+          <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.Cases" Role="Cases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="ManufacturersId" />
+            </Principal>
+            <Dependent Role="Cases">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cases_Сountries">
+          <End Type="ComputerArchitectDataBaseModel.Сountries" Role="Сountries" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.Cases" Role="Cases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Cases">
+              <PropertyRef Name="Country_of_Origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Coolers">
+          <Key>
+            <PropertyRef Name="CoolerId" />
+          </Key>
+          <Property Name="CoolerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Cooler_Count_on_storage" Type="Int32" />
+          <Property Name="Seller_Warranty" Type="Int32" />
+          <Property Name="Country_of_Origin" Type="Int32" />
+          <Property Name="Cooler_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Model" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Manufacturer_Id" Type="Int32" />
+          <Property Name="Socket_Type" Type="Int32" />
+          <Property Name="TDP" Type="Int32" />
+          <Property Name="Construction_Type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Base_Material" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Radiator_Material" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Heat_Pipes_Count" Type="Int32" />
+          <Property Name="Nickel_Plating" Type="Boolean" />
+          <Property Name="Radiator_Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fan_Count" Type="Int32" />
+          <Property Name="Max_Fan_Count" Type="Int32" />
+          <Property Name="Fan_Size" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Fan_Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fan_Connector_Type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Max_Fan_Speed_RPM" Type="Int32" />
+          <Property Name="Min_Fan_Speed_RPM" Type="Int32" />
+          <Property Name="Fan_Speed_Control" Type="Boolean" />
+          <Property Name="Max_Airflow_CFM" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Max_Noise_Level_dB" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Nominal_Current_Amps" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Nominal_Voltage" Type="Int32" />
+          <Property Name="Bearing_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Thermal_Paste_Included" Type="Boolean" />
+          <Property Name="Lighting_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Accessories" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Height_mm" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Width_mm" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Length_mm" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Weight_g" Type="Decimal" Precision="8" Scale="2" />
+          <NavigationProperty Name="Manufacturers" Relationship="ComputerArchitectDataBaseModel.FK_Coolers_Manufacturers" FromRole="Coolers" ToRole="Manufacturers" />
+          <NavigationProperty Name="Sockets" Relationship="ComputerArchitectDataBaseModel.FK_Coolers_Sockets" FromRole="Coolers" ToRole="Sockets" />
+          <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_Coolers_Сountries" FromRole="Coolers" ToRole="Сountries" />
+        </EntityType>
+        <Association Name="FK_Coolers_Manufacturers">
+          <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.Coolers" Role="Coolers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="ManufacturersId" />
+            </Principal>
+            <Dependent Role="Coolers">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Coolers_Sockets">
+          <End Type="ComputerArchitectDataBaseModel.Sockets" Role="Sockets" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.Coolers" Role="Coolers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sockets">
+              <PropertyRef Name="SocketId" />
+            </Principal>
+            <Dependent Role="Coolers">
+              <PropertyRef Name="Socket_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Coolers_Сountries">
+          <End Type="ComputerArchitectDataBaseModel.Сountries" Role="Сountries" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.Coolers" Role="Coolers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Coolers">
+              <PropertyRef Name="Country_of_Origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SSDs">
+          <Key>
+            <PropertyRef Name="SSDId" />
+          </Key>
+          <Property Name="SSDId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="SSD_Count_on_storage" Type="Int32" />
+          <Property Name="Seller_Warranty" Type="Int32" />
+          <Property Name="Country_of_Origin" Type="Int32" />
+          <Property Name="SSD_Type" Type="Int32" />
+          <Property Name="Model" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Manufacturer_Id" Type="Int32" />
+          <Property Name="Volume_GB" Type="Int32" />
+          <Property Name="NVMe" Type="Boolean" />
+          <Property Name="Connection_Type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Bits_per_Cell" Type="Int32" />
+          <Property Name="Memory_Structure" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DRAM_Buffer" Type="Boolean" />
+          <Property Name="Max_Sequential_Read_Speed_MBs" Type="Int32" />
+          <Property Name="Max_Sequential_Write_Speed_MBs" Type="Int32" />
+          <Property Name="Total_Bytes_Written_TB" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Drive_Writes_Per_Day" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Hardware_Encryption" Type="Boolean" />
+          <Property Name="Width_mm" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Length_mm" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Thickness_mm" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Weight_g" Type="Decimal" Precision="8" Scale="2" />
+          <NavigationProperty Name="Manufacturers" Relationship="ComputerArchitectDataBaseModel.FK_SSDs_Manufacturers" FromRole="SSDs" ToRole="Manufacturers" />
+          <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_SSDs_Сountries" FromRole="SSDs" ToRole="Сountries" />
+        </EntityType>
+        <Association Name="FK_SSDs_Manufacturers">
+          <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.SSDs" Role="SSDs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="ManufacturersId" />
+            </Principal>
+            <Dependent Role="SSDs">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SSDs_Сountries">
+          <End Type="ComputerArchitectDataBaseModel.Сountries" Role="Сountries" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.SSDs" Role="SSDs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="SSDs">
+              <PropertyRef Name="Country_of_Origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="HDDs">
+          <Key>
+            <PropertyRef Name="HDDId" />
+          </Key>
+          <Property Name="HDDId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Preview_Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="HDD_Count_on_storage" Type="Int32" />
+          <Property Name="Seller_Warranty" Type="Int32" />
+          <Property Name="Country_of_Origin" Type="Int32" />
+          <Property Name="HDD_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Model" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Manufacturer_Id" Type="Int32" />
+          <Property Name="Capacity_TB" Type="Int32" />
+          <Property Name="Cache_MB" Type="Int32" />
+          <Property Name="Spindle_Speed_RPM" Type="Int32" />
+          <Property Name="Max_Data_Transfer_Speed_MBs" Type="Int32" />
+          <Property Name="Average_Latency_ms" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Interface" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Interface_Bandwidth_GBps" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="RAID_Optimization" Type="Boolean" />
+          <Property Name="Recording_Technology" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Operational_Shock_Grating_G" Type="Int32" />
+          <Property Name="Operating_Noise_Level_dBA" Type="Int32" />
+          <Property Name="Idle_Noise_Level_dBA" Type="Int32" />
+          <Property Name="Helium_Filling" Type="Boolean" />
+          <Property Name="Positioning_Parking_Cycles" Type="Int32" />
+          <Property Name="Max_Power_Consumption_Watts" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Idle_Power_Consumption_Watts" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Max_Operating_Temperature_Celsius" Type="Int32" />
+          <Property Name="Width_mm" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Length_mm" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Thickness_mm" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Weight_g" Type="Decimal" Precision="8" Scale="2" />
+          <NavigationProperty Name="Manufacturers" Relationship="ComputerArchitectDataBaseModel.FK_HDDs_Manufacturers" FromRole="HDDs" ToRole="Manufacturers" />
+          <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_HDDs_Сountries" FromRole="HDDs" ToRole="Сountries" />
+        </EntityType>
+        <Association Name="FK_HDDs_Manufacturers">
+          <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.HDDs" Role="HDDs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="ManufacturersId" />
+            </Principal>
+            <Dependent Role="HDDs">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HDDs_Сountries">
+          <End Type="ComputerArchitectDataBaseModel.Сountries" Role="Сountries" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.HDDs" Role="HDDs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="HDDs">
+              <PropertyRef Name="Country_of_Origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1065,6 +2087,262 @@
                 <ScalarProperty Name="Preview_Photo" ColumnName="Preview_Photo" />
                 <ScalarProperty Name="Cost" ColumnName="Cost" />
                 <ScalarProperty Name="GPUId" ColumnName="GPUId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RAMS">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.RAMS">
+              <MappingFragment StoreEntitySet="RAMS">
+                <ScalarProperty Name="RAM_Voltage" ColumnName="RAM_Voltage" />
+                <ScalarProperty Name="Low_Profile" ColumnName="Low_Profile" />
+                <ScalarProperty Name="RAM_Height_mm" ColumnName="RAM_Height_mm" />
+                <ScalarProperty Name="RGB_Lighting" ColumnName="RGB_Lighting" />
+                <ScalarProperty Name="RAM_Heatsink" ColumnName="RAM_Heatsink" />
+                <ScalarProperty Name="Activate_to_Precharge_Delay" ColumnName="Activate_to_Precharge_Delay" />
+                <ScalarProperty Name="Row_Precharge_Delay" ColumnName="Row_Precharge_Delay" />
+                <ScalarProperty Name="RAS_to_CAS_Delay" ColumnName="RAS_to_CAS_Delay" />
+                <ScalarProperty Name="CAS_Latency" ColumnName="CAS_Latency" />
+                <ScalarProperty Name="Intel_XMP_Profile" ColumnName="Intel_XMP_Profile" />
+                <ScalarProperty Name="AMD_EXPO_Profile" ColumnName="AMD_EXPO_Profile" />
+                <ScalarProperty Name="RAM_Speed_MHz" ColumnName="RAM_Speed_MHz" />
+                <ScalarProperty Name="ECC_Memory" ColumnName="ECC_Memory" />
+                <ScalarProperty Name="Registered_Memory" ColumnName="Registered_Memory" />
+                <ScalarProperty Name="Capacity_GB" ColumnName="Capacity_GB" />
+                <ScalarProperty Name="RAM_Form_Factor" ColumnName="RAM_Form_Factor" />
+                <ScalarProperty Name="Memory_Type" ColumnName="Memory_Type" />
+                <ScalarProperty Name="Manufacturer_Id" ColumnName="Manufacturer_Id" />
+                <ScalarProperty Name="Country_of_Origin" ColumnName="Country_of_Origin" />
+                <ScalarProperty Name="Seller_Warranty" ColumnName="Seller_Warranty" />
+                <ScalarProperty Name="RAM_Model" ColumnName="RAM_Model" />
+                <ScalarProperty Name="RAM_Count_on_storage" ColumnName="RAM_Count_on_storage" />
+                <ScalarProperty Name="Preview_Photo" ColumnName="Preview_Photo" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="RAMId" ColumnName="RAMId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PowerSupplies">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.PowerSupplies">
+              <MappingFragment StoreEntitySet="PowerSupplies">
+                <ScalarProperty Name="PS__Count_on_storage" ColumnName="PS__Count_on_storage" />
+                <ScalarProperty Name="Weight_kg" ColumnName="Weight_kg" />
+                <ScalarProperty Name="Height_mm" ColumnName="Height_mm" />
+                <ScalarProperty Name="Width_mm" ColumnName="Width_mm" />
+                <ScalarProperty Name="Length_mm" ColumnName="Length_mm" />
+                <ScalarProperty Name="Protection_Technologies" ColumnName="Protection_Technologies" />
+                <ScalarProperty Name="Standards_Compliance" ColumnName="Standards_Compliance" />
+                <ScalarProperty Name="Power_Factor_Correction" ColumnName="Power_Factor_Correction" />
+                <ScalarProperty Name="Certification_80PLUS" ColumnName="Certification_80PLUS" />
+                <ScalarProperty Name="Max_Noise_Level" ColumnName="Max_Noise_Level" />
+                <ScalarProperty Name="Fan_Size" ColumnName="Fan_Size" />
+                <ScalarProperty Name="Cooling_System" ColumnName="Cooling_System" />
+                <ScalarProperty Name="Input_Voltage_Range" ColumnName="Input_Voltage_Range" />
+                <ScalarProperty Name="Power_minus12V_A" ColumnName="Power_minus12V_A" />
+                <ScalarProperty Name="Power_5V_Standby_A" ColumnName="Power_5V_Standby_A" />
+                <ScalarProperty Name="Power_5V_A" ColumnName="Power_5V_A" />
+                <ScalarProperty Name="Power_3_3V_A" ColumnName="Power_3_3V_A" />
+                <ScalarProperty Name="Power_12V2_A" ColumnName="Power_12V2_A" />
+                <ScalarProperty Name="Power_12V1_A" ColumnName="Power_12V1_A" />
+                <ScalarProperty Name="Power_12V_Watt" ColumnName="Power_12V_Watt" />
+                <ScalarProperty Name="Floppy_Connector" ColumnName="Floppy_Connector" />
+                <ScalarProperty Name="Molex_Connector_Count" ColumnName="Molex_Connector_Count" />
+                <ScalarProperty Name="SATA_Connector_Count" ColumnName="SATA_Connector_Count" />
+                <ScalarProperty Name="GPU_Power_Connector" ColumnName="GPU_Power_Connector" />
+                <ScalarProperty Name="CPU_Power_Connector" ColumnName="CPU_Power_Connector" />
+                <ScalarProperty Name="Main_Power_Connector" ColumnName="Main_Power_Connector" />
+                <ScalarProperty Name="LED_Color" ColumnName="LED_Color" />
+                <ScalarProperty Name="LED_Type" ColumnName="LED_Type" />
+                <ScalarProperty Name="Cable_Colors" ColumnName="Cable_Colors" />
+                <ScalarProperty Name="Cable_Sleeving" ColumnName="Cable_Sleeving" />
+                <ScalarProperty Name="Detachable_Cables" ColumnName="Detachable_Cables" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Form_Factor" ColumnName="Form_Factor" />
+                <ScalarProperty Name="Power_Watt" ColumnName="Power_Watt" />
+                <ScalarProperty Name="Manufacturer_Id" ColumnName="Manufacturer_Id" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Country_of_Origin" ColumnName="Country_of_Origin" />
+                <ScalarProperty Name="Seller_Warranty" ColumnName="Seller_Warranty" />
+                <ScalarProperty Name="Preview_Photo" ColumnName="Preview_Photo" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="PowerSupplyId" ColumnName="PowerSupplyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CaseSizes">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.CaseSizes">
+              <MappingFragment StoreEntitySet="CaseSizes">
+                <ScalarProperty Name="CaseSize_Name" ColumnName="CaseSize_Name" />
+                <ScalarProperty Name="CaseSize_Id" ColumnName="CaseSize_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cases">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.Cases">
+              <MappingFragment StoreEntitySet="Cases">
+                <ScalarProperty Name="Included_Accessories" ColumnName="Included_Accessories" />
+                <ScalarProperty Name="Additional_Features" ColumnName="Additional_Features" />
+                <ScalarProperty Name="Dust_Filter" ColumnName="Dust_Filter" />
+                <ScalarProperty Name="Cable_Cover_Plate" ColumnName="Cable_Cover_Plate" />
+                <ScalarProperty Name="Cable_Management_Holes" ColumnName="Cable_Management_Holes" />
+                <ScalarProperty Name="Case_Fixing_Method" ColumnName="Case_Fixing_Method" />
+                <ScalarProperty Name="Low_Noise_Anti_Vibration_Cases" ColumnName="Low_Noise_Anti_Vibration_Cases" />
+                <ScalarProperty Name="Built_in_PSU" ColumnName="Built_in_PSU" />
+                <ScalarProperty Name="Front_Panel_IO_Ports" ColumnName="Front_Panel_IO_Ports" />
+                <ScalarProperty Name="Front_Panel_IO_Location" ColumnName="Front_Panel_IO_Location" />
+                <ScalarProperty Name="Bottom_Radiator_Size_mm" ColumnName="Bottom_Radiator_Size_mm" />
+                <ScalarProperty Name="Rear_Radiator_Size_mm" ColumnName="Rear_Radiator_Size_mm" />
+                <ScalarProperty Name="Top_Radiator_Size_mm" ColumnName="Top_Radiator_Size_mm" />
+                <ScalarProperty Name="Liquid_Cooling_Support" ColumnName="Liquid_Cooling_Support" />
+                <ScalarProperty Name="Side_Fan_Support" ColumnName="Side_Fan_Support" />
+                <ScalarProperty Name="Bottom_Fan_Support" ColumnName="Bottom_Fan_Support" />
+                <ScalarProperty Name="Top_Fan_Support" ColumnName="Top_Fan_Support" />
+                <ScalarProperty Name="Rear_Fan_Support" ColumnName="Rear_Fan_Support" />
+                <ScalarProperty Name="Front_Fan_Support" ColumnName="Front_Fan_Support" />
+                <ScalarProperty Name="Cooling_Fans_Included" ColumnName="Cooling_Fans_Included" />
+                <ScalarProperty Name="External_5_25_Drive_Bays" ColumnName="External_5_25_Drive_Bays" />
+                <ScalarProperty Name="External_3_5_Drive_Bays" ColumnName="External_3_5_Drive_Bays" />
+                <ScalarProperty Name="Internal_3_5_Drive_Bays" ColumnName="Internal_3_5_Drive_Bays" />
+                <ScalarProperty Name="Internal_2_5_Drive_Bays" ColumnName="Internal_2_5_Drive_Bays" />
+                <ScalarProperty Name="Max_CPU_Cooler_Height_mm" ColumnName="Max_CPU_Cooler_Height_mm" />
+                <ScalarProperty Name="Max_GPU_Length_mm" ColumnName="Max_GPU_Length_mm" />
+                <ScalarProperty Name="Vertical_Expansion_Slots" ColumnName="Vertical_Expansion_Slots" />
+                <ScalarProperty Name="Horizontal_Expansion_Slots" ColumnName="Horizontal_Expansion_Slots" />
+                <ScalarProperty Name="Max_PSU_Length_mm" ColumnName="Max_PSU_Length_mm" />
+                <ScalarProperty Name="PSU_Placement" ColumnName="PSU_Placement" />
+                <ScalarProperty Name="Compatible_PSU_Form_Factors" ColumnName="Compatible_PSU_Form_Factors" />
+                <ScalarProperty Name="Compatible_Motherboard_Form_Factors" ColumnName="Compatible_Motherboard_Form_Factors" />
+                <ScalarProperty Name="RGB_Control_Method" ColumnName="RGB_Control_Method" />
+                <ScalarProperty Name="RGB_Connection_Type" ColumnName="RGB_Connection_Type" />
+                <ScalarProperty Name="RGB_Lighting_Color" ColumnName="RGB_Lighting_Color" />
+                <ScalarProperty Name="RGB_Lighting_Type" ColumnName="RGB_Lighting_Type" />
+                <ScalarProperty Name="Front_Panel_Material" ColumnName="Front_Panel_Material" />
+                <ScalarProperty Name="Window_Material" ColumnName="Window_Material" />
+                <ScalarProperty Name="Side_Panel_Window" ColumnName="Side_Panel_Window" />
+                <ScalarProperty Name="Case_Material" ColumnName="Case_Material" />
+                <ScalarProperty Name="Main_Color" ColumnName="Main_Color" />
+                <ScalarProperty Name="Weight_kg" ColumnName="Weight_kg" />
+                <ScalarProperty Name="Height_mm" ColumnName="Height_mm" />
+                <ScalarProperty Name="Width_mm" ColumnName="Width_mm" />
+                <ScalarProperty Name="Length_mm" ColumnName="Length_mm" />
+                <ScalarProperty Name="Motherboard_Orientation" ColumnName="Motherboard_Orientation" />
+                <ScalarProperty Name="Case_Size" ColumnName="Case_Size" />
+                <ScalarProperty Name="Manufacturer_Id" ColumnName="Manufacturer_Id" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Country_of_Origin" ColumnName="Country_of_Origin" />
+                <ScalarProperty Name="Seller_Warranty" ColumnName="Seller_Warranty" />
+                <ScalarProperty Name="Cases_Count_on_storage" ColumnName="Cases_Count_on_storage" />
+                <ScalarProperty Name="Preview_Photo" ColumnName="Preview_Photo" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Coolers">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.Coolers">
+              <MappingFragment StoreEntitySet="Coolers">
+                <ScalarProperty Name="Weight_g" ColumnName="Weight_g" />
+                <ScalarProperty Name="Length_mm" ColumnName="Length_mm" />
+                <ScalarProperty Name="Width_mm" ColumnName="Width_mm" />
+                <ScalarProperty Name="Height_mm" ColumnName="Height_mm" />
+                <ScalarProperty Name="Accessories" ColumnName="Accessories" />
+                <ScalarProperty Name="Lighting_Type" ColumnName="Lighting_Type" />
+                <ScalarProperty Name="Thermal_Paste_Included" ColumnName="Thermal_Paste_Included" />
+                <ScalarProperty Name="Bearing_Type" ColumnName="Bearing_Type" />
+                <ScalarProperty Name="Nominal_Voltage" ColumnName="Nominal_Voltage" />
+                <ScalarProperty Name="Nominal_Current_Amps" ColumnName="Nominal_Current_Amps" />
+                <ScalarProperty Name="Max_Noise_Level_dB" ColumnName="Max_Noise_Level_dB" />
+                <ScalarProperty Name="Max_Airflow_CFM" ColumnName="Max_Airflow_CFM" />
+                <ScalarProperty Name="Fan_Speed_Control" ColumnName="Fan_Speed_Control" />
+                <ScalarProperty Name="Min_Fan_Speed_RPM" ColumnName="Min_Fan_Speed_RPM" />
+                <ScalarProperty Name="Max_Fan_Speed_RPM" ColumnName="Max_Fan_Speed_RPM" />
+                <ScalarProperty Name="Fan_Connector_Type" ColumnName="Fan_Connector_Type" />
+                <ScalarProperty Name="Fan_Color" ColumnName="Fan_Color" />
+                <ScalarProperty Name="Fan_Size" ColumnName="Fan_Size" />
+                <ScalarProperty Name="Max_Fan_Count" ColumnName="Max_Fan_Count" />
+                <ScalarProperty Name="Fan_Count" ColumnName="Fan_Count" />
+                <ScalarProperty Name="Radiator_Color" ColumnName="Radiator_Color" />
+                <ScalarProperty Name="Nickel_Plating" ColumnName="Nickel_Plating" />
+                <ScalarProperty Name="Heat_Pipes_Count" ColumnName="Heat_Pipes_Count" />
+                <ScalarProperty Name="Radiator_Material" ColumnName="Radiator_Material" />
+                <ScalarProperty Name="Base_Material" ColumnName="Base_Material" />
+                <ScalarProperty Name="Construction_Type" ColumnName="Construction_Type" />
+                <ScalarProperty Name="TDP" ColumnName="TDP" />
+                <ScalarProperty Name="Socket_Type" ColumnName="Socket_Type" />
+                <ScalarProperty Name="Manufacturer_Id" ColumnName="Manufacturer_Id" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Cooler_Type" ColumnName="Cooler_Type" />
+                <ScalarProperty Name="Country_of_Origin" ColumnName="Country_of_Origin" />
+                <ScalarProperty Name="Seller_Warranty" ColumnName="Seller_Warranty" />
+                <ScalarProperty Name="Cooler_Count_on_storage" ColumnName="Cooler_Count_on_storage" />
+                <ScalarProperty Name="Preview_Photo" ColumnName="Preview_Photo" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="CoolerId" ColumnName="CoolerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SSDs">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.SSDs">
+              <MappingFragment StoreEntitySet="SSDs">
+                <ScalarProperty Name="Weight_g" ColumnName="Weight_g" />
+                <ScalarProperty Name="Thickness_mm" ColumnName="Thickness_mm" />
+                <ScalarProperty Name="Length_mm" ColumnName="Length_mm" />
+                <ScalarProperty Name="Width_mm" ColumnName="Width_mm" />
+                <ScalarProperty Name="Hardware_Encryption" ColumnName="Hardware_Encryption" />
+                <ScalarProperty Name="Drive_Writes_Per_Day" ColumnName="Drive_Writes_Per_Day" />
+                <ScalarProperty Name="Total_Bytes_Written_TB" ColumnName="Total_Bytes_Written_TB" />
+                <ScalarProperty Name="Max_Sequential_Write_Speed_MBs" ColumnName="Max_Sequential_Write_Speed_MBs" />
+                <ScalarProperty Name="Max_Sequential_Read_Speed_MBs" ColumnName="Max_Sequential_Read_Speed_MBs" />
+                <ScalarProperty Name="DRAM_Buffer" ColumnName="DRAM_Buffer" />
+                <ScalarProperty Name="Memory_Structure" ColumnName="Memory_Structure" />
+                <ScalarProperty Name="Bits_per_Cell" ColumnName="Bits_per_Cell" />
+                <ScalarProperty Name="Connection_Type" ColumnName="Connection_Type" />
+                <ScalarProperty Name="NVMe" ColumnName="NVMe" />
+                <ScalarProperty Name="Volume_GB" ColumnName="Volume_GB" />
+                <ScalarProperty Name="Manufacturer_Id" ColumnName="Manufacturer_Id" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="SSD_Type" ColumnName="SSD_Type" />
+                <ScalarProperty Name="Country_of_Origin" ColumnName="Country_of_Origin" />
+                <ScalarProperty Name="Seller_Warranty" ColumnName="Seller_Warranty" />
+                <ScalarProperty Name="SSD_Count_on_storage" ColumnName="SSD_Count_on_storage" />
+                <ScalarProperty Name="Preview_Photo" ColumnName="Preview_Photo" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="SSDId" ColumnName="SSDId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HDDs">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.HDDs">
+              <MappingFragment StoreEntitySet="HDDs">
+                <ScalarProperty Name="Weight_g" ColumnName="Weight_g" />
+                <ScalarProperty Name="Thickness_mm" ColumnName="Thickness_mm" />
+                <ScalarProperty Name="Length_mm" ColumnName="Length_mm" />
+                <ScalarProperty Name="Width_mm" ColumnName="Width_mm" />
+                <ScalarProperty Name="Max_Operating_Temperature_Celsius" ColumnName="Max_Operating_Temperature_Celsius" />
+                <ScalarProperty Name="Idle_Power_Consumption_Watts" ColumnName="Idle_Power_Consumption_Watts" />
+                <ScalarProperty Name="Max_Power_Consumption_Watts" ColumnName="Max_Power_Consumption_Watts" />
+                <ScalarProperty Name="Positioning_Parking_Cycles" ColumnName="Positioning_Parking_Cycles" />
+                <ScalarProperty Name="Helium_Filling" ColumnName="Helium_Filling" />
+                <ScalarProperty Name="Idle_Noise_Level_dBA" ColumnName="Idle_Noise_Level_dBA" />
+                <ScalarProperty Name="Operating_Noise_Level_dBA" ColumnName="Operating_Noise_Level_dBA" />
+                <ScalarProperty Name="Operational_Shock_Grating_G" ColumnName="Operational_Shock_Grating_G" />
+                <ScalarProperty Name="Recording_Technology" ColumnName="Recording_Technology" />
+                <ScalarProperty Name="RAID_Optimization" ColumnName="RAID_Optimization" />
+                <ScalarProperty Name="Interface_Bandwidth_GBps" ColumnName="Interface_Bandwidth_GBps" />
+                <ScalarProperty Name="Interface" ColumnName="Interface" />
+                <ScalarProperty Name="Average_Latency_ms" ColumnName="Average_Latency_ms" />
+                <ScalarProperty Name="Max_Data_Transfer_Speed_MBs" ColumnName="Max_Data_Transfer_Speed_MBs" />
+                <ScalarProperty Name="Spindle_Speed_RPM" ColumnName="Spindle_Speed_RPM" />
+                <ScalarProperty Name="Cache_MB" ColumnName="Cache_MB" />
+                <ScalarProperty Name="Capacity_TB" ColumnName="Capacity_TB" />
+                <ScalarProperty Name="Manufacturer_Id" ColumnName="Manufacturer_Id" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="HDD_Type" ColumnName="HDD_Type" />
+                <ScalarProperty Name="Country_of_Origin" ColumnName="Country_of_Origin" />
+                <ScalarProperty Name="Seller_Warranty" ColumnName="Seller_Warranty" />
+                <ScalarProperty Name="HDD_Count_on_storage" ColumnName="HDD_Count_on_storage" />
+                <ScalarProperty Name="Preview_Photo" ColumnName="Preview_Photo" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="HDDId" ColumnName="HDDId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
