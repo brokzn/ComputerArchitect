@@ -23,13 +23,16 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class CPUPage : Page
     {
-        public CPUPage()
+        public Users CurrentUser { get; set; }
+        public CPUPage(Users currentUser)
         {
+            CurrentUser = currentUser;
             InitializeComponent();
             LoadComponent();
             MostCheapestSort_Checked(null, null);
 
         }
+
         public class CombinedData
         {
             public CPUS Processor { get; set; }
@@ -94,6 +97,7 @@ namespace ComputerArchitect.Pages
             SortLabel.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6DB2E3"));
         }
         bool ShowSort = true;
+
         private void SortLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (ShowSort)
@@ -169,11 +173,11 @@ namespace ComputerArchitect.Pages
         }
         private void CatalogPageOpenLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            NavigationService.Navigate(new CatalogPage());
+            NavigationService.Navigate(new CatalogPage(CurrentUser));
         }
         private void BasicPCComponentsPageOpenLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            NavigationService.Navigate(new BasicPCComponentsPage());
+            NavigationService.Navigate(new BasicPCComponentsPage(CurrentUser));
         }
     }
 }

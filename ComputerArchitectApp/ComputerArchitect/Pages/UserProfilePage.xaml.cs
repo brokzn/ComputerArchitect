@@ -221,7 +221,6 @@ namespace ComputerArchitect.Pages
         }
 
         bool setNewPassClick = true;
-        private int userId;
         //Пароль пользователя
         private void SetNewPassLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

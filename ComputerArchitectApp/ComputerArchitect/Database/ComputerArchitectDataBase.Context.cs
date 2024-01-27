@@ -64,6 +64,8 @@ public partial class ComputerArchitectDataBaseEntities : DbContext
 
     public virtual DbSet<HDDs> HDDs { get; set; }
 
+    public virtual DbSet<UserConfiguration> UserConfiguration { get; set; }
+
 }
 
 }

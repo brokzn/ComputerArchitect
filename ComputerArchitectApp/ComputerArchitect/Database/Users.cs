@@ -18,6 +18,15 @@ using System;
 public partial class Users
 {
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+    public Users()
+    {
+
+        this.UserConfiguration = new HashSet<UserConfiguration>();
+
+    }
+
+
     public string Name { get; set; }
 
     public string SecondName { get; set; }
@@ -41,6 +50,10 @@ public partial class Users
 
 
     public virtual Сountries Сountries { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<UserConfiguration> UserConfiguration { get; set; }
 
 }
 

@@ -18,6 +18,15 @@ using System;
 public partial class PowerSupplies
 {
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+    public PowerSupplies()
+    {
+
+        this.UserConfiguration = new HashSet<UserConfiguration>();
+
+    }
+
+
     public int PowerSupplyId { get; set; }
 
     public Nullable<decimal> Cost { get; set; }
@@ -105,6 +114,10 @@ public partial class PowerSupplies
     public virtual Manufacturers Manufacturers { get; set; }
 
     public virtual Сountries Сountries { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<UserConfiguration> UserConfiguration { get; set; }
 
 }
 

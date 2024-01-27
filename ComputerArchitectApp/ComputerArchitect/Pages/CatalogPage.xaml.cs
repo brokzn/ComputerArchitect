@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ComputerArchitect.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,24 +21,26 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class CatalogPage : Page
     {
-        public CatalogPage()
+        public Users CurrentUser { get; set; }
+        public CatalogPage(Users currentUser)
         {
+            CurrentUser = currentUser;
             InitializeComponent();
         }
 
         private void BasicPCComponentsPageCard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            NavigationService.Navigate(new BasicPCComponentsPage());
+            NavigationService.Navigate(new BasicPCComponentsPage(CurrentUser));
         }
 
         private void OpenPcConfButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new PCConfiguratorPage());
+            NavigationService.Navigate(new PCConfiguratorPage(CurrentUser));
         }
 
         private void OpenReasyMadeAssebliesPageButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new ReadyMadeAssembliesPage());
+            NavigationService.Navigate(new ReadyMadeAssembliesPage(CurrentUser));
         }
     }
 }

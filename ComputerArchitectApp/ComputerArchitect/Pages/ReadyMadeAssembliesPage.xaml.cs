@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ComputerArchitect.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,8 +21,10 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class ReadyMadeAssembliesPage : Page
     {
-        public ReadyMadeAssembliesPage()
+        public Users CurrentUser { get; set; }
+        public ReadyMadeAssembliesPage(Users currentUser)
         {
+            CurrentUser = currentUser;
             InitializeComponent();
         }
     }

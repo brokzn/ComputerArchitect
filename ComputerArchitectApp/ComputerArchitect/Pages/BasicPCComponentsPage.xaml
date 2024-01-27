@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ComputerArchitect.Pages"
       mc:Ignorable="d" 
-            MinHeight="800" 
+      MinHeight="800" 
       MinWidth="1550"
       Background="Transparent"
       Title="UserCartPage">

@@ -130,6 +130,9 @@
     <Compile Include="Database\SSDs.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\UserConfiguration.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\Users.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>

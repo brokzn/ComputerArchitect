@@ -32,7 +32,7 @@ namespace ComputerArchitect.UI.Pages
         public MenuPage(Users currentUser)
         {
             InitializeComponent();
-            MenuFrame.NavigationService.Navigate(new CatalogPage());
+            MenuFrame.NavigationService.Navigate(new CatalogPage(CurrentUser));
             CurrentUser = currentUser;
             CurrentUserNameLabel.Content = CurrentUser.Name;
 
@@ -130,18 +130,18 @@ namespace ComputerArchitect.UI.Pages
 
         private void NavigationLabelCatalog_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            MenuFrame.NavigationService.Navigate(new CatalogPage());
+            MenuFrame.NavigationService.Navigate(new CatalogPage(CurrentUser));
             
         }
 
         private void NavigationLabelReadyMadeAssembly_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            MenuFrame.NavigationService.Navigate(new ReadyMadeAssembliesPage());
+            MenuFrame.NavigationService.Navigate(new ReadyMadeAssembliesPage(CurrentUser));
         }
 
         private void NavigationLabelConfigurator_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            MenuFrame.NavigationService.Navigate(new PCConfiguratorPage());
+            MenuFrame.NavigationService.Navigate(new PCConfiguratorPage(CurrentUser));
         }
 
         private void UserCartOpenButton_Click(object sender, RoutedEventArgs e)

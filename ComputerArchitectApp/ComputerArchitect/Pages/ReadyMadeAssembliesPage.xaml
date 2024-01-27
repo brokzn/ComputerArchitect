@@ -27,7 +27,7 @@
                Foreground="#D6D6D6"
                FontWeight="Bold"
                Content="Готовые сборки"/>
-                       <Label Grid.Column="0" 
+        <Label Grid.Column="0" 
                FontFamily="Arial"
                FontSize="12"
                Width="500"
@@ -37,7 +37,5 @@
                Foreground="#D6D6D6"
                FontWeight="Bold"
                Content="Готовые сборки > Готовые конфигурации"/>
-        
-
     </Grid>
 </Page>

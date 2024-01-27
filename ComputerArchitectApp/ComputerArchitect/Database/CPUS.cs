@@ -18,6 +18,15 @@ using System;
 public partial class CPUS
 {
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+    public CPUS()
+    {
+
+        this.UserConfiguration = new HashSet<UserConfiguration>();
+
+    }
+
+
     public int CPUId { get; set; }
 
     public string Product_code { get; set; }
@@ -105,6 +114,10 @@ public partial class CPUS
     public virtual Sockets Sockets { get; set; }
 
     public virtual Сountries Сountries { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<UserConfiguration> UserConfiguration { get; set; }
 
 }
 
