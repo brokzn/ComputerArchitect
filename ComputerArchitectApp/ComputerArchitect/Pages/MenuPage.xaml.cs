@@ -32,10 +32,10 @@ namespace ComputerArchitect.UI.Pages
         public MenuPage(Users currentUser)
         {
             InitializeComponent();
-            MenuFrame.NavigationService.Navigate(new CatalogPage(CurrentUser));
+            
             CurrentUser = currentUser;
             CurrentUserNameLabel.Content = CurrentUser.Name;
-
+            MenuFrame.NavigationService.Navigate(new CatalogPage(CurrentUser));
 
             if (currentUser.Photo != null && currentUser.Photo.Length > 0)
             {

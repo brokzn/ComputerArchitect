@@ -31,49 +31,9 @@ namespace ComputerArchitect.Pages
         public PCConfiguratorPage(Users currentUser)
         {
             CurrentUser = currentUser;
+
             Loaded += Page_Loaded;
             InitializeComponent();
-
-
-            //ПРОЦЕССОР
-            CPULoadComponent();
-            CPUMostCheapestSort_Checked(null, null);
-
-            //МАТЕРИНСКАЯ ПЛАТА
-            MotherboardLoadComponent();
-            MotherboardMostCheapestSort_Checked(null, null);
-
-            UpdateUserData();
-
-
-
-
-            UserConfiguration userConfiguration = App.Database.UserConfiguration
-           .FirstOrDefault(config => config.UserId == CurrentUser.Id);
-
-            if (userConfiguration != null)
-            {
-                CPUCombinedData selectedData = ((IEnumerable<CPUCombinedData>)CPUListBox.ItemsSource)
-                    .FirstOrDefault(data => data.Processor.CPUId == userConfiguration.CpuId);
-
-                if (selectedData != null)
-                {
-                    SelectedCPUImage.Visibility = Visibility.Visible;
-                    SelectedCPULabelModel.Visibility = Visibility.Visible;
-                    BitmapImage bitmapImage = ByteArrayToBitmapImage(selectedData.Processor.Preview_Photo);
-                    SelectedCPUImage.Source = bitmapImage;
-                    SelectedCPULabelModel.Content = $"{selectedData.Processor.Model}        {selectedData.Processor.Cost:C0}        осталось: {selectedData.Processor.CPU_Count_on_storage} шт";
-                    CPUDisplaySelectedData(selectedData);
-
-                    // Вызываем MotherboardLoadComponent с сокетом выбранного процессора
-                    MotherboardLoadComponent(selectedData.Socket?.SocketId);
-                }
-                else
-                {
-                    SelectedCPUImage.Visibility = Visibility.Collapsed;
-                    SelectedCPULabelModel.Visibility = Visibility.Collapsed;
-                }
-            }
         }
 
         private void ClearConfigButton_Click(object sender, RoutedEventArgs e)
@@ -110,11 +70,21 @@ namespace ComputerArchitect.Pages
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            CPULoadComponent();
+            CPUMostCheapestSort_Checked(null, null);
+
+            //МАТЕРИНСКАЯ ПЛАТА
+            MotherboardLoadComponent();
+            MotherboardMostCheapestSort_Checked(null, null);
 
             UpdateUserData();
+ 
         }
+
+
         private void UpdateUserData()
         {
+
             using (var context = new ComputerArchitectDataBaseEntities())
             {
                 int userId = CurrentUser.Id;
@@ -324,10 +294,12 @@ namespace ComputerArchitect.Pages
 
         private void CPUDisplaySelectedData(CPUCombinedData selectedData)
         {
-            MotherboardLoadComponent(selectedData.Socket?.SocketId);
+            SelectedCPUImage.Visibility = Visibility.Visible;
+            SelectedCPULabelModel.Visibility = Visibility.Visible;
             BitmapImage bitmapImage = ByteArrayToBitmapImage(selectedData.Processor.Preview_Photo);
             SelectedCPUImage.Source = bitmapImage;
             SelectedCPULabelModel.Content = $"{selectedData.Processor.Model}        {selectedData.Processor.Cost:C0}        осталось: {selectedData.Processor.CPU_Count_on_storage} шт";
+            MotherboardLoadComponent(selectedData.Socket?.SocketId);
         }
 
         private void CPUSelectButton_Click(object sender, RoutedEventArgs e)
@@ -345,8 +317,7 @@ namespace ComputerArchitect.Pages
 
                 using (var context = new ComputerArchitectDataBaseEntities())
                 {
-                    try
-                    {
+                    
                         // Получение текущей конфигурации пользователя
                         UserConfiguration existingConfiguration = context.UserConfiguration
                             .FirstOrDefault(config => config.UserId == userId);
@@ -366,13 +337,12 @@ namespace ComputerArchitect.Pages
                                           {
                                               Motherboard = mb,
                                               Socket = socket,
-                                              // Дополните эту часть кода, чтобы получить данные о типе памяти, форм-факторе и т.д.
+                                              
                                           })
                                     .FirstOrDefault();
                             }
 
-                            // Теперь у вас есть данные о текущей материнской плате и ново выбранном процессоре
-                            // Выполните соответствующие проверки, например, проверку совместимости по сокету
+                            
                             if (currentMotherboardData == null || selectedData.Processor.Socket == currentMotherboardData.Socket.SocketId)
                             {
                                 // Процессор совместим с материнской платой
@@ -386,19 +356,8 @@ namespace ComputerArchitect.Pages
                             {
                                 // Процессор несовместим с текущей материнской платой
                                 MessageBox.Show("Выбранный процессор не совместим с текущей материнской платой.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                                SelectedCPUImage.Visibility = Visibility.Collapsed;
-                                SelectedCPULabelModel.Visibility = Visibility.Collapsed;
-                                existingConfiguration.CpuId = null; // Присваиваем null, если процессор несовместим
-                                context.Entry(existingConfiguration).State = EntityState.Modified;
-                                context.SaveChanges();
                             }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Обработка ошибки
-                        MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
                 }
             }
         }
@@ -436,20 +395,10 @@ namespace ComputerArchitect.Pages
             public Form_Factors FormFactor { get; set; }
         }
 
-        private bool isMotherboardLoadComponentRunning = false;
+        
         private void MotherboardLoadComponent(int? selectedProcessorSocketId = null)
         {
-            
-
-            if (isMotherboardLoadComponentRunning)
-            {
-                return;
-            }
-
-            isMotherboardLoadComponentRunning = true;
-
-            try
-            {
+ 
                 List<Motherboards> motherboards = App.Database.Motherboards.ToList();
                 List<ComputerArchitect.Database.Sockets> sockets = App.Database.Sockets.ToList();
                 List<Memory_types> memoryTypes = App.Database.Memory_types.ToList();
@@ -471,22 +420,9 @@ namespace ComputerArchitect.Pages
                                                  FormFactor = formFactorData
                                              };
 
-                if (compatibleMotherboards.Any())
-                {
+               
                     MotherboardListBox.ItemsSource = compatibleMotherboards;
-                }
-                else
-                {
-                    SelectedCPUImage.Visibility = Visibility.Collapsed;
-                    SelectedCPULabelModel.Visibility = Visibility.Collapsed;
-                    MessageBox.Show("Нет совместимых материнских плат для выбранного процессора.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            finally
-            {
-                isMotherboardLoadComponentRunning = false;
-            }
-            
+             
         }
 
 
