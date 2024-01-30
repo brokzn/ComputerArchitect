@@ -328,11 +328,12 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                     </Grid.RowDefinitions>
                 </Grid>
 
-                <Grid x:Name="ConfiguratorStatusGrid">
+                <Grid x:Name="ConfiguratorStatusGrid" Visibility="Visible">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="125"/>
                         <RowDefinition Height="2"/>
                         <RowDefinition Height="58"/>
+                        <RowDefinition Height="30"/>
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -340,8 +341,276 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Border  Grid.ColumnSpan="3"  Background="#4B4C52" CornerRadius="5 5 0 0"/>
-                    <Border  Grid.ColumnSpan="3" Grid.Row="2" Background="#4B4C52" CornerRadius="0 0 5 5"/>
+                    <Border  Grid.ColumnSpan="3"  
+                             Background="#4B4C52" 
+                             CornerRadius="5 5 0 0"/>
+                    <Border  Grid.ColumnSpan="3" 
+                             Grid.Row="2" 
+                             Background="#4B4C52" 
+                             CornerRadius="0 0 5 5"/>
+                    <Label Grid.Column="0" 
+                           x:Name="CountOfImportantComponents"
+                           FontFamily="Arial"
+                           FontSize="18"
+                           Margin="20 15 0 0"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Left"
+                           Foreground="#D6D6D6"
+                           FontWeight="Bold"
+                           Content="Обязательные комплектующие - 1/7"/>
+                    <Label Grid.Column="1" 
+                           FontFamily="Arial"
+                           FontSize="18"
+                           Margin="20 15 0 0"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Left"
+                           Foreground="#D6D6D6"
+                           FontWeight="Bold"
+                           Content="Совместимость комплектующих"/>
+                    <Label Grid.Column="2" 
+                           FontFamily="Arial"
+                           FontSize="18"
+                           Margin="24 15 0 0"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Left"
+                           Foreground="#D6D6D6"
+                           FontWeight="Bold"
+                           Content="Цена конфигурации"/>
+
+
+
+
+                    <Border x:Name="TotalRequiredComponents"
+                            Width="350"
+                            Height="38"
+                            Margin="25 10 0 0"
+                            HorizontalAlignment="Left"
+                            Background="#D9D9D9"
+                            CornerRadius="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border x:Name="OneSelectedComponent"
+                                    Grid.ColumnSpan="1"
+                                    CornerRadius="5 5 5 5" 
+                                    Background="#6DB2E3"/>
+                            
+
+                        </Grid>
+                    </Border>
+                    <Label 
+                           Name="CountOfSelectedComponents"
+                           Grid.Column="0" 
+                           FontFamily="Arial"
+                           FontSize="18"
+                           Margin="20 0 0 5"
+                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Left"
+                           Foreground="#D6D6D6"
+                           FontWeight="Bold"
+                           Content="Выбрано: "/>
+
+
+
+
+                    <Border x:Name="ComponentsСompatibility"
+                            Width="350"
+                            Height="38"
+                            Grid.Column="1"
+                            Margin="25 10 0 0"
+                            HorizontalAlignment="Left"
+                            Background="Transparent"
+                            CornerRadius="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border x:Name="ComponentsСompatibilityAll"
+                                    Width="86"
+                                    Grid.Column="0"
+                                    BorderThickness="2"
+                                    BorderBrush="#D9D9D9"
+                                    CornerRadius="3 0 0 3"
+                                    HorizontalAlignment="Left"
+                                    Background="Transparent">
+                                <Path
+                                      x:Name="ComponentsСompatibilityAllPath"
+                                      Data="M11,1L14.6,4.6C17,-1.7 
+                                      23.7,5 17.4,7.4L21,11L17.4,
+                                      14.6C15,8.3 8.3,15 14.6,17.4L11,
+                                      21L7.4,17.4C5,23.7 -1.7,17 4.6,
+                                      14.6L1,11L4.6,7.4C7,13.7 13.7,7 
+                                      7.4,4.6L11,1Z" Stroke="#D9D9D9" 
+                                      StrokeThickness="2" 
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      StrokeLineJoin="Round"/>
+                            </Border>
+
+                            <Border x:Name="ComponentsСompatibilityPower"
+                                      Width="86"
+                                      Grid.Column="1"
+                                      BorderThickness="2"
+                                      BorderBrush="#D9D9D9"
+                                      HorizontalAlignment="Left"
+                                      Background="Transparent">
+                                <Path 
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Data="M3.27404 19.8745C3.45903 19.98 
+                                      3.67577 20.0208 3.88804 19.99C4.10031 
+                                      19.9592 4.29527 19.8588 4.44034 19.7054L14.7533
+                                      8.79537C14.8764 8.66532 14.9577 8.50335 
+                                      14.9874 8.32923C15.0171 8.15510 14.9939 
+                                      7.97636 14.9207 7.81480C14.8474 7.65324 
+                                      14.7273 7.51585 14.5748 7.41940C14.4224 
+                                      7.32294 14.2444 7.27159 14.0624 7.27161H8.56179L9.36714
+                                      1.02018C9.39249 0.820377 9.34874 0.618062 9.24274
+                                      0.444967C9.13675 0.271871 8.97451 0.137785 8.78146
+                                      0.0637373C8.58842 -0.0103107 8.37549 -0.0201331
+                                      8.17607 0.0358109C7.97665 0.0917548 7.80202 
+                                      0.210301 7.67956 0.372858L0.179202 10.3737C0.0775621
+                                      10.5093 0.0165547 10.6695 0.00292109 10.8366C-0.0107125
+                                      11.0037 0.0235586 11.1712 0.101947 11.3206C0.180336 
+                                      11.47 0.29979 11.5954 0.44711 11.6831C0.594431
+                                      11.7708 0.763881 11.8173 0.936738 11.8174H5.26069L2.86058
+                                      18.8035C2.79267 19.0009 2.79667 19.2150 
+                                      2.87192 19.4099C2.94717 19.6048 3.08911 
+                                      19.7688 3.27404 19.8745ZM2.77808 9.99911L7.05515 
+                                      4.29591L6.56951 8.06804C6.55303 8.19593 6.56477 
+                                      8.32576 6.60398 8.44892C6.64318 8.57208 6.70893 
+                                      8.68574 6.79688 8.78238C6.88483 8.87901 6.99296 
+                                      8.95641 7.11411 9.00944C7.23525 9.06246 7.36664 
+                                      9.0899 7.49955 9.08994H11.9313L6.02948 15.3332L7.4508 
+                                      11.1956C7.49772 11.0590 7.51051 10.9135 7.48812 
+                                      10.7712C7.46573 10.6288 7.40880 10.4937 7.32201 
+                                      10.3769C7.23523 10.2600 7.12107 10.1649 6.98894 
+                                      10.0992C6.85681 10.0335 6.71048 9.99922 6.56201 
+                                      9.99911H2.77808Z" Fill="#D9D9D9"/>
+                            </Border>
+
+
+                            <Border x:Name="ComponentsСompatibilityRAM"
+                                     Width="86"
+                                     Grid.Column="2"
+                                     BorderThickness="2"
+                                     BorderBrush="#D9D9D9"
+                                     HorizontalAlignment="Left"
+                                     Background="Transparent">
+                                <Canvas x:Name="RAMISVGIcon" Width="36" Height="15">
+                                    <Path x:Name="PathRAMISVGIcon1" Data="M35.2174 0H0.782609C0.349773 0 0 0.257846 0 0.576923V10.9615C0 11.2806 0.349773 11.5385 0.782609 11.5385H1.56522V14.4231C1.56522 14.7422 1.91499 15 2.34783 15H33.6522C34.085 15 34.4348 14.7422 34.4348 14.4231V11.5385H35.2174C35.6502 11.5385 36 11.2806 36 10.9615V0.576923C36 0.257846 35.6502 0 35.2174 0ZM32.8696 13.8462H30.5217H27.3913H24.2609H21.1304H18H14.8696H11.7391H8.6087H5.47826H3.13043V11.5385H5.47826H8.6087H11.7391H14.8696H18H21.1304H24.2609H27.3913H30.5217H32.8696V13.8462ZM34.4348 10.3846H33.6522H2.34783H1.56522V1.15385H34.4348V10.3846Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathRAMISVGIcon2" Data="M3.91249 9.23094H8.60814C9.04098 9.23094 9.39075 8.97309 9.39075 8.65402V2.88478C9.39075 2.56571 9.04098 2.30786 8.60814 2.30786H3.91249C3.47966 2.30786 3.12988 2.56571 3.12988 2.88478V8.65402C3.12988 8.97309 3.47966 9.23094 3.91249 9.23094ZM4.6951 3.46171H7.82553V8.07709H4.6951V3.46171Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathRAMISVGIcon3" Data="M11.7426 9.23094H16.4382C16.8711 9.23094 17.2208 8.97309 17.2208 8.65402V2.88478C17.2208 2.56571 16.8711 2.30786 16.4382 2.30786H11.7426C11.3097 2.30786 10.96 2.56571 10.96 2.88478V8.65402C10.96 8.97309 11.3097 9.23094 11.7426 9.23094ZM12.5252 3.46171H15.6556V8.07709H12.5252V3.46171Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathRAMISVGIcon4" Data="M19.5619 9.23094H24.2576C24.6904 9.23094 25.0402 8.97309 25.0402 8.65402V2.88478C25.0402 2.56571 24.6904 2.30786 24.2576 2.30786H19.5619C19.1291 2.30786 18.7793 2.56571 18.7793 2.88478V8.65402C18.7793 8.97309 19.1291 9.23094 19.5619 9.23094ZM20.3445 3.46171H23.4749V8.07709H20.3445V3.46171Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathRAMISVGIcon5" Data="M27.392 9.23094H32.0876C32.5205 9.23094 32.8702 8.97309 32.8702 8.65402V2.88478C32.8702 2.56571 32.5205 2.30786 32.0876 2.30786H27.392C26.9591 2.30786 26.6094 2.56571 26.6094 2.88478V8.65402C26.6094 8.97309 26.9591 9.23094 27.392 9.23094ZM28.1746 3.46171H31.305V8.07709H28.1746V3.46171Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathRAMISVGIcon6" Data="M6.26541 13.2689V12.115C6.26541 11.7959 5.91564 11.5381 5.4828 11.5381C5.04997 11.5381 4.7002 11.7959 4.7002 12.115V13.2689C4.7002 13.5879 5.04997 13.8458 5.4828 13.8458C5.91564 13.8458 6.26541 13.5879 6.26541 13.2689Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathRAMISVGIcon7" Data="M9.3953 13.2689V12.115C9.3953 11.7959 9.04552 11.5381 8.61269 11.5381C8.17985 11.5381 7.83008 11.7959 7.83008 12.115V13.2689C7.83008 13.5879 8.17985 13.8458 8.61269 13.8458C9.04552 13.8458 9.3953 13.5879 9.3953 13.2689Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathRAMISVGIcon8" Data="M12.5252 13.2689V12.115C12.5252 11.7959 12.1754 11.5381 11.7426 11.5381C11.3097 11.5381 10.96 11.7959 10.96 12.115V13.2689C10.96 13.5879 11.3097 13.8458 11.7426 13.8458C12.1754 13.8458 12.5252 13.5879 12.5252 13.2689Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathRAMISVGIcon9" Data="M15.656 13.2689V12.115C15.656 11.7959 15.3063 11.5381 14.8734 11.5381C14.4406 11.5381 14.0908 11.7959 14.0908 12.115V13.2689C14.0908 13.5879 14.4406 13.8458 14.8734 13.8458C15.3063 13.8458 15.656 13.5879 15.656 13.2689Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathRAMISVGIcon10" Data="M18.7859 13.2689V12.115C18.7859 11.7959 18.4361 11.5381 18.0033 11.5381C17.5705 11.5381 17.2207 11.7959 17.2207 12.115V13.2689C17.2207 13.5879 17.5705 13.8458 18.0033 13.8458C18.4361 13.8458 18.7859 13.5879 18.7859 13.2689Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathRAMISVGIcon11" Data="M21.9158 13.2689V12.115C21.9158 11.7959 21.566 11.5381 21.1332 11.5381C20.7004 11.5381 20.3506 11.7959 20.3506 12.115V13.2689C20.3506 13.5879 20.7004 13.8458 21.1332 13.8458C21.566 13.8458 21.9158 13.5879 21.9158 13.2689Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathRAMISVGIcon12" Data="M25.0457 13.2689V12.115C25.0457 11.7959 24.6959 11.5381 24.2631 11.5381C23.8302 11.5381 23.4805 11.7959 23.4805 12.115V13.2689C23.4805 13.5879 23.8302 13.8458 24.2631 13.8458C24.6959 13.8458 25.0457 13.5879 25.0457 13.2689Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathRAMISVGIcon13" Data="M28.1746 13.2689V12.115C28.1746 11.7959 27.8248 11.5381 27.392 11.5381C26.9591 11.5381 26.6094 11.7959 26.6094 12.115V13.2689C26.6094 13.5879 26.9591 13.8458 27.392 13.8458C27.8248 13.8458 28.1746 13.5879 28.1746 13.2689Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathRAMISVGIcon14" Data="M31.3055 13.2689V12.115C31.3055 11.7959 30.9557 11.5381 30.5228 11.5381C30.09 11.5381 29.7402 11.7959 29.7402 12.115V13.2689C29.7402 13.5879 30.09 13.8458 30.5228 13.8458C30.9557 13.8458 31.3055 13.5879 31.3055 13.2689Z" Fill="#D9D9D9"/>
+                                </Canvas>
+                            </Border>
+
+
+
+                            <Border x:Name="ComponentsСompatibilityGPUConnections"
+                                    Width="86"
+                                    Grid.Column="3"
+                                    BorderThickness="2"
+                                    CornerRadius="0 2 2 0"
+                                    BorderBrush="#D9D9D9"
+                                    HorizontalAlignment="Left"
+                                    Background="Transparent">
+                                <Canvas x:Name="GPUSVGIcon" Width="36" Height="24">
+                                    <!-- Replace the following paths with your SVG paths -->
+                                    <Path x:Name="PathGPUSVGIcon1" Data="M33.7502 2.85714H3.375C3.375 1.28171 2.11331 0 0.5625 0C0.251859 0 0 0.255857 0 0.571429C0 0.887 0.251859 1.14286 0.5625 1.14286C1.49302 1.14286 2.25 1.91186 2.25 2.85714V23.4286C2.25 23.7441 2.50186 24 2.8125 24C3.12314 24 3.375 23.7441 3.375 23.4286V22.8571H4.5007C5.4308 22.8571 6.1875 22.0884 6.1875 21.1436V21.1429H33.7502C34.9907 21.1429 36 20.1176 36 18.8574V5.14264C36 3.88243 34.9907 2.85714 33.7502 2.85714ZM34.875 18.8574C34.875 19.4874 34.3704 20 33.7502 20H5.625C5.31436 20 5.0625 20.2559 5.0625 20.5714V21.1436C5.0625 21.4583 4.8105 21.7143 4.5007 21.7143H3.375V4H33.7502C34.3704 4 34.875 4.51257 34.875 5.14264V18.8574Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathGPUSVGIcon2" Data="M16.875 7.42773C15.2633 7.42773 13.8476 8.29345 13.0526 9.59059C12.9975 9.65123 12.9556 9.72316 12.9305 9.80159C12.5768 10.4542 12.375 11.2031 12.375 11.9992C12.375 12.8139 12.5869 13.5788 12.9561 14.2419C12.9692 14.2704 12.9847 14.2975 13.0022 14.3234C13.7867 15.6673 15.2287 16.5706 16.875 16.5706C19.3563 16.5706 21.375 14.5199 21.375 11.9992C21.375 11.1844 21.1631 10.4195 20.7939 9.75638C20.7808 9.72795 20.7653 9.70081 20.7478 9.67495C19.9633 8.33102 18.5213 7.42773 16.875 7.42773ZM13.5 11.9992C13.5 11.6852 13.5425 11.3814 13.6207 11.0924C13.8736 11.3194 14.2151 11.5731 14.6779 11.8445C15.1262 12.1074 15.5035 12.2787 15.8175 12.3882C15.6331 12.5354 15.3965 12.7014 15.0997 12.8754C14.5057 13.2239 14.058 13.3782 13.8088 13.4292C13.6111 12.9936 13.5 12.5094 13.5 11.9992ZM20.25 11.9992C20.25 12.2922 20.2134 12.5768 20.145 12.8485C19.8907 12.618 19.5444 12.3594 19.0721 12.0824C18.6531 11.8366 18.2962 11.6711 17.9949 11.5611C18.1695 11.4264 18.3861 11.2778 18.6502 11.1229C19.2442 10.7746 19.692 10.6201 19.9412 10.5692C20.1389 11.0047 20.25 11.4889 20.25 11.9992ZM19.262 9.57766C18.9412 9.68652 18.5527 9.86052 18.0878 10.1332C17.6482 10.391 17.3178 10.6329 17.069 10.8511C17.0374 10.6193 17.0156 10.3361 17.0156 9.99916C17.0156 9.30181 17.108 8.83052 17.1892 8.58595C17.9954 8.66195 18.7203 9.02659 19.262 9.57766ZM16.0045 8.68681C15.9367 9.02373 15.8906 9.45302 15.8906 9.99916C15.8906 10.5032 15.9298 10.9078 15.9891 11.232C15.7766 11.144 15.5258 11.0222 15.2403 10.8547C14.6566 10.5124 14.303 10.2005 14.1315 10.0059C14.5811 9.36916 15.2395 8.89452 16.0045 8.68681ZM14.4878 14.4204C14.8087 14.3116 15.197 14.138 15.6622 13.8652C16.1018 13.6073 16.4322 13.3654 16.681 13.1472C16.7126 13.379 16.7344 13.6622 16.7344 13.9992C16.7344 14.6965 16.642 15.1678 16.5608 15.4124C15.7546 15.3364 15.0295 14.9717 14.4878 14.4204ZM17.7455 15.3115C17.8133 14.9746 17.8594 14.5453 17.8594 13.9992C17.8594 13.4539 17.8135 13.0252 17.7459 12.6887C17.9615 12.777 18.2175 12.9008 18.5097 13.0721C19.1259 13.4335 19.4865 13.7615 19.6462 13.9528C19.1962 14.6096 18.5264 15.0995 17.7455 15.3115Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathGPUSVGIcon3" Data="M30.9375 5.7146C30.6269 5.7146 30.375 5.97046 30.375 6.28603C30.375 6.6016 30.6269 6.85746 30.9375 6.85746C31.5578 6.85746 32.0625 7.37017 32.0625 8.00031V16.0003C32.0625 16.6305 31.5578 17.1432 30.9375 17.1432H16.875C14.0835 17.1432 11.8125 14.8361 11.8125 12.0003C11.8125 9.16453 14.0835 6.85746 16.875 6.85746H28.6875C28.9981 6.85746 29.25 6.6016 29.25 6.28603C29.25 5.97046 28.9981 5.7146 28.6875 5.7146H16.875C13.4632 5.7146 10.6875 8.53439 10.6875 12.0003C10.6875 15.4662 13.4632 18.286 16.875 18.286H30.9375C32.1782 18.286 33.1875 17.2607 33.1875 16.0003V8.00031C33.1875 6.73996 32.1782 5.7146 30.9375 5.7146Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathGPUSVGIcon4" Data="M7.875 10.2861H6.1875C5.5672 10.2861 5.0625 10.7988 5.0625 11.429V12.5718C5.0625 13.202 5.5672 13.7147 6.1875 13.7147H7.875C8.4953 13.7147 9 13.202 9 12.5718V11.429C9 10.7988 8.4953 10.2861 7.875 10.2861ZM6.1875 12.5718V11.429H7.875L7.87507 12.5718H6.1875Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathGPUSVGIcon5" Data="M7.875 6.2854H6.1875C5.5672 6.2854 5.0625 6.79811 5.0625 7.42826V8.57112C5.0625 9.20126 5.5672 9.71397 6.1875 9.71397H7.875C8.4953 9.71397 9 9.20126 9 8.57112V7.42826C9 6.79811 8.4953 6.2854 7.875 6.2854ZM6.1875 8.57112V7.42826H7.875L7.87507 8.57112H6.1875Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathGPUSVGIcon6" Data="M7.875 14.2856H6.1875C5.5672 14.2856 5.0625 14.7984 5.0625 15.4285V16.5714C5.0625 17.2015 5.5672 17.7142 6.1875 17.7142H7.875C8.4953 17.7142 9 17.2015 9 16.5714V15.4285C9 14.7984 8.4953 14.2856 7.875 14.2856ZM6.1875 16.5714V15.4285H7.875L7.87507 16.5714H6.1875Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathGPUSVGIcon7" Data="M30.375 8.00098H28.6875C28.3769 8.00098 28.125 8.25683 28.125 8.57241C28.125 8.88798 28.3769 9.14383 28.6875 9.14383H30.375C30.6856 9.14383 30.9375 8.88798 30.9375 8.57241C30.9375 8.25683 30.6856 8.00098 30.375 8.00098Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathGPUSVGIcon8" Data="M30.375 14.8564H28.6875C28.3769 14.8564 28.125 15.1123 28.125 15.4279C28.125 15.7434 28.3769 15.9993 28.6875 15.9993H30.375C30.6856 15.9993 30.9375 15.7434 30.9375 15.4279C30.9375 15.1123 30.6856 14.8564 30.375 14.8564Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathGPUSVGIcon9" Data="M30.375 9.71436H28.6875C28.3769 9.71436 28.125 9.97021 28.125 10.2858C28.125 10.6014 28.3769 10.8572 28.6875 10.8572H30.375C30.6856 10.8572 30.9375 10.6014 30.9375 10.2858C30.9375 9.97021 30.6856 9.71436 30.375 9.71436Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathGPUSVGIcon10" Data="M30.375 11.4287H28.6875C28.3769 11.4287 28.125 11.6846 28.125 12.0001C28.125 12.3157 28.3769 12.5716 28.6875 12.5716H30.375C30.6856 12.5716 30.9375 12.3157 30.9375 12.0001C30.9375 11.6846 30.6856 11.4287 30.375 11.4287Z" Fill="#D9D9D9"/>
+                                    <Path x:Name="PathGPUSVGIcon11" Data="M30.375 13.1433H28.6875C28.3769 13.1433 28.125 13.3992 28.125 13.7147C28.125 14.0303 28.3769 14.2862 28.6875 14.2862H30.375C30.6856 14.2862 30.9375 14.0303 30.9375 13.7147C30.9375 13.3992 30.6856 13.1433 30.375 13.1433Z" Fill="#D9D9D9"/>
+                                </Canvas>
+                            </Border>
+
+                        </Grid>
+
+
+
+
+
+
+                    </Border>
+
+
+
+
+
+
+
+
+                    <Border x:Name="ComponentsTotalCost"
+                            
+                            Height="38"
+                            Grid.Column="2"
+                            Margin="25 10 0 0"
+                            
+                            HorizontalAlignment="Left"
+                            Background="#5B5C62"
+                            CornerRadius="3">
+                        <Label 
+                               x:Name="ComponentsTotalCostLabel"
+                               Grid.Column="2" 
+                               FontFamily="Arial"
+                               FontSize="18"
+                               Margin="0 0 2 0"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Foreground="#D6D6D6"
+                               FontWeight="Bold"
+                               Content="Итого: "/>
+                    </Border>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     <Button Width="140"
                             x:Name="ClearConfigButton"
                             Click="ClearConfigButton_Click"
@@ -353,22 +622,27 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             HorizontalAlignment="Left"
                             Content="Очистить"
                             Height="40"/>
+                    <Button Width="140"
+                            x:Name="ShareConfingButton"
+                            Style="{StaticResource Simple3Button}"
+                            Margin="180 0 0 0"
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            Content="Поделиться"
+                            Height="40"/>
+                    <Button Width="160"
+                            x:Name="AddToCartConfingButton"
+                            Style="{StaticResource Simple3Button}"
+                            Margin="0 0 20 0"
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right"
+                            Content="Добавить в корзину"
+                            Height="40"/>
                 </Grid>
-
-
-                <Grid x:Name="ConfiguratorLabelSpace" Height="100">
-                    <Label Grid.Column="0" 
-                    FontFamily="Arial"
-                    FontSize="30"
-                    Width="500"
-                    Margin="0 0 710 0"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Foreground="#D6D6D6"
-                    FontWeight="Bold"
-                    Content="Системный блок"/>
-                </Grid>
-
 
                 <Grid x:Name="ConfiguratorGrid">
                     <Grid.RowDefinitions>
@@ -389,7 +663,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                         <RowDefinition Height="70"/>
                         <RowDefinition Height="2"/>
                     </Grid.RowDefinitions>
-           
+
                     <Border 
                             x:Name="CpuSelect"
                             Grid.Row="0"
@@ -739,7 +1013,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Left"
                                     Content="Материнская плата"/>
-                                                     <Image Width="50"
+                            <Image Width="50"
                                     Visibility="Collapsed"
                                     Stretch="Fill"
                                     Source="\UI\Background\ImageUI.png"
@@ -747,7 +1021,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                     Grid.Column="1"
                                     HorizontalAlignment="Left"
                                     Height="50"/>
-                                                     <Label Grid.Column="1"
+                            <Label Grid.Column="1"
                                     Visibility="Collapsed"
                                     Name="SelectedMotherboardLabelModel"
                                     Margin="50 0 0 0"
@@ -755,7 +1029,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Left"
                                     Content=" "/>
-                                                     <Button Width="140"
+                            <Button Width="140"
                                      x:Name="OpenMotherboardSelectGridButton"
                                      Click="OpenMotherboardSelectGridButton_Click"
                                      Style="{StaticResource Simple3Button}"
@@ -765,8 +1039,8 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                      HorizontalAlignment="Right"
                                      Content="Выбрать"
                                      Height="40"/>
-                                    </Grid>
-                                </Border>
+                        </Grid>
+                    </Border>
 
 
 
