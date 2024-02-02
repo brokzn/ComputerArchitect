@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -116,7 +117,6 @@ namespace ComputerArchitect.Pages
 
                 if (existingConfiguration != null)
                 {
-
                     CPUCombinedData selectedCPUData = ((IEnumerable<CPUCombinedData>)CPUListBox.ItemsSource)
                         .FirstOrDefault(data => data.Processor.CPUId == existingConfiguration.CpuId);
 
@@ -143,12 +143,13 @@ namespace ComputerArchitect.Pages
 
                     int countOfSelectedComponents = 0;
                     int totalCost = 0;
-
+                    int totalPowerWattUsing = 0;
                     if (selectedCPUData != null)
                     {
                         CPUDisplaySelectedData(selectedCPUData);
                         countOfSelectedComponents++;
                         totalCost += Convert.ToInt32(selectedCPUData.Processor.Cost);
+                        totalPowerWattUsing += Convert.ToInt32(selectedCPUData.Processor.Thermal_design_power);
                     }
 
                     if (selectedMotherboardData != null)
@@ -156,6 +157,7 @@ namespace ComputerArchitect.Pages
                         MotherboardDisplaySelectedData(selectedMotherboardData);
                         countOfSelectedComponents++;
                         totalCost += Convert.ToInt32(selectedMotherboardData.Motherboard.Cost);
+                        totalPowerWattUsing += 50;
                     }
 
                     if (selectedCaseData != null)
@@ -170,6 +172,7 @@ namespace ComputerArchitect.Pages
                         GPUDisplaySelectedData(selectedGPUData);
                         countOfSelectedComponents++;
                         totalCost += Convert.ToInt32(selectedGPUData.GPUProcessor.Cost);
+                        totalPowerWattUsing += Convert.ToInt32(selectedGPUData.GPUProcessor.Using_Power_Watt);
                     }
 
                     if (selectedFanData != null)
@@ -177,6 +180,7 @@ namespace ComputerArchitect.Pages
                         FanDisplaySelectedData(selectedFanData);
                         countOfSelectedComponents++;
                         totalCost += Convert.ToInt32(selectedFanData.Cooler.Cost);
+                        totalPowerWattUsing += Convert.ToInt32(selectedFanData.Cooler.TDP);
                     }
 
                     if (selectedRAMData != null)
@@ -184,6 +188,7 @@ namespace ComputerArchitect.Pages
                         RAMDisplaySelectedData(selectedRAMData);
                         countOfSelectedComponents++;
                         totalCost += Convert.ToInt32(selectedRAMData.Rams.Cost);
+                        totalPowerWattUsing += 7;
                     }
 
                     if (selectedMemoryData != null)
@@ -191,6 +196,7 @@ namespace ComputerArchitect.Pages
                         MemoryDisplaySelectedData(selectedMemoryData);
                         countOfSelectedComponents++;
                         totalCost += Convert.ToInt32(selectedMemoryData.Hdds.Cost);
+                        totalPowerWattUsing += Convert.ToInt32(selectedMemoryData.Hdds.Max_Power_Consumption_Watts);
                     }
 
                     if (selectedPowerSuppliesData != null)
@@ -200,18 +206,102 @@ namespace ComputerArchitect.Pages
                         totalCost += Convert.ToInt32(selectedPowerSuppliesData.Powersupplies.Cost);
                     }
 
-                    if (selectedCPUData != null && selectedMotherboardData != null && selectedCPUData.Processor.Socket != selectedMotherboardData.Motherboard.Socket)
+
+                    //Тип ddr процессора и материнской платы
+                    if (selectedCPUData != null && selectedCPUData.Processor != null && selectedCPUData.Processor.Memory_type != null
+                        && selectedMotherboardData != null && selectedMotherboardData.Motherboard != null && selectedMotherboardData.Motherboard.Memory_Type != null)
                     {
-                        ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C71919"));
-                        ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C71919"));
+                        if (selectedCPUData.Processor.Memory_type != selectedMotherboardData.Motherboard.Memory_Type)
+                        {
+                            SetCompatibilityColors("#C71919");
+                        }
+                        else
+                        {
+                            SetCompatibilityColors("#1EBA6F");
+                        }
                     }
                     else
                     {
-                        ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1EBA6F"));
-                        ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1EBA6F"));
+
                     }
 
 
+                    //Сокет процессора и материнской платы
+                    if (selectedCPUData != null && selectedCPUData.Processor != null && selectedCPUData.Processor.Socket != null
+                         && selectedMotherboardData != null && selectedMotherboardData.Motherboard != null && selectedMotherboardData.Motherboard.Socket != null)
+                    {
+                        if (selectedCPUData.Processor.Socket != selectedMotherboardData.Motherboard.Socket)
+                        {
+                            SetCompatibilityColors("#C71919");
+                        }
+                        else
+                        {
+                            SetCompatibilityColors("#1EBA6F");
+                        }
+                    }
+                    else
+                    {
+                        
+                    }
+
+                    
+
+                    //Сокет процессора и охлаждения
+                    if (selectedCPUData != null && selectedCPUData.Processor != null && selectedCPUData.Processor.Socket != null
+                        && selectedFanData != null && selectedFanData.Socket != null && selectedFanData.Socket != null)
+                    {
+                        if (selectedCPUData.Processor.Socket != selectedFanData.Socket.SocketId)
+                        {
+                            SetCompatibilityColors("#C71919");
+                        }
+                        else
+                        {
+                            SetCompatibilityColors("#1EBA6F");
+                        }
+                    }
+                    else
+                    {
+                        
+                    }
+
+
+
+                    //Тип ddr процессора и озу
+                    if (selectedCPUData != null && selectedCPUData.Processor != null && selectedCPUData.Processor.Memory_type != null
+                        && selectedRAMData != null && selectedRAMData.MemoryType != null && selectedRAMData.MemoryType != null)
+                    {
+                        if (selectedCPUData.Processor.Memory_type != selectedRAMData.MemoryType.Memory_typeId)
+                        {
+                            SetCompatibilityColors("#C71919");
+                        }
+                        else
+                        {
+                            SetCompatibilityColors("#1EBA6F");
+                        }
+                    }
+                    else
+                    {
+                        
+                    }
+
+
+                    //Тип ddr материнской платы и озу
+                    if (selectedMotherboardData != null && selectedMotherboardData.Motherboard != null && selectedMotherboardData.Motherboard.Memory_Type != null
+                     && selectedRAMData != null && selectedRAMData.MemoryType != null && selectedRAMData.MemoryType != null)
+                    {
+                        if (selectedMotherboardData.Motherboard.Memory_Type != selectedRAMData.MemoryType.Memory_typeId)
+                        {
+                            SetCompatibilityColors("#C71919");
+                        }
+                        else
+                        {
+                            SetCompatibilityColors("#1EBA6F");
+                        }
+                    }
+                    else
+                    {
+                        
+                    }
 
 
 
@@ -237,13 +327,28 @@ namespace ComputerArchitect.Pages
                     CountOfSelectedComponents.Content = "Всего выбрано: " + countOfSelectedComponents.ToString();
 
                     ComponentsTotalCostLabel.Content = "Итого: " + totalCost.ToString("N0") + " ₽";
+
                 }
+
                 else
                 {
                     ConfiguratorStatusGrid.Visibility = Visibility.Collapsed;
                 }
+                
             }
         }
+   
+
+
+
+        void SetCompatibilityColors(string colorHex)
+        {
+            ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorHex));
+            ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorHex));
+        }
+
+
+
         private void ClearConfigButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -365,7 +470,6 @@ namespace ComputerArchitect.Pages
                                from manufacturerData in processorManufacturerGroup.DefaultIfEmpty()
                                join memoryType in memoryTypes on processor.Memory_type equals memoryType.Memory_typeId into processorMemoryTypeGroup
                                from memoryTypeData in processorMemoryTypeGroup.DefaultIfEmpty()
-                               where App.Database.Motherboards.Any(m => m.Socket == processor.Socket)  // Фильтрация по наличию материнской платы
                                select new CPUCombinedData
                                {
                                    Processor = processor,
@@ -466,7 +570,7 @@ namespace ComputerArchitect.Pages
                 CPUCombinedData selectedData = (CPUCombinedData)CPUListBox.SelectedItem;
                 int selectedProcessorSocketId = selectedData.Socket.SocketId;
 
-                MotherboardLoadComponent(selectedProcessorSocketId);
+                MotherboardLoadComponent();
             }
         }
         private void CPUDisplaySelectedData(CPUCombinedData selectedData)
@@ -485,7 +589,6 @@ namespace ComputerArchitect.Pages
 
             SelectedCPULabelCost.Content = Convert.ToInt32(selectedData.Processor.Cost).ToString("N0") + " ₽";
             SelectedCPULabelCount.Content = "В наличии: " + selectedData.Processor.CPU_Count_on_storage + " шт.";
-            MotherboardLoadComponent(selectedData.Socket?.SocketId);
         }
         private void CPUSelectButton_Click(object sender, RoutedEventArgs e)
         {
@@ -526,29 +629,12 @@ namespace ComputerArchitect.Pages
                                 .FirstOrDefault();
                         }
 
-                        if (currentMotherboardData == null || selectedData.Processor.Socket == currentMotherboardData.Socket.SocketId)
-                        {
-                            // Процессор совместим с материнской платой
-                            existingConfiguration.CpuId = selectedData.Processor.CPUId;
-                            context.Entry(existingConfiguration).State = EntityState.Modified;
-                            context.SaveChanges();
-
-                            CPUDisplaySelectedData(selectedData);
-                            ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
-                            ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
-                        }
-                        else
-                        {
-                            // Процессор несовместим с текущей материнской платой
-                            MessageBox.Show("Выбранный процессор не совместим с текущей материнской платой.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
-                            ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C71919"));
-                            ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C71919"));
-
-                            // Продолжить выполнение кода, даже если процессор несовместим
-                            existingConfiguration.CpuId = selectedData.Processor.CPUId;
-                            context.Entry(existingConfiguration).State = EntityState.Modified;
-                            context.SaveChanges();
-                        }
+                        
+                        // Процессор совместим с материнской платой
+                        existingConfiguration.CpuId = selectedData.Processor.CPUId;
+                        context.Entry(existingConfiguration).State = EntityState.Modified;
+                        context.SaveChanges();
+                        CPUDisplaySelectedData(selectedData); 
                     }
                 }
             }
@@ -587,10 +673,10 @@ namespace ComputerArchitect.Pages
             public Sockets Socket { get; set; }
             public Memory_types MemoryType { get; set; }
             public Form_Factors FormFactor { get; set; }
-        }
-        private void MotherboardLoadComponent(int? selectedProcessorSocketId = null)
-        {
 
+        }
+        private void MotherboardLoadComponent()
+        {
             List<Motherboards> motherboards = App.Database.Motherboards.ToList();
             List<ComputerArchitect.Database.Sockets> sockets = App.Database.Sockets.ToList();
             List<Memory_types> memoryTypes = App.Database.Memory_types.ToList();
@@ -603,7 +689,6 @@ namespace ComputerArchitect.Pages
                                          from memoryTypeData in motherboardMemoryTypeGroup.DefaultIfEmpty()
                                          join formFactor in formFactors on motherboard.Form_Factor equals formFactor.Form_FactorId into motherboardFormFactorGroup
                                          from formFactorData in motherboardFormFactorGroup.DefaultIfEmpty()
-                                         where selectedProcessorSocketId == null || socketData?.SocketId == selectedProcessorSocketId
                                          select new MotherboardCombinedData
                                          {
                                              Motherboard = motherboard,
@@ -612,10 +697,9 @@ namespace ComputerArchitect.Pages
                                              FormFactor = formFactorData
                                          };
 
-
             MotherboardListBox.ItemsSource = compatibleMotherboards;
-
         }
+
         private void MotherboardSearchInCategoryTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             ICollectionView view = CollectionViewSource.GetDefaultView(MotherboardListBox.ItemsSource);
@@ -743,29 +827,11 @@ namespace ComputerArchitect.Pages
                     UserConfiguration existingConfiguration = context.UserConfiguration
                         .FirstOrDefault(config => config.UserId == userId);
 
-                    if (existingConfiguration != null)
-                    {
+                    
                         existingConfiguration.MotherboardId = selectedData.Motherboard.MotherboardId;
                         context.Entry(existingConfiguration).State = EntityState.Modified;
                         context.SaveChanges();
 
-                        // Вызов метода для обновления списка корпусов
-                        UpdateCaseList(selectedData.Motherboard.Form_Factors?.Form_FactorName);
-                    }
-                    else
-                    {
-                        UserConfiguration newConfiguration = new UserConfiguration
-                        {
-                            UserId = userId,
-                            MotherboardId = selectedData.Motherboard.MotherboardId,
-                        };
-
-                        context.Entry(newConfiguration).State = EntityState.Added;
-                        context.SaveChanges();
-
-                        // Вызов метода для обновления списка корпусов
-                        UpdateCaseList(selectedData.Motherboard.Form_Factors?.Form_FactorName);
-                    }
                 }
 
                 MotherboardDisplaySelectedData(selectedData);
@@ -773,25 +839,8 @@ namespace ComputerArchitect.Pages
 
             UpdateUserData();
         }
-        private void UpdateCaseList(string motherboardFormFactor)
-        {
-            // Вызов метода для обновления списка корпусов на основе нового форм-фактора материнской платы
-            CaseLoadComponentByMotherboardFormFactor(motherboardFormFactor);
-        }
-        private void CaseLoadComponentByMotherboardFormFactor(string selectedMotherboardFormFactor)
-        {
-            var combinedData = (from caseData in App.Database.Cases
-                                join caseSizeData in App.Database.CaseSizes
-                                on caseData.Case_Size equals caseSizeData.CaseSize_Id
-                                where caseData.Compatible_Motherboard_Form_Factors.Contains(selectedMotherboardFormFactor)
-                                select new CaseCombinedData
-                                {
-                                    Case = caseData,
-                                    CaseSizes = caseSizeData,
-                                }).ToList();
-
-            CaseListBox.ItemsSource = combinedData;
-        }
+       
+        
 
 
 
@@ -937,7 +986,7 @@ namespace ComputerArchitect.Pages
             SelectedCaseLabelCount.Visibility = Visibility.Visible;
             BitmapImage bitmapImage = ByteArrayToBitmapImage(selectedData.Case.Preview_Photo);
             SelectedCaseImage.Source = bitmapImage;
-            SelectedCaseLabelModel.Content = "Процессор " + selectedData.Case.Model;
+            SelectedCaseLabelModel.Content = "Корпус " + selectedData.Case.Model;
             SelectedCaseLabelInfo.Content = "[" 
                 + selectedData.Case.Compatible_Motherboard_Form_Factors 
                 + ", " + "Форм-фактор блока питания "
@@ -983,60 +1032,19 @@ namespace ComputerArchitect.Pages
                                 .FirstOrDefault();
                         }
 
-                        if (currentMotherboardData == null || CheckCaseCompatibility(selectedData.Case.Compatible_Motherboard_Form_Factors, currentMotherboardData.Motherboard.Form_Factors.Form_FactorName))
-                        {
-                            existingConfiguration.CaseId = selectedData.Case.CaseId;
-                            context.Entry(existingConfiguration).State = EntityState.Modified;
-                            context.SaveChanges();
+                        
+                        existingConfiguration.CaseId = selectedData.Case.CaseId;
+                        context.Entry(existingConfiguration).State = EntityState.Modified;
+                        context.SaveChanges();
 
-                            CaseDisplaySelectedData(selectedData);
-                            ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
-                            ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
-                        }
-                        else
-                        {
-                            MessageBox.Show("Выбранный корпус не совместим с форм-фактором текущей материнской платы.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
-                            ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C71919"));
-                            ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C71919"));
-
-                            existingConfiguration.CaseId = selectedData.Case.CaseId;
-                            context.Entry(existingConfiguration).State = EntityState.Modified;
-                            context.SaveChanges();
-                        }
+                        CaseDisplaySelectedData(selectedData);  
                     }
                 }
             }
 
             UpdateUserData();
         }
-        private bool CheckCaseCompatibility(string compatibleFormFactors, string motherboardFormFactorName)
-        {
-            if (string.IsNullOrWhiteSpace(compatibleFormFactors))
-            {
-                return false;
-            }
-
-            var caseFormFactors = compatibleFormFactors.Split(',').Select(ff => ff.Trim());
-
-            using (var context = new ComputerArchitectDataBaseEntities())
-            {
-                var motherboardFormFactor = context.Form_Factors
-                    .Where(ff => ff.Form_FactorName == motherboardFormFactorName)
-                    .FirstOrDefault();
-
-                if (motherboardFormFactor != null)
-                {
-                    var motherboardFormFactorAsString = motherboardFormFactor.Form_FactorName;
-
-                    // Проверяем, если форм-фактор материнской платы совпадает с хотя бы одним из форм-факторов корпуса
-                    return caseFormFactors.Any(ff =>
-                        LevenshteinDistance(ff, motherboardFormFactorAsString) <= 1 ||
-                        (ff.Contains(" ") && LevenshteinDistance(ff.Replace(" ", ""), motherboardFormFactorAsString) <= 1));
-                }
-
-                return false;
-            }
-        }
+       
 
 
 

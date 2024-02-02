@@ -479,6 +479,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                       HorizontalAlignment="Left"
                                       Background="Transparent">
                                 <Path 
+                                    x:Name="ComponentsСompatibilityPowerPath"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     Data="M3.27404 19.8745C3.45903 19.98 

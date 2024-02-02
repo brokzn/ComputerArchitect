@@ -217,6 +217,7 @@
           <Property Name="Width_mm" Type="int" />
           <Property Name="Thickness_mm" Type="int" />
           <Property Name="Weight_g" Type="int" />
+          <Property Name="Using_Power_Watt" Type="int" />
         </EntityType>
         <EntityType Name="HDDs">
           <Key>
@@ -1591,6 +1592,7 @@
           <NavigationProperty Name="Manufacturers" Relationship="ComputerArchitectDataBaseModel.FK_GPUS_Manufacturers" FromRole="GPUS" ToRole="Manufacturers" />
           <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_GPUS_Сountries" FromRole="GPUS" ToRole="Сountries" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_GPUS" FromRole="GPUS" ToRole="UserConfiguration" />
+          <Property Name="Using_Power_Watt" Type="Int32" />
           </EntityType>
         <Association Name="FK_GPUS_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -2379,6 +2381,7 @@
           <EntitySetMapping Name="GPUS">
             <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.GPUS">
               <MappingFragment StoreEntitySet="GPUS">
+                <ScalarProperty Name="Using_Power_Watt" ColumnName="Using_Power_Watt" />
                 <ScalarProperty Name="Weight_g" ColumnName="Weight_g" />
                 <ScalarProperty Name="Thickness_mm" ColumnName="Thickness_mm" />
                 <ScalarProperty Name="Width_mm" ColumnName="Width_mm" />
