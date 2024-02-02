@@ -105,9 +105,6 @@ namespace ComputerArchitect.Pages
 
             UpdateUserData();
         }
-
-
-
         private void UpdateUserData()
         {
             using (var context = new ComputerArchitectDataBaseEntities())
@@ -119,6 +116,7 @@ namespace ComputerArchitect.Pages
 
                 if (existingConfiguration != null)
                 {
+
                     CPUCombinedData selectedCPUData = ((IEnumerable<CPUCombinedData>)CPUListBox.ItemsSource)
                         .FirstOrDefault(data => data.Processor.CPUId == existingConfiguration.CpuId);
 
@@ -202,17 +200,27 @@ namespace ComputerArchitect.Pages
                         totalCost += Convert.ToInt32(selectedPowerSuppliesData.Powersupplies.Cost);
                     }
 
-                    if (selectedCPUData != null && selectedMotherboardData != null
-                        && selectedCPUData.Processor.Socket != selectedMotherboardData.Motherboard.Socket)
+                    if (selectedCPUData != null && selectedMotherboardData != null && selectedCPUData.Processor.Socket != selectedMotherboardData.Motherboard.Socket)
                     {
                         ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C71919"));
                         ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C71919"));
                     }
                     else
                     {
-                        ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
-                        ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
+                        ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1EBA6F"));
+                        ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1EBA6F"));
                     }
+
+
+
+
+
+
+
+
+
+
+
 
                     ConfiguratorStatusGrid.Visibility = countOfSelectedComponents > 0 ? Visibility.Visible : Visibility.Collapsed;
 
@@ -233,22 +241,9 @@ namespace ComputerArchitect.Pages
                 else
                 {
                     ConfiguratorStatusGrid.Visibility = Visibility.Collapsed;
-                    CountOfSelectedComponents.Content = "0";
-                    Grid.SetColumnSpan(OneSelectedComponent, 1);
-                    ComponentsTotalCostLabel.Content = "Итого: 0";
                 }
             }
         }
-
-
-
-
-
-
-
-
-
-
         private void ClearConfigButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -280,32 +275,53 @@ namespace ComputerArchitect.Pages
             // Скрыть изображение и информацию о выбранном процессоре
             SelectedCPUImage.Visibility = Visibility.Collapsed;
             SelectedCPULabelModel.Visibility = Visibility.Collapsed;
+            SelectedCPULabelInfo.Visibility = Visibility.Collapsed;
+            SelectedCPULabelCost.Visibility = Visibility.Collapsed;
+            SelectedCPULabelCount.Visibility = Visibility.Collapsed;
             // Скрыть изображение и информацию о выбранной материнской плате
             SelectedMotherboardImage.Visibility = Visibility.Collapsed;
             SelectedMotherboardLabelModel.Visibility = Visibility.Collapsed;
+            SelectedMotherboardLabelInfo.Visibility = Visibility.Collapsed;
+            SelectedMotherboardLabelCost.Visibility = Visibility.Collapsed;
+            SelectedMotherboardLabelCount.Visibility = Visibility.Collapsed;
             // Скрыть изображение и информацию о выбранном корпусе
             SelectedCaseImage.Visibility = Visibility.Collapsed;
             SelectedCaseLabelModel.Visibility = Visibility.Collapsed;
+            SelectedCaseLabelInfo.Visibility = Visibility.Collapsed;
+            SelectedCaseLabelCost.Visibility = Visibility.Collapsed;
+            SelectedCaseLabelCount.Visibility = Visibility.Collapsed;
             // Скрыть изображение и информацию о выбранной видеокарте
             SelectedGPUImage.Visibility = Visibility.Collapsed;
             SelectedGPULabelModel.Visibility = Visibility.Collapsed;
+            SelectedGPULabelInfo.Visibility = Visibility.Collapsed;
+            SelectedGPULabelCost.Visibility = Visibility.Collapsed;
+            SelectedGPULabelCount.Visibility = Visibility.Collapsed;
             // Скрыть изображение и информацию о выбранном охлаждении
             SelectedFanImage.Visibility = Visibility.Collapsed;
             SelectedFanLabelModel.Visibility = Visibility.Collapsed;
+            SelectedFanLabelInfo.Visibility = Visibility.Collapsed;
+            SelectedFanLabelCost.Visibility = Visibility.Collapsed;
+            SelectedFanLabelCount.Visibility = Visibility.Collapsed;
             // Скрыть изображение и информацию о выбранном озу
             SelectedRAMImage.Visibility = Visibility.Collapsed;
             SelectedRAMLabelModel.Visibility = Visibility.Collapsed;
+            SelectedRAMLabelInfo.Visibility = Visibility.Collapsed;
+            SelectedRAMLabelCost.Visibility = Visibility.Collapsed;
+            SelectedRAMLabelCount.Visibility = Visibility.Collapsed;
             // Скрыть изображение и информацию о выбранном диске
             SelectedMemoryImage.Visibility = Visibility.Collapsed;
             SelectedMemoryLabelModel.Visibility = Visibility.Collapsed;
+            SelectedMemoryLabelInfo.Visibility = Visibility.Collapsed;
+            SelectedMemoryLabelCost.Visibility = Visibility.Collapsed;
+            SelectedMemoryLabelCount.Visibility = Visibility.Collapsed;
             // Скрыть изображение и информацию о выбранном блоке питания
             SelectedPowerSuppliesImage.Visibility = Visibility.Collapsed;
             SelectedPowerSuppliesLabelModel.Visibility = Visibility.Collapsed;
+            SelectedPowerSuppliesLabelInfo.Visibility = Visibility.Collapsed;
+            SelectedPowerSuppliesLabelCost.Visibility = Visibility.Collapsed;
+            SelectedPowerSuppliesLabelCount.Visibility = Visibility.Collapsed;
             UpdateUserData();
         }
-
-
-
 
         //==============================//
         //          ПРОЦЕССОР           //
@@ -457,9 +473,18 @@ namespace ComputerArchitect.Pages
         {
             SelectedCPUImage.Visibility = Visibility.Visible;
             SelectedCPULabelModel.Visibility = Visibility.Visible;
+            SelectedCPULabelInfo.Visibility = Visibility.Visible;
+            SelectedCPULabelCost.Visibility = Visibility.Visible;
+            SelectedCPULabelCount.Visibility = Visibility.Visible;
             BitmapImage bitmapImage = ByteArrayToBitmapImage(selectedData.Processor.Preview_Photo);
             SelectedCPUImage.Source = bitmapImage;
-            SelectedCPULabelModel.Content = $"{selectedData.Processor.Model}        {selectedData.Processor.Cost:C0}        осталось: {selectedData.Processor.CPU_Count_on_storage} шт";
+            SelectedCPULabelModel.Content = "Процессор " + selectedData.Processor.Model;
+            SelectedCPULabelInfo.Content = "[" + selectedData.Processor.Sockets.SocketName
+                +", "+ selectedData.Processor.Total_cores + " x " + selectedData.Processor.Base_processor_speed +" ГГц, " +
+                selectedData.Processor.Number_of_channels + "x" + selectedData.Processor.Memory_types.Memory_typeName + " " + selectedData.Processor.Memory_speed+ ", Макс. " + selectedData.Processor.Max_supported_memory + " GB RAM" + ", TDP " + selectedData.Processor.Thermal_design_power + " Вт]";
+
+            SelectedCPULabelCost.Content = Convert.ToInt32(selectedData.Processor.Cost).ToString("N0") + " ₽";
+            SelectedCPULabelCount.Content = "В наличии: " + selectedData.Processor.CPU_Count_on_storage + " шт.";
             MotherboardLoadComponent(selectedData.Socket?.SocketId);
         }
         private void CPUSelectButton_Click(object sender, RoutedEventArgs e)
@@ -685,9 +710,19 @@ namespace ComputerArchitect.Pages
         {
             SelectedMotherboardImage.Visibility = Visibility.Visible;
             SelectedMotherboardLabelModel.Visibility = Visibility.Visible;
+            SelectedMotherboardLabelInfo.Visibility = Visibility.Visible;
+            SelectedMotherboardLabelCost.Visibility = Visibility.Visible;
+            SelectedMotherboardLabelCount.Visibility = Visibility.Visible;
             BitmapImage bitmapImage = ByteArrayToBitmapImage(selectedData.Motherboard.Preview_Photo);
             SelectedMotherboardImage.Source = bitmapImage;
-            SelectedMotherboardLabelModel.Content = $"{selectedData.Motherboard.Motherboard_Model}        {selectedData.Motherboard.Cost:C0}        осталось: {selectedData.Motherboard.Motherboard_Count_on_storage} шт";
+            SelectedMotherboardLabelModel.Content = "Материнская плата " + selectedData.Motherboard.Motherboard_Model;
+            SelectedMotherboardLabelInfo.Content = "[" + selectedData.Motherboard.Sockets.SocketName
+                + ", " + selectedData.Motherboard.Memory_Channels
+                + "x" + selectedData.Motherboard.Memory_types.Memory_typeName
+                + " " + selectedData.Motherboard.Max_Memory_Frequency_Mhz
+                + ", " + selectedData.Motherboard.Form_Factors.Form_FactorName + "]";
+            SelectedMotherboardLabelCost.Content = Convert.ToInt32(selectedData.Motherboard.Cost).ToString("N0") + " ₽";
+            SelectedMotherboardLabelCount.Content = "В наличии: " + selectedData.Motherboard.Motherboard_Count_on_storage + " шт.";
         }
         private void MotherboardSelectButton_Click(object sender, RoutedEventArgs e)
         {
@@ -897,9 +932,19 @@ namespace ComputerArchitect.Pages
         {
             SelectedCaseImage.Visibility = Visibility.Visible;
             SelectedCaseLabelModel.Visibility = Visibility.Visible;
+            SelectedCaseLabelInfo.Visibility = Visibility.Visible;
+            SelectedCaseLabelCost.Visibility = Visibility.Visible;
+            SelectedCaseLabelCount.Visibility = Visibility.Visible;
             BitmapImage bitmapImage = ByteArrayToBitmapImage(selectedData.Case.Preview_Photo);
             SelectedCaseImage.Source = bitmapImage;
-            SelectedCaseLabelModel.Content = $"{selectedData.Case.Model}        {selectedData.Case.Cost:C0}        осталось: {selectedData.Case.Cases_Count_on_storage} шт";
+            SelectedCaseLabelModel.Content = "Процессор " + selectedData.Case.Model;
+            SelectedCaseLabelInfo.Content = "[" 
+                + selectedData.Case.Compatible_Motherboard_Form_Factors 
+                + ", " + "Форм-фактор блока питания "
+                + selectedData.Case.Compatible_PSU_Form_Factors + "]";
+            SelectedCaseLabelCost.Content = Convert.ToInt32(selectedData.Case.Cost).ToString("N0") + " ₽";
+            SelectedCaseLabelCount.Content = "В наличии: " + selectedData.Case.Cases_Count_on_storage + " шт.";
+
         }
         private void CaseSelectButton_Click(object sender, RoutedEventArgs e)
         {
@@ -1125,9 +1170,21 @@ namespace ComputerArchitect.Pages
         {
             SelectedGPUImage.Visibility = Visibility.Visible;
             SelectedGPULabelModel.Visibility = Visibility.Visible;
+            SelectedGPULabelInfo.Visibility = Visibility.Visible;
+            SelectedGPULabelCost.Visibility = Visibility.Visible;
+            SelectedGPULabelCount.Visibility = Visibility.Visible;
             BitmapImage bitmapImage = ByteArrayToBitmapImage(selectedData.GPUProcessor.Preview_Photo);
             SelectedGPUImage.Source = bitmapImage;
-            SelectedGPULabelModel.Content = $"{selectedData.GPUProcessor.GPU_Model}        {selectedData.GPUProcessor.Cost:C0}        осталось: {selectedData.GPUProcessor.GPU_Count_on_storage} шт";
+            SelectedGPULabelModel.Content = "Видеокарта " + selectedData.GPUProcessor.GPU_Model;
+            SelectedGPULabelInfo.Content = "["
+                + selectedData.GPUProcessor.Connection_Interface
+                + " " + selectedData.GPUProcessor.Video_Memory_Size_GB
+                + " ГБ " + selectedData.GPUProcessor.Video_Memory_Type
+                + ", " + selectedData.GPUProcessor.Memory_Bus_Width_Bits
+                + " бит, " + selectedData.GPUProcessor.Video_Output_Type_and_Count
+                + ", GPU " + selectedData.GPUProcessor.GPU_Base_Frequency_MHz + " Мгц]";
+            SelectedGPULabelCost.Content = Convert.ToInt32(selectedData.GPUProcessor.Cost).ToString("N0") + " ₽";
+            SelectedGPULabelCount.Content = "В наличии: " + selectedData.GPUProcessor.GPU_Count_on_storage + " шт.";
         }
         private void GPUSelectButton_Click(object sender, RoutedEventArgs e)
         {
@@ -1302,9 +1359,20 @@ namespace ComputerArchitect.Pages
         {
             SelectedFanImage.Visibility = Visibility.Visible;
             SelectedFanLabelModel.Visibility = Visibility.Visible;
+            SelectedFanLabelInfo.Visibility = Visibility.Visible;
+            SelectedFanLabelCost.Visibility = Visibility.Visible;
+            SelectedFanLabelCount.Visibility = Visibility.Visible;
             BitmapImage bitmapImage = ByteArrayToBitmapImage(selectedData.Cooler.Preview_Photo);
             SelectedFanImage.Source = bitmapImage;
-            SelectedFanLabelModel.Content = $"{selectedData.Cooler.Model}        {selectedData.Cooler.Cost:C0}        осталось: {selectedData.Cooler.Cooler_Count_on_storage} шт";
+            SelectedFanLabelModel.Content = "Кулер " + selectedData.Cooler.Model;
+            SelectedFanLabelInfo.Content = "[основание - " + selectedData.Cooler.Base_Material
+                + ", " + selectedData.Cooler.Max_Fan_Speed_RPM + " об/мин, "
+                + selectedData.Cooler.Sockets.SocketName + ", "
+                + selectedData.Cooler.Fan_Connector_Type + ", "
+                + selectedData.Cooler.TDP + " Вт]";
+                
+            SelectedFanLabelCost.Content = Convert.ToInt32(selectedData.Cooler.Cost).ToString("N0") + " ₽";
+            SelectedFanLabelCount.Content = "В наличии: " + selectedData.Cooler.Cooler_Count_on_storage + " шт.";
         }
         private void FanSelectButton_Click(object sender, RoutedEventArgs e)
         {
@@ -1476,9 +1544,22 @@ namespace ComputerArchitect.Pages
         {
             SelectedRAMImage.Visibility = Visibility.Visible;
             SelectedRAMLabelModel.Visibility = Visibility.Visible;
+            SelectedRAMLabelInfo.Visibility = Visibility.Visible;
+            SelectedRAMLabelCost.Visibility = Visibility.Visible;
+            SelectedRAMLabelCount.Visibility = Visibility.Visible;
             BitmapImage bitmapImage = ByteArrayToBitmapImage(selectedData.Rams.Preview_Photo);
             SelectedRAMImage.Source = bitmapImage;
-            SelectedRAMLabelModel.Content = $"{selectedData.Rams.RAM_Model}        {selectedData.Rams.Cost:C0}        осталось: {selectedData.Rams.RAM_Count_on_storage} шт";
+            SelectedRAMLabelModel.Content = "Оперативная память " + selectedData.Rams.RAM_Model;
+            SelectedRAMLabelInfo.Content = "["
+                + selectedData.Rams.Memory_types.Memory_typeName
+                + ", " + selectedData.Rams.Capacity_GB + " ГБx1 шт, "
+                + selectedData.Rams.RAM_Speed_MHz + " МГц, "
+                + selectedData.Rams.CAS_Latency + "-"
+                + selectedData.Rams.RAS_to_CAS_Delay + "-"
+                + selectedData.Rams.Row_Precharge_Delay + "-"
+                + selectedData.Rams.Activate_to_Precharge_Delay + "]";
+            SelectedRAMLabelCost.Content = Convert.ToInt32(selectedData.Rams.Cost).ToString("N0") + " ₽";
+            SelectedRAMLabelCount.Content = "В наличии: " + selectedData.Rams.RAM_Count_on_storage + " шт.";
         }
         private void RAMSelectButton_Click(object sender, RoutedEventArgs e)
         {
@@ -1643,9 +1724,19 @@ namespace ComputerArchitect.Pages
         {
             SelectedMemoryImage.Visibility = Visibility.Visible;
             SelectedMemoryLabelModel.Visibility = Visibility.Visible;
+            SelectedMemoryLabelInfo.Visibility = Visibility.Visible;
+            SelectedMemoryLabelCost.Visibility = Visibility.Visible;
+            SelectedMemoryLabelCount.Visibility = Visibility.Visible;
             BitmapImage bitmapImage = ByteArrayToBitmapImage(selectedData.Hdds.Preview_Photo);
             SelectedMemoryImage.Source = bitmapImage;
-            SelectedMemoryLabelModel.Content = $"{selectedData.Hdds.Model}        {selectedData.Hdds.Cost:C0}        осталось: {selectedData.Hdds.HDD_Count_on_storage} шт";
+            SelectedMemoryLabelModel.Content = selectedData.Hdds.Capacity_TB+ " ТБ Жесткий диск " + selectedData.Hdds.Model;
+            SelectedMemoryLabelInfo.Content = "["
+                + selectedData.Hdds.Interface + ", "
+                + Convert.ToInt32(selectedData.Hdds.Interface_Bandwidth_GBps).ToString("N0") + " Гбит/с, "
+                + selectedData.Hdds.Spindle_Speed_RPM + " об/мин, кэш память - "
+                + selectedData.Hdds.Cache_MB + " МБ]";
+            SelectedMemoryLabelCost.Content = Convert.ToInt32(selectedData.Hdds.Cost).ToString("N0") + " ₽";
+            SelectedMemoryLabelCount.Content = "В наличии: " + selectedData.Hdds.HDD_Count_on_storage + " шт.";
         }
         private void MemorySelectButton_Click(object sender, RoutedEventArgs e)
         {
@@ -1813,9 +1904,19 @@ namespace ComputerArchitect.Pages
         {
             SelectedPowerSuppliesImage.Visibility = Visibility.Visible;
             SelectedPowerSuppliesLabelModel.Visibility = Visibility.Visible;
+            SelectedPowerSuppliesLabelInfo.Visibility = Visibility.Visible;
+            SelectedPowerSuppliesLabelCost.Visibility = Visibility.Visible;
+            SelectedPowerSuppliesLabelCount.Visibility = Visibility.Visible;
             BitmapImage bitmapImage = ByteArrayToBitmapImage(selectedData.Powersupplies.Preview_Photo);
             SelectedPowerSuppliesImage.Source = bitmapImage;
-            SelectedPowerSuppliesLabelModel.Content = $"{selectedData.Powersupplies.Model}        {selectedData.Powersupplies.Cost:C0}        осталось: {selectedData.Powersupplies.PS__Count_on_storage} шт";
+            SelectedPowerSuppliesLabelModel.Content = "Блок питания " + selectedData.Powersupplies.Model;
+            SelectedPowerSuppliesLabelInfo.Content = "[" 
+                + selectedData.Powersupplies.Power_Watt + " Вт, " 
+                + selectedData.Powersupplies.Main_Power_Connector + ", " 
+                + selectedData.Powersupplies.CPU_Power_Connector + ", " 
+                + selectedData.Powersupplies.SATA_Connector_Count + " SATA]";
+            SelectedPowerSuppliesLabelCost.Content = Convert.ToInt32(selectedData.Powersupplies.Cost).ToString("N0") + " ₽";
+            SelectedPowerSuppliesLabelCount.Content = "В наличии: " + selectedData.Powersupplies.PS__Count_on_storage + " шт.";
         }
         private void PowerSuppliesSelectButton_Click(object sender, RoutedEventArgs e)
         {

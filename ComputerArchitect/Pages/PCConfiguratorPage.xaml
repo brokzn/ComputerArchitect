@@ -9,7 +9,7 @@
       MinWidth="1550"
       Background="Transparent"
       Loaded="Page_Loaded"
-      Title="UserCartPage">
+      Title="PCConfiguratorPage">
     <Page.Resources>
         <LinearGradientBrush x:Key="GradientBackground" StartPoint="0,0" EndPoint="1,1">
             <GradientStop Color="#2F3037" Offset="0.25"/>
@@ -433,7 +433,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
 
 
                     <Border x:Name="ComponentsСompatibility"
-                            Width="350"
+                            Width="360"
                             Height="38"
                             Grid.Column="1"
                             Margin="25 10 0 0"
@@ -453,7 +453,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                     Grid.Column="0"
                                     BorderThickness="2"
                                     BorderBrush="#D9D9D9"
-                                    CornerRadius="3 0 0 3"
+                                    CornerRadius="3"
                                     HorizontalAlignment="Left"
                                     Background="Transparent">
                                 <Path
@@ -473,6 +473,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             <Border x:Name="ComponentsСompatibilityPower"
                                       Width="86"
                                       Grid.Column="1"
+                                      CornerRadius="3"
                                       BorderThickness="2"
                                       BorderBrush="#D9D9D9"
                                       HorizontalAlignment="Left"
@@ -517,6 +518,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                      Width="86"
                                      Grid.Column="2"
                                      BorderThickness="2"
+                                     CornerRadius="3"
                                      BorderBrush="#D9D9D9"
                                      HorizontalAlignment="Left"
                                      Background="Transparent">
@@ -544,7 +546,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                     Width="86"
                                     Grid.Column="3"
                                     BorderThickness="2"
-                                    CornerRadius="0 2 2 0"
+                                    CornerRadius="3"
                                     BorderBrush="#D9D9D9"
                                     HorizontalAlignment="Left"
                                     Background="Transparent">
@@ -703,11 +705,40 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             <Label Grid.Column="1"
                                    Visibility="Collapsed"
                                    Name="SelectedCPULabelModel"
-                                   Margin="50 0 0 0"
+                                   Margin="60 10 0 0"
                                    Style="{StaticResource ConfiguratorSelectedComponentLabel}"
-                                   VerticalAlignment="Center"
+                                   VerticalAlignment="Top"
                                    HorizontalAlignment="Left"
                                    Content=" "/>
+                            <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedCPULabelInfo"
+                                   FontSize="12"
+                                   Margin="60 40 0 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Left"
+                                   Content=" "/>
+                            <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedCPULabelCost"
+                                   FontSize="18"
+                                   Margin="50 10 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Right"
+                                   Content=" "/>
+                            <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedCPULabelCount"
+                                   FontSize="12"
+                                   Margin="50 40 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Right"
+                                   Content=" "/>
+                            
+                            
                             <Button Width="140"
                                     x:Name="OpenCPUSelectGridButton"
                                     Click="OpenCPUSelectGridButton_Click"
@@ -998,8 +1029,6 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             </ListBox.ItemContainerStyle>
                         </ListBox>
                     </Grid>
-
-
                     <Border 
                         x:Name="MotherboardSelect"
                         Grid.Row="2"
@@ -1026,13 +1055,40 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                     HorizontalAlignment="Left"
                                     Height="50"/>
                             <Label Grid.Column="1"
-                                    Visibility="Collapsed"
-                                    Name="SelectedMotherboardLabelModel"
-                                    Margin="50 0 0 0"
-                                    Style="{StaticResource ConfiguratorSelectedComponentLabel}"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Left"
-                                    Content=" "/>
+                                   Visibility="Collapsed"
+                                   Name="SelectedMotherboardLabelModel"
+                                   Margin="60 10 0 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Left"
+                                   Content=" "/>
+                                   <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedMotherboardLabelInfo"
+                                   FontSize="12"
+                                   Margin="60 40 0 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Left"
+                                   Content=" "/>
+                                   <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedMotherboardLabelCost"
+                                   FontSize="18"
+                                   Margin="50 10 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Right"
+                                   Content=" "/>
+                                   <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedMotherboardLabelCount"
+                                   FontSize="12"
+                                   Margin="50 40 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Right"
+                                   Content=" "/>
                             <Button Width="140"
                                      x:Name="OpenMotherboardSelectGridButton"
                                      Click="OpenMotherboardSelectGridButton_Click"
@@ -1309,8 +1365,6 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             </ListBox.ItemContainerStyle>
                         </ListBox>
                     </Grid>
-
-
                     <Border 
                         x:Name="CaseSelect"
                         Grid.Row="4"
@@ -1337,13 +1391,40 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                    HorizontalAlignment="Left"
                                    Height="50"/>
                             <Label Grid.Column="1"
-                                   Visibility="Collapsed"
-                                   Name="SelectedCaseLabelModel"
-                                   Margin="50 0 0 0"
-                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   Content=" "/>
+                                    Visibility="Collapsed"
+                                    Name="SelectedCaseLabelModel"
+                                    Margin="60 10 0 0"
+                                    Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Left"
+                                    Content=" "/>
+                                                         <Label Grid.Column="1"
+                                    Visibility="Collapsed"
+                                    Name="SelectedCaseLabelInfo"
+                                    FontSize="12"
+                                    Margin="60 40 0 0"
+                                    Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Left"
+                                    Content=" "/>
+                                                         <Label Grid.Column="1"
+                                    Visibility="Collapsed"
+                                    Name="SelectedCaseLabelCost"
+                                    FontSize="18"
+                                    Margin="50 10 30 0"
+                                    Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Right"
+                                    Content=" "/>
+                                                         <Label Grid.Column="1"
+                                    Visibility="Collapsed"
+                                    Name="SelectedCaseLabelCount"
+                                    FontSize="12"
+                                    Margin="50 40 30 0"
+                                    Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Right"
+                                    Content=" "/>
                             <Button Width="140"
                                     x:Name="OpenCaseSelectGridButton"
                                     Click="OpenCaseSelectGridButton_Click"
@@ -1609,8 +1690,6 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             </ListBox.ItemContainerStyle>
                         </ListBox>
                     </Grid>
-
-
                     <Border 
                         x:Name="GPUSelect"
                         Grid.Row="6"
@@ -1637,13 +1716,40 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                     HorizontalAlignment="Left"
                                     Height="50"/>
                             <Label Grid.Column="1"
-                                    Visibility="Collapsed"
-                                    Name="SelectedGPULabelModel"
-                                    Margin="50 0 0 0"
-                                    Style="{StaticResource ConfiguratorSelectedComponentLabel}"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Left"
-                                    Content=" "/>
+                                   Visibility="Collapsed"
+                                   Name="SelectedGPULabelModel"
+                                   Margin="60 10 0 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Left"
+                                   Content=" "/>
+                                                        <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedGPULabelInfo"
+                                   FontSize="12"
+                                   Margin="60 40 0 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Left"
+                                   Content=" "/>
+                                                        <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedGPULabelCost"
+                                   FontSize="18"
+                                   Margin="50 10 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Right"
+                                   Content=" "/>
+                                                        <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedGPULabelCount"
+                                   FontSize="12"
+                                   Margin="50 40 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Right"
+                                   Content=" "/>
                             <Button Width="140"
                                     x:Name="OpenGPUSelectGridButton"
                                     Click="OpenGPUSelectGridButton_Click"
@@ -1911,8 +2017,6 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             </ListBox.ItemContainerStyle>
                         </ListBox>
                     </Grid>
-
-
                     <Border 
                         x:Name="FanSelect"
                         Grid.Row="8"
@@ -1941,10 +2045,37 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             <Label Grid.Column="1"
                                    Visibility="Collapsed"
                                    Name="SelectedFanLabelModel"
-                                   Margin="50 0 0 0"
+                                   Margin="60 10 0 0"
                                    Style="{StaticResource ConfiguratorSelectedComponentLabel}"
-                                   VerticalAlignment="Center"
+                                   VerticalAlignment="Top"
                                    HorizontalAlignment="Left"
+                                   Content=" "/>
+                                                        <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedFanLabelInfo"
+                                   FontSize="12"
+                                   Margin="60 40 0 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Left"
+                                   Content=" "/>
+                                                        <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedFanLabelCost"
+                                   FontSize="18"
+                                   Margin="50 10 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Right"
+                                   Content=" "/>
+                                                        <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedFanLabelCount"
+                                   FontSize="12"
+                                   Margin="50 40 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Right"
                                    Content=" "/>
                             <Button Width="140"
                                     x:Name="OpenFanSelectGridButton"
@@ -2213,8 +2344,6 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             </ListBox.ItemContainerStyle>
                         </ListBox>
                     </Grid>
-
-
                     <Border 
                     x:Name="RAMSelect"
                     Grid.Row="10"
@@ -2243,10 +2372,37 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             <Label Grid.Column="1"
                                    Visibility="Collapsed"
                                    Name="SelectedRAMLabelModel"
-                                   Margin="50 0 0 0"
+                                   Margin="60 10 0 0"
                                    Style="{StaticResource ConfiguratorSelectedComponentLabel}"
-                                   VerticalAlignment="Center"
+                                   VerticalAlignment="Top"
                                    HorizontalAlignment="Left"
+                                   Content=" "/>
+                            <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedRAMLabelInfo"
+                                   FontSize="12"
+                                   Margin="60 40 0 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Left"
+                                   Content=" "/>
+                            <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedRAMLabelCost"
+                                   FontSize="18"
+                                   Margin="50 10 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Right"
+                                   Content=" "/>
+                            <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedRAMLabelCount"
+                                   FontSize="12"
+                                   Margin="50 40 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Right"
                                    Content=" "/>
                             <Button Width="140"
                                    x:Name="OpenRAMSelectGridButton"
@@ -2524,8 +2680,6 @@ SelectionChanged="RAMListBox_SelectionChanged">
                             </ListBox.ItemContainerStyle>
                         </ListBox>
                     </Grid>
-
-
                     <Border 
                     x:Name="MemorySelect"
                     Grid.Row="12"
@@ -2552,13 +2706,40 @@ SelectionChanged="RAMListBox_SelectionChanged">
                                     HorizontalAlignment="Left"
                                     Height="50"/>
                             <Label Grid.Column="1"
-                                    Visibility="Collapsed"
-                                    Name="SelectedMemoryLabelModel"
-                                    Margin="50 0 0 0"
-                                    Style="{StaticResource ConfiguratorSelectedComponentLabel}"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Left"
-                                    Content=" "/>
+                                   Visibility="Collapsed"
+                                   Name="SelectedMemoryLabelModel"
+                                   Margin="60 10 0 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Left"
+                                   Content=" "/>
+                                                        <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedMemoryLabelInfo"
+                                   FontSize="12"
+                                   Margin="60 40 0 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Left"
+                                   Content=" "/>
+                                                        <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedMemoryLabelCost"
+                                   FontSize="18"
+                                   Margin="50 10 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Right"
+                                   Content=" "/>
+                                                        <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedMemoryLabelCount"
+                                   FontSize="12"
+                                   Margin="50 40 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Right"
+                                   Content=" "/>
                             <Button Width="140"
                                     x:Name="OpenMemorySelectGridButton"
                                     Click="OpenMemorySelectGridButton_Click"
@@ -2831,42 +3012,6 @@ SelectionChanged="RAMListBox_SelectionChanged">
                             </ListBox.ItemContainerStyle>
                         </ListBox>
                     </Grid>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     <Border 
                      x:Name="PowerSuppliesSelect"
                      Grid.Row="14"
@@ -2894,13 +3039,40 @@ SelectionChanged="RAMListBox_SelectionChanged">
                                    HorizontalAlignment="Left"
                                    Height="50"/>
                             <Label Grid.Column="1"
-                                    Visibility="Collapsed"
-                                    Name="SelectedPowerSuppliesLabelModel"
-                                    Margin="50 0 0 0"
-                                    Style="{StaticResource ConfiguratorSelectedComponentLabel}"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Left"
-                                    Content=" "/>
+                                   Visibility="Collapsed"
+                                   Name="SelectedPowerSuppliesLabelModel"
+                                   Margin="60 10 0 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Left"
+                                   Content=" "/>
+                                                        <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedPowerSuppliesLabelInfo"
+                                   FontSize="12"
+                                   Margin="60 40 0 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Left"
+                                   Content=" "/>
+                                                        <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedPowerSuppliesLabelCost"
+                                   FontSize="18"
+                                   Margin="50 10 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Right"
+                                   Content=" "/>
+                                                        <Label Grid.Column="1"
+                                   Visibility="Collapsed"
+                                   Name="SelectedPowerSuppliesLabelCount"
+                                   FontSize="12"
+                                   Margin="50 40 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Right"
+                                   Content=" "/>
                             <Button Width="140"
                                     x:Name="OpenPowerSuppliesSelectGridButton"
                                     Click="OpenPowerSuppliesSelectGridButton_Click"
@@ -2913,9 +3085,6 @@ SelectionChanged="RAMListBox_SelectionChanged">
                                     Height="40"/>
                         </Grid>
                     </Border>
-
-
-
                     <Grid Width="1210" x:Name="PowerSuppliesSelectGrid" 
                                         Visibility="Collapsed" 
                                         Grid.Row="15" 
@@ -3173,22 +3342,6 @@ SelectionChanged="RAMListBox_SelectionChanged">
                             </ListBox.ItemContainerStyle>
                         </ListBox>
                     </Grid>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 </Grid>
             </StackPanel>
         </ScrollViewer>

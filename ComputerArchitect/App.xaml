@@ -847,7 +847,7 @@
             <Setter Property="Foreground" Value="#D6D6D6"/>
             <Setter Property="FontFamily" Value="Arial"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontSize" Value="14"/>
         </Style>
 
 
