@@ -20,6 +20,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.WebRequestMethods;
 
 namespace ComputerArchitect.Pages
 {
@@ -28,6 +29,10 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class PCConfiguratorPage : Page
     {
+        int totalPowerWattUsing = 0;
+        SolidColorBrush DefaultColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
+        SolidColorBrush GreenColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1EBA6F"));
+        SolidColorBrush RedColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C71919"));
         private int LevenshteinDistance(string str1, string str2)
         {
             int len1 = str1.Length;
@@ -108,6 +113,7 @@ namespace ComputerArchitect.Pages
         }
         private void UpdateUserData()
         {
+            totalPowerWattUsing = 0;
             using (var context = new ComputerArchitectDataBaseEntities())
             {
                 int userId = CurrentUser.Id;
@@ -143,13 +149,13 @@ namespace ComputerArchitect.Pages
 
                     int countOfSelectedComponents = 0;
                     int totalCost = 0;
-                    int totalPowerWattUsing = 0;
                     if (selectedCPUData != null)
                     {
                         CPUDisplaySelectedData(selectedCPUData);
                         countOfSelectedComponents++;
                         totalCost += Convert.ToInt32(selectedCPUData.Processor.Cost);
                         totalPowerWattUsing += Convert.ToInt32(selectedCPUData.Processor.Thermal_design_power);
+
                     }
 
                     if (selectedMotherboardData != null)
@@ -206,112 +212,6 @@ namespace ComputerArchitect.Pages
                         totalCost += Convert.ToInt32(selectedPowerSuppliesData.Powersupplies.Cost);
                     }
 
-
-                    //Тип ddr процессора и материнской платы
-                    if (selectedCPUData != null && selectedCPUData.Processor != null && selectedCPUData.Processor.Memory_type != null
-                        && selectedMotherboardData != null && selectedMotherboardData.Motherboard != null && selectedMotherboardData.Motherboard.Memory_Type != null)
-                    {
-                        if (selectedCPUData.Processor.Memory_type != selectedMotherboardData.Motherboard.Memory_Type)
-                        {
-                            SetCompatibilityColors("#C71919");
-                        }
-                        else
-                        {
-                            SetCompatibilityColors("#1EBA6F");
-                        }
-                    }
-                    else
-                    {
-
-                    }
-
-
-                    //Сокет процессора и материнской платы
-                    if (selectedCPUData != null && selectedCPUData.Processor != null && selectedCPUData.Processor.Socket != null
-                         && selectedMotherboardData != null && selectedMotherboardData.Motherboard != null && selectedMotherboardData.Motherboard.Socket != null)
-                    {
-                        if (selectedCPUData.Processor.Socket != selectedMotherboardData.Motherboard.Socket)
-                        {
-                            SetCompatibilityColors("#C71919");
-                        }
-                        else
-                        {
-                            SetCompatibilityColors("#1EBA6F");
-                        }
-                    }
-                    else
-                    {
-                        
-                    }
-
-                    
-
-                    //Сокет процессора и охлаждения
-                    if (selectedCPUData != null && selectedCPUData.Processor != null && selectedCPUData.Processor.Socket != null
-                        && selectedFanData != null && selectedFanData.Socket != null && selectedFanData.Socket != null)
-                    {
-                        if (selectedCPUData.Processor.Socket != selectedFanData.Socket.SocketId)
-                        {
-                            SetCompatibilityColors("#C71919");
-                        }
-                        else
-                        {
-                            SetCompatibilityColors("#1EBA6F");
-                        }
-                    }
-                    else
-                    {
-                        
-                    }
-
-
-
-                    //Тип ddr процессора и озу
-                    if (selectedCPUData != null && selectedCPUData.Processor != null && selectedCPUData.Processor.Memory_type != null
-                        && selectedRAMData != null && selectedRAMData.MemoryType != null && selectedRAMData.MemoryType != null)
-                    {
-                        if (selectedCPUData.Processor.Memory_type != selectedRAMData.MemoryType.Memory_typeId)
-                        {
-                            SetCompatibilityColors("#C71919");
-                        }
-                        else
-                        {
-                            SetCompatibilityColors("#1EBA6F");
-                        }
-                    }
-                    else
-                    {
-                        
-                    }
-
-
-                    //Тип ddr материнской платы и озу
-                    if (selectedMotherboardData != null && selectedMotherboardData.Motherboard != null && selectedMotherboardData.Motherboard.Memory_Type != null
-                     && selectedRAMData != null && selectedRAMData.MemoryType != null && selectedRAMData.MemoryType != null)
-                    {
-                        if (selectedMotherboardData.Motherboard.Memory_Type != selectedRAMData.MemoryType.Memory_typeId)
-                        {
-                            SetCompatibilityColors("#C71919");
-                        }
-                        else
-                        {
-                            SetCompatibilityColors("#1EBA6F");
-                        }
-                    }
-                    else
-                    {
-                        
-                    }
-
-
-
-
-
-
-
-
-
-
                     ConfiguratorStatusGrid.Visibility = countOfSelectedComponents > 0 ? Visibility.Visible : Visibility.Collapsed;
 
                     if (countOfSelectedComponents > 0)
@@ -327,7 +227,7 @@ namespace ComputerArchitect.Pages
                     CountOfSelectedComponents.Content = "Всего выбрано: " + countOfSelectedComponents.ToString();
 
                     ComponentsTotalCostLabel.Content = "Итого: " + totalCost.ToString("N0") + " ₽";
-
+                    CheckPowerSuppliesWattCompatibility();
                 }
 
                 else
@@ -337,17 +237,527 @@ namespace ComputerArchitect.Pages
                 
             }
         }
-   
 
 
-
-        void SetCompatibilityColors(string colorHex)
+        // Проверка совместимости процессора и материнской платы
+        void CheckCPUSocketAndMemoryTypeCompatibility()
         {
-            ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorHex));
-            ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorHex));
+
+            using (var context = new ComputerArchitectDataBaseEntities())
+            {
+                int userId = CurrentUser.Id;
+
+                UserConfiguration existingConfiguration = context.UserConfiguration
+                    .FirstOrDefault(config => config.UserId == userId);
+
+                if (existingConfiguration != null)
+                {
+                    CPUCombinedData selectedCPUData = ((IEnumerable<CPUCombinedData>)CPUListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Processor.CPUId == existingConfiguration.CpuId);
+
+                    MotherboardCombinedData selectedMotherboardData = ((IEnumerable<MotherboardCombinedData>)MotherboardListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Motherboard.MotherboardId == existingConfiguration.MotherboardId);
+
+                    CaseCombinedData selectedCaseData = ((IEnumerable<CaseCombinedData>)CaseListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Case.CaseId == existingConfiguration.CaseId);
+
+                    GPUCombinedData selectedGPUData = ((IEnumerable<GPUCombinedData>)GPUListBox.ItemsSource)
+                        .FirstOrDefault(data => data.GPUProcessor.GPUId == existingConfiguration.GPUId);
+
+                    FanCombinedData selectedFanData = ((IEnumerable<FanCombinedData>)FanListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Cooler.CoolerId == existingConfiguration.FanId);
+
+                    RAMCombinedData selectedRAMData = ((IEnumerable<RAMCombinedData>)RAMListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Rams.RAMId == existingConfiguration.RAMId);
+
+                    MemoryCombinedData selectedMemoryData = ((IEnumerable<MemoryCombinedData>)MemoryListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Hdds.HDDId == existingConfiguration.MemoryId);
+
+                    PowerSuppliesCombinedData selectedPowerSuppliesData = ((IEnumerable<PowerSuppliesCombinedData>)PowerSuppliesListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Powersupplies.PowerSupplyId == existingConfiguration.PowerSuppliesId);
+
+                    if (selectedCPUData != null && selectedMotherboardData != null)
+                    {
+                        // Проверка совместимости сокета процессора и материнской платы
+                        if (selectedCPUData.Processor != null && selectedCPUData.Processor.Socket != null
+                            && selectedMotherboardData.Motherboard != null && selectedMotherboardData.Motherboard.Socket != null)
+                        {
+                            if (selectedCPUData.Processor.Socket != selectedMotherboardData.Motherboard.Socket)
+                            {
+                                SetCompatibilityColors(RedColor);
+                            }
+                            else
+                            {
+                                SetCompatibilityColors(GreenColor);
+                            }
+                        }
+
+                        // Проверка совместимости типа памяти процессора и материнской платы
+                        if (selectedCPUData.Processor != null && selectedCPUData.Processor.Memory_type != null
+                            && selectedMotherboardData.Motherboard != null && selectedMotherboardData.Motherboard.Memory_Type != null)
+                        {
+                            if (selectedCPUData.Processor.Memory_type != selectedMotherboardData.Motherboard.Memory_Type)
+                            {
+                                SetCompatibilityColors(RedColor);
+                            }
+                            else
+                            {
+                                SetCompatibilityColors(GreenColor);
+                            }
+                        }
+                    }
+
+
+                }
+            }
+
+        }
+        // Проверка совместимости материнской платы, процессора, кулера и ОЗУ
+        void CheckMotherboardCPUFanRAMCaseCompatibility()
+        {
+            using (var context = new ComputerArchitectDataBaseEntities())
+            {
+                int userId = CurrentUser.Id;
+
+                UserConfiguration existingConfiguration = context.UserConfiguration
+                    .FirstOrDefault(config => config.UserId == userId);
+
+                if (existingConfiguration != null)
+                {
+                    CPUCombinedData selectedCPUData = ((IEnumerable<CPUCombinedData>)CPUListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Processor.CPUId == existingConfiguration.CpuId);
+
+                    MotherboardCombinedData selectedMotherboardData = ((IEnumerable<MotherboardCombinedData>)MotherboardListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Motherboard.MotherboardId == existingConfiguration.MotherboardId);
+
+                    CaseCombinedData selectedCaseData = ((IEnumerable<CaseCombinedData>)CaseListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Case.CaseId == existingConfiguration.CaseId);
+
+                    GPUCombinedData selectedGPUData = ((IEnumerable<GPUCombinedData>)GPUListBox.ItemsSource)
+                        .FirstOrDefault(data => data.GPUProcessor.GPUId == existingConfiguration.GPUId);
+
+                    FanCombinedData selectedFanData = ((IEnumerable<FanCombinedData>)FanListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Cooler.CoolerId == existingConfiguration.FanId);
+
+                    RAMCombinedData selectedRAMData = ((IEnumerable<RAMCombinedData>)RAMListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Rams.RAMId == existingConfiguration.RAMId);
+
+                    MemoryCombinedData selectedMemoryData = ((IEnumerable<MemoryCombinedData>)MemoryListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Hdds.HDDId == existingConfiguration.MemoryId);
+
+                    PowerSuppliesCombinedData selectedPowerSuppliesData = ((IEnumerable<PowerSuppliesCombinedData>)PowerSuppliesListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Powersupplies.PowerSupplyId == existingConfiguration.PowerSuppliesId);
+
+
+
+
+                    // Проверка совместимости форм-фактора корпуса и материнской платы
+                    if (selectedCaseData != null &&
+                        selectedCaseData.Case != null &&
+                        selectedCaseData.Case.Compatible_Motherboard_Form_Factors != null &&
+                        selectedMotherboardData != null &&
+                        selectedMotherboardData.Motherboard != null &&
+                        selectedMotherboardData.Motherboard.Form_Factors != null &&
+                        selectedMotherboardData.Motherboard.Form_Factors.Form_FactorName != null)
+                    {
+                        // Проверка совпадения форм-факторов
+                        string motherboardFormFactor = selectedMotherboardData.Motherboard.Form_Factors.Form_FactorName;
+                        string caseFormFactors = selectedCaseData.Case.Compatible_Motherboard_Form_Factors;
+                        if (!caseFormFactors.Split(',').Select(s => s.Trim()).Contains(motherboardFormFactor))
+                        {
+                            SetCompatibilityColors(RedColor);
+                        }
+                        else
+                        {
+                            SetCompatibilityColors(GreenColor);
+                        }
+                    }
+
+
+
+
+
+                    if (selectedMotherboardData != null && selectedCPUData != null && selectedFanData != null && selectedRAMData != null && selectedCaseData != null)
+                    {
+                        // Проверка совместимости сокета процессора и материнской платы
+                        if (selectedCPUData.Processor != null && selectedCPUData.Processor.Socket != null
+                            && selectedMotherboardData.Motherboard != null && selectedMotherboardData.Motherboard.Socket != null)
+                        {
+                            if (selectedCPUData.Processor.Socket != selectedMotherboardData.Motherboard.Socket)
+                            {
+                                SetCompatibilityColors(RedColor);
+                            }
+                            else
+                            {
+                                SetCompatibilityColors(GreenColor);
+                            }
+                        }
+
+                        // Проверка совместимости типа памяти процессора и материнской платы
+                        if (selectedCPUData.Processor != null && selectedCPUData.Processor.Memory_type != null
+                            && selectedMotherboardData.Motherboard != null && selectedMotherboardData.Motherboard.Memory_Type != null)
+                        {
+                            if (selectedCPUData.Processor.Memory_type != selectedMotherboardData.Motherboard.Memory_Type)
+                            {
+                                SetCompatibilityColors(RedColor);
+                            }
+                            else
+                            {
+                                SetCompatibilityColors(GreenColor);
+                            }
+                        }
+
+                        // Проверка совместимости сокета кулера и процессора
+                        if (selectedCPUData.Processor != null && selectedCPUData.Processor.Socket != null
+                            && selectedFanData != null && selectedFanData.Socket != null)
+                        {
+                            if (selectedCPUData.Processor.Socket != selectedFanData.Socket.SocketId)
+                            {
+                                SetCompatibilityColors(RedColor);
+                            }
+                            else
+                            {
+                                SetCompatibilityColors(GreenColor);
+                            }
+                        }
+
+                        // Проверка совместимости типа памяти процессора и ОЗУ
+                        if (selectedCPUData.Processor != null && selectedCPUData.Processor.Memory_type != null
+                            && selectedRAMData != null && selectedRAMData.MemoryType != null)
+                        {
+                            if (selectedCPUData.Processor.Memory_type != selectedRAMData.MemoryType.Memory_typeId)
+                            {
+                                SetCompatibilityColors(RedColor);
+                            }
+                            else
+                            {
+                                SetCompatibilityColors(GreenColor);
+                            }
+                        }
+
+                        
+
+                        
+
+
+
+
+                    }
+                }
+            }
         }
 
+        // Проверка совместимости корпуса и материнской платы
+        void CheckCaseMotherboardCompatibility()
+        {
+            using (var context = new ComputerArchitectDataBaseEntities())
+            {
+                int userId = CurrentUser.Id;
 
+                UserConfiguration existingConfiguration = context.UserConfiguration
+                    .FirstOrDefault(config => config.UserId == userId);
+
+                if (existingConfiguration != null)
+                {
+                    CPUCombinedData selectedCPUData = ((IEnumerable<CPUCombinedData>)CPUListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Processor.CPUId == existingConfiguration.CpuId);
+
+                    MotherboardCombinedData selectedMotherboardData = ((IEnumerable<MotherboardCombinedData>)MotherboardListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Motherboard.MotherboardId == existingConfiguration.MotherboardId);
+
+                    CaseCombinedData selectedCaseData = ((IEnumerable<CaseCombinedData>)CaseListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Case.CaseId == existingConfiguration.CaseId);
+
+                    GPUCombinedData selectedGPUData = ((IEnumerable<GPUCombinedData>)GPUListBox.ItemsSource)
+                        .FirstOrDefault(data => data.GPUProcessor.GPUId == existingConfiguration.GPUId);
+
+                    FanCombinedData selectedFanData = ((IEnumerable<FanCombinedData>)FanListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Cooler.CoolerId == existingConfiguration.FanId);
+
+                    RAMCombinedData selectedRAMData = ((IEnumerable<RAMCombinedData>)RAMListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Rams.RAMId == existingConfiguration.RAMId);
+
+                    MemoryCombinedData selectedMemoryData = ((IEnumerable<MemoryCombinedData>)MemoryListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Hdds.HDDId == existingConfiguration.MemoryId);
+
+                    PowerSuppliesCombinedData selectedPowerSuppliesData = ((IEnumerable<PowerSuppliesCombinedData>)PowerSuppliesListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Powersupplies.PowerSupplyId == existingConfiguration.PowerSuppliesId);
+
+                    // Проверка совместимости форм-фактора корпуса и материнской платы
+                    if (selectedCaseData != null &&
+                        selectedCaseData.Case != null &&
+                        selectedCaseData.Case.Compatible_Motherboard_Form_Factors != null &&
+                        selectedMotherboardData != null &&
+                        selectedMotherboardData.Motherboard != null &&
+                        selectedMotherboardData.Motherboard.Form_Factors != null &&
+                        selectedMotherboardData.Motherboard.Form_Factors.Form_FactorName != null)
+                    {
+                        // Проверка совпадения форм-факторов
+                        string motherboardFormFactor = selectedMotherboardData.Motherboard.Form_Factors.Form_FactorName;
+                        string caseFormFactors = selectedCaseData.Case.Compatible_Motherboard_Form_Factors;
+                        if (!caseFormFactors.Split(',').Select(s => s.Trim()).Contains(motherboardFormFactor))
+                        {
+                            SetCompatibilityColors(RedColor);
+                        }
+                        else
+                        {
+                            SetCompatibilityColors(GreenColor);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Проверка совместимости кулера и материнской платы
+        void CheckFanMotherboardSocketCompatibility()
+        {
+            using (var context = new ComputerArchitectDataBaseEntities())
+            {
+                int userId = CurrentUser.Id;
+
+                UserConfiguration existingConfiguration = context.UserConfiguration
+                    .FirstOrDefault(config => config.UserId == userId);
+
+                if (existingConfiguration != null)
+                {
+                    CPUCombinedData selectedCPUData = ((IEnumerable<CPUCombinedData>)CPUListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Processor.CPUId == existingConfiguration.CpuId);
+
+                    MotherboardCombinedData selectedMotherboardData = ((IEnumerable<MotherboardCombinedData>)MotherboardListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Motherboard.MotherboardId == existingConfiguration.MotherboardId);
+
+                    CaseCombinedData selectedCaseData = ((IEnumerable<CaseCombinedData>)CaseListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Case.CaseId == existingConfiguration.CaseId);
+
+                    GPUCombinedData selectedGPUData = ((IEnumerable<GPUCombinedData>)GPUListBox.ItemsSource)
+                        .FirstOrDefault(data => data.GPUProcessor.GPUId == existingConfiguration.GPUId);
+
+                    FanCombinedData selectedFanData = ((IEnumerable<FanCombinedData>)FanListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Cooler.CoolerId == existingConfiguration.FanId);
+
+                    RAMCombinedData selectedRAMData = ((IEnumerable<RAMCombinedData>)RAMListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Rams.RAMId == existingConfiguration.RAMId);
+
+                    MemoryCombinedData selectedMemoryData = ((IEnumerable<MemoryCombinedData>)MemoryListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Hdds.HDDId == existingConfiguration.MemoryId);
+
+                    PowerSuppliesCombinedData selectedPowerSuppliesData = ((IEnumerable<PowerSuppliesCombinedData>)PowerSuppliesListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Powersupplies.PowerSupplyId == existingConfiguration.PowerSuppliesId);
+
+
+                    if (selectedFanData != null && selectedMotherboardData != null)
+                    {
+                        // Проверка совместимости сокета кулера и материнской платы
+                        if (selectedFanData.Socket != null && selectedFanData.Socket.SocketId != null
+                            && selectedMotherboardData.Motherboard != null && selectedMotherboardData.Motherboard.Socket != null)
+                        {
+                            if (selectedFanData.Socket.SocketId != selectedMotherboardData.Motherboard.Socket)
+                            {
+                                SetCompatibilityColors(RedColor);
+                            }
+                            else
+                            {
+                                SetCompatibilityColors(GreenColor);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Проверка совместимости ОЗУ и материнской платы
+        void CheckRAMMotherboardCompatibility()
+        {
+            using (var context = new ComputerArchitectDataBaseEntities())
+            {
+                int userId = CurrentUser.Id;
+
+                UserConfiguration existingConfiguration = context.UserConfiguration
+                    .FirstOrDefault(config => config.UserId == userId);
+
+                if (existingConfiguration != null)
+                {
+                    CPUCombinedData selectedCPUData = ((IEnumerable<CPUCombinedData>)CPUListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Processor.CPUId == existingConfiguration.CpuId);
+
+                    MotherboardCombinedData selectedMotherboardData = ((IEnumerable<MotherboardCombinedData>)MotherboardListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Motherboard.MotherboardId == existingConfiguration.MotherboardId);
+
+                    CaseCombinedData selectedCaseData = ((IEnumerable<CaseCombinedData>)CaseListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Case.CaseId == existingConfiguration.CaseId);
+
+                    GPUCombinedData selectedGPUData = ((IEnumerable<GPUCombinedData>)GPUListBox.ItemsSource)
+                        .FirstOrDefault(data => data.GPUProcessor.GPUId == existingConfiguration.GPUId);
+
+                    FanCombinedData selectedFanData = ((IEnumerable<FanCombinedData>)FanListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Cooler.CoolerId == existingConfiguration.FanId);
+
+                    RAMCombinedData selectedRAMData = ((IEnumerable<RAMCombinedData>)RAMListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Rams.RAMId == existingConfiguration.RAMId);
+
+                    MemoryCombinedData selectedMemoryData = ((IEnumerable<MemoryCombinedData>)MemoryListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Hdds.HDDId == existingConfiguration.MemoryId);
+
+                    PowerSuppliesCombinedData selectedPowerSuppliesData = ((IEnumerable<PowerSuppliesCombinedData>)PowerSuppliesListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Powersupplies.PowerSupplyId == existingConfiguration.PowerSuppliesId);
+
+
+                    if (selectedRAMData != null && selectedMotherboardData != null)
+                    {
+                        // Проверка совместимости типа памяти материнской платы и ОЗУ
+                        if (selectedMotherboardData.Motherboard != null && selectedMotherboardData.Motherboard.Memory_Type != null
+                            && selectedRAMData != null && selectedRAMData.MemoryType != null)
+                        {
+                            if (selectedMotherboardData.Motherboard.Memory_Type != selectedRAMData.MemoryType.Memory_typeId)
+                            {
+                                SetCompatibilityColors(RedColor);
+                            }
+                            else
+                            {
+                                SetCompatibilityColors(GreenColor);
+                            }
+                            if(selectedMotherboardData.Motherboard.Max_Memory_Gb > selectedRAMData.Rams.Capacity_GB)
+                            {
+                                ComponentsСompatibilityRAM.BorderBrush = GreenColor;
+                                PathRAMISVGIcon1.Fill =  GreenColor;
+                                PathRAMISVGIcon2.Fill =  GreenColor;
+                                PathRAMISVGIcon3.Fill =  GreenColor;
+                                PathRAMISVGIcon4.Fill =  GreenColor;
+                                PathRAMISVGIcon5.Fill =  GreenColor;
+                                PathRAMISVGIcon6.Fill =  GreenColor;
+                                PathRAMISVGIcon7.Fill =  GreenColor;
+                                PathRAMISVGIcon8.Fill =  GreenColor;
+                                PathRAMISVGIcon9.Fill =  GreenColor;
+                                PathRAMISVGIcon10.Fill = GreenColor;
+                                PathRAMISVGIcon11.Fill = GreenColor;
+                                PathRAMISVGIcon12.Fill = GreenColor;
+                                PathRAMISVGIcon13.Fill = GreenColor;
+                                PathRAMISVGIcon14.Fill = GreenColor;
+                            }
+                            else
+                            {
+                                ComponentsСompatibilityRAM.BorderBrush = RedColor;
+                                PathRAMISVGIcon1.Fill =  RedColor;
+                                PathRAMISVGIcon2.Fill =  RedColor;
+                                PathRAMISVGIcon3.Fill =  RedColor;
+                                PathRAMISVGIcon4.Fill =  RedColor;
+                                PathRAMISVGIcon5.Fill =  RedColor;
+                                PathRAMISVGIcon6.Fill =  RedColor;
+                                PathRAMISVGIcon7.Fill =  RedColor;
+                                PathRAMISVGIcon8.Fill =  RedColor;
+                                PathRAMISVGIcon9.Fill =  RedColor;
+                                PathRAMISVGIcon10.Fill = RedColor;
+                                PathRAMISVGIcon11.Fill = RedColor;
+                                PathRAMISVGIcon12.Fill = RedColor;
+                                PathRAMISVGIcon13.Fill = RedColor;
+                                PathRAMISVGIcon14.Fill = RedColor;
+                            }
+
+                        }
+                    }
+
+
+
+
+
+                }
+            }
+        }
+
+        // Проверка энергопотребления компонентов и Вт блока питания
+        void CheckPowerSuppliesWattCompatibility()
+        {
+            using (var context = new ComputerArchitectDataBaseEntities())
+            {
+                int userId = CurrentUser.Id;
+
+                UserConfiguration existingConfiguration = context.UserConfiguration
+                    .FirstOrDefault(config => config.UserId == userId);
+
+                if (existingConfiguration != null)
+                {
+                    CPUCombinedData selectedCPUData = ((IEnumerable<CPUCombinedData>)CPUListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Processor.CPUId == existingConfiguration.CpuId);
+
+                    MotherboardCombinedData selectedMotherboardData = ((IEnumerable<MotherboardCombinedData>)MotherboardListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Motherboard.MotherboardId == existingConfiguration.MotherboardId);
+
+                    CaseCombinedData selectedCaseData = ((IEnumerable<CaseCombinedData>)CaseListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Case.CaseId == existingConfiguration.CaseId);
+
+                    GPUCombinedData selectedGPUData = ((IEnumerable<GPUCombinedData>)GPUListBox.ItemsSource)
+                        .FirstOrDefault(data => data.GPUProcessor.GPUId == existingConfiguration.GPUId);
+
+                    FanCombinedData selectedFanData = ((IEnumerable<FanCombinedData>)FanListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Cooler.CoolerId == existingConfiguration.FanId);
+
+                    RAMCombinedData selectedRAMData = ((IEnumerable<RAMCombinedData>)RAMListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Rams.RAMId == existingConfiguration.RAMId);
+
+                    MemoryCombinedData selectedMemoryData = ((IEnumerable<MemoryCombinedData>)MemoryListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Hdds.HDDId == existingConfiguration.MemoryId);
+
+                    PowerSuppliesCombinedData selectedPowerSuppliesData = ((IEnumerable<PowerSuppliesCombinedData>)PowerSuppliesListBox.ItemsSource)
+                        .FirstOrDefault(data => data.Powersupplies.PowerSupplyId == existingConfiguration.PowerSuppliesId);
+
+                    if(selectedPowerSuppliesData !=  null)
+                    {
+                        if (totalPowerWattUsing > selectedPowerSuppliesData.Powersupplies.Power_Watt)
+                        {
+                            ComponentsСompatibilityPower.BorderBrush = RedColor;
+                            ComponentsСompatibilityPowerPath.Fill = RedColor;
+                        }
+                        else
+                        {
+                            ComponentsСompatibilityPower.BorderBrush = GreenColor;
+                            ComponentsСompatibilityPowerPath.Fill = GreenColor;
+                        }
+
+                        if (selectedGPUData.GPUProcessor != null && totalPowerWattUsing > selectedPowerSuppliesData.Powersupplies.Power_Watt)
+                        {
+                            ComponentsСompatibilityGPUConnections.BorderBrush = RedColor;
+                            PathGPUSVGIcon1.Fill  = RedColor;
+                            PathGPUSVGIcon2.Fill  = RedColor;
+                            PathGPUSVGIcon3.Fill  = RedColor;
+                            PathGPUSVGIcon4.Fill  = RedColor;
+                            PathGPUSVGIcon5.Fill  = RedColor;
+                            PathGPUSVGIcon6.Fill  = RedColor;
+                            PathGPUSVGIcon7.Fill  = RedColor;
+                            PathGPUSVGIcon8.Fill  = RedColor;
+                            PathGPUSVGIcon9.Fill  = RedColor;
+                            PathGPUSVGIcon10.Fill = RedColor;
+                            PathGPUSVGIcon11.Fill = RedColor;
+
+
+                        }
+                        else
+                        {
+                            ComponentsСompatibilityGPUConnections.BorderBrush = GreenColor;
+                            PathGPUSVGIcon1.Fill  = GreenColor;
+                            PathGPUSVGIcon2.Fill  = GreenColor;
+                            PathGPUSVGIcon3.Fill  = GreenColor;
+                            PathGPUSVGIcon4.Fill  = GreenColor;
+                            PathGPUSVGIcon5.Fill  = GreenColor;
+                            PathGPUSVGIcon6.Fill  = GreenColor;
+                            PathGPUSVGIcon7.Fill  = GreenColor;
+                            PathGPUSVGIcon8.Fill  = GreenColor;
+                            PathGPUSVGIcon9.Fill  = GreenColor;
+                            PathGPUSVGIcon10.Fill = GreenColor;
+                            PathGPUSVGIcon11.Fill = GreenColor;
+                        }
+
+
+                    }
+                    
+                }
+            }
+        }
+
+        void SetCompatibilityColors(SolidColorBrush colorHex)
+        {
+            ComponentsСompatibilityAllPath.Stroke = colorHex;
+            ComponentsСompatibilityAll.BorderBrush = colorHex;
+        }
 
         private void ClearConfigButton_Click(object sender, RoutedEventArgs e)
         {
@@ -376,6 +786,29 @@ namespace ComputerArchitect.Pages
                     context.SaveChanges();
                 }
             }
+
+
+            ComponentsСompatibilityAllPath.Stroke = DefaultColor;
+            ComponentsСompatibilityAll.BorderBrush = DefaultColor;
+
+            ComponentsСompatibilityPower.BorderBrush = DefaultColor;
+            ComponentsСompatibilityPowerPath.Fill = DefaultColor;
+
+            ComponentsСompatibilityRAM.BorderBrush = DefaultColor;
+            PathRAMISVGIcon1.Fill  = DefaultColor;
+            PathRAMISVGIcon2.Fill  = DefaultColor;
+            PathRAMISVGIcon3.Fill  = DefaultColor;
+            PathRAMISVGIcon4.Fill  = DefaultColor;
+            PathRAMISVGIcon5.Fill  = DefaultColor;
+            PathRAMISVGIcon6.Fill  = DefaultColor;
+            PathRAMISVGIcon7.Fill  = DefaultColor;
+            PathRAMISVGIcon8.Fill  = DefaultColor;
+            PathRAMISVGIcon9.Fill  = DefaultColor;
+            PathRAMISVGIcon10.Fill = DefaultColor;
+            PathRAMISVGIcon11.Fill = DefaultColor;
+            PathRAMISVGIcon12.Fill = DefaultColor;
+            PathRAMISVGIcon13.Fill = DefaultColor;
+            PathRAMISVGIcon14.Fill = DefaultColor;
 
             // Скрыть изображение и информацию о выбранном процессоре
             SelectedCPUImage.Visibility = Visibility.Collapsed;
@@ -589,6 +1022,7 @@ namespace ComputerArchitect.Pages
 
             SelectedCPULabelCost.Content = Convert.ToInt32(selectedData.Processor.Cost).ToString("N0") + " ₽";
             SelectedCPULabelCount.Content = "В наличии: " + selectedData.Processor.CPU_Count_on_storage + " шт.";
+            CheckCPUSocketAndMemoryTypeCompatibility();
         }
         private void CPUSelectButton_Click(object sender, RoutedEventArgs e)
         {
@@ -804,9 +1238,10 @@ namespace ComputerArchitect.Pages
                 + ", " + selectedData.Motherboard.Memory_Channels
                 + "x" + selectedData.Motherboard.Memory_types.Memory_typeName
                 + " " + selectedData.Motherboard.Max_Memory_Frequency_Mhz
-                + ", " + selectedData.Motherboard.Form_Factors.Form_FactorName + "]";
+                + ", " + selectedData.Motherboard.Form_Factors.Form_FactorName + ", Макс. "  + selectedData.Motherboard.Max_Memory_Gb +    " GB RAM]";
             SelectedMotherboardLabelCost.Content = Convert.ToInt32(selectedData.Motherboard.Cost).ToString("N0") + " ₽";
             SelectedMotherboardLabelCount.Content = "В наличии: " + selectedData.Motherboard.Motherboard_Count_on_storage + " шт.";
+            CheckMotherboardCPUFanRAMCaseCompatibility();
         }
         private void MotherboardSelectButton_Click(object sender, RoutedEventArgs e)
         {
@@ -993,6 +1428,7 @@ namespace ComputerArchitect.Pages
                 + selectedData.Case.Compatible_PSU_Form_Factors + "]";
             SelectedCaseLabelCost.Content = Convert.ToInt32(selectedData.Case.Cost).ToString("N0") + " ₽";
             SelectedCaseLabelCount.Content = "В наличии: " + selectedData.Case.Cases_Count_on_storage + " шт.";
+            CheckCaseMotherboardCompatibility();
 
         }
         private void CaseSelectButton_Click(object sender, RoutedEventArgs e)
@@ -1381,6 +1817,7 @@ namespace ComputerArchitect.Pages
                 
             SelectedFanLabelCost.Content = Convert.ToInt32(selectedData.Cooler.Cost).ToString("N0") + " ₽";
             SelectedFanLabelCount.Content = "В наличии: " + selectedData.Cooler.Cooler_Count_on_storage + " шт.";
+            CheckFanMotherboardSocketCompatibility();
         }
         private void FanSelectButton_Click(object sender, RoutedEventArgs e)
         {
@@ -1568,6 +2005,7 @@ namespace ComputerArchitect.Pages
                 + selectedData.Rams.Activate_to_Precharge_Delay + "]";
             SelectedRAMLabelCost.Content = Convert.ToInt32(selectedData.Rams.Cost).ToString("N0") + " ₽";
             SelectedRAMLabelCount.Content = "В наличии: " + selectedData.Rams.RAM_Count_on_storage + " шт.";
+            CheckRAMMotherboardCompatibility();
         }
         private void RAMSelectButton_Click(object sender, RoutedEventArgs e)
         {
