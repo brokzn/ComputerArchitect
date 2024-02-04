@@ -228,7 +228,6 @@ namespace ComputerArchitect.Pages
                     CountOfSelectedComponents.Content = "Всего выбрано: " + countOfSelectedComponents.ToString();
 
                     ComponentsTotalCostLabel.Content = "Итого: " + totalCost.ToString("N0") + " ₽";
-                    CheckPowerSuppliesWattCompatibility();
                     if(componentsCompability > 0)
                     {
                         SetCompatibilityColors(RedColor);
@@ -248,12 +247,8 @@ namespace ComputerArchitect.Pages
                 
             }
         }
-
-
-        // Проверка совместимости процессора и материнской платы
-        void CheckCPUSocketAndMemoryTypeCompatibility()
+        void ComponentsCompabilityCheck()
         {
-
             using (var context = new ComputerArchitectDataBaseEntities())
             {
                 int userId = CurrentUser.Id;
@@ -299,7 +294,7 @@ namespace ComputerArchitect.Pages
                             }
                             else
                             {
-                                
+
                             }
                         }
 
@@ -313,52 +308,10 @@ namespace ComputerArchitect.Pages
                             }
                             else
                             {
-                                
+
                             }
                         }
                     }
-                }
-            }
-
-        }
-        // Проверка совместимости материнской платы, процессора, кулера и ОЗУ
-        void CheckMotherboardCPUFanRAMCaseCompatibility()
-        {
-            using (var context = new ComputerArchitectDataBaseEntities())
-            {
-                int userId = CurrentUser.Id;
-
-                UserConfiguration existingConfiguration = context.UserConfiguration
-                    .FirstOrDefault(config => config.UserId == userId);
-
-                if (existingConfiguration != null)
-                {
-                    CPUCombinedData selectedCPUData = ((IEnumerable<CPUCombinedData>)CPUListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Processor.CPUId == existingConfiguration.CpuId);
-
-                    MotherboardCombinedData selectedMotherboardData = ((IEnumerable<MotherboardCombinedData>)MotherboardListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Motherboard.MotherboardId == existingConfiguration.MotherboardId);
-
-                    CaseCombinedData selectedCaseData = ((IEnumerable<CaseCombinedData>)CaseListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Case.CaseId == existingConfiguration.CaseId);
-
-                    GPUCombinedData selectedGPUData = ((IEnumerable<GPUCombinedData>)GPUListBox.ItemsSource)
-                        .FirstOrDefault(data => data.GPUProcessor.GPUId == existingConfiguration.GPUId);
-
-                    FanCombinedData selectedFanData = ((IEnumerable<FanCombinedData>)FanListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Cooler.CoolerId == existingConfiguration.FanId);
-
-                    RAMCombinedData selectedRAMData = ((IEnumerable<RAMCombinedData>)RAMListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Rams.RAMId == existingConfiguration.RAMId);
-
-                    MemoryCombinedData selectedMemoryData = ((IEnumerable<MemoryCombinedData>)MemoryListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Hdds.HDDId == existingConfiguration.MemoryId);
-
-                    PowerSuppliesCombinedData selectedPowerSuppliesData = ((IEnumerable<PowerSuppliesCombinedData>)PowerSuppliesListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Powersupplies.PowerSupplyId == existingConfiguration.PowerSuppliesId);
-
-
-
 
                     // Проверка совместимости форм-фактора корпуса и материнской платы
                     if (selectedCaseData != null &&
@@ -378,13 +331,9 @@ namespace ComputerArchitect.Pages
                         }
                         else
                         {
-                            
+
                         }
                     }
-
-
-
-
 
                     if (selectedMotherboardData != null && selectedCPUData != null && selectedFanData != null && selectedRAMData != null && selectedCaseData != null)
                     {
@@ -398,7 +347,7 @@ namespace ComputerArchitect.Pages
                             }
                             else
                             {
-                                
+
                             }
                         }
 
@@ -412,7 +361,7 @@ namespace ComputerArchitect.Pages
                             }
                             else
                             {
-                                
+
                             }
                         }
 
@@ -426,7 +375,7 @@ namespace ComputerArchitect.Pages
                             }
                             else
                             {
-                                
+
                             }
                         }
 
@@ -440,57 +389,11 @@ namespace ComputerArchitect.Pages
                             }
                             else
                             {
-                                
+
                             }
                         }
 
-                        
-
-                        
-
-
-
-
                     }
-                }
-            }
-        }
-
-        // Проверка совместимости корпуса и материнской платы
-        void CheckCaseMotherboardCompatibility()
-        {
-            using (var context = new ComputerArchitectDataBaseEntities())
-            {
-                int userId = CurrentUser.Id;
-
-                UserConfiguration existingConfiguration = context.UserConfiguration
-                    .FirstOrDefault(config => config.UserId == userId);
-
-                if (existingConfiguration != null)
-                {
-                    CPUCombinedData selectedCPUData = ((IEnumerable<CPUCombinedData>)CPUListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Processor.CPUId == existingConfiguration.CpuId);
-
-                    MotherboardCombinedData selectedMotherboardData = ((IEnumerable<MotherboardCombinedData>)MotherboardListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Motherboard.MotherboardId == existingConfiguration.MotherboardId);
-
-                    CaseCombinedData selectedCaseData = ((IEnumerable<CaseCombinedData>)CaseListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Case.CaseId == existingConfiguration.CaseId);
-
-                    GPUCombinedData selectedGPUData = ((IEnumerable<GPUCombinedData>)GPUListBox.ItemsSource)
-                        .FirstOrDefault(data => data.GPUProcessor.GPUId == existingConfiguration.GPUId);
-
-                    FanCombinedData selectedFanData = ((IEnumerable<FanCombinedData>)FanListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Cooler.CoolerId == existingConfiguration.FanId);
-
-                    RAMCombinedData selectedRAMData = ((IEnumerable<RAMCombinedData>)RAMListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Rams.RAMId == existingConfiguration.RAMId);
-
-                    MemoryCombinedData selectedMemoryData = ((IEnumerable<MemoryCombinedData>)MemoryListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Hdds.HDDId == existingConfiguration.MemoryId);
-
-                    PowerSuppliesCombinedData selectedPowerSuppliesData = ((IEnumerable<PowerSuppliesCombinedData>)PowerSuppliesListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Powersupplies.PowerSupplyId == existingConfiguration.PowerSuppliesId);
 
                     // Проверка совместимости форм-фактора корпуса и материнской платы
                     if (selectedCaseData != null &&
@@ -510,49 +413,9 @@ namespace ComputerArchitect.Pages
                         }
                         else
                         {
-                            
+
                         }
                     }
-                }
-            }
-        }
-
-        // Проверка совместимости кулера и материнской платы
-        void CheckFanMotherboardSocketCompatibility()
-        {
-            using (var context = new ComputerArchitectDataBaseEntities())
-            {
-                int userId = CurrentUser.Id;
-
-                UserConfiguration existingConfiguration = context.UserConfiguration
-                    .FirstOrDefault(config => config.UserId == userId);
-
-                if (existingConfiguration != null)
-                {
-                    CPUCombinedData selectedCPUData = ((IEnumerable<CPUCombinedData>)CPUListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Processor.CPUId == existingConfiguration.CpuId);
-
-                    MotherboardCombinedData selectedMotherboardData = ((IEnumerable<MotherboardCombinedData>)MotherboardListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Motherboard.MotherboardId == existingConfiguration.MotherboardId);
-
-                    CaseCombinedData selectedCaseData = ((IEnumerable<CaseCombinedData>)CaseListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Case.CaseId == existingConfiguration.CaseId);
-
-                    GPUCombinedData selectedGPUData = ((IEnumerable<GPUCombinedData>)GPUListBox.ItemsSource)
-                        .FirstOrDefault(data => data.GPUProcessor.GPUId == existingConfiguration.GPUId);
-
-                    FanCombinedData selectedFanData = ((IEnumerable<FanCombinedData>)FanListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Cooler.CoolerId == existingConfiguration.FanId);
-
-                    RAMCombinedData selectedRAMData = ((IEnumerable<RAMCombinedData>)RAMListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Rams.RAMId == existingConfiguration.RAMId);
-
-                    MemoryCombinedData selectedMemoryData = ((IEnumerable<MemoryCombinedData>)MemoryListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Hdds.HDDId == existingConfiguration.MemoryId);
-
-                    PowerSuppliesCombinedData selectedPowerSuppliesData = ((IEnumerable<PowerSuppliesCombinedData>)PowerSuppliesListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Powersupplies.PowerSupplyId == existingConfiguration.PowerSuppliesId);
-
 
                     if (selectedFanData != null && selectedMotherboardData != null)
                     {
@@ -566,50 +429,10 @@ namespace ComputerArchitect.Pages
                             }
                             else
                             {
-                                
+
                             }
                         }
                     }
-                }
-            }
-        }
-
-        // Проверка совместимости ОЗУ и материнской платы
-        void CheckRAMMotherboardCompatibility()
-        {
-            using (var context = new ComputerArchitectDataBaseEntities())
-            {
-                int userId = CurrentUser.Id;
-
-                UserConfiguration existingConfiguration = context.UserConfiguration
-                    .FirstOrDefault(config => config.UserId == userId);
-
-                if (existingConfiguration != null)
-                {
-                    CPUCombinedData selectedCPUData = ((IEnumerable<CPUCombinedData>)CPUListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Processor.CPUId == existingConfiguration.CpuId);
-
-                    MotherboardCombinedData selectedMotherboardData = ((IEnumerable<MotherboardCombinedData>)MotherboardListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Motherboard.MotherboardId == existingConfiguration.MotherboardId);
-
-                    CaseCombinedData selectedCaseData = ((IEnumerable<CaseCombinedData>)CaseListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Case.CaseId == existingConfiguration.CaseId);
-
-                    GPUCombinedData selectedGPUData = ((IEnumerable<GPUCombinedData>)GPUListBox.ItemsSource)
-                        .FirstOrDefault(data => data.GPUProcessor.GPUId == existingConfiguration.GPUId);
-
-                    FanCombinedData selectedFanData = ((IEnumerable<FanCombinedData>)FanListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Cooler.CoolerId == existingConfiguration.FanId);
-
-                    RAMCombinedData selectedRAMData = ((IEnumerable<RAMCombinedData>)RAMListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Rams.RAMId == existingConfiguration.RAMId);
-
-                    MemoryCombinedData selectedMemoryData = ((IEnumerable<MemoryCombinedData>)MemoryListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Hdds.HDDId == existingConfiguration.MemoryId);
-
-                    PowerSuppliesCombinedData selectedPowerSuppliesData = ((IEnumerable<PowerSuppliesCombinedData>)PowerSuppliesListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Powersupplies.PowerSupplyId == existingConfiguration.PowerSuppliesId);
-
 
                     if (selectedRAMData != null && selectedMotherboardData != null)
                     {
@@ -623,20 +446,20 @@ namespace ComputerArchitect.Pages
                             }
                             else
                             {
-                                
+
                             }
-                            if(selectedMotherboardData.Motherboard.Max_Memory_Gb > selectedRAMData.Rams.Capacity_GB)
+                            if (selectedMotherboardData.Motherboard.Max_Memory_Gb > selectedRAMData.Rams.Capacity_GB)
                             {
                                 ComponentsСompatibilityRAM.BorderBrush = GreenColor;
-                                PathRAMISVGIcon1.Fill =  GreenColor;
-                                PathRAMISVGIcon2.Fill =  GreenColor;
-                                PathRAMISVGIcon3.Fill =  GreenColor;
-                                PathRAMISVGIcon4.Fill =  GreenColor;
-                                PathRAMISVGIcon5.Fill =  GreenColor;
-                                PathRAMISVGIcon6.Fill =  GreenColor;
-                                PathRAMISVGIcon7.Fill =  GreenColor;
-                                PathRAMISVGIcon8.Fill =  GreenColor;
-                                PathRAMISVGIcon9.Fill =  GreenColor;
+                                PathRAMISVGIcon1.Fill = GreenColor;
+                                PathRAMISVGIcon2.Fill = GreenColor;
+                                PathRAMISVGIcon3.Fill = GreenColor;
+                                PathRAMISVGIcon4.Fill = GreenColor;
+                                PathRAMISVGIcon5.Fill = GreenColor;
+                                PathRAMISVGIcon6.Fill = GreenColor;
+                                PathRAMISVGIcon7.Fill = GreenColor;
+                                PathRAMISVGIcon8.Fill = GreenColor;
+                                PathRAMISVGIcon9.Fill = GreenColor;
                                 PathRAMISVGIcon10.Fill = GreenColor;
                                 PathRAMISVGIcon11.Fill = GreenColor;
                                 PathRAMISVGIcon12.Fill = GreenColor;
@@ -646,15 +469,15 @@ namespace ComputerArchitect.Pages
                             else
                             {
                                 ComponentsСompatibilityRAM.BorderBrush = RedColor;
-                                PathRAMISVGIcon1.Fill =  RedColor;
-                                PathRAMISVGIcon2.Fill =  RedColor;
-                                PathRAMISVGIcon3.Fill =  RedColor;
-                                PathRAMISVGIcon4.Fill =  RedColor;
-                                PathRAMISVGIcon5.Fill =  RedColor;
-                                PathRAMISVGIcon6.Fill =  RedColor;
-                                PathRAMISVGIcon7.Fill =  RedColor;
-                                PathRAMISVGIcon8.Fill =  RedColor;
-                                PathRAMISVGIcon9.Fill =  RedColor;
+                                PathRAMISVGIcon1.Fill = RedColor;
+                                PathRAMISVGIcon2.Fill = RedColor;
+                                PathRAMISVGIcon3.Fill = RedColor;
+                                PathRAMISVGIcon4.Fill = RedColor;
+                                PathRAMISVGIcon5.Fill = RedColor;
+                                PathRAMISVGIcon6.Fill = RedColor;
+                                PathRAMISVGIcon7.Fill = RedColor;
+                                PathRAMISVGIcon8.Fill = RedColor;
+                                PathRAMISVGIcon9.Fill = RedColor;
                                 PathRAMISVGIcon10.Fill = RedColor;
                                 PathRAMISVGIcon11.Fill = RedColor;
                                 PathRAMISVGIcon12.Fill = RedColor;
@@ -665,51 +488,7 @@ namespace ComputerArchitect.Pages
                         }
                     }
 
-
-
-
-
-                }
-            }
-        }
-
-        // Проверка энергопотребления компонентов и Вт блока питания
-        void CheckPowerSuppliesWattCompatibility()
-        {
-            using (var context = new ComputerArchitectDataBaseEntities())
-            {
-                int userId = CurrentUser.Id;
-
-                UserConfiguration existingConfiguration = context.UserConfiguration
-                    .FirstOrDefault(config => config.UserId == userId);
-
-                if (existingConfiguration != null)
-                {
-                    CPUCombinedData selectedCPUData = ((IEnumerable<CPUCombinedData>)CPUListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Processor.CPUId == existingConfiguration.CpuId);
-
-                    MotherboardCombinedData selectedMotherboardData = ((IEnumerable<MotherboardCombinedData>)MotherboardListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Motherboard.MotherboardId == existingConfiguration.MotherboardId);
-
-                    CaseCombinedData selectedCaseData = ((IEnumerable<CaseCombinedData>)CaseListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Case.CaseId == existingConfiguration.CaseId);
-
-                    GPUCombinedData selectedGPUData = ((IEnumerable<GPUCombinedData>)GPUListBox.ItemsSource)
-                        .FirstOrDefault(data => data.GPUProcessor.GPUId == existingConfiguration.GPUId);
-
-                    FanCombinedData selectedFanData = ((IEnumerable<FanCombinedData>)FanListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Cooler.CoolerId == existingConfiguration.FanId);
-
-                    RAMCombinedData selectedRAMData = ((IEnumerable<RAMCombinedData>)RAMListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Rams.RAMId == existingConfiguration.RAMId);
-
-                    MemoryCombinedData selectedMemoryData = ((IEnumerable<MemoryCombinedData>)MemoryListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Hdds.HDDId == existingConfiguration.MemoryId);
-
-                    PowerSuppliesCombinedData selectedPowerSuppliesData = ((IEnumerable<PowerSuppliesCombinedData>)PowerSuppliesListBox.ItemsSource)
-                        .FirstOrDefault(data => data.Powersupplies.PowerSupplyId == existingConfiguration.PowerSuppliesId);
-
-                    if(selectedPowerSuppliesData !=  null)
+                    if (selectedPowerSuppliesData != null)
                     {
                         if (totalPowerWattUsing > selectedPowerSuppliesData.Powersupplies.Power_Watt)
                         {
@@ -725,15 +504,15 @@ namespace ComputerArchitect.Pages
                         if (selectedGPUData.GPUProcessor != null && totalPowerWattUsing > selectedPowerSuppliesData.Powersupplies.Power_Watt)
                         {
                             ComponentsСompatibilityGPUConnections.BorderBrush = RedColor;
-                            PathGPUSVGIcon1.Fill  = RedColor;
-                            PathGPUSVGIcon2.Fill  = RedColor;
-                            PathGPUSVGIcon3.Fill  = RedColor;
-                            PathGPUSVGIcon4.Fill  = RedColor;
-                            PathGPUSVGIcon5.Fill  = RedColor;
-                            PathGPUSVGIcon6.Fill  = RedColor;
-                            PathGPUSVGIcon7.Fill  = RedColor;
-                            PathGPUSVGIcon8.Fill  = RedColor;
-                            PathGPUSVGIcon9.Fill  = RedColor;
+                            PathGPUSVGIcon1.Fill = RedColor;
+                            PathGPUSVGIcon2.Fill = RedColor;
+                            PathGPUSVGIcon3.Fill = RedColor;
+                            PathGPUSVGIcon4.Fill = RedColor;
+                            PathGPUSVGIcon5.Fill = RedColor;
+                            PathGPUSVGIcon6.Fill = RedColor;
+                            PathGPUSVGIcon7.Fill = RedColor;
+                            PathGPUSVGIcon8.Fill = RedColor;
+                            PathGPUSVGIcon9.Fill = RedColor;
                             PathGPUSVGIcon10.Fill = RedColor;
                             PathGPUSVGIcon11.Fill = RedColor;
 
@@ -742,40 +521,27 @@ namespace ComputerArchitect.Pages
                         else
                         {
                             ComponentsСompatibilityGPUConnections.BorderBrush = GreenColor;
-                            PathGPUSVGIcon1.Fill  = GreenColor;
-                            PathGPUSVGIcon2.Fill  = GreenColor;
-                            PathGPUSVGIcon3.Fill  = GreenColor;
-                            PathGPUSVGIcon4.Fill  = GreenColor;
-                            PathGPUSVGIcon5.Fill  = GreenColor;
-                            PathGPUSVGIcon6.Fill  = GreenColor;
-                            PathGPUSVGIcon7.Fill  = GreenColor;
-                            PathGPUSVGIcon8.Fill  = GreenColor;
-                            PathGPUSVGIcon9.Fill  = GreenColor;
+                            PathGPUSVGIcon1.Fill = GreenColor;
+                            PathGPUSVGIcon2.Fill = GreenColor;
+                            PathGPUSVGIcon3.Fill = GreenColor;
+                            PathGPUSVGIcon4.Fill = GreenColor;
+                            PathGPUSVGIcon5.Fill = GreenColor;
+                            PathGPUSVGIcon6.Fill = GreenColor;
+                            PathGPUSVGIcon7.Fill = GreenColor;
+                            PathGPUSVGIcon8.Fill = GreenColor;
+                            PathGPUSVGIcon9.Fill = GreenColor;
                             PathGPUSVGIcon10.Fill = GreenColor;
                             PathGPUSVGIcon11.Fill = GreenColor;
                         }
-
-
                     }
-                    
                 }
             }
         }
-
-
-
-
-
-
-
-
-
         void SetCompatibilityColors(SolidColorBrush colorHex)
         {
             ComponentsСompatibilityAllPath.Stroke = colorHex;
             ComponentsСompatibilityAll.BorderBrush = colorHex;
         }
-
         private void ClearConfigButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -804,6 +570,18 @@ namespace ComputerArchitect.Pages
                 }
             }
 
+            ComponentsСompatibilityGPUConnections.BorderBrush = DefaultColor;
+            PathGPUSVGIcon1.Fill =  DefaultColor;
+            PathGPUSVGIcon2.Fill =  DefaultColor;
+            PathGPUSVGIcon3.Fill =  DefaultColor;
+            PathGPUSVGIcon4.Fill =  DefaultColor;
+            PathGPUSVGIcon5.Fill =  DefaultColor;
+            PathGPUSVGIcon6.Fill =  DefaultColor;
+            PathGPUSVGIcon7.Fill =  DefaultColor;
+            PathGPUSVGIcon8.Fill =  DefaultColor;
+            PathGPUSVGIcon9.Fill =  DefaultColor;
+            PathGPUSVGIcon10.Fill = DefaultColor;
+            PathGPUSVGIcon11.Fill = DefaultColor;
 
             ComponentsСompatibilityAllPath.Stroke = DefaultColor;
             ComponentsСompatibilityAll.BorderBrush = DefaultColor;
@@ -1039,7 +817,7 @@ namespace ComputerArchitect.Pages
 
             SelectedCPULabelCost.Content = Convert.ToInt32(selectedData.Processor.Cost).ToString("N0") + " ₽";
             SelectedCPULabelCount.Content = "В наличии: " + selectedData.Processor.CPU_Count_on_storage + " шт.";
-            CheckCPUSocketAndMemoryTypeCompatibility();
+            ComponentsCompabilityCheck();
         }
         private void CPUSelectButton_Click(object sender, RoutedEventArgs e)
         {
@@ -1150,7 +928,6 @@ namespace ComputerArchitect.Pages
 
             MotherboardListBox.ItemsSource = compatibleMotherboards;
         }
-
         private void MotherboardSearchInCategoryTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             ICollectionView view = CollectionViewSource.GetDefaultView(MotherboardListBox.ItemsSource);
@@ -1258,7 +1035,7 @@ namespace ComputerArchitect.Pages
                 + ", " + selectedData.Motherboard.Form_Factors.Form_FactorName + ", Макс. "  + selectedData.Motherboard.Max_Memory_Gb +    " GB RAM]";
             SelectedMotherboardLabelCost.Content = Convert.ToInt32(selectedData.Motherboard.Cost).ToString("N0") + " ₽";
             SelectedMotherboardLabelCount.Content = "В наличии: " + selectedData.Motherboard.Motherboard_Count_on_storage + " шт.";
-            CheckMotherboardCPUFanRAMCaseCompatibility();
+            ComponentsCompabilityCheck();
         }
         private void MotherboardSelectButton_Click(object sender, RoutedEventArgs e)
         {
@@ -1445,7 +1222,7 @@ namespace ComputerArchitect.Pages
                 + selectedData.Case.Compatible_PSU_Form_Factors + "]";
             SelectedCaseLabelCost.Content = Convert.ToInt32(selectedData.Case.Cost).ToString("N0") + " ₽";
             SelectedCaseLabelCount.Content = "В наличии: " + selectedData.Case.Cases_Count_on_storage + " шт.";
-            CheckCaseMotherboardCompatibility();
+            ComponentsCompabilityCheck();
 
         }
         private void CaseSelectButton_Click(object sender, RoutedEventArgs e)
@@ -1834,7 +1611,7 @@ namespace ComputerArchitect.Pages
                 
             SelectedFanLabelCost.Content = Convert.ToInt32(selectedData.Cooler.Cost).ToString("N0") + " ₽";
             SelectedFanLabelCount.Content = "В наличии: " + selectedData.Cooler.Cooler_Count_on_storage + " шт.";
-            CheckFanMotherboardSocketCompatibility();
+            ComponentsCompabilityCheck();
         }
         private void FanSelectButton_Click(object sender, RoutedEventArgs e)
         {
@@ -1870,6 +1647,10 @@ namespace ComputerArchitect.Pages
 
             UpdateUserData();
         }
+
+
+
+
 
 
         //==============================//
@@ -2022,7 +1803,7 @@ namespace ComputerArchitect.Pages
                 + selectedData.Rams.Activate_to_Precharge_Delay + "]";
             SelectedRAMLabelCost.Content = Convert.ToInt32(selectedData.Rams.Cost).ToString("N0") + " ₽";
             SelectedRAMLabelCount.Content = "В наличии: " + selectedData.Rams.RAM_Count_on_storage + " шт.";
-            CheckRAMMotherboardCompatibility();
+            ComponentsCompabilityCheck();
         }
         private void RAMSelectButton_Click(object sender, RoutedEventArgs e)
         {
@@ -2235,6 +2016,9 @@ namespace ComputerArchitect.Pages
 
             UpdateUserData();
         }
+
+
+
 
 
 
