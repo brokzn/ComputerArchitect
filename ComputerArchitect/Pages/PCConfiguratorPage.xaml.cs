@@ -30,6 +30,7 @@ namespace ComputerArchitect.Pages
     public partial class PCConfiguratorPage : Page
     {
         int totalPowerWattUsing = 0;
+        int componentsCompability = 0;
         SolidColorBrush DefaultColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
         SolidColorBrush GreenColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1EBA6F"));
         SolidColorBrush RedColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C71919"));
@@ -228,6 +229,16 @@ namespace ComputerArchitect.Pages
 
                     ComponentsTotalCostLabel.Content = "Итого: " + totalCost.ToString("N0") + " ₽";
                     CheckPowerSuppliesWattCompatibility();
+                    if(componentsCompability > 0)
+                    {
+                        SetCompatibilityColors(RedColor);
+                        componentsCompability = 0;
+                    }
+                    else
+                    {
+                        SetCompatibilityColors(GreenColor);
+                        componentsCompability = 0;
+                    }
                 }
 
                 else
@@ -284,11 +295,11 @@ namespace ComputerArchitect.Pages
                         {
                             if (selectedCPUData.Processor.Socket != selectedMotherboardData.Motherboard.Socket)
                             {
-                                SetCompatibilityColors(RedColor);
+                                componentsCompability++;
                             }
                             else
                             {
-                                SetCompatibilityColors(GreenColor);
+                                
                             }
                         }
 
@@ -298,16 +309,14 @@ namespace ComputerArchitect.Pages
                         {
                             if (selectedCPUData.Processor.Memory_type != selectedMotherboardData.Motherboard.Memory_Type)
                             {
-                                SetCompatibilityColors(RedColor);
+                                componentsCompability++;
                             }
                             else
                             {
-                                SetCompatibilityColors(GreenColor);
+                                
                             }
                         }
                     }
-
-
                 }
             }
 
@@ -365,11 +374,11 @@ namespace ComputerArchitect.Pages
                         string caseFormFactors = selectedCaseData.Case.Compatible_Motherboard_Form_Factors;
                         if (!caseFormFactors.Split(',').Select(s => s.Trim()).Contains(motherboardFormFactor))
                         {
-                            SetCompatibilityColors(RedColor);
+                            componentsCompability++;
                         }
                         else
                         {
-                            SetCompatibilityColors(GreenColor);
+                            
                         }
                     }
 
@@ -385,11 +394,11 @@ namespace ComputerArchitect.Pages
                         {
                             if (selectedCPUData.Processor.Socket != selectedMotherboardData.Motherboard.Socket)
                             {
-                                SetCompatibilityColors(RedColor);
+                                componentsCompability++;
                             }
                             else
                             {
-                                SetCompatibilityColors(GreenColor);
+                                
                             }
                         }
 
@@ -399,11 +408,11 @@ namespace ComputerArchitect.Pages
                         {
                             if (selectedCPUData.Processor.Memory_type != selectedMotherboardData.Motherboard.Memory_Type)
                             {
-                                SetCompatibilityColors(RedColor);
+                                componentsCompability++;
                             }
                             else
                             {
-                                SetCompatibilityColors(GreenColor);
+                                
                             }
                         }
 
@@ -413,11 +422,11 @@ namespace ComputerArchitect.Pages
                         {
                             if (selectedCPUData.Processor.Socket != selectedFanData.Socket.SocketId)
                             {
-                                SetCompatibilityColors(RedColor);
+                                componentsCompability++;
                             }
                             else
                             {
-                                SetCompatibilityColors(GreenColor);
+                                
                             }
                         }
 
@@ -427,11 +436,11 @@ namespace ComputerArchitect.Pages
                         {
                             if (selectedCPUData.Processor.Memory_type != selectedRAMData.MemoryType.Memory_typeId)
                             {
-                                SetCompatibilityColors(RedColor);
+                                componentsCompability++;
                             }
                             else
                             {
-                                SetCompatibilityColors(GreenColor);
+                                
                             }
                         }
 
@@ -497,11 +506,11 @@ namespace ComputerArchitect.Pages
                         string caseFormFactors = selectedCaseData.Case.Compatible_Motherboard_Form_Factors;
                         if (!caseFormFactors.Split(',').Select(s => s.Trim()).Contains(motherboardFormFactor))
                         {
-                            SetCompatibilityColors(RedColor);
+                            componentsCompability++;
                         }
                         else
                         {
-                            SetCompatibilityColors(GreenColor);
+                            
                         }
                     }
                 }
@@ -553,11 +562,11 @@ namespace ComputerArchitect.Pages
                         {
                             if (selectedFanData.Socket.SocketId != selectedMotherboardData.Motherboard.Socket)
                             {
-                                SetCompatibilityColors(RedColor);
+                                componentsCompability++;
                             }
                             else
                             {
-                                SetCompatibilityColors(GreenColor);
+                                
                             }
                         }
                     }
@@ -610,11 +619,11 @@ namespace ComputerArchitect.Pages
                         {
                             if (selectedMotherboardData.Motherboard.Memory_Type != selectedRAMData.MemoryType.Memory_typeId)
                             {
-                                SetCompatibilityColors(RedColor);
+                                componentsCompability++;
                             }
                             else
                             {
-                                SetCompatibilityColors(GreenColor);
+                                
                             }
                             if(selectedMotherboardData.Motherboard.Max_Memory_Gb > selectedRAMData.Rams.Capacity_GB)
                             {
@@ -752,6 +761,14 @@ namespace ComputerArchitect.Pages
                 }
             }
         }
+
+
+
+
+
+
+
+
 
         void SetCompatibilityColors(SolidColorBrush colorHex)
         {
