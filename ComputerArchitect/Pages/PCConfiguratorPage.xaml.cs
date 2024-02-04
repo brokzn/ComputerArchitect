@@ -231,11 +231,15 @@ namespace ComputerArchitect.Pages
                     if(componentsCompability > 0)
                     {
                         SetCompatibilityColors(RedColor);
+                        ShareConfingButton.IsEnabled = false;
+                        AddToCartConfingButton.IsEnabled = false;
                         componentsCompability = 0;
                     }
                     else
                     {
                         SetCompatibilityColors(GreenColor);
+                        ShareConfingButton.IsEnabled = true;
+                        AddToCartConfingButton.IsEnabled = true;
                         componentsCompability = 0;
                     }
                 }

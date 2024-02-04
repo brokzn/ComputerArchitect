@@ -33,7 +33,8 @@ namespace ComputerArchitect.Pages
 
         }
 
-
+        double minValue;
+        double maxValue;
         public class CombinedData
         {
             public Cases Case { get; set; }
@@ -50,7 +51,10 @@ namespace ComputerArchitect.Pages
                                     Case = caseData,
                                     CaseSizes = caseSizeData,
                                 }).ToList();
-
+            minValue = (double)combinedData.Min(item => item.Case.Cost.GetValueOrDefault());
+            MinPrice.Tag = "от " + minValue.ToString();
+            maxValue = (double)combinedData.Max(item => item.Case.Cost.GetValueOrDefault());
+            MaxPrice.Tag = "до " + maxValue.ToString();
             ComponentListBox.ItemsSource = combinedData;
             OnStorageCountLabel.Content = $"Корпуса {ComponentListBox.Items.Count} шт";
         }
@@ -171,5 +175,82 @@ namespace ComputerArchitect.Pages
         {
             NavigationService.Navigate(new BasicPCComponentsPage(CurrentUser));
         }
+
+
+        private void MinPrice_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void MaxPrice_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+            {
+                e.Handled = true;
+            }
+        }
+
+
+
+        private List<CombinedData> originalCombineds;
+        private void AcceptFilters_Click(object sender, RoutedEventArgs e)
+        {
+            ICollectionView view = CollectionViewSource.GetDefaultView(ComponentListBox.ItemsSource);
+
+            if (view != null)
+            {
+                if (originalCombineds == null)
+                {
+                    originalCombineds = view.Cast<CombinedData>().ToList();
+                }
+                List<CombinedData> combineds = new List<CombinedData>(originalCombineds);
+
+
+
+                // Проверка и установка минимальной цены
+                if (string.IsNullOrWhiteSpace(MinPrice.Text))
+                {
+                    minValue = (double)combineds.Min(item => item.Case.Cost.GetValueOrDefault());
+                    MinPrice.Tag = "от " + minValue.ToString();
+
+                }
+                else
+                {
+                    minValue = double.Parse(MinPrice.Text);
+                }
+
+                // Проверка и установка максимальной цены
+                if (string.IsNullOrWhiteSpace(MaxPrice.Text))
+                {
+                    maxValue = (double)combineds.Max(item => item.Case.Cost.GetValueOrDefault());
+                    MaxPrice.Tag = "до " + maxValue.ToString();
+                }
+                else
+                {
+                    maxValue = double.Parse(MaxPrice.Text);
+                }
+
+                combineds = combineds.Where(item => item.Case.Cost.HasValue &&
+                                                    item.Case.Cost.Value >= (decimal)minValue &&
+                                                    item.Case.Cost.Value <= (decimal)maxValue).ToList();
+
+                combineds = combineds.OrderBy(item => item.Case.Cost).ToList();
+
+                ComponentListBox.ItemsSource = combineds;
+            }
+        }
+
+        private void DecilineFilters_Click(object sender, RoutedEventArgs e)
+        {
+            MinPrice.Text = null; MaxPrice.Text = null;
+            ComponentListBox.ItemsSource = originalCombineds;
+        }
+
+
+
+
     }
 }

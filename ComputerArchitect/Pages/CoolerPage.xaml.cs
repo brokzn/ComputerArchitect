@@ -37,7 +37,8 @@ namespace ComputerArchitect.Pages
             public Coolers Cooler { get; set; }
             public Sockets Socket { get; set; }
         }
-
+        double minValue;
+        double maxValue;
         private void LoadComponent()
         {
             List<Coolers> coolers = App.Database.Coolers.ToList();
@@ -51,7 +52,10 @@ namespace ComputerArchitect.Pages
                                    Cooler = cooler,
                                    Socket = socketData
                                };
-
+            minValue = (double)combinedData.Min(item => item.Cooler.Cost.GetValueOrDefault());
+            MinPrice.Tag = "от " + minValue.ToString();
+            maxValue = (double)combinedData.Max(item => item.Cooler.Cost.GetValueOrDefault());
+            MaxPrice.Tag = "до " + maxValue.ToString();
             ComponentListBox.ItemsSource = combinedData;
             OnStorageCountLabel.Content = $"Охлаждение для процессоров {ComponentListBox.Items.Count} шт";
         }
@@ -167,6 +171,78 @@ namespace ComputerArchitect.Pages
         private void BasicPCComponentsPageOpenLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             NavigationService.Navigate(new BasicPCComponentsPage(CurrentUser));
+        }
+
+        private void MinPrice_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void MaxPrice_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+            {
+                e.Handled = true;
+            }
+        }
+
+
+
+        private List<CombinedData> originalCombineds;
+        private void AcceptFilters_Click(object sender, RoutedEventArgs e)
+        {
+            ICollectionView view = CollectionViewSource.GetDefaultView(ComponentListBox.ItemsSource);
+
+            if (view != null)
+            {
+                if (originalCombineds == null)
+                {
+                    originalCombineds = view.Cast<CombinedData>().ToList();
+                }
+                List<CombinedData> combineds = new List<CombinedData>(originalCombineds);
+
+
+
+                // Проверка и установка минимальной цены
+                if (string.IsNullOrWhiteSpace(MinPrice.Text))
+                {
+                    minValue = (double)combineds.Min(item => item.Cooler.Cost.GetValueOrDefault());
+                    MinPrice.Tag = "от " + minValue.ToString();
+
+                }
+                else
+                {
+                    minValue = double.Parse(MinPrice.Text);
+                }
+
+                // Проверка и установка максимальной цены
+                if (string.IsNullOrWhiteSpace(MaxPrice.Text))
+                {
+                    maxValue = (double)combineds.Max(item => item.Cooler.Cost.GetValueOrDefault());
+                    MaxPrice.Tag = "до " + maxValue.ToString();
+                }
+                else
+                {
+                    maxValue = double.Parse(MaxPrice.Text);
+                }
+
+                combineds = combineds.Where(item => item.Cooler.Cost.HasValue &&
+                                                    item.Cooler.Cost.Value >= (decimal)minValue &&
+                                                    item.Cooler.Cost.Value <= (decimal)maxValue).ToList();
+
+                combineds = combineds.OrderBy(item => item.Cooler.Cost).ToList();
+
+                ComponentListBox.ItemsSource = combineds;
+            }
+        }
+
+        private void DecilineFilters_Click(object sender, RoutedEventArgs e)
+        {
+            MinPrice.Text = null; MaxPrice.Text = null;
+            ComponentListBox.ItemsSource = originalCombineds;
         }
     }
 }

@@ -443,7 +443,7 @@
                                 <Setter TargetName="border" Property="Background" Value="#5B5C62"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="border" Property="Background" Value="#518EBA"/>
+                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
                             </Trigger>
                             <!-- Применяем эффект при наведении на кнопку -->
                             <Trigger Property="IsMouseOver" Value="True">
@@ -849,6 +849,21 @@
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
+
+
+
+
+        <Style x:Key="ConfiguratorBorderStyle" TargetType="Border">
+            <Setter Property="Background" Value="#4B4C52"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#6A6B70"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+
 
 
 

@@ -39,14 +39,20 @@ namespace ComputerArchitect.Pages
         {
             public GPUS GPUProcessor { get; set; }
         }
-
+        double minValue;
+        double maxValue;
         private void LoadComponent()
         {
             var combinedData = (from GPU in App.Database.GPUS
                                 select new CombinedData
                                 {
                                     GPUProcessor = GPU,
-                                }).ToList(); 
+                                }).ToList();
+            minValue = (double)combinedData.Min(item => item.GPUProcessor.Cost.GetValueOrDefault());
+            MinPrice.Tag = "от " + minValue.ToString();
+            maxValue = (double)combinedData.Max(item => item.GPUProcessor.Cost.GetValueOrDefault());
+            MaxPrice.Tag = "до " + maxValue.ToString();
+
 
             ComponentListBox.ItemsSource = combinedData;
             OnStorageCountLabel.Content = $"Видеокарты {ComponentListBox.Items.Count} шт";
@@ -169,6 +175,79 @@ namespace ComputerArchitect.Pages
         private void BasicPCComponentsPageOpenLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             NavigationService.Navigate(new BasicPCComponentsPage(CurrentUser));
+        }
+
+
+        private void MinPrice_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void MaxPrice_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+            {
+                e.Handled = true;
+            }
+        }
+
+
+
+        private List<CombinedData> originalCombineds;
+        private void AcceptFilters_Click(object sender, RoutedEventArgs e)
+        {
+            ICollectionView view = CollectionViewSource.GetDefaultView(ComponentListBox.ItemsSource);
+
+            if (view != null)
+            {
+                if (originalCombineds == null)
+                {
+                    originalCombineds = view.Cast<CombinedData>().ToList();
+                }
+                List<CombinedData> combineds = new List<CombinedData>(originalCombineds);
+
+
+
+                // Проверка и установка минимальной цены
+                if (string.IsNullOrWhiteSpace(MinPrice.Text))
+                {
+                    minValue = (double)combineds.Min(item => item.GPUProcessor.Cost.GetValueOrDefault());
+                    MinPrice.Tag = "от " + minValue.ToString();
+
+                }
+                else
+                {
+                    minValue = double.Parse(MinPrice.Text);
+                }
+
+                // Проверка и установка максимальной цены
+                if (string.IsNullOrWhiteSpace(MaxPrice.Text))
+                {
+                    maxValue = (double)combineds.Max(item => item.GPUProcessor.Cost.GetValueOrDefault());
+                    MaxPrice.Tag = "до " + maxValue.ToString();
+                }
+                else
+                {
+                    maxValue = double.Parse(MaxPrice.Text);
+                }
+
+                combineds = combineds.Where(item => item.GPUProcessor.Cost.HasValue &&
+                                                    item.GPUProcessor.Cost.Value >= (decimal)minValue &&
+                                                    item.GPUProcessor.Cost.Value <= (decimal)maxValue).ToList();
+
+                combineds = combineds.OrderBy(item => item.GPUProcessor.Cost).ToList();
+
+                ComponentListBox.ItemsSource = combineds;
+            }
+        }
+
+        private void DecilineFilters_Click(object sender, RoutedEventArgs e)
+        {
+            MinPrice.Text = null; MaxPrice.Text = null;
+            ComponentListBox.ItemsSource = originalCombineds;
         }
     }
 }

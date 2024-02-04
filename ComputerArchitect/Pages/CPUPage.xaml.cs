@@ -23,6 +23,7 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class CPUPage : Page
     {
+        
         public Users CurrentUser { get; set; }
         public CPUPage(Users currentUser)
         {
@@ -40,6 +41,8 @@ namespace ComputerArchitect.Pages
             public Manufacturers Manufacturer { get; set; }
             public Memory_types MemoryType { get; set; }
         }
+        double minValue;
+        double maxValue;
         private void LoadComponent()
         {
             List<CPUS> processors = App.Database.CPUS.ToList();
@@ -61,6 +64,12 @@ namespace ComputerArchitect.Pages
                                    Manufacturer = manufacturerData,
                                    MemoryType = memoryTypeData
                                };
+
+
+            minValue = (double)combinedData.Min(item => item.Processor.Cost.GetValueOrDefault());
+            MinPrice.Tag = "от " + minValue.ToString();
+            maxValue = (double)combinedData.Max(item => item.Processor.Cost.GetValueOrDefault());
+            MaxPrice.Tag = "до " + maxValue.ToString();
 
             ComponentListBox.ItemsSource = combinedData;
             OnStorageCountLabel.Content = $"Процессоры {ComponentListBox.Items.Count} шт";
@@ -178,6 +187,79 @@ namespace ComputerArchitect.Pages
         private void BasicPCComponentsPageOpenLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             NavigationService.Navigate(new BasicPCComponentsPage(CurrentUser));
+        }
+
+
+        private void MinPrice_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void MaxPrice_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+            {
+                e.Handled = true;
+            }
+        }
+
+
+
+        private List<CombinedData> originalCombineds;
+        private void AcceptFilters_Click(object sender, RoutedEventArgs e)
+        {
+            ICollectionView view = CollectionViewSource.GetDefaultView(ComponentListBox.ItemsSource);
+
+            if (view != null)
+            {
+                if (originalCombineds == null)
+                {
+                    originalCombineds = view.Cast<CombinedData>().ToList();
+                }
+                List<CombinedData> combineds = new List<CombinedData>(originalCombineds);
+
+                
+
+                // Проверка и установка минимальной цены
+                if (string.IsNullOrWhiteSpace(MinPrice.Text))
+                {
+                    minValue = (double)combineds.Min(item => item.Processor.Cost.GetValueOrDefault());
+                    MinPrice.Tag = "от " + minValue.ToString();
+
+                }
+                else
+                {
+                    minValue = double.Parse(MinPrice.Text);
+                }
+
+                // Проверка и установка максимальной цены
+                if (string.IsNullOrWhiteSpace(MaxPrice.Text))
+                {
+                    maxValue = (double)combineds.Max(item => item.Processor.Cost.GetValueOrDefault());
+                    MaxPrice.Tag = "до " + maxValue.ToString();
+                }
+                else
+                {
+                    maxValue = double.Parse(MaxPrice.Text);
+                }
+
+                combineds = combineds.Where(item => item.Processor.Cost.HasValue &&
+                                                    item.Processor.Cost.Value >= (decimal)minValue &&
+                                                    item.Processor.Cost.Value <= (decimal)maxValue).ToList();
+
+                combineds = combineds.OrderBy(item => item.Processor.Cost).ToList();
+
+                ComponentListBox.ItemsSource = combineds;
+            }
+        }
+
+        private void DecilineFilters_Click(object sender, RoutedEventArgs e)
+        {
+            MinPrice.Text = null; MaxPrice.Text = null;
+            ComponentListBox.ItemsSource = originalCombineds;
         }
     }
 }

@@ -390,10 +390,91 @@
                     Width="300"
                     Grid.Row="1"
                     Grid.Column="0">
+
+                <Grid x:Name="FilterGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="110"/>
+                        <RowDefinition Height="200"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="15"/>
+                    </Grid.RowDefinitions>
+                    <Label 
+                    FontFamily="Arial"
+                    FontSize="16"
+                    Margin="20 10 0 0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Foreground="#D6D6D6"
+                    FontWeight="Bold"
+                    Content="Цена"/>
+                    <TextBox Grid.Row="0"
+                    PreviewTextInput="MinPrice_PreviewTextInput"
+                    Style="{StaticResource SimpleTextBox}"
+                    x:Name="MinPrice"
+                    Margin="20 20 0 0"
+                    MaxLength="6"
+                    Tag="от"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Width="120" 
+                    Height="44">
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="3"/>
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
+
+                    <TextBox Grid.Row="0"
+                             PreviewTextInput="MaxPrice_PreviewTextInput"
+                             Style="{StaticResource SimpleTextBox}"
+                             x:Name="MaxPrice"
+                             Margin="0 20 20 0"
+                             MaxLength="6"
+                             Tag="до"     
+                             HorizontalAlignment="Right"
+                             VerticalAlignment="Center"
+                             Width="120" 
+                             Height="44">
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="3"/>
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
+
+                    <Button 
+                        Name="AcceptFilters"
+                        Click="AcceptFilters_Click"
+                        Grid.Row="3"
+                        Width="175"
+                    Style="{StaticResource Simple3Button}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Применить"
+                    Margin="0 0 0 0"   
+                    Height="35"/>
+                    <Button 
+                        Click="DecilineFilters_Click"
+                    Name="DecilineFilters"
+                    Width="175"
+                    Grid.Row="4"
+                    Style="{StaticResource Simple3Button}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Сбросить"
+                    Margin="0 0 0 0"
+                    Height="35"/>
+                </Grid>
                 <Border.Effect>
                     <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="Black" Opacity="0.3"/>
                 </Border.Effect>
             </Border>
+            
+            
+            
             <Border Background="#4B4C52"
                     HorizontalAlignment="Left"
                     CornerRadius="5"
