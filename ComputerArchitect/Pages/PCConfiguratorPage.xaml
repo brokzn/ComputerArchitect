@@ -601,6 +601,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             Height="40"/>
                     <Button Width="140"
                             x:Name="ShareConfingButton"
+                            Click="ShareConfigButton_Click"
                             Style="{StaticResource Simple2Button}"
                             Margin="180 0 0 0"
                             Grid.Row="2"

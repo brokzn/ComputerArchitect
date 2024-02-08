@@ -413,6 +413,21 @@
           <Property Name="Low_Profile" Type="bit" />
           <Property Name="RAM_Voltage" Type="decimal" Precision="3" Scale="1" />
         </EntityType>
+        <EntityType Name="ReadyMadeAssemblies">
+          <Key>
+            <PropertyRef Name="ReadyMadeAssembleId" />
+          </Key>
+          <Property Name="ReadyMadeAssembleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="CpuId" Type="int" />
+          <Property Name="MotherboardId" Type="int" />
+          <Property Name="CaseId" Type="int" />
+          <Property Name="GPUId" Type="int" />
+          <Property Name="FanId" Type="int" />
+          <Property Name="RAMId" Type="int" />
+          <Property Name="MemoryId" Type="int" />
+          <Property Name="PowerSuppliesId" Type="int" />
+        </EntityType>
         <EntityType Name="Sockets">
           <Key>
             <PropertyRef Name="SocketId" />
@@ -763,6 +778,102 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ReadyMadeAssemblies_Cases">
+          <End Role="Cases" Type="Self.Cases" Multiplicity="0..1" />
+          <End Role="ReadyMadeAssemblies" Type="Self.ReadyMadeAssemblies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cases">
+              <PropertyRef Name="CaseId" />
+            </Principal>
+            <Dependent Role="ReadyMadeAssemblies">
+              <PropertyRef Name="CaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReadyMadeAssemblies_Coolers">
+          <End Role="Coolers" Type="Self.Coolers" Multiplicity="0..1" />
+          <End Role="ReadyMadeAssemblies" Type="Self.ReadyMadeAssemblies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coolers">
+              <PropertyRef Name="CoolerId" />
+            </Principal>
+            <Dependent Role="ReadyMadeAssemblies">
+              <PropertyRef Name="FanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReadyMadeAssemblies_GPUS2">
+          <End Role="GPUS" Type="Self.GPUS" Multiplicity="0..1" />
+          <End Role="ReadyMadeAssemblies" Type="Self.ReadyMadeAssemblies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GPUS">
+              <PropertyRef Name="GPUId" />
+            </Principal>
+            <Dependent Role="ReadyMadeAssemblies">
+              <PropertyRef Name="GPUId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReadyMadeAssemblies_HDDs">
+          <End Role="HDDs" Type="Self.HDDs" Multiplicity="0..1" />
+          <End Role="ReadyMadeAssemblies" Type="Self.ReadyMadeAssemblies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HDDs">
+              <PropertyRef Name="HDDId" />
+            </Principal>
+            <Dependent Role="ReadyMadeAssemblies">
+              <PropertyRef Name="MemoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReadyMadeAssemblies_Motherboards">
+          <End Role="Motherboards" Type="Self.Motherboards" Multiplicity="0..1" />
+          <End Role="ReadyMadeAssemblies" Type="Self.ReadyMadeAssemblies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Motherboards">
+              <PropertyRef Name="MotherboardId" />
+            </Principal>
+            <Dependent Role="ReadyMadeAssemblies">
+              <PropertyRef Name="MotherboardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReadyMadeAssemblies_PowerSupplies">
+          <End Role="PowerSupplies" Type="Self.PowerSupplies" Multiplicity="0..1" />
+          <End Role="ReadyMadeAssemblies" Type="Self.ReadyMadeAssemblies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PowerSupplies">
+              <PropertyRef Name="PowerSupplyId" />
+            </Principal>
+            <Dependent Role="ReadyMadeAssemblies">
+              <PropertyRef Name="PowerSuppliesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReadyMadeAssemblies_RAMS">
+          <End Role="RAMS" Type="Self.RAMS" Multiplicity="0..1" />
+          <End Role="ReadyMadeAssemblies" Type="Self.ReadyMadeAssemblies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RAMS">
+              <PropertyRef Name="RAMId" />
+            </Principal>
+            <Dependent Role="ReadyMadeAssemblies">
+              <PropertyRef Name="RAMId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReadyMadeAssemblies_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="ReadyMadeAssemblies" Type="Self.ReadyMadeAssemblies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReadyMadeAssemblies">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SSDs_Manufacturers">
           <End Role="Manufacturers" Type="Self.Manufacturers" Multiplicity="0..1" />
           <End Role="SSDs" Type="Self.SSDs" Multiplicity="*" />
@@ -920,6 +1031,7 @@
           <EntitySet Name="Motherboards" EntityType="Self.Motherboards" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PowerSupplies" EntityType="Self.PowerSupplies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RAMS" EntityType="Self.RAMS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReadyMadeAssemblies" EntityType="Self.ReadyMadeAssemblies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sockets" EntityType="Self.Sockets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SSDs" EntityType="Self.SSDs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserConfiguration" EntityType="Self.UserConfiguration" Schema="dbo" store:Type="Tables" />
@@ -1017,6 +1129,38 @@
             <End Role="Сountries" EntitySet="Сountries" />
             <End Role="RAMS" EntitySet="RAMS" />
           </AssociationSet>
+          <AssociationSet Name="FK_ReadyMadeAssemblies_Cases" Association="Self.FK_ReadyMadeAssemblies_Cases">
+            <End Role="Cases" EntitySet="Cases" />
+            <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReadyMadeAssemblies_Coolers" Association="Self.FK_ReadyMadeAssemblies_Coolers">
+            <End Role="Coolers" EntitySet="Coolers" />
+            <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReadyMadeAssemblies_GPUS2" Association="Self.FK_ReadyMadeAssemblies_GPUS2">
+            <End Role="GPUS" EntitySet="GPUS" />
+            <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReadyMadeAssemblies_HDDs" Association="Self.FK_ReadyMadeAssemblies_HDDs">
+            <End Role="HDDs" EntitySet="HDDs" />
+            <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReadyMadeAssemblies_Motherboards" Association="Self.FK_ReadyMadeAssemblies_Motherboards">
+            <End Role="Motherboards" EntitySet="Motherboards" />
+            <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReadyMadeAssemblies_PowerSupplies" Association="Self.FK_ReadyMadeAssemblies_PowerSupplies">
+            <End Role="PowerSupplies" EntitySet="PowerSupplies" />
+            <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReadyMadeAssemblies_RAMS" Association="Self.FK_ReadyMadeAssemblies_RAMS">
+            <End Role="RAMS" EntitySet="RAMS" />
+            <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReadyMadeAssemblies_Users" Association="Self.FK_ReadyMadeAssemblies_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
           <AssociationSet Name="FK_SSDs_Manufacturers" Association="Self.FK_SSDs_Manufacturers">
             <End Role="Manufacturers" EntitySet="Manufacturers" />
             <End Role="SSDs" EntitySet="SSDs" />
@@ -1086,6 +1230,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Сountries" Relationship="Self.FK_Users_Сountries" FromRole="Users" ToRole="Сountries" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_Users" FromRole="Users" ToRole="UserConfiguration" />
+          <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Users" FromRole="Users" ToRole="ReadyMadeAssemblies" />
         </EntityType>
         <EntityType Name="Сountries">
           <Key>
@@ -1274,6 +1419,43 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="UserConfiguration" EntitySet="UserConfiguration" />
           </AssociationSet>
+          <EntitySet Name="ReadyMadeAssemblies" EntityType="ComputerArchitectDataBaseModel.ReadyMadeAssemblies" />
+          <AssociationSet Name="FK_ReadyMadeAssemblies_Cases" Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Cases">
+            <End Role="Cases" EntitySet="Cases" />
+            <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReadyMadeAssemblies_Coolers" Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Coolers">
+            <End Role="Coolers" EntitySet="Coolers" />
+            <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReadyMadeAssemblies_GPUS" Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_GPUS">
+            <End Role="GPUS" EntitySet="GPUS" />
+            <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReadyMadeAssemblies_GPUS1" Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_GPUS1">
+            <End Role="GPUS" EntitySet="GPUS" />
+            <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReadyMadeAssemblies_HDDs" Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_HDDs">
+            <End Role="HDDs" EntitySet="HDDs" />
+            <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReadyMadeAssemblies_Motherboards" Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Motherboards">
+            <End Role="Motherboards" EntitySet="Motherboards" />
+            <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReadyMadeAssemblies_PowerSupplies" Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_PowerSupplies">
+            <End Role="PowerSupplies" EntitySet="PowerSupplies" />
+            <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReadyMadeAssemblies_RAMS" Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_RAMS">
+            <End Role="RAMS" EntitySet="RAMS" />
+            <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReadyMadeAssemblies_Users" Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="CPUS">
           <Key>
@@ -1323,7 +1505,7 @@
           <NavigationProperty Name="Sockets" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Sockets" FromRole="CPUS" ToRole="Sockets" />
           <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Сountries" FromRole="CPUS" ToRole="Сountries" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_CPUS" FromRole="CPUS" ToRole="UserConfiguration" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="Manufacturers">
           <Key>
             <PropertyRef Name="ManufacturersId" />
@@ -1488,6 +1670,7 @@
           <NavigationProperty Name="Sockets" Relationship="ComputerArchitectDataBaseModel.FK_Motherboards_Sockets" FromRole="Motherboards" ToRole="Sockets" />
           <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_Motherboards_Сountries" FromRole="Motherboards" ToRole="Сountries" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_Motherboards" FromRole="Motherboards" ToRole="UserConfiguration" />
+          <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Motherboards" FromRole="Motherboards" ToRole="ReadyMadeAssemblies" />
         </EntityType>
         <Association Name="FK_Motherboards_Form_Factors">
           <End Type="ComputerArchitectDataBaseModel.Form_Factors" Role="Form_Factors" Multiplicity="0..1" />
@@ -1593,6 +1776,8 @@
           <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_GPUS_Сountries" FromRole="GPUS" ToRole="Сountries" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_GPUS" FromRole="GPUS" ToRole="UserConfiguration" />
           <Property Name="Using_Power_Watt" Type="Int32" />
+          <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_GPUS" FromRole="GPUS" ToRole="ReadyMadeAssemblies" />
+          <NavigationProperty Name="ReadyMadeAssemblies1" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_GPUS1" FromRole="GPUS" ToRole="ReadyMadeAssemblies" />
           </EntityType>
         <Association Name="FK_GPUS_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -1651,6 +1836,7 @@
           <NavigationProperty Name="Memory_types" Relationship="ComputerArchitectDataBaseModel.FK_RAMS_Memory_types" FromRole="RAMS" ToRole="Memory_types" />
           <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_RAMS_Сountries" FromRole="RAMS" ToRole="Сountries" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_RAMS" FromRole="RAMS" ToRole="UserConfiguration" />
+          <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_RAMS" FromRole="RAMS" ToRole="ReadyMadeAssemblies" />
         </EntityType>
         <Association Name="FK_RAMS_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -1736,6 +1922,7 @@
           <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_PowerSupplies_Сountries" FromRole="PowerSupplies" ToRole="Сountries" />
           <Property Name="PS__Count_on_storage" Type="Int32" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_PowerSupplies" FromRole="PowerSupplies" ToRole="UserConfiguration" />
+          <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_PowerSupplies" FromRole="PowerSupplies" ToRole="ReadyMadeAssemblies" />
         </EntityType>
         <Association Name="FK_PowerSupplies_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -1832,6 +2019,7 @@
           <NavigationProperty Name="Manufacturers" Relationship="ComputerArchitectDataBaseModel.FK_Cases_Manufacturers" FromRole="Cases" ToRole="Manufacturers" />
           <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_Cases_Сountries" FromRole="Cases" ToRole="Сountries" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_Cases" FromRole="Cases" ToRole="UserConfiguration" />
+          <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Cases" FromRole="Cases" ToRole="ReadyMadeAssemblies" />
         </EntityType>
         <Association Name="FK_Cases_CaseSizes">
           <End Type="ComputerArchitectDataBaseModel.CaseSizes" Role="CaseSizes" Multiplicity="0..1" />
@@ -1914,6 +2102,7 @@
           <NavigationProperty Name="Sockets" Relationship="ComputerArchitectDataBaseModel.FK_Coolers_Sockets" FromRole="Coolers" ToRole="Sockets" />
           <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_Coolers_Сountries" FromRole="Coolers" ToRole="Сountries" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_Coolers" FromRole="Coolers" ToRole="UserConfiguration" />
+          <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Coolers" FromRole="Coolers" ToRole="ReadyMadeAssemblies" />
         </EntityType>
         <Association Name="FK_Coolers_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -2043,6 +2232,7 @@
           <NavigationProperty Name="Manufacturers" Relationship="ComputerArchitectDataBaseModel.FK_HDDs_Manufacturers" FromRole="HDDs" ToRole="Manufacturers" />
           <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_HDDs_Сountries" FromRole="HDDs" ToRole="Сountries" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_HDDs" FromRole="HDDs" ToRole="UserConfiguration" />
+          <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_HDDs" FromRole="HDDs" ToRole="ReadyMadeAssemblies" />
         </EntityType>
         <Association Name="FK_HDDs_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -2197,6 +2387,137 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="UserConfiguration">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ReadyMadeAssemblies">
+          <Key>
+            <PropertyRef Name="ReadyMadeAssembleId" />
+          </Key>
+          <Property Name="ReadyMadeAssembleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="CpuId" Type="Int32" />
+          <Property Name="MotherboardId" Type="Int32" />
+          <Property Name="CaseId" Type="Int32" />
+          <Property Name="GPUId" Type="Int32" />
+          <Property Name="FanId" Type="Int32" />
+          <Property Name="RAMId" Type="Int32" />
+          <Property Name="MemoryId" Type="Int32" />
+          <Property Name="PowerSuppliesId" Type="Int32" />
+          <NavigationProperty Name="Cases" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Cases" FromRole="ReadyMadeAssemblies" ToRole="Cases" />
+          <NavigationProperty Name="Coolers" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Coolers" FromRole="ReadyMadeAssemblies" ToRole="Coolers" />
+          <NavigationProperty Name="GPUS" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_GPUS" FromRole="ReadyMadeAssemblies" ToRole="GPUS" />
+          <NavigationProperty Name="HDDs" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_HDDs" FromRole="ReadyMadeAssemblies" ToRole="HDDs" />
+          <NavigationProperty Name="Motherboards" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Motherboards" FromRole="ReadyMadeAssemblies" ToRole="Motherboards" />
+          <NavigationProperty Name="PowerSupplies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_PowerSupplies" FromRole="ReadyMadeAssemblies" ToRole="PowerSupplies" />
+          <NavigationProperty Name="RAMS" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_RAMS" FromRole="ReadyMadeAssemblies" ToRole="RAMS" />
+          <NavigationProperty Name="Users" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Users" FromRole="ReadyMadeAssemblies" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_ReadyMadeAssemblies_Cases">
+          <End Type="ComputerArchitectDataBaseModel.Cases" Role="Cases" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.ReadyMadeAssemblies" Role="ReadyMadeAssemblies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cases">
+              <PropertyRef Name="CaseId" />
+            </Principal>
+            <Dependent Role="ReadyMadeAssemblies">
+              <PropertyRef Name="CaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReadyMadeAssemblies_Coolers">
+          <End Type="ComputerArchitectDataBaseModel.Coolers" Role="Coolers" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.ReadyMadeAssemblies" Role="ReadyMadeAssemblies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coolers">
+              <PropertyRef Name="CoolerId" />
+            </Principal>
+            <Dependent Role="ReadyMadeAssemblies">
+              <PropertyRef Name="FanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReadyMadeAssemblies_GPUS">
+          <End Type="ComputerArchitectDataBaseModel.GPUS" Role="GPUS" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.ReadyMadeAssemblies" Role="ReadyMadeAssemblies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GPUS">
+              <PropertyRef Name="GPUId" />
+            </Principal>
+            <Dependent Role="ReadyMadeAssemblies">
+              <PropertyRef Name="CpuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReadyMadeAssemblies_GPUS1">
+          <End Type="ComputerArchitectDataBaseModel.GPUS" Role="GPUS" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.ReadyMadeAssemblies" Role="ReadyMadeAssemblies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GPUS">
+              <PropertyRef Name="GPUId" />
+            </Principal>
+            <Dependent Role="ReadyMadeAssemblies">
+              <PropertyRef Name="GPUId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReadyMadeAssemblies_HDDs">
+          <End Type="ComputerArchitectDataBaseModel.HDDs" Role="HDDs" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.ReadyMadeAssemblies" Role="ReadyMadeAssemblies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HDDs">
+              <PropertyRef Name="HDDId" />
+            </Principal>
+            <Dependent Role="ReadyMadeAssemblies">
+              <PropertyRef Name="MemoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReadyMadeAssemblies_Motherboards">
+          <End Type="ComputerArchitectDataBaseModel.Motherboards" Role="Motherboards" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.ReadyMadeAssemblies" Role="ReadyMadeAssemblies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Motherboards">
+              <PropertyRef Name="MotherboardId" />
+            </Principal>
+            <Dependent Role="ReadyMadeAssemblies">
+              <PropertyRef Name="MotherboardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReadyMadeAssemblies_PowerSupplies">
+          <End Type="ComputerArchitectDataBaseModel.PowerSupplies" Role="PowerSupplies" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.ReadyMadeAssemblies" Role="ReadyMadeAssemblies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PowerSupplies">
+              <PropertyRef Name="PowerSupplyId" />
+            </Principal>
+            <Dependent Role="ReadyMadeAssemblies">
+              <PropertyRef Name="PowerSuppliesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReadyMadeAssemblies_RAMS">
+          <End Type="ComputerArchitectDataBaseModel.RAMS" Role="RAMS" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.ReadyMadeAssemblies" Role="ReadyMadeAssemblies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RAMS">
+              <PropertyRef Name="RAMId" />
+            </Principal>
+            <Dependent Role="ReadyMadeAssemblies">
+              <PropertyRef Name="RAMId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReadyMadeAssemblies_Users">
+          <End Type="ComputerArchitectDataBaseModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.ReadyMadeAssemblies" Role="ReadyMadeAssemblies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReadyMadeAssemblies">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -2703,6 +3024,22 @@
                 <ScalarProperty Name="CpuId" ColumnName="CpuId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ConfiguratorId" ColumnName="ConfiguratorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReadyMadeAssemblies">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.ReadyMadeAssemblies">
+              <MappingFragment StoreEntitySet="ReadyMadeAssemblies">
+                <ScalarProperty Name="PowerSuppliesId" ColumnName="PowerSuppliesId" />
+                <ScalarProperty Name="MemoryId" ColumnName="MemoryId" />
+                <ScalarProperty Name="RAMId" ColumnName="RAMId" />
+                <ScalarProperty Name="FanId" ColumnName="FanId" />
+                <ScalarProperty Name="GPUId" ColumnName="GPUId" />
+                <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+                <ScalarProperty Name="MotherboardId" ColumnName="MotherboardId" />
+                <ScalarProperty Name="CpuId" ColumnName="CpuId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ReadyMadeAssembleId" ColumnName="ReadyMadeAssembleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

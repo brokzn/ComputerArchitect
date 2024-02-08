@@ -42,5 +42,6 @@ namespace ComputerArchitect.Database
         public virtual DbSet<SSDs> SSDs { get; set; }
         public virtual DbSet<HDDs> HDDs { get; set; }
         public virtual DbSet<UserConfiguration> UserConfiguration { get; set; }
+        public virtual DbSet<ReadyMadeAssemblies> ReadyMadeAssemblies { get; set; }
     }
 }

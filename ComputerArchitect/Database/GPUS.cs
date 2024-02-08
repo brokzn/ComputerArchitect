@@ -18,6 +18,8 @@ namespace ComputerArchitect.Database
         public GPUS()
         {
             this.UserConfiguration = new HashSet<UserConfiguration>();
+            this.ReadyMadeAssemblies = new HashSet<ReadyMadeAssemblies>();
+            this.ReadyMadeAssemblies1 = new HashSet<ReadyMadeAssemblies>();
         }
     
         public int GPUId { get; set; }
@@ -74,5 +76,9 @@ namespace ComputerArchitect.Database
         public virtual Сountries Сountries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserConfiguration> UserConfiguration { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ReadyMadeAssemblies> ReadyMadeAssemblies { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ReadyMadeAssemblies> ReadyMadeAssemblies1 { get; set; }
     }
 }

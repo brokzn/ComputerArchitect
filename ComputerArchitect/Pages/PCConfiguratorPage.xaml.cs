@@ -237,9 +237,17 @@ namespace ComputerArchitect.Pages
                     }
                     else
                     {
+                        if (countOfSelectedComponents < 8)
+                        {
+                            ShareConfingButton.IsEnabled = false;
+                            AddToCartConfingButton.IsEnabled = false;
+                        }
+                        else
+                        {
+                            ShareConfingButton.IsEnabled = true;
+                            AddToCartConfingButton.IsEnabled = true;
+                        }
                         SetCompatibilityColors(GreenColor);
-                        ShareConfingButton.IsEnabled = true;
-                        AddToCartConfingButton.IsEnabled = true;
                         componentsCompability = 0;
                     }
                 }
@@ -843,36 +851,32 @@ namespace ComputerArchitect.Pages
                     UserConfiguration existingConfiguration = context.UserConfiguration
                         .FirstOrDefault(config => config.UserId == userId);
 
-                    if (existingConfiguration != null)
+                    if (existingConfiguration == null)
                     {
-                        // Получение информации о материнской плате из текущей конфигурации
-                        MotherboardCombinedData currentMotherboardData = null;
-                        if (existingConfiguration.MotherboardId != null)
+                        // Если у пользователя еще нет конфигурации, создаем новую
+                        existingConfiguration = new UserConfiguration
                         {
-                            currentMotherboardData = context.Motherboards
-                                .Where(m => m.MotherboardId == existingConfiguration.MotherboardId)
-                                .Join(context.Sockets,
-                                      mb => mb.Socket,
-                                      socket => socket.SocketId,
-                                      (mb, socket) => new MotherboardCombinedData
-                                      {
-                                          Motherboard = mb,
-                                          Socket = socket,
-                                      })
-                                .FirstOrDefault();
-                        }
+                            UserId = userId,
+                            CpuId = selectedData.Processor.CPUId
+                            // Заполните остальные компоненты, если необходимо
+                        };
 
-                        
+                        context.UserConfiguration.Add(existingConfiguration);
+                    }
+                    else
+                    {
                         // Процессор совместим с материнской платой
                         existingConfiguration.CpuId = selectedData.Processor.CPUId;
                         context.Entry(existingConfiguration).State = EntityState.Modified;
-                        context.SaveChanges();
-                        CPUDisplaySelectedData(selectedData); 
                     }
+
+                    context.SaveChanges();
+                    CPUDisplaySelectedData(selectedData);
                 }
             }
             UpdateUserData();
         }
+
 
 
 
@@ -1057,23 +1061,39 @@ namespace ComputerArchitect.Pages
 
                 using (var context = new ComputerArchitectDataBaseEntities())
                 {
+                    // Получение текущей конфигурации пользователя
                     UserConfiguration existingConfiguration = context.UserConfiguration
                         .FirstOrDefault(config => config.UserId == userId);
 
-                    
+                    if (existingConfiguration == null)
+                    {
+                        // Если у пользователя еще нет конфигурации, создаем новую
+                        existingConfiguration = new UserConfiguration
+                        {
+                            UserId = userId,
+                            MotherboardId = selectedData.Motherboard.MotherboardId
+                            // Заполните остальные компоненты, если необходимо
+                        };
+
+                        context.UserConfiguration.Add(existingConfiguration);
+                    }
+                    else
+                    {
+                        // Установка выбранной материнской платы
                         existingConfiguration.MotherboardId = selectedData.Motherboard.MotherboardId;
                         context.Entry(existingConfiguration).State = EntityState.Modified;
-                        context.SaveChanges();
+                    }
 
+                    context.SaveChanges();
+                    MotherboardDisplaySelectedData(selectedData);
                 }
-
-                MotherboardDisplaySelectedData(selectedData);
             }
 
             UpdateUserData();
         }
-       
-        
+
+
+
 
 
 
@@ -1245,40 +1265,38 @@ namespace ComputerArchitect.Pages
 
                 using (var context = new ComputerArchitectDataBaseEntities())
                 {
+                    // Получение текущей конфигурации пользователя
                     UserConfiguration existingConfiguration = context.UserConfiguration
                         .FirstOrDefault(config => config.UserId == userId);
 
-                    if (existingConfiguration != null)
+                    if (existingConfiguration == null)
                     {
-                        MotherboardCombinedData currentMotherboardData = null;
-                        if (existingConfiguration.MotherboardId != null)
+                        // Если у пользователя еще нет конфигурации, создаем новую
+                        existingConfiguration = new UserConfiguration
                         {
-                            currentMotherboardData = context.Motherboards
-                                .Where(m => m.MotherboardId == existingConfiguration.MotherboardId)
-                                .Join(context.Sockets,
-                                      mb => mb.Socket,
-                                      socket => socket.SocketId,
-                                      (mb, socket) => new MotherboardCombinedData
-                                      {
-                                          Motherboard = mb,
-                                          Socket = socket,
-                                      })
-                                .FirstOrDefault();
-                        }
+                            UserId = userId,
+                            CaseId = selectedData.Case.CaseId
+                            // Заполните остальные компоненты, если необходимо
+                        };
 
-                        
+                        context.UserConfiguration.Add(existingConfiguration);
+                    }
+                    else
+                    {
+                        // Установка выбранного корпуса
                         existingConfiguration.CaseId = selectedData.Case.CaseId;
                         context.Entry(existingConfiguration).State = EntityState.Modified;
-                        context.SaveChanges();
-
-                        CaseDisplaySelectedData(selectedData);  
                     }
+
+                    context.SaveChanges();
+                    CaseDisplaySelectedData(selectedData);
                 }
             }
 
             UpdateUserData();
         }
-       
+
+
 
 
 
@@ -1444,24 +1462,39 @@ namespace ComputerArchitect.Pages
 
                 using (var context = new ComputerArchitectDataBaseEntities())
                 {
+                    // Получение текущей конфигурации пользователя
                     UserConfiguration existingConfiguration = context.UserConfiguration
                         .FirstOrDefault(config => config.UserId == userId);
 
-                    if (existingConfiguration != null)
+                    if (existingConfiguration == null)
                     {
+                        // Если у пользователя еще нет конфигурации, создаем новую
+                        existingConfiguration = new UserConfiguration
+                        {
+                            UserId = userId,
+                            GPUId = selectedData.GPUProcessor.GPUId
+                            // Заполните остальные компоненты, если необходимо
+                        };
+
+                        context.UserConfiguration.Add(existingConfiguration);
+                    }
+                    else
+                    {
+                        // Установка выбранного графического процессора
                         existingConfiguration.GPUId = selectedData.GPUProcessor.GPUId;
                         context.Entry(existingConfiguration).State = EntityState.Modified;
-                        context.SaveChanges();
-
-                        GPUDisplaySelectedData(selectedData);
-                        ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
-                        ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
                     }
+
+                    context.SaveChanges();
+                    GPUDisplaySelectedData(selectedData);
+                    ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
+                    ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
                 }
             }
 
             UpdateUserData();
         }
+
 
 
 
@@ -1633,24 +1666,39 @@ namespace ComputerArchitect.Pages
 
                 using (var context = new ComputerArchitectDataBaseEntities())
                 {
+                    // Получение текущей конфигурации пользователя
                     UserConfiguration existingConfiguration = context.UserConfiguration
                         .FirstOrDefault(config => config.UserId == userId);
 
-                    if (existingConfiguration != null)
+                    if (existingConfiguration == null)
                     {
+                        // Если у пользователя еще нет конфигурации, создаем новую
+                        existingConfiguration = new UserConfiguration
+                        {
+                            UserId = userId,
+                            FanId = selectedData.Cooler.CoolerId
+                            // Заполните остальные компоненты, если необходимо
+                        };
+
+                        context.UserConfiguration.Add(existingConfiguration);
+                    }
+                    else
+                    {
+                        // Установка выбранного кулера
                         existingConfiguration.FanId = selectedData.Cooler.CoolerId;
                         context.Entry(existingConfiguration).State = EntityState.Modified;
-                        context.SaveChanges();
-
-                        FanDisplaySelectedData(selectedData);
-                        ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
-                        ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
                     }
+
+                    context.SaveChanges();
+                    FanDisplaySelectedData(selectedData);
+                    ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
+                    ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
                 }
             }
 
             UpdateUserData();
         }
+
 
 
 
@@ -1825,25 +1873,39 @@ namespace ComputerArchitect.Pages
 
                 using (var context = new ComputerArchitectDataBaseEntities())
                 {
+                    // Получение текущей конфигурации пользователя
                     UserConfiguration existingConfiguration = context.UserConfiguration
                         .FirstOrDefault(config => config.UserId == userId);
 
-                    if (existingConfiguration != null)
+                    if (existingConfiguration == null)
                     {
+                        // Если у пользователя еще нет конфигурации, создаем новую
+                        existingConfiguration = new UserConfiguration
+                        {
+                            UserId = userId,
+                            RAMId = selectedData.Rams.RAMId
+                            // Заполните остальные компоненты, если необходимо
+                        };
+
+                        context.UserConfiguration.Add(existingConfiguration);
+                    }
+                    else
+                    {
+                        // Установка выбранной оперативной памяти
                         existingConfiguration.RAMId = selectedData.Rams.RAMId;
                         context.Entry(existingConfiguration).State = EntityState.Modified;
-                        context.SaveChanges();
-
-                        RAMDisplaySelectedData(selectedData);
-                        ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
-                        ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
                     }
+
+                    context.SaveChanges();
+                    RAMDisplaySelectedData(selectedData);
+                    ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
+                    ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
                 }
             }
 
             UpdateUserData();
-
         }
+
 
 
 
@@ -2002,24 +2064,39 @@ namespace ComputerArchitect.Pages
 
                 using (var context = new ComputerArchitectDataBaseEntities())
                 {
+                    // Получение текущей конфигурации пользователя
                     UserConfiguration existingConfiguration = context.UserConfiguration
                         .FirstOrDefault(config => config.UserId == userId);
 
-                    if (existingConfiguration != null)
+                    if (existingConfiguration == null)
                     {
+                        // Если у пользователя еще нет конфигурации, создаем новую
+                        existingConfiguration = new UserConfiguration
+                        {
+                            UserId = userId,
+                            MemoryId = selectedData.Hdds.HDDId
+                            // Заполните остальные компоненты, если необходимо
+                        };
+
+                        context.UserConfiguration.Add(existingConfiguration);
+                    }
+                    else
+                    {
+                        // Установка выбранного накопителя
                         existingConfiguration.MemoryId = selectedData.Hdds.HDDId;
                         context.Entry(existingConfiguration).State = EntityState.Modified;
-                        context.SaveChanges();
-
-                        MemoryDisplaySelectedData(selectedData);
-                        ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
-                        ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
                     }
+
+                    context.SaveChanges();
+                    MemoryDisplaySelectedData(selectedData);
+                    ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
+                    ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
                 }
             }
 
             UpdateUserData();
         }
+
 
 
 
@@ -2185,23 +2262,74 @@ namespace ComputerArchitect.Pages
 
                 using (var context = new ComputerArchitectDataBaseEntities())
                 {
+                    // Получение текущей конфигурации пользователя
                     UserConfiguration existingConfiguration = context.UserConfiguration
                         .FirstOrDefault(config => config.UserId == userId);
 
-                    if (existingConfiguration != null)
+                    if (existingConfiguration == null)
                     {
+                        // Если у пользователя еще нет конфигурации, создаем новую
+                        existingConfiguration = new UserConfiguration
+                        {
+                            UserId = userId,
+                            PowerSuppliesId = selectedData.Powersupplies.PowerSupplyId
+                            // Заполните остальные компоненты, если необходимо
+                        };
+
+                        context.UserConfiguration.Add(existingConfiguration);
+                    }
+                    else
+                    {
+                        // Установка выбранного блока питания
                         existingConfiguration.PowerSuppliesId = selectedData.Powersupplies.PowerSupplyId;
                         context.Entry(existingConfiguration).State = EntityState.Modified;
-                        context.SaveChanges();
-
-                        PowerSuppliesDisplaySelectedData(selectedData);
-                        ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
-                        ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
                     }
+
+                    context.SaveChanges();
+                    PowerSuppliesDisplaySelectedData(selectedData);
+                    ComponentsСompatibilityAllPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
+                    ComponentsСompatibilityAll.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
                 }
             }
 
             UpdateUserData();
+        }
+
+
+        private void ShareConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+                using (var context = new ComputerArchitectDataBaseEntities())
+                {
+                    // Получение текущей конфигурации пользователя
+                    UserConfiguration currentUserConfig = context.UserConfiguration
+                        .FirstOrDefault(config => config.UserId == CurrentUser.Id);
+
+                    if (currentUserConfig != null)
+                    {
+                        // Создание новой записи ReadyMadeAssemblies
+                        ReadyMadeAssemblies newAssembly = new ReadyMadeAssemblies
+                        {
+                            UserId = currentUserConfig.UserId,
+                            CpuId = currentUserConfig.CpuId,
+                            MotherboardId = currentUserConfig.MotherboardId,
+                            CaseId = currentUserConfig.CaseId,
+                            GPUId = currentUserConfig.GPUId,
+                            FanId = currentUserConfig.FanId,
+                            RAMId = currentUserConfig.RAMId,
+                            MemoryId = currentUserConfig.MemoryId,
+                            PowerSuppliesId = currentUserConfig.PowerSuppliesId
+                            // Добавьте остальные поля, если необходимо
+                        };
+
+                        // Добавление новой записи ReadyMadeAssemblies в контекст данных
+                        context.ReadyMadeAssemblies.Add(newAssembly);
+                        context.SaveChanges();
+
+                        // Вывод сообщения об успешном добавлении
+                        MessageBox.Show("Сборка успешно добавлена");
+                    }
+                }
         }
     }
 }

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d24a2f82a2994e0483c654609745d0a4" Name="Diagram1" ZoomLevel="39">
+      <Diagram DiagramId="d24a2f82a2994e0483c654609745d0a4" Name="Diagram1" ZoomLevel="73">
         <EntityTypeShape EntityType="ComputerArchitectDataBaseModel.Users" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="ComputerArchitectDataBaseModel.Сountries" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
         <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_Users_Сountries" ManuallyRouted="false" />
@@ -57,6 +57,16 @@
         <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_UserConfiguration_PowerSupplies" />
         <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_UserConfiguration_RAMS" />
         <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_UserConfiguration_Users" />
+        <EntityTypeShape EntityType="ComputerArchitectDataBaseModel.ReadyMadeAssemblies" Width="1.5" PointX="31.625" PointY="4.5" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Cases" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Coolers" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_GPUS" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_GPUS1" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_HDDs" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Motherboards" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_PowerSupplies" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_RAMS" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Users" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

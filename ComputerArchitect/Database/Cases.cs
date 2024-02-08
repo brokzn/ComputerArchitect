@@ -18,6 +18,7 @@ namespace ComputerArchitect.Database
         public Cases()
         {
             this.UserConfiguration = new HashSet<UserConfiguration>();
+            this.ReadyMadeAssemblies = new HashSet<ReadyMadeAssemblies>();
         }
     
         public int CaseId { get; set; }
@@ -81,5 +82,7 @@ namespace ComputerArchitect.Database
         public virtual Сountries Сountries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserConfiguration> UserConfiguration { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ReadyMadeAssemblies> ReadyMadeAssemblies { get; set; }
     }
 }
