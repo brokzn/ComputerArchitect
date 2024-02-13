@@ -73,6 +73,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Database\CartItems.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\Cases.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
@@ -137,6 +140,9 @@
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Users.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\UsersCarts.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Сountries.cs">

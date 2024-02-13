@@ -19,6 +19,7 @@ namespace ComputerArchitect.Database
         {
             this.UserConfiguration = new HashSet<UserConfiguration>();
             this.ReadyMadeAssemblies = new HashSet<ReadyMadeAssemblies>();
+            this.CartItems = new HashSet<CartItems>();
         }
     
         public int PowerSupplyId { get; set; }
@@ -69,5 +70,7 @@ namespace ComputerArchitect.Database
         public virtual ICollection<UserConfiguration> UserConfiguration { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReadyMadeAssemblies> ReadyMadeAssemblies { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CartItems> CartItems { get; set; }
     }
 }

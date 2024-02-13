@@ -18,6 +18,7 @@ namespace ComputerArchitect.Database
         public CPUS()
         {
             this.UserConfiguration = new HashSet<UserConfiguration>();
+            this.CartItems = new HashSet<CartItems>();
         }
     
         public int CPUId { get; set; }
@@ -66,5 +67,7 @@ namespace ComputerArchitect.Database
         public virtual Сountries Сountries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserConfiguration> UserConfiguration { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CartItems> CartItems { get; set; }
     }
 }

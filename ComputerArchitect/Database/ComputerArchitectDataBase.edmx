@@ -5,6 +5,21 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Хранилище ComputerArchitectDataBaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CartItems">
+          <Key>
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="ItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CartId" Type="int" />
+          <Property Name="CpuId" Type="int" />
+          <Property Name="MotherboardId" Type="int" />
+          <Property Name="CaseId" Type="int" />
+          <Property Name="GPUId" Type="int" />
+          <Property Name="FanId" Type="int" />
+          <Property Name="RAMId" Type="int" />
+          <Property Name="MemoryId" Type="int" />
+          <Property Name="PowerSuppliesId" Type="int" />
+        </EntityType>
         <EntityType Name="Cases">
           <Key>
             <PropertyRef Name="CaseId" />
@@ -495,6 +510,13 @@
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
+        <EntityType Name="UsersCarts">
+          <Key>
+            <PropertyRef Name="CartId" />
+          </Key>
+          <Property Name="CartId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
         <EntityType Name="Сountries">
           <Key>
             <PropertyRef Name="CountryId" />
@@ -502,6 +524,114 @@
           <Property Name="CountryId" Type="int" Nullable="false" />
           <Property Name="CountryName" Type="nvarchar" MaxLength="30" />
         </EntityType>
+        <Association Name="FK_CartItems_Cases">
+          <End Role="Cases" Type="Self.Cases" Multiplicity="0..1" />
+          <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cases">
+              <PropertyRef Name="CaseId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="CaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_Coolers">
+          <End Role="Coolers" Type="Self.Coolers" Multiplicity="0..1" />
+          <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coolers">
+              <PropertyRef Name="CoolerId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="FanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_CPUS">
+          <End Role="CPUS" Type="Self.CPUS" Multiplicity="0..1" />
+          <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CPUS">
+              <PropertyRef Name="CPUId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="CpuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_GPUS">
+          <End Role="GPUS" Type="Self.GPUS" Multiplicity="0..1" />
+          <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GPUS">
+              <PropertyRef Name="GPUId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="GPUId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_HDDs">
+          <End Role="HDDs" Type="Self.HDDs" Multiplicity="0..1" />
+          <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HDDs">
+              <PropertyRef Name="HDDId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="MemoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_Motherboards">
+          <End Role="Motherboards" Type="Self.Motherboards" Multiplicity="0..1" />
+          <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Motherboards">
+              <PropertyRef Name="MotherboardId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="MotherboardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_PowerSupplies">
+          <End Role="PowerSupplies" Type="Self.PowerSupplies" Multiplicity="0..1" />
+          <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PowerSupplies">
+              <PropertyRef Name="PowerSupplyId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="PowerSuppliesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_RAMS">
+          <End Role="RAMS" Type="Self.RAMS" Multiplicity="0..1" />
+          <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RAMS">
+              <PropertyRef Name="RAMId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="RAMId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_UsersCarts">
+          <End Role="UsersCarts" Type="Self.UsersCarts" Multiplicity="0..1" />
+          <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UsersCarts">
+              <PropertyRef Name="CartId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="CartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Cases_CaseSizes">
           <End Role="CaseSizes" Type="Self.CaseSizes" Multiplicity="0..1" />
           <End Role="Cases" Type="Self.Cases" Multiplicity="*" />
@@ -1018,7 +1148,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UsersCarts_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="UsersCarts" Type="Self.UsersCarts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersCarts">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище ComputerArchitectDataBaseModelContainer">
+          <EntitySet Name="CartItems" EntityType="Self.CartItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cases" EntityType="Self.Cases" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CaseSizes" EntityType="Self.CaseSizes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Coolers" EntityType="Self.Coolers" Schema="dbo" store:Type="Tables" />
@@ -1036,7 +1179,44 @@
           <EntitySet Name="SSDs" EntityType="Self.SSDs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserConfiguration" EntityType="Self.UserConfiguration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsersCarts" EntityType="Self.UsersCarts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Сountries" EntityType="Self.Сountries" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CartItems_Cases" Association="Self.FK_CartItems_Cases">
+            <End Role="Cases" EntitySet="Cases" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_Coolers" Association="Self.FK_CartItems_Coolers">
+            <End Role="Coolers" EntitySet="Coolers" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_CPUS" Association="Self.FK_CartItems_CPUS">
+            <End Role="CPUS" EntitySet="CPUS" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_GPUS" Association="Self.FK_CartItems_GPUS">
+            <End Role="GPUS" EntitySet="GPUS" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_HDDs" Association="Self.FK_CartItems_HDDs">
+            <End Role="HDDs" EntitySet="HDDs" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_Motherboards" Association="Self.FK_CartItems_Motherboards">
+            <End Role="Motherboards" EntitySet="Motherboards" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_PowerSupplies" Association="Self.FK_CartItems_PowerSupplies">
+            <End Role="PowerSupplies" EntitySet="PowerSupplies" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_RAMS" Association="Self.FK_CartItems_RAMS">
+            <End Role="RAMS" EntitySet="RAMS" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_UsersCarts" Association="Self.FK_CartItems_UsersCarts">
+            <End Role="UsersCarts" EntitySet="UsersCarts" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
           <AssociationSet Name="FK_Cases_CaseSizes" Association="Self.FK_Cases_CaseSizes">
             <End Role="CaseSizes" EntitySet="CaseSizes" />
             <End Role="Cases" EntitySet="Cases" />
@@ -1209,6 +1389,10 @@
             <End Role="Сountries" EntitySet="Сountries" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_UsersCarts_Users" Association="Self.FK_UsersCarts_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UsersCarts" EntitySet="UsersCarts" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -1231,6 +1415,7 @@
           <NavigationProperty Name="Сountries" Relationship="Self.FK_Users_Сountries" FromRole="Users" ToRole="Сountries" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_Users" FromRole="Users" ToRole="UserConfiguration" />
           <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Users" FromRole="Users" ToRole="ReadyMadeAssemblies" />
+          <NavigationProperty Name="UsersCarts" Relationship="ComputerArchitectDataBaseModel.FK_UsersCarts_Users" FromRole="Users" ToRole="UsersCarts" />
         </EntityType>
         <EntityType Name="Сountries">
           <Key>
@@ -1456,6 +1641,48 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
           </AssociationSet>
+          <EntitySet Name="CartItems" EntityType="ComputerArchitectDataBaseModel.CartItems" />
+          <EntitySet Name="UsersCarts" EntityType="ComputerArchitectDataBaseModel.UsersCarts" />
+          <AssociationSet Name="FK_CartItems_UsersCarts" Association="ComputerArchitectDataBaseModel.FK_CartItems_UsersCarts">
+            <End Role="UsersCarts" EntitySet="UsersCarts" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersCarts_Users" Association="ComputerArchitectDataBaseModel.FK_UsersCarts_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UsersCarts" EntitySet="UsersCarts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_Cases" Association="ComputerArchitectDataBaseModel.FK_CartItems_Cases">
+            <End Role="Cases" EntitySet="Cases" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_Coolers" Association="ComputerArchitectDataBaseModel.FK_CartItems_Coolers">
+            <End Role="Coolers" EntitySet="Coolers" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_CPUS" Association="ComputerArchitectDataBaseModel.FK_CartItems_CPUS">
+            <End Role="CPUS" EntitySet="CPUS" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_GPUS" Association="ComputerArchitectDataBaseModel.FK_CartItems_GPUS">
+            <End Role="GPUS" EntitySet="GPUS" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_HDDs" Association="ComputerArchitectDataBaseModel.FK_CartItems_HDDs">
+            <End Role="HDDs" EntitySet="HDDs" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_Motherboards" Association="ComputerArchitectDataBaseModel.FK_CartItems_Motherboards">
+            <End Role="Motherboards" EntitySet="Motherboards" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_PowerSupplies" Association="ComputerArchitectDataBaseModel.FK_CartItems_PowerSupplies">
+            <End Role="PowerSupplies" EntitySet="PowerSupplies" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_RAMS" Association="ComputerArchitectDataBaseModel.FK_CartItems_RAMS">
+            <End Role="RAMS" EntitySet="RAMS" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="CPUS">
           <Key>
@@ -1505,6 +1732,7 @@
           <NavigationProperty Name="Sockets" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Sockets" FromRole="CPUS" ToRole="Sockets" />
           <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Сountries" FromRole="CPUS" ToRole="Сountries" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_CPUS" FromRole="CPUS" ToRole="UserConfiguration" />
+          <NavigationProperty Name="CartItems" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_CPUS" FromRole="CPUS" ToRole="CartItems" />
           </EntityType>
         <EntityType Name="Manufacturers">
           <Key>
@@ -1671,6 +1899,7 @@
           <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_Motherboards_Сountries" FromRole="Motherboards" ToRole="Сountries" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_Motherboards" FromRole="Motherboards" ToRole="UserConfiguration" />
           <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Motherboards" FromRole="Motherboards" ToRole="ReadyMadeAssemblies" />
+          <NavigationProperty Name="CartItems" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_Motherboards" FromRole="Motherboards" ToRole="CartItems" />
         </EntityType>
         <Association Name="FK_Motherboards_Form_Factors">
           <End Type="ComputerArchitectDataBaseModel.Form_Factors" Role="Form_Factors" Multiplicity="0..1" />
@@ -1778,6 +2007,7 @@
           <Property Name="Using_Power_Watt" Type="Int32" />
           <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_GPUS" FromRole="GPUS" ToRole="ReadyMadeAssemblies" />
           <NavigationProperty Name="ReadyMadeAssemblies1" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_GPUS1" FromRole="GPUS" ToRole="ReadyMadeAssemblies" />
+          <NavigationProperty Name="CartItems" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_GPUS" FromRole="GPUS" ToRole="CartItems" />
           </EntityType>
         <Association Name="FK_GPUS_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -1837,6 +2067,7 @@
           <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_RAMS_Сountries" FromRole="RAMS" ToRole="Сountries" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_RAMS" FromRole="RAMS" ToRole="UserConfiguration" />
           <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_RAMS" FromRole="RAMS" ToRole="ReadyMadeAssemblies" />
+          <NavigationProperty Name="CartItems" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_RAMS" FromRole="RAMS" ToRole="CartItems" />
         </EntityType>
         <Association Name="FK_RAMS_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -1923,6 +2154,7 @@
           <Property Name="PS__Count_on_storage" Type="Int32" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_PowerSupplies" FromRole="PowerSupplies" ToRole="UserConfiguration" />
           <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_PowerSupplies" FromRole="PowerSupplies" ToRole="ReadyMadeAssemblies" />
+          <NavigationProperty Name="CartItems" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_PowerSupplies" FromRole="PowerSupplies" ToRole="CartItems" />
         </EntityType>
         <Association Name="FK_PowerSupplies_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -2020,6 +2252,7 @@
           <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_Cases_Сountries" FromRole="Cases" ToRole="Сountries" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_Cases" FromRole="Cases" ToRole="UserConfiguration" />
           <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Cases" FromRole="Cases" ToRole="ReadyMadeAssemblies" />
+          <NavigationProperty Name="CartItems" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_Cases" FromRole="Cases" ToRole="CartItems" />
         </EntityType>
         <Association Name="FK_Cases_CaseSizes">
           <End Type="ComputerArchitectDataBaseModel.CaseSizes" Role="CaseSizes" Multiplicity="0..1" />
@@ -2103,6 +2336,7 @@
           <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_Coolers_Сountries" FromRole="Coolers" ToRole="Сountries" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_Coolers" FromRole="Coolers" ToRole="UserConfiguration" />
           <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Coolers" FromRole="Coolers" ToRole="ReadyMadeAssemblies" />
+          <NavigationProperty Name="CartItems" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_Coolers" FromRole="Coolers" ToRole="CartItems" />
         </EntityType>
         <Association Name="FK_Coolers_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -2233,6 +2467,7 @@
           <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_HDDs_Сountries" FromRole="HDDs" ToRole="Сountries" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_HDDs" FromRole="HDDs" ToRole="UserConfiguration" />
           <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_HDDs" FromRole="HDDs" ToRole="ReadyMadeAssemblies" />
+          <NavigationProperty Name="CartItems" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_HDDs" FromRole="HDDs" ToRole="CartItems" />
         </EntityType>
         <Association Name="FK_HDDs_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -2519,6 +2754,159 @@
             </Principal>
             <Dependent Role="ReadyMadeAssemblies">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CartItems">
+          <Key>
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="ItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CartId" Type="Int32" />
+          <Property Name="CpuId" Type="Int32" />
+          <Property Name="MotherboardId" Type="Int32" />
+          <Property Name="CaseId" Type="Int32" />
+          <Property Name="GPUId" Type="Int32" />
+          <Property Name="FanId" Type="Int32" />
+          <Property Name="RAMId" Type="Int32" />
+          <Property Name="MemoryId" Type="Int32" />
+          <Property Name="PowerSuppliesId" Type="Int32" />
+          <NavigationProperty Name="UsersCarts" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_UsersCarts" FromRole="CartItems" ToRole="UsersCarts" />
+          <NavigationProperty Name="Cases" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_Cases" FromRole="CartItems" ToRole="Cases" />
+          <NavigationProperty Name="Coolers" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_Coolers" FromRole="CartItems" ToRole="Coolers" />
+          <NavigationProperty Name="CPUS" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_CPUS" FromRole="CartItems" ToRole="CPUS" />
+          <NavigationProperty Name="GPUS" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_GPUS" FromRole="CartItems" ToRole="GPUS" />
+          <NavigationProperty Name="HDDs" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_HDDs" FromRole="CartItems" ToRole="HDDs" />
+          <NavigationProperty Name="Motherboards" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_Motherboards" FromRole="CartItems" ToRole="Motherboards" />
+          <NavigationProperty Name="PowerSupplies" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_PowerSupplies" FromRole="CartItems" ToRole="PowerSupplies" />
+          <NavigationProperty Name="RAMS" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_RAMS" FromRole="CartItems" ToRole="RAMS" />
+        </EntityType>
+        <EntityType Name="UsersCarts">
+          <Key>
+            <PropertyRef Name="CartId" />
+          </Key>
+          <Property Name="CartId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="CartItems" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_UsersCarts" FromRole="UsersCarts" ToRole="CartItems" />
+          <NavigationProperty Name="Users" Relationship="ComputerArchitectDataBaseModel.FK_UsersCarts_Users" FromRole="UsersCarts" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_CartItems_UsersCarts">
+          <End Type="ComputerArchitectDataBaseModel.UsersCarts" Role="UsersCarts" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.CartItems" Role="CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UsersCarts">
+              <PropertyRef Name="CartId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="CartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersCarts_Users">
+          <End Type="ComputerArchitectDataBaseModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.UsersCarts" Role="UsersCarts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersCarts">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_Cases">
+          <End Type="ComputerArchitectDataBaseModel.Cases" Role="Cases" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.CartItems" Role="CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cases">
+              <PropertyRef Name="CaseId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="CaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_Coolers">
+          <End Type="ComputerArchitectDataBaseModel.Coolers" Role="Coolers" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.CartItems" Role="CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coolers">
+              <PropertyRef Name="CoolerId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="FanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_CPUS">
+          <End Type="ComputerArchitectDataBaseModel.CPUS" Role="CPUS" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.CartItems" Role="CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CPUS">
+              <PropertyRef Name="CPUId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="CpuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_GPUS">
+          <End Type="ComputerArchitectDataBaseModel.GPUS" Role="GPUS" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.CartItems" Role="CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GPUS">
+              <PropertyRef Name="GPUId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="GPUId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_HDDs">
+          <End Type="ComputerArchitectDataBaseModel.HDDs" Role="HDDs" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.CartItems" Role="CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HDDs">
+              <PropertyRef Name="HDDId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="MemoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_Motherboards">
+          <End Type="ComputerArchitectDataBaseModel.Motherboards" Role="Motherboards" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.CartItems" Role="CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Motherboards">
+              <PropertyRef Name="MotherboardId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="MotherboardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_PowerSupplies">
+          <End Type="ComputerArchitectDataBaseModel.PowerSupplies" Role="PowerSupplies" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.CartItems" Role="CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PowerSupplies">
+              <PropertyRef Name="PowerSupplyId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="PowerSuppliesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_RAMS">
+          <End Type="ComputerArchitectDataBaseModel.RAMS" Role="RAMS" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.CartItems" Role="CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RAMS">
+              <PropertyRef Name="RAMId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="RAMId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3040,6 +3428,30 @@
                 <ScalarProperty Name="CpuId" ColumnName="CpuId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ReadyMadeAssembleId" ColumnName="ReadyMadeAssembleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CartItems">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.CartItems">
+              <MappingFragment StoreEntitySet="CartItems">
+                <ScalarProperty Name="PowerSuppliesId" ColumnName="PowerSuppliesId" />
+                <ScalarProperty Name="MemoryId" ColumnName="MemoryId" />
+                <ScalarProperty Name="RAMId" ColumnName="RAMId" />
+                <ScalarProperty Name="FanId" ColumnName="FanId" />
+                <ScalarProperty Name="GPUId" ColumnName="GPUId" />
+                <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+                <ScalarProperty Name="MotherboardId" ColumnName="MotherboardId" />
+                <ScalarProperty Name="CpuId" ColumnName="CpuId" />
+                <ScalarProperty Name="CartId" ColumnName="CartId" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsersCarts">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.UsersCarts">
+              <MappingFragment StoreEntitySet="UsersCarts">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CartId" ColumnName="CartId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using ComputerArchitect.Database;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +23,229 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class UserCartPage : Page
     {
-        public UserCartPage()
+       
+        int totalCost = 0;
+        public Users CurrentUser { get; set; }
+        public UserCartPage(Users currentUser)
         {
+            CurrentUser = currentUser;
             InitializeComponent();
+            LoadUserCart();
+
+        }
+
+        public class CombinedData
+        {
+            public CPUS Processor { get; set; }
+            public Motherboards Motherboards { get; set; }
+            public Cases Cases { get; set; }
+            public GPUS GPUS { get; set; }
+            public Coolers Coolers { get; set; }
+            public RAMS RAMS { get; set; }
+            public HDDs HDDs { get; set; }
+            public PowerSupplies PowerSupplies { get; set; }
+            public int CartItemId { get; set; }
+            public CartItems CartItems { get; set; }
+        }
+
+        List<CombinedData> combinedData = new List<CombinedData>();
+        private void LoadUserCart()
+        {
+            try
+            {
+                int userId = CurrentUser.Id;
+
+                List<CartItems> cartItems = App.Database.CartItems
+                    .Where(item => item.CartId == userId)
+                    .ToList();
+
+                
+
+                foreach (var cartItem in cartItems)
+                {
+                    CombinedData itemData = new CombinedData();
+                    itemData.CartItems = cartItem;
+
+                    if (cartItem.CPUS != null)
+                    {
+                        itemData.Processor = cartItem.CPUS;
+                        totalCost += Convert.ToInt32(cartItem.CPUS.Cost);
+                    }
+
+
+                    if (cartItem.Motherboards != null)
+                    {
+                        itemData.Motherboards = cartItem.Motherboards;
+                        totalCost += Convert.ToInt32(cartItem.Motherboards.Cost);
+                    }
+                    if (cartItem.Cases != null)
+                    {
+                        itemData.Cases = cartItem.Cases;
+                        totalCost += Convert.ToInt32(cartItem.Cases.Cost);
+                    }
+                    if (cartItem.GPUS != null)
+                    {
+                        itemData.GPUS = cartItem.GPUS;
+                        totalCost += Convert.ToInt32(cartItem.GPUS.Cost);
+                    }
+                    if (cartItem.Coolers != null)
+                    {
+                        itemData.Coolers = cartItem.Coolers;
+                        totalCost += Convert.ToInt32(cartItem.Coolers.Cost);
+                    }
+                    if (cartItem.RAMS != null)
+                    {
+                        itemData.RAMS = cartItem.RAMS;
+                        totalCost += Convert.ToInt32(cartItem.RAMS.Cost);
+                    }
+                    if (cartItem.HDDs != null)
+                    {
+                        itemData.HDDs = cartItem.HDDs;
+                        totalCost += Convert.ToInt32(cartItem.HDDs.Cost);
+                    }
+                    if (cartItem.PowerSupplies != null)
+                    {
+                        itemData.PowerSupplies = cartItem.PowerSupplies;
+                        totalCost += Convert.ToInt32(cartItem.PowerSupplies.Cost);
+                    }
+
+                    combinedData.Add(itemData);
+                }
+
+                UserCartListBox.ItemsSource = combinedData;
+                CartItemsCount.Content = $"товары {UserCartListBox.Items.Count} шт";
+                CartTotalCost.Content = totalCost + "  ₽";
+
+
+                if (combinedData.Count == 0)
+                {
+                    EmptyCartLabel.Visibility = Visibility.Visible;
+                    UserCartListBox.Visibility = Visibility.Collapsed;
+                    CardInfo.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    EmptyCartLabel.Visibility = Visibility.Collapsed;
+                    UserCartListBox.Visibility = Visibility.Visible;
+                    CardInfo.Visibility = Visibility.Visible;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при загрузке корзины пользователя: " + ex.Message);
+            }
+        }
+        private CombinedData lastSelectedItem;
+        private void DeleteItem_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            lastSelectedItem = button?.DataContext as CombinedData;
+            if (lastSelectedItem != null)
+            {
+                DeleteDialog.Visibility = Visibility.Visible;
+                DeleteDialogBack.Visibility = Visibility.Visible;
+            }
+        }
+
+
+        private int GetCost(CombinedData item)
+        {
+            int cost = 0;
+            if (item.Processor != null)
+                cost += Convert.ToInt32(item.Processor.Cost);
+            if (item.Motherboards != null)
+                cost += Convert.ToInt32(item.Motherboards.Cost);
+            if (item.Cases != null)
+                cost += Convert.ToInt32(item.Cases.Cost);
+            if (item.GPUS != null)
+                cost += Convert.ToInt32(item.GPUS.Cost);
+            if (item.Coolers != null)
+                cost += Convert.ToInt32(item.Coolers.Cost);
+            if (item.RAMS != null)
+                cost += Convert.ToInt32(item.RAMS.Cost);
+            if (item.HDDs != null)
+                cost += Convert.ToInt32(item.HDDs.Cost);
+            if (item.PowerSupplies != null)
+                cost += Convert.ToInt32(item.PowerSupplies.Cost);
+            return cost;
+        }
+
+        private void DialogYes_Click(object sender, RoutedEventArgs e)
+        {
+            if (lastSelectedItem != null)
+            {
+                try
+                {
+                    if (lastSelectedItem.CartItems != null)
+                    {
+                        int itemId = lastSelectedItem.CartItems.ItemId;
+                        CartItems itemToRemove = App.Database.CartItems.FirstOrDefault(item => item.ItemId == itemId);
+
+                        if (itemToRemove != null)
+                        {
+                            App.Database.CartItems.Remove(itemToRemove);
+                            App.Database.SaveChanges();
+                        }
+
+                        combinedData.Remove(lastSelectedItem);
+                        UserCartListBox.ItemsSource = null;
+                        UserCartListBox.ItemsSource = combinedData;
+
+                        // Пересчитываем общую стоимость
+                        totalCost = combinedData.Sum(item => GetCost(item));
+
+                        // Обновляем информацию о количестве товаров
+                        CartItemsCount.Content = $"товары {combinedData.Count} шт";
+
+                        // Обновляем общую стоимость
+                        CartTotalCost.Content = totalCost + " ₽";
+
+                        // Обновляем видимость соответствующих элементов интерфейса
+                        if (combinedData.Count == 0)
+                        {
+                            EmptyCartLabel.Visibility = Visibility.Visible;
+                            UserCartListBox.Visibility = Visibility.Collapsed;
+                            CardInfo.Visibility = Visibility.Collapsed;
+                        }
+                        else
+                        {
+                            EmptyCartLabel.Visibility = Visibility.Collapsed;
+                            UserCartListBox.Visibility = Visibility.Visible;
+                            CardInfo.Visibility = Visibility.Visible;
+                        }
+
+                        DeleteDialog.Visibility = Visibility.Collapsed;
+                        DeleteDialogBack.Visibility = Visibility.Collapsed;
+                        lastSelectedItem = null;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Объект lastSelectedItem.CartItems содержит null.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при удалении элемента из базы данных: " + ex.Message);
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private void DialogNo_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteDialog.Visibility = Visibility.Collapsed;
+            DeleteDialogBack.Visibility = Visibility.Collapsed;
         }
     }
 }

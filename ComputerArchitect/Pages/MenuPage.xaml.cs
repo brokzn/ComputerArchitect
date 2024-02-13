@@ -146,7 +146,7 @@ namespace ComputerArchitect.UI.Pages
 
         private void UserCartOpenButton_Click(object sender, RoutedEventArgs e)
         {
-            MenuFrame.NavigationService.Navigate(new UserCartPage());
+            MenuFrame.NavigationService.Navigate(new UserCartPage(CurrentUser));
         }
 
 
