@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls.WebParts;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -31,7 +32,6 @@ namespace ComputerArchitect.Pages
             CurrentUser = currentUser;
             InitializeComponent();
             LoadUserCart();
-
         }
 
         public class CombinedData
@@ -51,15 +51,28 @@ namespace ComputerArchitect.Pages
         List<CombinedData> combinedData = new List<CombinedData>();
         private void LoadUserCart()
         {
+            List<CartItems> cartItems = new List<CartItems>();
             try
             {
                 int userId = CurrentUser.Id;
 
-                List<CartItems> cartItems = App.Database.CartItems
-                    .Where(item => item.CartId == userId)
-                    .ToList();
+                int? userCartId = App.Database.UsersCarts
+                    .Where(cart => cart.UserId == userId)
+                    .Select(cart => cart.CartId)
+                    .FirstOrDefault();
 
-                
+                if (userCartId != null)
+                {
+                    cartItems = App.Database.CartItems
+                        .Where(item => item.CartId == userCartId)
+                        .ToList();
+                }
+                else
+                {
+                    MessageBox.Show("Корзина для текущего пользователя не найдена.");
+                }
+
+
 
                 foreach (var cartItem in cartItems)
                 {
@@ -134,6 +147,7 @@ namespace ComputerArchitect.Pages
             {
                 MessageBox.Show("Ошибка при загрузке корзины пользователя: " + ex.Message);
             }
+
         }
         private CombinedData lastSelectedItem;
         private void DeleteItem_Click(object sender, RoutedEventArgs e)

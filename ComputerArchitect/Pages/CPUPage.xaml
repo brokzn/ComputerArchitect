@@ -663,8 +663,11 @@
                                    Foreground="#6DB2E3"
                                    FontSize="18"/>
                                     <Button Width="100"
+                                            Name="AddToCartCPUButton"
+                                            Click="AddToCartCPUButton_Click"
                                             Style="{StaticResource Simple3Button}"
                                     Margin="0 0 15 0"
+                                    Loaded="AddToCartCPUButton_Loaded"
                                     HorizontalAlignment="Right"
                                     Content="Купить"
                                     Height="45"/>

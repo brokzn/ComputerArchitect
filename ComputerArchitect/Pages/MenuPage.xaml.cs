@@ -32,7 +32,6 @@ namespace ComputerArchitect.UI.Pages
         public MenuPage(Users currentUser)
         {
             InitializeComponent();
-            
             CurrentUser = currentUser;
             CurrentUserNameLabel.Content = CurrentUser.Name;
             MenuFrame.NavigationService.Navigate(new CatalogPage(CurrentUser));
@@ -55,8 +54,36 @@ namespace ComputerArchitect.UI.Pages
                 UserAvatarSmallImage.Source = new BitmapImage(new Uri("/UI/Elements/UserMissedPictureBig.png", UriKind.Relative));
             }
         }
-        
 
+        private void UpdateItemCountInCart(int count)
+        {
+            ItemCountLabel.Content = count.ToString();
+            ItemCountLabel.Visibility = count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            ItemCountBack.Visibility = count > 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+
+
+
+
+        private int GetItemCountInCart()
+        {
+            if (CurrentUser != null)
+            {
+                using (var context = new ComputerArchitectDataBaseEntities())
+                {
+                    var userCart = context.UsersCarts
+                        .Include("CartItems")
+                        .FirstOrDefault(c => c.UserId == CurrentUser.Id);
+
+                    if (userCart != null)
+                    {
+                        return userCart.CartItems.Count;
+                    }
+                }
+            }
+            return 0;
+        }
 
         bool SelectTheme = true;
         private void SwapThemeButton_Click(object sender, RoutedEventArgs e)
@@ -205,6 +232,12 @@ namespace ComputerArchitect.UI.Pages
             UMVisible = !UMVisible;
         }
 
-        
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            int itemCount = GetItemCountInCart();
+            ItemCountLabel.Content = itemCount.ToString();
+            ItemCountLabel.Visibility = itemCount > 0 ? Visibility.Visible : Visibility.Collapsed;
+            ItemCountBack.Visibility = itemCount > 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
     }
 }

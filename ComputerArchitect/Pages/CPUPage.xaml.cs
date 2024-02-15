@@ -1,13 +1,16 @@
 ﻿using ComputerArchitect.Database;
+using ComputerArchitect.UI.Pages;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -23,10 +26,12 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class CPUPage : Page
     {
-        
+        //ДОБАВЛЕНИЕ В КОРЗИНУ
+        private UsersCarts currentUserCart;
         public Users CurrentUser { get; set; }
         public CPUPage(Users currentUser)
         {
+           
             CurrentUser = currentUser;
             InitializeComponent();
             LoadComponent();
@@ -73,7 +78,33 @@ namespace ComputerArchitect.Pages
 
             ComponentListBox.ItemsSource = combinedData;
             OnStorageCountLabel.Content = $"Процессоры {ComponentListBox.Items.Count} шт";
+
+            // ДОБАВЛЕНИЕ В КОРЗИНУ
+            currentUserCart = App.Database.UsersCarts
+        .Include("CartItems")
+        .FirstOrDefault(c => c.UserId == CurrentUser.Id);
         }
+        //ДОБАВЛЕНИЕ В КОРЗИНУ - изменние кнопки
+        private void AddToCartCPUButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+
+            if (combinedData != null)
+            {
+                if (IsItemInCart(combinedData.Processor))
+                {
+                    button.Content = "В корзине";
+                    button.IsEnabled = false;
+                }
+                else
+                {
+                    button.Content = "Купить";
+                    button.IsEnabled = true;
+                }
+            }
+        }
+
 
         private void SearchInCategoryTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -122,7 +153,7 @@ namespace ComputerArchitect.Pages
 
         private void MostCheapestSort_Checked(object sender, RoutedEventArgs e)
         {
-            if (ComponentListBox != null) 
+            if (ComponentListBox != null)
             {
                 SortBorder.Visibility = Visibility.Collapsed;
                 SortLabel.Content = "сначала недорогие";
@@ -133,7 +164,7 @@ namespace ComputerArchitect.Pages
 
         private void MostValueableSort_Checked(object sender, RoutedEventArgs e)
         {
-            if (ComponentListBox != null) 
+            if (ComponentListBox != null)
             {
                 SortBorder.Visibility = Visibility.Collapsed;
                 SortLabel.Content = "сначала дорогие";
@@ -148,7 +179,7 @@ namespace ComputerArchitect.Pages
 
             if (view != null)
             {
-                
+
                 List<CombinedData> combineds = view.Cast<CombinedData>().ToList();
 
 
@@ -221,7 +252,7 @@ namespace ComputerArchitect.Pages
                 }
                 List<CombinedData> combineds = new List<CombinedData>(originalCombineds);
 
-                
+
 
                 // Проверка и установка минимальной цены
                 if (string.IsNullOrWhiteSpace(MinPrice.Text))
@@ -260,6 +291,70 @@ namespace ComputerArchitect.Pages
         {
             MinPrice.Text = null; MaxPrice.Text = null;
             ComponentListBox.ItemsSource = originalCombineds;
+        }
+
+
+        //ДОБАВЛЕНИЕ В КОРЗИНУ
+        private bool IsItemInCart(CPUS processor)
+        {
+            if (currentUserCart != null)
+            {
+                return currentUserCart.CartItems.Any(item => item.CpuId == processor.CPUId);
+            }
+            return false;
+        }
+
+
+
+        
+        //ДОБАВЛЕНИЕ В КОРЗИНУ
+        private void AddToCartCPUButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+
+            if (combinedData != null)
+            {
+                var selectedProcessor = combinedData.Processor;
+
+                int userId = CurrentUser.Id;
+
+                using (var context = new ComputerArchitectDataBaseEntities())
+                {
+                    var userCart = context.UsersCarts
+                        .Include("CartItems")
+                        .FirstOrDefault(c => c.UserId == userId);
+
+                    if (userCart == null)
+                    {
+                        userCart = new UsersCarts
+                        {
+                            UserId = userId
+                        };
+
+                        context.UsersCarts.Add(userCart);
+                    }
+
+                    var cartItem = new CartItems
+                    {
+                        CartId = userCart.CartId,
+                        CpuId = selectedProcessor.CPUId,
+                        UsersCarts = userCart
+                    };
+
+                    // Добавляем созданный элемент CartItems в корзину пользователя
+                    userCart.CartItems.Add(cartItem);
+
+                    context.SaveChanges();
+                    // Обновление контента кнопки и блокировка её
+                    button.Content = "В корзине";
+                    button.IsEnabled = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ошибка: не удалось определить выбранный процессор.");
+            }
         }
     }
 }
