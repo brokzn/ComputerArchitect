@@ -25,6 +25,7 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class MotherBoardPage : Page
     {
+        private UsersCarts currentUserCart;
         public Users CurrentUser { get; set; }
 
         public MotherBoardPage(Users currentUser)
@@ -50,7 +51,7 @@ namespace ComputerArchitect.Pages
             List<Motherboards> motherboards = App.Database.Motherboards.ToList();
             List<ComputerArchitect.Database.Sockets> sockets = App.Database.Sockets.ToList();
             List<Memory_types> memoryTypes = App.Database.Memory_types.ToList();
-            List<Form_Factors> formFactors = App.Database.Form_Factors.ToList(); 
+            List<Form_Factors> formFactors = App.Database.Form_Factors.ToList();
 
             var combinedData = from motherboard in motherboards
                                join socket in sockets on motherboard.Socket equals socket.SocketId into motherboardSocketGroup
@@ -72,6 +73,10 @@ namespace ComputerArchitect.Pages
             MaxPrice.Tag = "до " + maxValue.ToString();
             ComponentListBox.ItemsSource = combinedData;
             OnStorageCountLabel.Content = $"Материнские платы {ComponentListBox.Items.Count} шт";
+
+            currentUserCart = App.Database.UsersCarts
+        .Include("CartItems")
+        .FirstOrDefault(c => c.UserId == CurrentUser.Id);
         }
 
 
@@ -262,6 +267,86 @@ namespace ComputerArchitect.Pages
         {
             MinPrice.Text = null; MaxPrice.Text = null;
             ComponentListBox.ItemsSource = originalCombineds;
+        }
+
+
+
+
+        private bool IsItemInCart(Motherboards motherboards)
+        {
+            if (currentUserCart != null)
+            {
+                return currentUserCart.CartItems.Any(item => item.MotherboardId == motherboards.MotherboardId);
+            }
+            return false;
+        }
+        private void AddToCartMotherboardButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+
+            if (combinedData != null)
+            {
+                var selectedMotherboard = combinedData.Motherboard;
+
+                int userId = CurrentUser.Id;
+
+                using (var context = new ComputerArchitectDataBaseEntities())
+                {
+                    var userCart = context.UsersCarts
+                        .Include("CartItems")
+                        .FirstOrDefault(c => c.UserId == userId);
+
+                    if (userCart == null)
+                    {
+                        userCart = new UsersCarts
+                        {
+                            UserId = userId
+                        };
+
+                        context.UsersCarts.Add(userCart);
+                    }
+
+                    var cartItem = new CartItems
+                    {
+                        CartId = userCart.CartId,
+                        MotherboardId = selectedMotherboard.MotherboardId,
+                        UsersCarts = userCart
+                    };
+
+                    // Добавляем созданный элемент CartItems в корзину пользователя
+                    userCart.CartItems.Add(cartItem);
+
+                    context.SaveChanges();
+                    // Обновление контента кнопки и блокировка её
+                    button.Content = "В корзине";
+                    button.IsEnabled = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ошибка: не удалось определить выбранный товар.");
+            }
+        }
+
+        private void AddToCartMotherboardButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+
+            if (combinedData != null)
+            {
+                if (IsItemInCart(combinedData.Motherboard))
+                {
+                    button.Content = "В корзине";
+                    button.IsEnabled = false;
+                }
+                else
+                {
+                    button.Content = "Купить";
+                    button.IsEnabled = true;
+                }
+            }
         }
     }
 }

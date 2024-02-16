@@ -648,7 +648,10 @@
                                    Foreground="#6DB2E3"
                                    FontSize="18"/>
                                     <Button Width="100"
-                                            Style="{StaticResource Simple3Button}"
+                                               x:Name="AddToCartGPUButton"
+                                               Click="AddToCartGPUButton_Click"
+                                               Loaded="AddToCartGPUButton_Loaded"
+                                               Style="{StaticResource Simple3Button}"
                                     Margin="0 0 15 0"
                                     HorizontalAlignment="Right"
                                     Content="Купить"

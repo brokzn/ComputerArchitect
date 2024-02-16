@@ -647,6 +647,9 @@
                                    Foreground="#6DB2E3"
                                    FontSize="18"/>
                                     <Button Width="100"
+                                            x:Name="AddToCartHDDButton"
+                                            Click="AddToCartHDDButton_Click"
+                                            Loaded="AddToCartHDDButton_Loaded"
                                             Style="{StaticResource Simple3Button}"
                                     Margin="0 0 15 0"
                                     HorizontalAlignment="Right"

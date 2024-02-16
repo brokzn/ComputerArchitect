@@ -23,6 +23,7 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class CasePage : Page
     {
+        private UsersCarts currentUserCart;
         public Users CurrentUser { get; set; }
         public CasePage(Users currentUser)
         {
@@ -57,6 +58,9 @@ namespace ComputerArchitect.Pages
             MaxPrice.Tag = "до " + maxValue.ToString();
             ComponentListBox.ItemsSource = combinedData;
             OnStorageCountLabel.Content = $"Корпуса {ComponentListBox.Items.Count} шт";
+            currentUserCart = App.Database.UsersCarts
+            .Include("CartItems")
+            .FirstOrDefault(c => c.UserId == CurrentUser.Id);
         }
 
         private void SearchInCategoryTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -249,8 +253,82 @@ namespace ComputerArchitect.Pages
             ComponentListBox.ItemsSource = originalCombineds;
         }
 
+        private bool IsItemInCart(Cases cases)
+        {
+            if (currentUserCart != null)
+            {
+                return currentUserCart.CartItems.Any(item => item.CaseId == cases.CaseId);
+            }
+            return false;
+        }
 
+        private void AddToCartCaseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
 
+            if (combinedData != null)
+            {
+                var selectedCase = combinedData.Case;
 
+                int userId = CurrentUser.Id;
+
+                using (var context = new ComputerArchitectDataBaseEntities())
+                {
+                    var userCart = context.UsersCarts
+                        .Include("CartItems")
+                        .FirstOrDefault(c => c.UserId == userId);
+
+                    if (userCart == null)
+                    {
+                        userCart = new UsersCarts
+                        {
+                            UserId = userId
+                        };
+
+                        context.UsersCarts.Add(userCart);
+                    }
+
+                    var cartItem = new CartItems
+                    {
+                        CartId = userCart.CartId,
+                        CaseId = selectedCase.CaseId,
+                        UsersCarts = userCart
+                    };
+
+                    // Добавляем созданный элемент CartItems в корзину пользователя
+                    userCart.CartItems.Add(cartItem);
+
+                    context.SaveChanges();
+                    // Обновление контента кнопки и блокировка её
+                    button.Content = "В корзине";
+                    button.IsEnabled = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ошибка: не удалось определить выбранный процессор.");
+            }
+        }
+
+        private void AddToCartCaseButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+
+            if (combinedData != null)
+            {
+                if (IsItemInCart(combinedData.Case))
+                {
+                    button.Content = "В корзине";
+                    button.IsEnabled = false;
+                }
+                else
+                {
+                    button.Content = "Купить";
+                    button.IsEnabled = true;
+                }
+            }
+        }
     }
 }

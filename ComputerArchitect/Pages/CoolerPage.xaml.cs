@@ -24,13 +24,14 @@ namespace ComputerArchitect.Pages
     public partial class CoolerPage : Page
     {
         public Users CurrentUser { get; set; }
-
+        private UsersCarts currentUserCart;
         public CoolerPage(Users currentUser)
         {
+            CurrentUser = currentUser;
             InitializeComponent();
             LoadComponent();
             MostCheapestSort_Checked(null, null);
-            CurrentUser = currentUser;
+            
         }
         public class CombinedData
         {
@@ -58,6 +59,11 @@ namespace ComputerArchitect.Pages
             MaxPrice.Tag = "до " + maxValue.ToString();
             ComponentListBox.ItemsSource = combinedData;
             OnStorageCountLabel.Content = $"Охлаждение для процессоров {ComponentListBox.Items.Count} шт";
+
+            currentUserCart = App.Database.UsersCarts
+            .Include("CartItems")
+            .FirstOrDefault(c => c.UserId == CurrentUser.Id);
+
         }
 
         private void SearchInCategoryTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -243,6 +249,83 @@ namespace ComputerArchitect.Pages
         {
             MinPrice.Text = null; MaxPrice.Text = null;
             ComponentListBox.ItemsSource = originalCombineds;
+        }
+        private bool IsItemInCart(Coolers coolers)
+        {
+            if (currentUserCart != null)
+            {
+                return currentUserCart.CartItems.Any(item => item.FanId == coolers.CoolerId);
+            }
+            return false;
+        }
+
+        private void AddToCartCoolerButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+
+            if (combinedData != null)
+            {
+                var selectedcoolers = combinedData.Cooler;
+
+                int userId = CurrentUser.Id;
+
+                using (var context = new ComputerArchitectDataBaseEntities())
+                {
+                    var userCart = context.UsersCarts
+                        .Include("CartItems")
+                        .FirstOrDefault(c => c.UserId == userId);
+
+                    if (userCart == null)
+                    {
+                        userCart = new UsersCarts
+                        {
+                            UserId = userId
+                        };
+
+                        context.UsersCarts.Add(userCart);
+                    }
+
+                    var cartItem = new CartItems
+                    {
+                        CartId = userCart.CartId,
+                        FanId = selectedcoolers.CoolerId,
+                        UsersCarts = userCart
+                    };
+
+                    // Добавляем созданный элемент CartItems в корзину пользователя
+                    userCart.CartItems.Add(cartItem);
+
+                    context.SaveChanges();
+                    // Обновление контента кнопки и блокировка её
+                    button.Content = "В корзине";
+                    button.IsEnabled = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ошибка: не удалось определить выбранный процессор.");
+            }
+        }
+
+        private void AddToCartCoolerButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+
+            if (combinedData != null)
+            {
+                if (IsItemInCart(combinedData.Cooler))
+                {
+                    button.Content = "В корзине";
+                    button.IsEnabled = false;
+                }
+                else
+                {
+                    button.Content = "Купить";
+                    button.IsEnabled = true;
+                }
+            }
         }
     }
 }

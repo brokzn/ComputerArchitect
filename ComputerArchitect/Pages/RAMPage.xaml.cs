@@ -23,6 +23,7 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class RAMPage : Page
     {
+        private UsersCarts currentUserCart;
         public Users CurrentUser { get; set; }
         public RAMPage(Users currentUser)
         {
@@ -61,6 +62,10 @@ namespace ComputerArchitect.Pages
 
             ComponentListBox.ItemsSource = combinedData;
             OnStorageCountLabel.Content = $"Оперативная память {ComponentListBox.Items.Count} шт";
+
+             currentUserCart = App.Database.UsersCarts
+            .Include("CartItems")
+            .FirstOrDefault(c => c.UserId == CurrentUser.Id);
         }
 
 
@@ -250,6 +255,85 @@ namespace ComputerArchitect.Pages
         {
             MinPrice.Text = null; MaxPrice.Text = null;
             ComponentListBox.ItemsSource = originalCombineds;
+        }
+
+        private bool IsItemInCart(RAMS rAMS)
+        {
+            if (currentUserCart != null)
+            {
+                return currentUserCart.CartItems.Any(item => item.RAMId == rAMS.RAMId);
+            }
+            return false;
+        }
+
+
+        private void AddToCartRAMButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+
+            if (combinedData != null)
+            {
+                var selectedram = combinedData.Rams;
+
+                int userId = CurrentUser.Id;
+
+                using (var context = new ComputerArchitectDataBaseEntities())
+                {
+                    var userCart = context.UsersCarts
+                        .Include("CartItems")
+                        .FirstOrDefault(c => c.UserId == userId);
+
+                    if (userCart == null)
+                    {
+                        userCart = new UsersCarts
+                        {
+                            UserId = userId
+                        };
+
+                        context.UsersCarts.Add(userCart);
+                    }
+
+                    var cartItem = new CartItems
+                    {
+                        CartId = userCart.CartId,
+                        RAMId = selectedram.RAMId,
+                        UsersCarts = userCart
+                    };
+
+                    // Добавляем созданный элемент CartItems в корзину пользователя
+                    userCart.CartItems.Add(cartItem);
+
+                    context.SaveChanges();
+                    // Обновление контента кнопки и блокировка её
+                    button.Content = "В корзине";
+                    button.IsEnabled = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ошибка: не удалось определить выбранный процессор.");
+            }
+        }
+
+        private void AddToCartRAMButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+
+            if (combinedData != null)
+            {
+                if (IsItemInCart(combinedData.Rams))
+                {
+                    button.Content = "В корзине";
+                    button.IsEnabled = false;
+                }
+                else
+                {
+                    button.Content = "Купить";
+                    button.IsEnabled = true;
+                }
+            }
         }
     }
 }

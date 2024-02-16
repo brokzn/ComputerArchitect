@@ -23,6 +23,7 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class GPUPage : Page
     {
+        private UsersCarts currentUserCart;
         public Users CurrentUser { get; set; }
         public GPUPage(Users currentUser)
         {
@@ -56,6 +57,9 @@ namespace ComputerArchitect.Pages
 
             ComponentListBox.ItemsSource = combinedData;
             OnStorageCountLabel.Content = $"Видеокарты {ComponentListBox.Items.Count} шт";
+            currentUserCart = App.Database.UsersCarts
+            .Include("CartItems")
+            .FirstOrDefault(c => c.UserId == CurrentUser.Id);
         }
 
 
@@ -243,11 +247,86 @@ namespace ComputerArchitect.Pages
                 ComponentListBox.ItemsSource = combineds;
             }
         }
-
         private void DecilineFilters_Click(object sender, RoutedEventArgs e)
         {
             MinPrice.Text = null; MaxPrice.Text = null;
             ComponentListBox.ItemsSource = originalCombineds;
+        }
+        private bool IsItemInCart(GPUS GPUprocessor)
+        {
+            if (currentUserCart != null)
+            {
+                return currentUserCart.CartItems.Any(item => item.GPUId == GPUprocessor.GPUId);
+            }
+            return false;
+        }
+        private void AddToCartGPUButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+
+            if (combinedData != null)
+            {
+                var selectedGPUProcessor = combinedData.GPUProcessor;
+
+                int userId = CurrentUser.Id;
+
+                using (var context = new ComputerArchitectDataBaseEntities())
+                {
+                    var userCart = context.UsersCarts
+                        .Include("CartItems")
+                        .FirstOrDefault(c => c.UserId == userId);
+
+                    if (userCart == null)
+                    {
+                        userCart = new UsersCarts
+                        {
+                            UserId = userId
+                        };
+
+                        context.UsersCarts.Add(userCart);
+                    }
+
+                    var cartItem = new CartItems
+                    {
+                        CartId = userCart.CartId,
+                        GPUId = selectedGPUProcessor.GPUId,
+                        UsersCarts = userCart
+                    };
+
+                    // Добавляем созданный элемент CartItems в корзину пользователя
+                    userCart.CartItems.Add(cartItem);
+
+                    context.SaveChanges();
+                    // Обновление контента кнопки и блокировка её
+                    button.Content = "В корзине";
+                    button.IsEnabled = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ошибка: не удалось определить выбранный товар.");
+            }
+        }
+
+        private void AddToCartGPUButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+
+            if (combinedData != null)
+            {
+                if (IsItemInCart(combinedData.GPUProcessor))
+                {
+                    button.Content = "В корзине";
+                    button.IsEnabled = false;
+                }
+                else
+                {
+                    button.Content = "Купить";
+                    button.IsEnabled = true;
+                }
+            }
         }
     }
 }
