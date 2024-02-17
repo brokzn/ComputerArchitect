@@ -1,5 +1,6 @@
 ﻿using ComputerArchitect.Database;
 using ComputerArchitect.UI.Pages;
+using ControlzEx.Standard;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,13 +27,14 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class CPUPage : Page
     {
+        //ОБНОВЛЕНИЕ ИНФОРМАЦИИ О КОРЗИНЕ
+        public event EventHandler CartUpdated;
         //ДОБАВЛЕНИЕ В КОРЗИНУ
         private UsersCarts currentUserCart;
         public Users CurrentUser { get; set; }
         public CPUPage(Users currentUser)
         {
-           
-            CurrentUser = currentUser;
+             CurrentUser = currentUser;
             InitializeComponent();
             LoadComponent();
             MostCheapestSort_Checked(null, null);
@@ -306,7 +308,7 @@ namespace ComputerArchitect.Pages
 
 
 
-        
+
         //ДОБАВЛЕНИЕ В КОРЗИНУ
         private void AddToCartCPUButton_Click(object sender, RoutedEventArgs e)
         {
@@ -355,6 +357,8 @@ namespace ComputerArchitect.Pages
             {
                 MessageBox.Show("Ошибка: не удалось определить выбранный процессор.");
             }
+            //ОБНОВЛЕНИЕ ИНФОРМАЦИИ О КОРЗИНЕ
+            CartUpdated?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -25,6 +25,8 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class MotherBoardPage : Page
     {
+        public event EventHandler CartUpdated;
+
         private UsersCarts currentUserCart;
         public Users CurrentUser { get; set; }
 
@@ -321,6 +323,7 @@ namespace ComputerArchitect.Pages
                     // Обновление контента кнопки и блокировка её
                     button.Content = "В корзине";
                     button.IsEnabled = false;
+                    CartUpdated?.Invoke(this, EventArgs.Empty);
                 }
             }
             else

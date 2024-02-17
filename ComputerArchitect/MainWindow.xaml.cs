@@ -764,7 +764,7 @@ namespace ComputerArchitect
           }
             //Отчистка введенных данных
 
-            MessageBox.Show("Успешная регистрация", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+           // MessageBox.Show("Успешная регистрация", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Asterisk);
 
             ClearTextBoxAndAttachLostFocus(UserNameTextBox, UserSecondNameTextBox_LostFocus);
             ClearTextBoxAndAttachLostFocus(UserSecondNameTextBox, UserSecondNameTextBox_LostFocus);

@@ -187,12 +187,17 @@ namespace ComputerArchitect.Pages
 
             if (openFileDialog.ShowDialog() == true)
             {
-
                 string selectedImagePath = openFileDialog.FileName;
 
-
+                // Проверяем расширение файла
+                string fileExtension = System.IO.Path.GetExtension(selectedImagePath);
+                if (fileExtension != ".jpg" && fileExtension != ".jpeg" && fileExtension != ".png" && fileExtension != ".bmp")
+                {
+                    ImageSelectError.Visibility = Visibility.Visible;
+                    return;
+                }
+                ImageSelectError.Visibility = Visibility.Collapsed;
                 byte[] imageBytes = File.ReadAllBytes(selectedImagePath);
-
 
                 BitmapImage bitmapImage = new BitmapImage();
                 using (MemoryStream stream = new MemoryStream(imageBytes))
@@ -203,13 +208,12 @@ namespace ComputerArchitect.Pages
                     bitmapImage.EndInit();
                 }
 
-
                 UserAvatarBigImage.Source = bitmapImage;
-
 
                 CurrentUser.Photo = imageBytes;
             }
         }
+
 
 
 

@@ -404,19 +404,45 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                Foreground="#D6D6D6"
                FontWeight="Bold"
                Content="Вы не выбрали ни одного товара"/>
+         <Label Grid.Row="1" 
+        Name="EmptyCartLabelRedirect"
+        Visibility="Collapsed"
+        FontFamily="Arial"
+        FontSize="18"
+               Margin="0 30 110 0"
+        VerticalAlignment="Top"
+        HorizontalAlignment="Center"
+        Foreground="#D6D6D6"
+        FontWeight="Bold"
+        Content="Воспользуйтесь"/>
+        <TextBlock Grid.Row="1" 
+            Name="EmptyCartLabelLink"
+            Visibility="Collapsed"
+            FontFamily="Arial"
+            FontSize="18"
+            MouseLeftButtonDown="EmptyCartLabelLink_MouseLeftButtonDown"
+            MouseEnter="EmptyCartLabelLink_MouseEnter"
+            MouseLeave="EmptyCartLabelLink_MouseLeave"
+            Margin="140 35 0 0"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Center"
+            Foreground="#6DB2E3"
+            FontWeight="Bold"
+            Text="каталогом"/>
 
 
 
 
         <Grid x:Name="CardContainer"
               Width="1200"
+              
               Visibility="Visible"
               Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="350"/>
             </Grid.ColumnDefinitions>
-            <Grid Name="CardInfo" Grid.Column="1" Height="200" VerticalAlignment="Top">
+            <Grid Name="CardInfo" Grid.Column="1" Height="200" Margin="0 2 0 0" VerticalAlignment="Top">
                 <Border Background="#4B4C52" CornerRadius="5">
                     <Border.Effect>
                         <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="Black" Opacity="0.3"/>
@@ -900,15 +926,12 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
-
-
-
-
-
-
                                     <TextBlock Text="В наличии:" FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="100" Height="21" Margin="195 0 0 22" Foreground="#D6D6D6" FontSize="18"/>
                                     <Button Click="DeleteItem_Click" Width="100" Style="{StaticResource Simple3Button}" Margin="0 0 15 0" HorizontalAlignment="Right" Content="Убрать" Height="45"/>
                                 </Grid>
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="Black" Opacity="0.3"/>
+                                </Border.Effect>
                             </Border>
                         </Grid>
                     </DataTemplate>

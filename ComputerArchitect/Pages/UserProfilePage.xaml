@@ -304,6 +304,29 @@
                     FontWeight="Bold"
                     Content="Загрузить аватар"/>
 
+                <Label 
+                Name="ImageSelectError"
+                    Visibility="Collapsed"
+                Grid.Column="0"
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                FontFamily="Arial"
+                FontSize="8"
+                Margin="0 50 0 20"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Right"
+                Foreground="#CD6565"
+                FontWeight="Bold"
+                Content="Выберите файл формата (.jpg,.jpeg,.png,.bmp)"/>
+
+
+
+
+
+
+
+
+
                 <!-- Выбор пола пользователя -->
                 <Label Grid.Row="2"
                        FontFamily="Arial"

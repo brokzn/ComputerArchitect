@@ -24,7 +24,7 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class UserCartPage : Page
     {
-       
+        public event EventHandler CartUpdated;
         int totalCost = 0;
         public Users CurrentUser { get; set; }
         public UserCartPage(Users currentUser)
@@ -132,12 +132,16 @@ namespace ComputerArchitect.Pages
 
                 if (combinedData.Count == 0)
                 {
+                    EmptyCartLabelLink.Visibility = Visibility.Visible;
+                    EmptyCartLabelRedirect.Visibility = Visibility.Visible;
                     EmptyCartLabel.Visibility = Visibility.Visible;
                     UserCartListBox.Visibility = Visibility.Collapsed;
                     CardInfo.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
+                    EmptyCartLabelLink.Visibility = Visibility.Collapsed;
+                    EmptyCartLabelRedirect.Visibility = Visibility.Collapsed;
                     EmptyCartLabel.Visibility = Visibility.Collapsed;
                     UserCartListBox.Visibility = Visibility.Visible;
                     CardInfo.Visibility = Visibility.Visible;
@@ -217,12 +221,16 @@ namespace ComputerArchitect.Pages
                         // Обновляем видимость соответствующих элементов интерфейса
                         if (combinedData.Count == 0)
                         {
+                            EmptyCartLabelLink.Visibility = Visibility.Visible;
+                            EmptyCartLabelRedirect.Visibility = Visibility.Visible;
                             EmptyCartLabel.Visibility = Visibility.Visible;
                             UserCartListBox.Visibility = Visibility.Collapsed;
                             CardInfo.Visibility = Visibility.Collapsed;
                         }
                         else
                         {
+                            EmptyCartLabelLink.Visibility = Visibility.Collapsed;
+                            EmptyCartLabelRedirect.Visibility = Visibility.Collapsed;
                             EmptyCartLabel.Visibility = Visibility.Collapsed;
                             UserCartListBox.Visibility = Visibility.Visible;
                             CardInfo.Visibility = Visibility.Visible;
@@ -231,6 +239,8 @@ namespace ComputerArchitect.Pages
                         DeleteDialog.Visibility = Visibility.Collapsed;
                         DeleteDialogBack.Visibility = Visibility.Collapsed;
                         lastSelectedItem = null;
+
+                        CartUpdated?.Invoke(this, EventArgs.Empty);
                     }
                     else
                     {
@@ -244,22 +254,25 @@ namespace ComputerArchitect.Pages
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
         private void DialogNo_Click(object sender, RoutedEventArgs e)
         {
             DeleteDialog.Visibility = Visibility.Collapsed;
             DeleteDialogBack.Visibility = Visibility.Collapsed;
+        }
+
+        private void EmptyCartLabelLink_MouseLeave(object sender, MouseEventArgs e)
+        {
+            EmptyCartLabelLink.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6DB2E3"));
+        }
+
+        private void EmptyCartLabelLink_MouseEnter(object sender, MouseEventArgs e)
+        {
+            EmptyCartLabelLink.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D6D6D6"));
+        }
+
+        private void EmptyCartLabelLink_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            NavigationService.Navigate(new CatalogPage(CurrentUser));
         }
     }
 }

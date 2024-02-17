@@ -23,6 +23,7 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class CoolerPage : Page
     {
+        public event EventHandler CartUpdated;
         public Users CurrentUser { get; set; }
         private UsersCarts currentUserCart;
         public CoolerPage(Users currentUser)
@@ -300,6 +301,7 @@ namespace ComputerArchitect.Pages
                     // Обновление контента кнопки и блокировка её
                     button.Content = "В корзине";
                     button.IsEnabled = false;
+                    CartUpdated?.Invoke(this, EventArgs.Empty);
                 }
             }
             else

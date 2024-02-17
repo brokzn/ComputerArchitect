@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using ComputerArchitect.Database;
 using ComputerArchitect.ModalWindows;
 using ComputerArchitect.Pages;
+using ControlzEx.Standard;
 
 
 namespace ComputerArchitect.UI.Pages
@@ -53,17 +54,59 @@ namespace ComputerArchitect.UI.Pages
             {
                 UserAvatarSmallImage.Source = new BitmapImage(new Uri("/UI/Elements/UserMissedPictureBig.png", UriKind.Relative));
             }
+
+            MenuFrame.Navigated += (sender, e) =>
+            {
+                switch (MenuFrame.Content)
+                {
+                    case CPUPage cpuPage:
+                    case MotherBoardPage motherboards:
+                    case GPUPage gpuPage:
+                    case RAMPage ramPage:
+                    case PowerSuppliesPage powerSuppliesPage:
+                    case CasePage casePage:
+                    case CoolerPage coolerPage:
+                    case HDDPage hddPage:
+                    case UserCartPage userCartPage:
+                        EventHandler cartUpdatedHandler = (obj, args) =>
+                        {
+                            int itemCount = GetItemCountInCart();
+                            UpdateItemCountInCart(itemCount);
+                        };
+                        (MenuFrame.Content as dynamic).CartUpdated += cartUpdatedHandler;
+                        break;
+                    default:
+                        break;
+                }
+            };
+
+            
+
+
         }
 
         private void UpdateItemCountInCart(int count)
         {
-            ItemCountLabel.Content = count.ToString();
+            if (count >= 10)
+            {
+                ItemCountBack.Width = 27;
+                ItemCountLabel.Content = count.ToString();
+            }
+            else if (count >= 99)
+            { 
+            ItemCountLabel.Content = "99+";
+            ItemCountBack.Width = 37;
+            }
+            else
+            {
+                ItemCountBack.Width = 20;
+                ItemCountLabel.Content = count.ToString();
+            }
+
+            
             ItemCountLabel.Visibility = count > 0 ? Visibility.Visible : Visibility.Collapsed;
             ItemCountBack.Visibility = count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
-
-
-
 
 
         private int GetItemCountInCart()
@@ -83,6 +126,8 @@ namespace ComputerArchitect.UI.Pages
                 }
             }
             return 0;
+
+            
         }
 
         bool SelectTheme = true;
@@ -110,12 +155,13 @@ namespace ComputerArchitect.UI.Pages
             LogoutAppNotification notification = new LogoutAppNotification();
             notification.Closed += (s, args) => { this.IsEnabled = true; };
             notification.Show();
-            
+
         }
 
 
         private void UserProfileOpenButton_Click(object sender, RoutedEventArgs e)
         {
+
             if (UMVisible)
             {
                 UserMenu.Visibility = Visibility.Collapsed;
@@ -133,7 +179,7 @@ namespace ComputerArchitect.UI.Pages
 
             if (CurrentUser.Photo != null && CurrentUser.Photo.Length > 0)
             {
-                
+
                 BitmapImage bitmapImage = new BitmapImage();
                 using (MemoryStream stream = new MemoryStream(CurrentUser.Photo))
                 {
@@ -143,7 +189,7 @@ namespace ComputerArchitect.UI.Pages
                     bitmapImage.EndInit();
                 }
 
-                
+
                 UserAvatarSmallImage.Source = bitmapImage;
             }
             else
@@ -158,7 +204,7 @@ namespace ComputerArchitect.UI.Pages
         private void NavigationLabelCatalog_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             MenuFrame.NavigationService.Navigate(new CatalogPage(CurrentUser));
-            
+
         }
 
         private void NavigationLabelReadyMadeAssembly_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -178,10 +224,11 @@ namespace ComputerArchitect.UI.Pages
 
 
         bool UMVisible = false;
-        
+
 
         private void OpenUserMenuButton_Click(object sender, RoutedEventArgs e)
         {
+
             if (CurrentUser.Photo != null && CurrentUser.Photo.Length > 0)
             {
 
@@ -207,7 +254,7 @@ namespace ComputerArchitect.UI.Pages
                 DoubleAnimation animation = new DoubleAnimation
                 {
                     To = 0,
-                    Duration = TimeSpan.FromSeconds(0.2) 
+                    Duration = TimeSpan.FromSeconds(0.2)
                 };
                 animation.Completed += (s, _) => UserMenu.Visibility = Visibility.Collapsed;
                 animation.Completed += (s, _) => UserMenuBorder.Visibility = Visibility.Collapsed;
@@ -223,7 +270,7 @@ namespace ComputerArchitect.UI.Pages
                 DoubleAnimation animation = new DoubleAnimation
                 {
                     To = 1,
-                    Duration = TimeSpan.FromSeconds(0.2) 
+                    Duration = TimeSpan.FromSeconds(0.2)
                 };
 
                 UserMenu.BeginAnimation(UIElement.OpacityProperty, animation);
@@ -235,9 +282,7 @@ namespace ComputerArchitect.UI.Pages
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             int itemCount = GetItemCountInCart();
-            ItemCountLabel.Content = itemCount.ToString();
-            ItemCountLabel.Visibility = itemCount > 0 ? Visibility.Visible : Visibility.Collapsed;
-            ItemCountBack.Visibility = itemCount > 0 ? Visibility.Visible : Visibility.Collapsed;
+            UpdateItemCountInCart(itemCount);
         }
     }
 }

@@ -23,6 +23,8 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class RAMPage : Page
     {
+        public event EventHandler CartUpdated;
+
         private UsersCarts currentUserCart;
         public Users CurrentUser { get; set; }
         public RAMPage(Users currentUser)
@@ -308,6 +310,7 @@ namespace ComputerArchitect.Pages
                     // Обновление контента кнопки и блокировка её
                     button.Content = "В корзине";
                     button.IsEnabled = false;
+                    CartUpdated?.Invoke(this, EventArgs.Empty);
                 }
             }
             else
