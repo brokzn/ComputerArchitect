@@ -10,6 +10,7 @@ using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -228,11 +229,16 @@ namespace ComputerArchitect.Pages
                     CountOfSelectedComponents.Content = "Всего выбрано: " + countOfSelectedComponents.ToString();
 
                     ComponentsTotalCostLabel.Content = "Итого: " + totalCost.ToString("N0") + " ₽";
-                    if(componentsCompability > 0)
+                    if (componentsCompability > 0)
                     {
                         SetCompatibilityColors(RedColor);
                         ShareConfingButton.IsEnabled = false;
                         AddToCartConfingButton.IsEnabled = false;
+
+                        ComponentsCompabilityLabel.Visibility = Visibility.Visible;
+                        ComponentsCompabilityLabel.Content = "Некоторые комплектующие не совместимы";
+                        ComponentsCompabilityLabel.Foreground = RedColor;
+
                         componentsCompability = 0;
                     }
                     else
@@ -247,6 +253,11 @@ namespace ComputerArchitect.Pages
                             ShareConfingButton.IsEnabled = true;
                             AddToCartConfingButton.IsEnabled = true;
                         }
+
+
+                        ComponentsCompabilityLabel.Visibility = Visibility.Visible;
+                        ComponentsCompabilityLabel.Content = "Все комплетующие совместимы";
+                        ComponentsCompabilityLabel.Foreground = GreenColor;
                         SetCompatibilityColors(GreenColor);
                         componentsCompability = 0;
                     }
@@ -256,7 +267,7 @@ namespace ComputerArchitect.Pages
                 {
                     ConfiguratorStatusGrid.Visibility = Visibility.Collapsed;
                 }
-                
+
             }
         }
         void ComponentsCompabilityCheck()
@@ -302,6 +313,7 @@ namespace ComputerArchitect.Pages
                         {
                             if (selectedCPUData.Processor.Socket != selectedMotherboardData.Motherboard.Socket)
                             {
+
                                 componentsCompability++;
                             }
                             else
@@ -432,7 +444,7 @@ namespace ComputerArchitect.Pages
                     if (selectedFanData != null && selectedMotherboardData != null)
                     {
                         // Проверка совместимости сокета кулера и материнской платы
-                        if (selectedFanData.Socket != null && selectedFanData.Socket.SocketId != null
+                        if (selectedFanData.Socket != null && selectedFanData.Socket != null
                             && selectedMotherboardData.Motherboard != null && selectedMotherboardData.Motherboard.Socket != null)
                         {
                             if (selectedFanData.Socket.SocketId != selectedMotherboardData.Motherboard.Socket)
@@ -513,7 +525,7 @@ namespace ComputerArchitect.Pages
                             ComponentsСompatibilityPowerPath.Fill = GreenColor;
                         }
 
-                        if (selectedGPUData.GPUProcessor != null && totalPowerWattUsing > selectedPowerSuppliesData.Powersupplies.Power_Watt)
+                        if ((selectedGPUData?.GPUProcessor != null) && (totalPowerWattUsing > selectedPowerSuppliesData?.Powersupplies?.Power_Watt))
                         {
                             ComponentsСompatibilityGPUConnections.BorderBrush = RedColor;
                             PathGPUSVGIcon1.Fill = RedColor;
@@ -527,8 +539,6 @@ namespace ComputerArchitect.Pages
                             PathGPUSVGIcon9.Fill = RedColor;
                             PathGPUSVGIcon10.Fill = RedColor;
                             PathGPUSVGIcon11.Fill = RedColor;
-
-
                         }
                         else
                         {
@@ -545,6 +555,7 @@ namespace ComputerArchitect.Pages
                             PathGPUSVGIcon10.Fill = GreenColor;
                             PathGPUSVGIcon11.Fill = GreenColor;
                         }
+
                     }
                 }
             }
@@ -582,16 +593,18 @@ namespace ComputerArchitect.Pages
                 }
             }
 
+            CPUErrorLabel.Visibility = Visibility.Collapsed;
+
             ComponentsСompatibilityGPUConnections.BorderBrush = DefaultColor;
-            PathGPUSVGIcon1.Fill =  DefaultColor;
-            PathGPUSVGIcon2.Fill =  DefaultColor;
-            PathGPUSVGIcon3.Fill =  DefaultColor;
-            PathGPUSVGIcon4.Fill =  DefaultColor;
-            PathGPUSVGIcon5.Fill =  DefaultColor;
-            PathGPUSVGIcon6.Fill =  DefaultColor;
-            PathGPUSVGIcon7.Fill =  DefaultColor;
-            PathGPUSVGIcon8.Fill =  DefaultColor;
-            PathGPUSVGIcon9.Fill =  DefaultColor;
+            PathGPUSVGIcon1.Fill = DefaultColor;
+            PathGPUSVGIcon2.Fill = DefaultColor;
+            PathGPUSVGIcon3.Fill = DefaultColor;
+            PathGPUSVGIcon4.Fill = DefaultColor;
+            PathGPUSVGIcon5.Fill = DefaultColor;
+            PathGPUSVGIcon6.Fill = DefaultColor;
+            PathGPUSVGIcon7.Fill = DefaultColor;
+            PathGPUSVGIcon8.Fill = DefaultColor;
+            PathGPUSVGIcon9.Fill = DefaultColor;
             PathGPUSVGIcon10.Fill = DefaultColor;
             PathGPUSVGIcon11.Fill = DefaultColor;
 
@@ -602,15 +615,15 @@ namespace ComputerArchitect.Pages
             ComponentsСompatibilityPowerPath.Fill = DefaultColor;
 
             ComponentsСompatibilityRAM.BorderBrush = DefaultColor;
-            PathRAMISVGIcon1.Fill  = DefaultColor;
-            PathRAMISVGIcon2.Fill  = DefaultColor;
-            PathRAMISVGIcon3.Fill  = DefaultColor;
-            PathRAMISVGIcon4.Fill  = DefaultColor;
-            PathRAMISVGIcon5.Fill  = DefaultColor;
-            PathRAMISVGIcon6.Fill  = DefaultColor;
-            PathRAMISVGIcon7.Fill  = DefaultColor;
-            PathRAMISVGIcon8.Fill  = DefaultColor;
-            PathRAMISVGIcon9.Fill  = DefaultColor;
+            PathRAMISVGIcon1.Fill = DefaultColor;
+            PathRAMISVGIcon2.Fill = DefaultColor;
+            PathRAMISVGIcon3.Fill = DefaultColor;
+            PathRAMISVGIcon4.Fill = DefaultColor;
+            PathRAMISVGIcon5.Fill = DefaultColor;
+            PathRAMISVGIcon6.Fill = DefaultColor;
+            PathRAMISVGIcon7.Fill = DefaultColor;
+            PathRAMISVGIcon8.Fill = DefaultColor;
+            PathRAMISVGIcon9.Fill = DefaultColor;
             PathRAMISVGIcon10.Fill = DefaultColor;
             PathRAMISVGIcon11.Fill = DefaultColor;
             PathRAMISVGIcon12.Fill = DefaultColor;
@@ -824,8 +837,8 @@ namespace ComputerArchitect.Pages
             SelectedCPUImage.Source = bitmapImage;
             SelectedCPULabelModel.Content = "Процессор " + selectedData.Processor.Model;
             SelectedCPULabelInfo.Content = "[" + selectedData.Processor.Sockets.SocketName
-                +", "+ selectedData.Processor.Total_cores + " x " + selectedData.Processor.Base_processor_speed +" ГГц, " +
-                selectedData.Processor.Number_of_channels + "x" + selectedData.Processor.Memory_types.Memory_typeName + " " + selectedData.Processor.Memory_speed+ ", Макс. " + selectedData.Processor.Max_supported_memory + " GB RAM" + ", TDP " + selectedData.Processor.Thermal_design_power + " Вт]";
+                + ", " + selectedData.Processor.Total_cores + " x " + selectedData.Processor.Base_processor_speed + " ГГц, " +
+                selectedData.Processor.Number_of_channels + "x" + selectedData.Processor.Memory_types.Memory_typeName + " " + selectedData.Processor.Memory_speed + ", Макс. " + selectedData.Processor.Max_supported_memory + " GB RAM" + ", TDP " + selectedData.Processor.Thermal_design_power + " Вт]";
 
             SelectedCPULabelCost.Content = Convert.ToInt32(selectedData.Processor.Cost).ToString("N0") + " ₽";
             SelectedCPULabelCount.Content = "В наличии: " + selectedData.Processor.CPU_Count_on_storage + " шт.";
@@ -1040,7 +1053,7 @@ namespace ComputerArchitect.Pages
                 + ", " + selectedData.Motherboard.Memory_Channels
                 + "x" + selectedData.Motherboard.Memory_types.Memory_typeName
                 + " " + selectedData.Motherboard.Max_Memory_Frequency_Mhz
-                + ", " + selectedData.Motherboard.Form_Factors.Form_FactorName + ", Макс. "  + selectedData.Motherboard.Max_Memory_Gb +    " GB RAM]";
+                + ", " + selectedData.Motherboard.Form_Factors.Form_FactorName + ", Макс. " + selectedData.Motherboard.Max_Memory_Gb + " GB RAM]";
             SelectedMotherboardLabelCost.Content = Convert.ToInt32(selectedData.Motherboard.Cost).ToString("N0") + " ₽";
             SelectedMotherboardLabelCount.Content = "В наличии: " + selectedData.Motherboard.Motherboard_Count_on_storage + " шт.";
             ComponentsCompabilityCheck();
@@ -1240,8 +1253,8 @@ namespace ComputerArchitect.Pages
             BitmapImage bitmapImage = ByteArrayToBitmapImage(selectedData.Case.Preview_Photo);
             SelectedCaseImage.Source = bitmapImage;
             SelectedCaseLabelModel.Content = "Корпус " + selectedData.Case.Model;
-            SelectedCaseLabelInfo.Content = "[" 
-                + selectedData.Case.Compatible_Motherboard_Form_Factors 
+            SelectedCaseLabelInfo.Content = "["
+                + selectedData.Case.Compatible_Motherboard_Form_Factors
                 + ", " + "Форм-фактор блока питания "
                 + selectedData.Case.Compatible_PSU_Form_Factors + "]";
             SelectedCaseLabelCost.Content = Convert.ToInt32(selectedData.Case.Cost).ToString("N0") + " ₽";
@@ -1645,7 +1658,7 @@ namespace ComputerArchitect.Pages
                 + selectedData.Cooler.Sockets.SocketName + ", "
                 + selectedData.Cooler.Fan_Connector_Type + ", "
                 + selectedData.Cooler.TDP + " Вт]";
-                
+
             SelectedFanLabelCost.Content = Convert.ToInt32(selectedData.Cooler.Cost).ToString("N0") + " ₽";
             SelectedFanLabelCount.Content = "В наличии: " + selectedData.Cooler.Cooler_Count_on_storage + " шт.";
             ComponentsCompabilityCheck();
@@ -2039,7 +2052,7 @@ namespace ComputerArchitect.Pages
             SelectedMemoryLabelCount.Visibility = Visibility.Visible;
             BitmapImage bitmapImage = ByteArrayToBitmapImage(selectedData.Hdds.Preview_Photo);
             SelectedMemoryImage.Source = bitmapImage;
-            SelectedMemoryLabelModel.Content = selectedData.Hdds.Capacity_TB+ " ТБ Жесткий диск " + selectedData.Hdds.Model;
+            SelectedMemoryLabelModel.Content = selectedData.Hdds.Capacity_TB + " ТБ Жесткий диск " + selectedData.Hdds.Model;
             SelectedMemoryLabelInfo.Content = "["
                 + selectedData.Hdds.Interface + ", "
                 + Convert.ToInt32(selectedData.Hdds.Interface_Bandwidth_GBps).ToString("N0") + " Гбит/с, "
@@ -2238,10 +2251,10 @@ namespace ComputerArchitect.Pages
             BitmapImage bitmapImage = ByteArrayToBitmapImage(selectedData.Powersupplies.Preview_Photo);
             SelectedPowerSuppliesImage.Source = bitmapImage;
             SelectedPowerSuppliesLabelModel.Content = "Блок питания " + selectedData.Powersupplies.Model;
-            SelectedPowerSuppliesLabelInfo.Content = "[" 
-                + selectedData.Powersupplies.Power_Watt + " Вт, " 
-                + selectedData.Powersupplies.Main_Power_Connector + ", " 
-                + selectedData.Powersupplies.CPU_Power_Connector + ", " 
+            SelectedPowerSuppliesLabelInfo.Content = "["
+                + selectedData.Powersupplies.Power_Watt + " Вт, "
+                + selectedData.Powersupplies.Main_Power_Connector + ", "
+                + selectedData.Powersupplies.CPU_Power_Connector + ", "
                 + selectedData.Powersupplies.SATA_Connector_Count + " SATA]";
             SelectedPowerSuppliesLabelCost.Content = Convert.ToInt32(selectedData.Powersupplies.Cost).ToString("N0") + " ₽";
             SelectedPowerSuppliesLabelCount.Content = "В наличии: " + selectedData.Powersupplies.PS__Count_on_storage + " шт.";
@@ -2298,38 +2311,44 @@ namespace ComputerArchitect.Pages
 
         private void ShareConfigButton_Click(object sender, RoutedEventArgs e)
         {
-            
-                using (var context = new ComputerArchitectDataBaseEntities())
+
+            using (var context = new ComputerArchitectDataBaseEntities())
+            {
+                // Получение текущей конфигурации пользователя
+                UserConfiguration currentUserConfig = context.UserConfiguration
+                    .FirstOrDefault(config => config.UserId == CurrentUser.Id);
+
+                if (currentUserConfig != null)
                 {
-                    // Получение текущей конфигурации пользователя
-                    UserConfiguration currentUserConfig = context.UserConfiguration
-                        .FirstOrDefault(config => config.UserId == CurrentUser.Id);
-
-                    if (currentUserConfig != null)
+                    // Создание новой записи ReadyMadeAssemblies
+                    ReadyMadeAssemblies newAssembly = new ReadyMadeAssemblies
                     {
-                        // Создание новой записи ReadyMadeAssemblies
-                        ReadyMadeAssemblies newAssembly = new ReadyMadeAssemblies
-                        {
-                            UserId = currentUserConfig.UserId,
-                            CpuId = currentUserConfig.CpuId,
-                            MotherboardId = currentUserConfig.MotherboardId,
-                            CaseId = currentUserConfig.CaseId,
-                            GPUId = currentUserConfig.GPUId,
-                            FanId = currentUserConfig.FanId,
-                            RAMId = currentUserConfig.RAMId,
-                            MemoryId = currentUserConfig.MemoryId,
-                            PowerSuppliesId = currentUserConfig.PowerSuppliesId
-                            // Добавьте остальные поля, если необходимо
-                        };
+                        UserId = currentUserConfig.UserId,
+                        CpuId = currentUserConfig.CpuId,
+                        MotherboardId = currentUserConfig.MotherboardId,
+                        CaseId = currentUserConfig.CaseId,
+                        GPUId = currentUserConfig.GPUId,
+                        FanId = currentUserConfig.FanId,
+                        RAMId = currentUserConfig.RAMId,
+                        MemoryId = currentUserConfig.MemoryId,
+                        PowerSuppliesId = currentUserConfig.PowerSuppliesId
+                        // Добавьте остальные поля, если необходимо
+                    };
 
-                        // Добавление новой записи ReadyMadeAssemblies в контекст данных
-                        context.ReadyMadeAssemblies.Add(newAssembly);
-                        context.SaveChanges();
+                    // Добавление новой записи ReadyMadeAssemblies в контекст данных
+                    context.ReadyMadeAssemblies.Add(newAssembly);
+                    context.SaveChanges();
 
-                        // Вывод сообщения об успешном добавлении
-                        MessageBox.Show("Сборка успешно добавлена");
-                    }
+                    DialogBack.Visibility = Visibility.Visible;
+                    Dialog.Visibility = Visibility.Visible;
                 }
+            }
+        }
+
+        private void DialogYes_Click(object sender, RoutedEventArgs e)
+        {
+            DialogBack.Visibility = Visibility.Collapsed;
+            Dialog.Visibility = Visibility.Collapsed;
         }
     }
 }

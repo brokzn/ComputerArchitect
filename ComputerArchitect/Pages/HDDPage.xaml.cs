@@ -248,8 +248,13 @@ namespace ComputerArchitect.Pages
 
         private void DecilineFilters_Click(object sender, RoutedEventArgs e)
         {
-            MinPrice.Text = null; MaxPrice.Text = null;
-            ComponentListBox.ItemsSource = originalCombineds;
+            MinPrice.Text = null;
+            MaxPrice.Text = null;
+
+            if (originalCombineds != null)
+            {
+                ComponentListBox.ItemsSource = originalCombineds;
+            }
         }
         private bool IsItemInCart(HDDs hDDs)
         {
