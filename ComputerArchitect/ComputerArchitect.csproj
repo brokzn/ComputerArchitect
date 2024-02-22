@@ -139,6 +139,9 @@
     <Compile Include="Database\UserConfiguration.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\UserRoles.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\Users.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
@@ -154,6 +157,9 @@
     <Compile Include="ModalWindows\LogoutAppNotification.xaml.cs">
       <DependentUpon>LogoutAppNotification.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\AdminPanelPage.xaml.cs">
+      <DependentUpon>AdminPanelPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\BasicPCComponentsPage.xaml.cs">
       <DependentUpon>BasicPCComponentsPage.xaml</DependentUpon>
     </Compile>
@@ -166,8 +172,14 @@
     <Compile Include="Pages\CoolerPage.xaml.cs">
       <DependentUpon>CoolerPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\DeliveryPanelPage.xaml.cs">
+      <DependentUpon>DeliveryPanelPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\HDDPage.xaml.cs">
       <DependentUpon>HDDPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ManagerPanelPage.xaml.cs">
+      <DependentUpon>ManagerPanelPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SSDPage.xaml.cs">
       <DependentUpon>SSDPage.xaml</DependentUpon>
@@ -210,6 +222,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\AdminPanelPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\BasicPCComponentsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -226,9 +242,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\DeliveryPanelPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\HDDPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\ManagerPanelPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SSDPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -377,6 +401,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Pages\AdminPages\" />
+    <Folder Include="Pages\ManagerPages\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

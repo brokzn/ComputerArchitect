@@ -34,6 +34,20 @@ namespace ComputerArchitect.UI.Pages
         {
             InitializeComponent();
             CurrentUser = currentUser;
+
+            switch (CurrentUser.RoleId)
+            {
+                case 1:
+                    AdminPanelOpenButton.Visibility = Visibility.Visible;
+                    break;
+                case 2:
+                    ManagerPanelOpenButton.Visibility = Visibility.Visible;
+                    break;
+                case 3:
+                    DeliveryPanelOpenButton.Visibility = Visibility.Visible;
+                    break;
+            }
+
             CurrentUserNameLabel.Content = CurrentUser.Name;
             MenuFrame.NavigationService.Navigate(new CatalogPage(CurrentUser));
 
@@ -283,6 +297,21 @@ namespace ComputerArchitect.UI.Pages
         {
             int itemCount = GetItemCountInCart();
             UpdateItemCountInCart(itemCount);
+        }
+
+        private void AdminPanelOpenButton_Click(object sender, RoutedEventArgs e)
+        {
+            MenuFrame.NavigationService.Navigate(new AdminPanelPage(CurrentUser));
+        }
+
+        private void ManagerPanelOpenButton_Click(object sender, RoutedEventArgs e)
+        {
+            MenuFrame.NavigationService.Navigate(new ManagerPanelPage(CurrentUser));
+        }
+
+        private void DeliveryPanelOpenButton_Click(object sender, RoutedEventArgs e)
+        {
+            MenuFrame.NavigationService.Navigate(new DeliveryPanelPage(CurrentUser));
         }
     }
 }

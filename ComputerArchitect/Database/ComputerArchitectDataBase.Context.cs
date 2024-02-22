@@ -45,5 +45,6 @@ namespace ComputerArchitect.Database
         public virtual DbSet<ReadyMadeAssemblies> ReadyMadeAssemblies { get; set; }
         public virtual DbSet<CartItems> CartItems { get; set; }
         public virtual DbSet<UsersCarts> UsersCarts { get; set; }
+        public virtual DbSet<UserRoles> UserRoles { get; set; }
     }
 }

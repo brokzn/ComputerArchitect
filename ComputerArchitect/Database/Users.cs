@@ -32,6 +32,7 @@ namespace ComputerArchitect.Database
         public byte[] Photo { get; set; }
         public string Email { get; set; }
         public int Id { get; set; }
+        public Nullable<int> RoleId { get; set; }
     
         public virtual Сountries Сountries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -40,5 +41,6 @@ namespace ComputerArchitect.Database
         public virtual ICollection<ReadyMadeAssemblies> ReadyMadeAssemblies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UsersCarts> UsersCarts { get; set; }
+        public virtual UserRoles UserRoles { get; set; }
     }
 }
