@@ -33,6 +33,8 @@ namespace ComputerArchitect.Database
         public string Email { get; set; }
         public int Id { get; set; }
         public Nullable<int> RoleId { get; set; }
+        public Nullable<bool> UserIsBlocked { get; set; }
+        public string UserBlockReason { get; set; }
     
         public virtual Сountries Сountries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -37,6 +37,6 @@
        HorizontalAlignment="Center"
        Foreground="#D6D6D6"
        FontWeight="Bold"
-       Content="Сотрудники > Панель Курьера"/>
+       Content="Сотрудники > Курьер"/>
     </Grid>
 </Page>

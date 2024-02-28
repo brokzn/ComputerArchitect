@@ -730,13 +730,20 @@ namespace ComputerArchitect
             }
             else
             {
-                MainContainer.Visibility = Visibility.Collapsed;
-                UserAgreementContainer.Visibility = Visibility.Collapsed;
-                MainFrame.Visibility = Visibility.Visible;
+                if (currentUser.UserIsBlocked is true)
+                {
+                    MessageBox.Show("Доступ к аккаунту заблокирован\n" + "Причина: " + currentUser.UserBlockReason);
+                }
+                else
+                {
+                    MainContainer.Visibility = Visibility.Collapsed;
+                    UserAgreementContainer.Visibility = Visibility.Collapsed;
+                    MainFrame.Visibility = Visibility.Visible;
 
-                MenuPage menuPage = new MenuPage(currentUser);
+                    MenuPage menuPage = new MenuPage(currentUser);
 
-                MainFrame.NavigationService.Navigate(menuPage);
+                    MainFrame.NavigationService.Navigate(menuPage);
+                }
             }
         }
 

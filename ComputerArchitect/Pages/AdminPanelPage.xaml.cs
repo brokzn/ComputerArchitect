@@ -1,4 +1,5 @@
 ﻿using ComputerArchitect.Database;
+using ComputerArchitect.Pages.AdminPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,25 @@ namespace ComputerArchitect.Pages
         {
             CurrentUser = currentUser;
             InitializeComponent();
+            AdminPanelFrame.NavigationService.Navigate(new UsersTabelPage());
+        }
+
+        private void UsersTabelButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentSelectedTableLabel.Content = "Список пользователей";
+            AdminPanelFrame.NavigationService.Navigate(new UsersTabelPage());
+        }
+
+        private void UserRolesTabelButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentSelectedTableLabel.Content = "Роли пользователей";
+            AdminPanelFrame.NavigationService.Navigate(new UserRolesTabelPage());
+        }
+
+        private void СountriesTabelButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentSelectedTableLabel.Content = "Список стран";
+            AdminPanelFrame.NavigationService.Navigate(new СountriesTabelPage());
         }
     }
 }

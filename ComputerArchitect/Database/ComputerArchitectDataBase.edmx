@@ -517,6 +517,8 @@
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleId" Type="int" />
+          <Property Name="UserIsBlocked" Type="bit" />
+          <Property Name="UserBlockReason" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="UsersCarts">
           <Key>
@@ -1443,6 +1445,8 @@
           <NavigationProperty Name="UsersCarts" Relationship="ComputerArchitectDataBaseModel.FK_UsersCarts_Users" FromRole="Users" ToRole="UsersCarts" />
           <Property Name="RoleId" Type="Int32" />
           <NavigationProperty Name="UserRoles" Relationship="ComputerArchitectDataBaseModel.FK_Users_UserRoles" FromRole="Users" ToRole="UserRoles" />
+          <Property Name="UserIsBlocked" Type="Boolean" />
+          <Property Name="UserBlockReason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Сountries">
           <Key>
@@ -2971,6 +2975,8 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserBlockReason" ColumnName="UserBlockReason" />
+                <ScalarProperty Name="UserIsBlocked" ColumnName="UserIsBlocked" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="SecondName" ColumnName="SecondName" />

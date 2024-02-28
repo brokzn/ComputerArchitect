@@ -37,6 +37,84 @@
            HorizontalAlignment="Center"
            Foreground="#D6D6D6"
            FontWeight="Bold"
-           Content="Сотрудники > Панель Администратора"/>
+           Content="Сотрудники > Администратор"/>
+        <Grid x:Name="AdminPanelMainGrid" 
+              HorizontalAlignment="Center"
+              Grid.Row="1"
+              Width="1200">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="43"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid x:Name="SelectTableButtonsGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button Width="192"
+                        x:Name="UsersTabelButton"
+                        Click="UsersTabelButton_Click"
+                        FontSize="12"
+                        Style="{StaticResource Simple3Button}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Grid.Column="0"
+                        Content="Cписок пользователей"
+                        Height="35"/>
+                <Button Width="192"
+                        x:Name="UserRolesTabelButton"
+                        Click="UserRolesTabelButton_Click"
+                        FontSize="12"
+                        Style="{StaticResource Simple3Button}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Grid.Column="1"
+                        Content="Роли пользователей"
+                        Height="35"/>
+                <Button Width="192"
+                        x:Name="СountriesTabelButton"
+                        Click="СountriesTabelButton_Click"
+                        FontSize="12"
+                        Style="{StaticResource Simple3Button}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Grid.Column="2"
+                        Content="Список стран"
+                        Height="35"/>
+            </Grid>
+
+
+            <Grid x:Name="SelectedTableFrameGrid" 
+                  Grid.Row="1"
+                  Margin="0 0 0 50"
+                  Width="1200">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="43"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label FontFamily="Arial"
+                       Name="CurrentSelectedTableLabel"
+                       FontSize="12"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Foreground="#D6D6D6"
+                       FontWeight="Bold"
+                       Content="Список пользователей"/>
+                <Border Background="#26262C"
+                        CornerRadius="5"
+                        Grid.Row="1"
+                        Grid.Column="0" Grid.ColumnSpan="2">
+                    <Frame Name="AdminPanelFrame" NavigationUIVisibility="Hidden" Grid.Row="1"/>
+                </Border>
+            </Grid>
+        </Grid>
     </Grid>
 </Page>
