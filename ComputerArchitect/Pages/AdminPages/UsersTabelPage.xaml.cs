@@ -181,8 +181,8 @@ namespace ComputerArchitect.Pages.AdminPages
                     context.SaveChanges();
                 }
 
-                // Показать уведомление об успешной блокировке
-                MessageBox.Show("Пользователь успешно заблокирован.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                
+               // MessageBox.Show("Пользователь успешно заблокирован.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 if (selectedUser.users.UserIsBlocked is true)
                 {
                     DialogUnBlock.Visibility = Visibility.Visible;

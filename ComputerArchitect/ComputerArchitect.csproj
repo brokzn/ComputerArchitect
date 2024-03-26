@@ -157,14 +157,8 @@
     <Compile Include="ModalWindows\LogoutAppNotification.xaml.cs">
       <DependentUpon>LogoutAppNotification.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\AdminPages\UserRolesTabelPage.xaml.cs">
-      <DependentUpon>UserRolesTabelPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\AdminPages\UsersTabelPage.xaml.cs">
       <DependentUpon>UsersTabelPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\AdminPages\СountriesTabelPage.xaml.cs">
-      <DependentUpon>СountriesTabelPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\AdminPanelPage.xaml.cs">
       <DependentUpon>AdminPanelPage.xaml</DependentUpon>
@@ -231,15 +225,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\AdminPages\UserRolesTabelPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\AdminPages\UsersTabelPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\AdminPages\СountriesTabelPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

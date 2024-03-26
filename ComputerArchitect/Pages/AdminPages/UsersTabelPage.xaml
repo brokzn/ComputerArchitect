@@ -325,7 +325,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                 <RowDefinition/>
                                 <RowDefinition Height="60"/>
                             </Grid.RowDefinitions>
-                            
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
@@ -360,7 +360,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                 </ComboBox.Resources>
                             </ComboBox>
                         </Grid>
-                        
+
                     </Label>
                     <Button Width="260"
                             Visibility="Collapsed"
@@ -415,10 +415,6 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                 </Grid>
             </Border>
         </Grid>
-
-
-
-
         <ListBox x:Name="UsersListBox"
          BorderThickness="0"
          Grid.Row="1"
@@ -458,7 +454,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                         </Image.Style>
                                     </Image>
                                 </Border>
-                                
+
                                 <TextBlock
                                 FontFamily="Arial"
                                 FontWeight="Bold"
@@ -525,7 +521,6 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                    Height="45"/>
                             </Grid>
                         </Border>
-
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

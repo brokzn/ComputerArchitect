@@ -721,7 +721,8 @@ namespace ComputerArchitect
 
         private void UserAuthorizationButton_Click(object sender, RoutedEventArgs e)
         {
-            var currentUser = App.Database.Users.FirstOrDefault(u => u.Email == UserAuthorizationEmailTextBox.Text && u.Password == UserPasswordAuthorizationPasswordBox.Password);
+            var currentUser = App.Database.Users.FirstOrDefault(u => u.Email == UserAuthorizationEmailTextBox.Text && 
+            u.Password == UserPasswordAuthorizationPasswordBox.Password);
 
             if (currentUser is null)
             {

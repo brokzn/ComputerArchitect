@@ -34,7 +34,7 @@ namespace ComputerArchitect.Pages
         public Users CurrentUser { get; set; }
         public CPUPage(Users currentUser)
         {
-             CurrentUser = currentUser;
+            CurrentUser = currentUser;
             InitializeComponent();
             LoadComponent();
             MostCheapestSort_Checked(null, null);
@@ -81,7 +81,7 @@ namespace ComputerArchitect.Pages
             ComponentListBox.ItemsSource = combinedData;
             OnStorageCountLabel.Content = $"Процессоры {ComponentListBox.Items.Count} шт";
 
-            // ДОБАВЛЕНИЕ В КОРЗИНУ
+
             currentUserCart = App.Database.UsersCarts
         .Include("CartItems")
         .FirstOrDefault(c => c.UserId == CurrentUser.Id);
@@ -364,6 +364,50 @@ namespace ComputerArchitect.Pages
             }
             //ОБНОВЛЕНИЕ ИНФОРМАЦИИ О КОРЗИНЕ
             CartUpdated?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void CPUShortParametersLabel_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (sender is TextBlock cpuShortParametersLabel)
+            {
+                cpuShortParametersLabel.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6DB2E3"));
+            }
+        }
+
+        private void CPUShortParametersLabel_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (sender is TextBlock cpuShortParametersLabel)
+            {
+                cpuShortParametersLabel.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D6D6D6"));
+            }
+        }
+
+        private void CPUShortParametersLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            
+            ListBoxItem listBoxItem = FindAncestor<ListBoxItem>((DependencyObject)sender);
+
+            
+            var item = listBoxItem?.DataContext as CombinedData;
+
+            
+            if (item != null)
+            {
+                MessageBox.Show("Processor ID: " + item.Processor.CPUId);
+            }
+        }
+        private T FindAncestor<T>(DependencyObject current)
+        where T : DependencyObject
+        {
+            do
+            {
+                if (current is T ancestor)
+                {
+                    return ancestor;
+                }
+                current = VisualTreeHelper.GetParent(current);
+            } while (current != null);
+            return null;
         }
     }
 }

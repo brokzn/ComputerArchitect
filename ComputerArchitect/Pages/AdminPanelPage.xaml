@@ -69,26 +69,6 @@
                         Grid.Column="0"
                         Content="Cписок пользователей"
                         Height="35"/>
-                <Button Width="192"
-                        x:Name="UserRolesTabelButton"
-                        Click="UserRolesTabelButton_Click"
-                        FontSize="12"
-                        Style="{StaticResource Simple3Button}"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Grid.Column="1"
-                        Content="Роли пользователей"
-                        Height="35"/>
-                <Button Width="192"
-                        x:Name="СountriesTabelButton"
-                        Click="СountriesTabelButton_Click"
-                        FontSize="12"
-                        Style="{StaticResource Simple3Button}"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Grid.Column="2"
-                        Content="Список стран"
-                        Height="35"/>
             </Grid>
 
 

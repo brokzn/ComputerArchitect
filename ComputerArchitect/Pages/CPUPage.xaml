@@ -608,6 +608,10 @@
                            Height="150"
                            HorizontalAlignment="Left"/>
                                     <TextBlock
+                                   x:Name="CPUShortParametersLabel"
+                                   MouseEnter="CPUShortParametersLabel_MouseEnter"
+                                   MouseLeave="CPUShortParametersLabel_MouseLeave"
+                                   MouseLeftButtonDown="CPUShortParametersLabel_MouseLeftButtonDown"     
                                    FontFamily="Arial"
                                    FontWeight="Bold"
                                    HorizontalAlignment="Left"
@@ -615,7 +619,7 @@
                                    TextAlignment="Left"
                                    TextWrapping="Wrap"
                                    Width="490"
-                                   Height="100"
+                                   Height="40"
                                    Margin="195 20 0 0"
                                    Foreground="#D6D6D6"
                                    FontSize="16">
