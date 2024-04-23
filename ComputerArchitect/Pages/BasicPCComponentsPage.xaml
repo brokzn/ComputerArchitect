@@ -342,7 +342,7 @@
         Width="1250"
          Margin="0 20 0 75"
          VerticalAlignment="Center" 
-         VerticalScrollBarVisibility="Auto" 
+         VerticalScrollBarVisibility="Disabled" 
          HorizontalScrollBarVisibility="Disabled">
             <StackPanel Width="1200">
                 <Grid>
@@ -486,66 +486,21 @@
                             </StackPanel>
                         </Border>
                     </Grid>
-
+                    
                     <Grid Grid.Row="0" 
                           Grid.Column="7">
-                        <Border Name="OpenSSDPageCard" MouseLeftButtonDown="OpenSSDPageCard_MouseLeftButtonDown" Style="{StaticResource CatalogBorderStyle}">
-                            <StackPanel>
-                                <Grid Height="285">
-                                    <Image Source="\UI\ComponentsPreviewImages\BasicPCC\image ssd.png" 
-                                           Style="{StaticResource CatalogImageStyle}"/>
-                                    <Label Content="Твердотельные накопители" 
-                                           Style="{StaticResource CatalogLabelStyle}"/>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Grid>
-
-                <Grid Grid.Row="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="285"/>
-                        <RowDefinition Height="20"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="285"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="285"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="285"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="285"/>
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-                    <Grid Grid.Row="0" 
-                          Grid.Column="1">
                         <Border Name="OpenHDDPageCard" MouseLeftButtonDown="OpenHDDPageCard_MouseLeftButtonDown" Style="{StaticResource CatalogBorderStyle}">
                             <StackPanel>
                                 <Grid Height="285">
                                     <Image Source="\UI\ComponentsPreviewImages\BasicPCC\image hdd.png" 
-                       Style="{StaticResource CatalogImageStyle}"/>
+                                            Style="{StaticResource CatalogImageStyle}"/>
                                     <Label Content="Жесткие диски" 
-                       Style="{StaticResource CatalogLabelStyle}"/>
+                                            Style="{StaticResource CatalogLabelStyle}"/>
                                 </Grid>
                             </StackPanel>
                         </Border>
                     </Grid>
-
-                    <Grid Grid.Row="0" 
-                          Grid.Column="3">
-                        <Border Style="{StaticResource CatalogBorderStyle}">
-                            <StackPanel>
-                                <Grid Height="285">
-                                    <Image Source="\UI\ComponentsPreviewImages\BasicPCC\image monitor.png" 
-                       Style="{StaticResource CatalogImageStyle}"/>
-                                    <Label Content="Мониторы" 
-                       Style="{StaticResource CatalogLabelStyle}"/>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
+                    
                 </Grid>
             </StackPanel>
         </ScrollViewer>

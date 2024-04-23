@@ -1,0 +1,90 @@
+﻿<Page x:Class="ComputerArchitect.Pages.InfoAboutProgramPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ComputerArchitect.Pages"
+      mc:Ignorable="d" 
+      Title="InfoAboutProgramPage">
+    <Grid>
+        <ScrollViewer
+                     Grid.Row="1" 
+                     Margin="0 50 0 0"
+                     Panel.ZIndex="2"
+                     Grid.Column="1"  
+                     Background="Transparent" 
+                     Width="980" 
+                      
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Top" 
+                     VerticalScrollBarVisibility="Auto" 
+                     HorizontalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock TextWrapping="Wrap" Width="880" FontSize="14">
+                <Bold Foreground="#D6D6D6" FontSize="20">Описание приложения "ComputerArchitect"</Bold>
+                <LineBreak/>
+                <Bold Foreground="#D6D6D6" FontSize="18">Версия: 1.0</Bold> 
+                <LineBreak/>
+                <Bold Foreground="#D6D6D6" FontSize="18">Авторское право © 2024 Коновалов И.О. "ComputerArchitect"</Bold>
+                <LineBreak/><LineBreak/><LineBreak/>
+                <Bold Foreground="#D6D6D6" FontSize="18">Обзор:</Bold>
+                <LineBreak/><LineBreak/>
+                <Run Foreground="#D6D6D6" FontSize="15">
+                    "ComputerArchitect" – это инновационное приложение, созданное для энтузиастов компьютерной архитектуры и людей, интересующихся сборкой собственных компьютеров. Предлагая широкий каталог комплектующих, интуитивно понятный интерфейс и уникальный конфигуратор, приложение позволяет пользователям создавать и настраивать компьютеры на основе их индивидуальных потребностей и предпочтений.
+                </Run>
+                <LineBreak/><LineBreak/>
+                <Bold Foreground="#D6D6D6" FontSize="18">Основные функции:</Bold>
+                <LineBreak/><LineBreak/>
+                <Run Foreground="#D6D6D6" FontSize="15">
+                   1. Авторизация и регистрация: Пользователи могут создавать учетные записи и входить в систему для доступа ко всем функциям приложения.
+                </Run>
+                <LineBreak/>
+                <Run Foreground="#D6D6D6" FontSize="15">
+                   2. Каталог товаров: Полный и разнообразный каталог комплектующих, включающий в себя процессоры, видеокарты, материнские платы, оперативную память и многое другое.
+                </Run>
+                <LineBreak/>
+                <Run Foreground="#D6D6D6" FontSize="15">
+                   3. Корзина: Возможность добавления выбранных товаров в корзину для последующего оформления покупки.
+                </Run>
+                <LineBreak/>
+                <Run Foreground="#D6D6D6" FontSize="15">
+                   4. Профиль пользователя: Пользователи имеют доступ к своему профилю, где могут просматривать и редактировать свои персональные данные.
+                </Run>
+                <LineBreak/>
+                <Run Foreground="#D6D6D6" FontSize="15">
+                   5.Конфигуратор: Самая значимая особенность приложения – конфигуратор, позволяющий пользователям собирать компьютеры, выбирая различные комплектующие. Важно отметить, что все выбранные компоненты проверяются на совместимость друг с другом, обеспечивая безопасность и эффективность конфигурации.
+                </Run>
+                <LineBreak/>
+                  
+                    
+                    <LineBreak/>
+                    <Bold Foreground="#D6D6D6" FontSize="18">Технические детали:</Bold>
+                    <LineBreak/><LineBreak/>
+                    <Run Foreground="#D6D6D6" FontSize="15" FontWeight="Bold">
+                      - Язык программирования: C#
+                    </Run>
+                    <LineBreak/>
+                    <Run Foreground="#D6D6D6" FontSize="15" FontWeight="Bold">
+                      - Интерфейс: WPF (Windows Presentation Foundation)
+                    </Run>
+                    <LineBreak/>
+                    <Run Foreground="#D6D6D6" FontSize="15" FontWeight="Bold">
+                      - Верстка интерфейса: XAML (Extensible Application Markup Language)
+                    </Run>
+                    <LineBreak/>
+                    <Run Foreground="#D6D6D6" FontSize="15" FontWeight="Bold">
+                      - База данных: SQL Server
+                    </Run>
+                    <LineBreak/>
+                    <Run Foreground="#D6D6D6" FontSize="15" FontWeight="Bold">
+                      - Средство управления базой данных: SQL Server Management Studio (SSMS)
+                    </Run>
+                    <LineBreak/>
+                    
+                    
+                    
+                </TextBlock>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

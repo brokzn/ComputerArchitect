@@ -181,6 +181,9 @@
     <Compile Include="Pages\HDDPage.xaml.cs">
       <DependentUpon>HDDPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\InfoAboutProgramPage.xaml.cs">
+      <DependentUpon>InfoAboutProgramPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ManagerPanelPage.xaml.cs">
       <DependentUpon>ManagerPanelPage.xaml</DependentUpon>
     </Compile>
@@ -256,6 +259,10 @@
     <Page Include="Pages\HDDPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\InfoAboutProgramPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ManagerPanelPage.xaml">
       <SubType>Designer</SubType>
@@ -408,8 +415,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pages\ManagerPages\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

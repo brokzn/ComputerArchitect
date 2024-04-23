@@ -40,9 +40,6 @@ namespace ComputerArchitect.UI.Pages
                 case 1:
                     AdminPanelOpenButton.Visibility = Visibility.Visible;
                     break;
-                case 2:
-                    ManagerPanelOpenButton.Visibility = Visibility.Visible;
-                    break;
                 case 3:
                     DeliveryPanelOpenButton.Visibility = Visibility.Visible;
                     break;
@@ -93,10 +90,6 @@ namespace ComputerArchitect.UI.Pages
                         break;
                 }
             };
-
-            
-
-
         }
 
         private void UpdateItemCountInCart(int count)
@@ -144,26 +137,6 @@ namespace ComputerArchitect.UI.Pages
             
         }
 
-        bool SelectTheme = true;
-        private void SwapThemeButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (SelectTheme)
-            {
-                ThemeLabel.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E0B35E"));
-                ThemeLabel.Content = "Cветлая";
-                Sun.Visibility = Visibility.Visible;
-                Moon.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                ThemeLabel.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#bdd0e4"));
-                ThemeLabel.Content = "Тёмная";
-                Sun.Visibility = Visibility.Collapsed;
-                Moon.Visibility = Visibility.Visible;
-            }
-            SelectTheme = !SelectTheme;
-        }
-
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             LogoutAppNotification notification = new LogoutAppNotification();
@@ -171,7 +144,6 @@ namespace ComputerArchitect.UI.Pages
             notification.Show();
 
         }
-
 
         private void UserProfileOpenButton_Click(object sender, RoutedEventArgs e)
         {
@@ -312,6 +284,11 @@ namespace ComputerArchitect.UI.Pages
         private void DeliveryPanelOpenButton_Click(object sender, RoutedEventArgs e)
         {
             MenuFrame.NavigationService.Navigate(new DeliveryPanelPage(CurrentUser));
+        }
+
+        private void InfoAboutProgramOpenButton_Click(object sender, RoutedEventArgs e)
+        {
+            MenuFrame.NavigationService.Navigate(new InfoAboutProgramPage());
         }
     }
 }
