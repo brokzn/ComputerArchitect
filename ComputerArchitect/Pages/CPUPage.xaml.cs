@@ -1,11 +1,13 @@
 ﻿using ComputerArchitect.Database;
 using ComputerArchitect.UI.Pages;
 using ControlzEx.Standard;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +40,14 @@ namespace ComputerArchitect.Pages
             InitializeComponent();
             LoadComponent();
             MostCheapestSort_Checked(null, null);
-
+            NewCPUSoketComboBox.ItemsSource = App.Database.Sockets.ToList();
+            NewCPUMemoryTypeComboBox.ItemsSource = App.Database.Memory_types.ToList();
+            switch (CurrentUser.RoleId)
+            {
+                case 1:
+                    AddNewCpuButton.Visibility = Visibility.Visible;
+                    break;
+            }
         }
 
         public class CombinedData
@@ -408,6 +417,228 @@ namespace ComputerArchitect.Pages
                 current = VisualTreeHelper.GetParent(current);
             } while (current != null);
             return null;
+        }
+
+        private void ClearFields()
+        {
+            // Очистка текстовых полей
+            NewCPUCostTextBox.Text = "";
+            NewCPUStorageCountTextBox.Text = "";
+            NewCPUBaseSpeedTextBox.Text = "";
+            NewCPUL2TextBox.Text = "";
+            NewCPUL3TextBox.Text = "";
+            NewCPUModelTextBox.Text = "";
+            NewCPUCoreCountTextBox.Text = "";
+            NewCPUChannelsCountTextBox.Text = "";
+            NewCPUSpeedMemoryTextBox.Text = "";
+            NewCPUTDPTextBox.Text = "";
+
+            // Сброс выбранных элементов в комбобоксах
+            NewCPUSoketComboBox.SelectedItem = null;
+            NewCPUMemoryTypeComboBox.SelectedItem = null;
+
+            // Очистка выбранного изображения
+            selectedImageBytes = null;
+        }
+
+        private byte[] ConvertImageToByteArray(string imagePath)
+        {
+            try
+            {
+                using (FileStream fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+                {
+                    using (BinaryReader binaryReader = new BinaryReader(fileStream))
+                    {
+                        return binaryReader.ReadBytes((int)fileStream.Length);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при конвертации изображения: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
+        }
+
+        private void AddNewCpuButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddNewCPUDialog.Visibility = Visibility.Visible;
+        }
+
+        private void CloseAddNewCPUDialog_Click(object sender, RoutedEventArgs e)
+        {
+            ClearFields();
+            AddNewCPUDialog.Visibility = Visibility.Collapsed;
+        }
+
+        private bool ValidateDecimalTextBox(TextBox textBox, out decimal result)
+        {
+            if (!decimal.TryParse(textBox.Text, out result))
+            {
+                MessageBox.Show($"Неверный формат в поле {textBox.Tag}.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                textBox.Focus();
+                textBox.SelectAll();
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidateIntTextBox(TextBox textBox, out int result)
+        {
+            if (!int.TryParse(textBox.Text, out result))
+            {
+                MessageBox.Show($"Неверный формат в поле {textBox.Tag}.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                textBox.Focus();
+                textBox.SelectAll();
+                return false;
+            }
+            return true;
+        }
+
+        private void SaveAddNewCPUDialog_Click(object sender, RoutedEventArgs e)
+        {
+            // Проверка на заполнение всех полей и выбор изображения
+            if (string.IsNullOrWhiteSpace(NewCPUCostTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewCPUStorageCountTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewCPUBaseSpeedTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewCPUL2TextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewCPUL3TextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewCPUModelTextBox.Text) ||
+                NewCPUSoketComboBox.SelectedItem == null ||
+                string.IsNullOrWhiteSpace(NewCPUCoreCountTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewCPUChannelsCountTextBox.Text) ||
+                NewCPUMemoryTypeComboBox.SelectedItem == null ||
+                string.IsNullOrWhiteSpace(NewCPUSpeedMemoryTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewCPUTDPTextBox.Text) ||
+                selectedImageBytes == null)
+            {
+                MessageBox.Show("Пожалуйста, заполните все поля и выберите фото.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Проверка на правильный формат данных в текстовых полях
+            decimal cost;
+            if (!ValidateDecimalTextBox(NewCPUCostTextBox, out cost))
+                return;
+
+            int storageCount;
+            if (!ValidateIntTextBox(NewCPUStorageCountTextBox, out storageCount))
+                return;
+
+            decimal baseSpeed;
+            if (!ValidateDecimalTextBox(NewCPUBaseSpeedTextBox, out baseSpeed))
+                return;
+
+            decimal l2Size;
+            if (!ValidateDecimalTextBox(NewCPUL2TextBox, out l2Size))
+                return;
+
+            decimal l3Size;
+            if (!ValidateDecimalTextBox(NewCPUL3TextBox, out l3Size))
+                return;
+
+            string model = NewCPUModelTextBox.Text;
+
+            int socketId = ((Sockets)NewCPUSoketComboBox.SelectedItem).SocketId;
+            int coreCount;
+            if (!ValidateIntTextBox(NewCPUCoreCountTextBox, out coreCount))
+                return;
+
+            int channelcount;
+            if (!ValidateIntTextBox(NewCPUChannelsCountTextBox, out channelcount))
+                return;
+
+            int memoryTypeId = ((Memory_types)NewCPUMemoryTypeComboBox.SelectedItem).Memory_typeId;
+
+            int speedMemory;
+            if (!ValidateIntTextBox(NewCPUSpeedMemoryTextBox, out speedMemory))
+                return;
+
+            int tdp;
+            if (!ValidateIntTextBox(NewCPUTDPTextBox, out tdp))
+                return;
+
+            // Создаем новый объект CPU с извлеченными данными
+            CPUS newCPU = new CPUS
+            {
+                Cost = cost,
+                CPU_Count_on_storage = storageCount,
+                Base_processor_speed = baseSpeed,
+                L2_cache_size = l2Size,
+                L3_cache_size = l3Size,
+                Model = model,
+                Socket = socketId,
+                Total_cores = coreCount,
+                Number_of_channels = channelcount,
+                Memory_type = memoryTypeId,
+                Memory_speed = speedMemory,
+                Thermal_design_power = tdp,
+                Preview_Photo = selectedImageBytes,
+            };
+
+            try
+            {
+                App.Database.CPUS.Add(newCPU);
+                App.Database.SaveChanges();
+                MessageBox.Show("Новая запись успешно добавлена.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadComponent();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при добавлении записи в базу данных: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            ClearFields();
+        }
+
+        private byte[] selectedImageBytes;
+
+        private void NewCPUChoosePhotoButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string selectedImagePath = openFileDialog.FileName;
+
+                // Проверяем расширение выбранного файла
+                string extension = System.IO.Path.GetExtension(selectedImagePath).ToLower();
+                if (extension == ".jpg" || extension == ".jpeg" || extension == ".png")
+                {
+                    // Если выбран файл с поддерживаемым расширением, конвертируем его в массив байтов
+                    selectedImageBytes = ConvertImageToByteArray(selectedImagePath);
+                }
+                else
+                {
+                    // Выводим уведомление об ошибке, если выбран файл с неподдерживаемым расширением
+                    MessageBox.Show("Выбран неподдерживаемый формат файла. Пожалуйста, выберите изображение в формате JPG, JPEG или PNG.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void DeleteSelectedCPUButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить этот процессор?", "Удаление процессора", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                // Получение выбранного элемента ListBox
+                var selectedItem = (sender as Button)?.DataContext;
+
+                // Удаление записи из базы данных
+                if (selectedItem != null)
+                {
+                    try
+                    {
+                        App.Database.CPUS.Remove((CPUS)selectedItem);
+                        App.Database.SaveChanges();
+                        MessageBox.Show("Процессор успешно удален.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при удалении процессора: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
         }
     }
 }
