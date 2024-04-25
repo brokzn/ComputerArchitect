@@ -1,8 +1,10 @@
 ﻿using ComputerArchitect.Database;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +35,12 @@ namespace ComputerArchitect.Pages
             InitializeComponent();
             LoadComponent();
             MostCheapestSort_Checked(null, null);
-
+            switch (CurrentUser.RoleId)
+            {
+                case 1:
+                    AddNewGPUButton.Visibility = Visibility.Visible;
+                    break;
+            }
         }
 
        
@@ -335,6 +342,225 @@ namespace ComputerArchitect.Pages
                     button.IsEnabled = true;
                 }
             }
+        }
+
+        private byte[] selectedImageBytes;
+
+        private void ClearFields()
+        {
+            // Очистка текстовых полей
+            NewCostTextBox.Text = "";
+            NewCountOnStorageTextBox.Text = "";
+            NewModelTextBox.Text = "";
+            NewGPUConnectionInterfaceTextBox.Text = "";
+            NewGPUVideoMemorySizeGBTextBox.Text = "";
+            NewGPUVideoMemoryTypeTextBox.Text = "";
+            NewGPUMemoryBusWidthBitsTextBox.Text = "";
+            NewGPUVideoOutputTypeandCountTextBox.Text = "";
+            NewGPUBaseFrequencyMHzTextBox.Text = "";
+
+            // Очистка выбранного изображения
+            selectedImageBytes = null;
+        }
+
+        private byte[] ConvertImageToByteArray(string imagePath)
+        {
+            try
+            {
+                using (FileStream fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+                {
+                    using (BinaryReader binaryReader = new BinaryReader(fileStream))
+                    {
+                        return binaryReader.ReadBytes((int)fileStream.Length);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при конвертации изображения: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
+        }
+
+        private void AddNewGPUButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddNewCPUDialog.Visibility = Visibility.Visible;
+        }
+
+        private void CloseAddNewGPUDialog_Click(object sender, RoutedEventArgs e)
+        {
+            ClearFields();
+            AddNewCPUDialog.Visibility = Visibility.Collapsed;
+        }
+
+        private bool ValidateDecimalTextBox(TextBox textBox, out decimal result)
+        {
+            if (!decimal.TryParse(textBox.Text, out result))
+            {
+                MessageBox.Show($"Неверный формат в поле {textBox.Tag}.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                textBox.Focus();
+                textBox.SelectAll();
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidateIntTextBox(TextBox textBox, out int result)
+        {
+            if (!int.TryParse(textBox.Text, out result))
+            {
+                MessageBox.Show($"Неверный формат в поле {textBox.Tag}.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                textBox.Focus();
+                textBox.SelectAll();
+                return false;
+            }
+            return true;
+        }
+
+        private void SaveAddNewGPUDialog_Click(object sender, RoutedEventArgs e)
+        {
+            // Проверка на заполнение всех полей и выбор изображения
+            if (string.IsNullOrWhiteSpace(NewCostTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewCountOnStorageTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewModelTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewGPUConnectionInterfaceTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewGPUVideoMemorySizeGBTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewGPUVideoMemoryTypeTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewGPUMemoryBusWidthBitsTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewGPUVideoOutputTypeandCountTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewGPUBaseFrequencyMHzTextBox.Text) ||
+                selectedImageBytes == null)
+            {
+                MessageBox.Show("Пожалуйста, заполните все поля и выберите фото.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Проверка на правильный формат данных в текстовых полях
+            decimal cost;
+            if (!ValidateDecimalTextBox(NewCostTextBox, out cost))
+                return;
+
+            int storageCount;
+            if (!ValidateIntTextBox(NewCountOnStorageTextBox, out storageCount))
+                return;
+
+            string model = NewModelTextBox.Text;
+
+            string connectionInterface = NewGPUConnectionInterfaceTextBox.Text;
+
+           
+
+            string videoMemoryType = NewGPUVideoMemoryTypeTextBox.Text;
+
+            int memoryBusWidthBits;
+            if (!ValidateIntTextBox(NewGPUMemoryBusWidthBitsTextBox, out memoryBusWidthBits))
+                return;
+
+            string videoOutputTypeandCount = NewGPUVideoOutputTypeandCountTextBox.Text;
+
+            int videoMemorySizeGB;
+            if (!ValidateIntTextBox(NewGPUVideoMemorySizeGBTextBox, out videoMemorySizeGB))
+                return;
+
+            int baseFrequencyMHz;
+            if (!ValidateIntTextBox(NewGPUBaseFrequencyMHzTextBox, out baseFrequencyMHz))
+                return;
+
+
+            // Создаем новый объект GPU с извлеченными данными
+            GPUS newGPU = new GPUS
+            {
+                Cost = cost,
+                GPU_Count_on_storage = storageCount,
+                GPU_Model = model,
+                Connection_Interface = connectionInterface,
+                Video_Memory_Size_GB = videoMemorySizeGB,
+                Video_Memory_Type = videoMemoryType,
+                Memory_Bus_Width_Bits = memoryBusWidthBits,
+                Video_Output_Type_and_Count = videoOutputTypeandCount,
+                GPU_Base_Frequency_MHz = baseFrequencyMHz,
+                Preview_Photo = selectedImageBytes,
+            };
+
+            try
+            {
+                App.Database.GPUS.Add(newGPU);
+                App.Database.SaveChanges();
+                MessageBox.Show("Новая запись успешно добавлена.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                AddNewCPUDialog.Visibility = Visibility.Collapsed;
+                LoadComponent();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при добавлении записи в базу данных: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            ClearFields();
+        }
+
+        private void NewChoosePhotoButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string selectedImagePath = openFileDialog.FileName;
+
+                // Проверяем расширение выбранного файла
+                string extension = System.IO.Path.GetExtension(selectedImagePath).ToLower();
+                if (extension == ".jpg" || extension == ".jpeg" || extension == ".png")
+                {
+                    // Если выбран файл с поддерживаемым расширением, конвертируем его в массив байтов
+                    selectedImageBytes = ConvertImageToByteArray(selectedImagePath);
+                }
+                else
+                {
+                    // Выводим уведомление об ошибке, если выбран файл с неподдерживаемым расширением
+                    MessageBox.Show("Выбран неподдерживаемый формат файла. Пожалуйста, выберите изображение в формате JPG, JPEG или PNG.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void DeleteSelectedGPUButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+            switch (CurrentUser.RoleId)
+            {
+                case 1:
+                    if (combinedData != null)
+                    {
+                        button.Visibility = Visibility.Visible;
+                    }
+                    break;
+            }
+        }
+
+        private void DeleteSelectedGPUButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить эту видеокарту?", "Удаление видеокарты", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                // Получение выбранного элемента ListBox
+                var selectedItem = (sender as Button)?.DataContext as CombinedData;
+
+                // Удаление записи из базы данных
+                if (selectedItem != null)
+                {
+                    try
+                    {
+                        App.Database.GPUS.Remove(selectedItem.GPUProcessor);
+                        App.Database.SaveChanges();
+                        MessageBox.Show("Видеокарта успешно удалена.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                        LoadComponent();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при удалении видеокарты: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+
         }
     }
 }
