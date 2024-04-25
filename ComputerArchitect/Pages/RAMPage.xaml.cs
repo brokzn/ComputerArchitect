@@ -1,8 +1,10 @@
 ﻿using ComputerArchitect.Database;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +35,13 @@ namespace ComputerArchitect.Pages
             InitializeComponent();
             LoadComponent();
             MostCheapestSort_Checked(null, null);
-
+            NewRAMMemoryTypeComboBox.ItemsSource = App.Database.Memory_types.ToList();
+            switch (CurrentUser.RoleId)
+            {
+                case 1:
+                    AddNewRAMButton.Visibility = Visibility.Visible;
+                    break;
+            }
         }
 
 
@@ -340,6 +348,229 @@ namespace ComputerArchitect.Pages
                 {
                     button.Content = "Купить";
                     button.IsEnabled = true;
+                }
+            }
+        }
+
+        private void ClearFields()
+        {
+            // Очистка текстовых полей
+            NewCostTextBox.Text = "";
+            NewCountOnStorageTextBox.Text = "";
+            NewModelTextBox.Text = "";
+            NewCapacityGBTextBox.Text = "";
+            NewRAMSpeedMHzTextBox.Text = "";
+            NewRAMCASLatencyTextBox.Text = "";
+            NewRAMRAStoCASDelayTextBox.Text = "";
+            NewRAMRowPrechargeDelayTextBox.Text = "";
+            NewRAMActivatetoPrechargeDelayTextBox.Text = "";
+
+            // Сброс выбранных элементов в комбобоксах
+            NewRAMMemoryTypeComboBox.SelectedItem = null;
+
+            // Очистка выбранного изображения
+            selectedImageBytes = null;
+        }
+        private byte[] selectedImageBytes;
+        private byte[] ConvertImageToByteArray(string imagePath)
+        {
+            try
+            {
+                using (FileStream fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+                {
+                    using (BinaryReader binaryReader = new BinaryReader(fileStream))
+                    {
+                        return binaryReader.ReadBytes((int)fileStream.Length);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при конвертации изображения: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
+        }
+
+        private void DeleteSelectedRAMButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+            switch (CurrentUser.RoleId)
+            {
+                case 1:
+                    if (combinedData != null)
+                    {
+                        button.Visibility = Visibility.Visible;
+                    }
+                    break;
+            }
+        }
+
+        private void DeleteSelectedRAMButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить эту оперативную память?", "Удаление оперативной памяти", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                // Получение выбранного элемента ListBox
+                var selectedItem = (sender as Button)?.DataContext as CombinedData;
+
+                // Удаление записи из базы данных
+                if (selectedItem != null)
+                {
+                    try
+                    {
+                        App.Database.RAMS.Remove(selectedItem.Rams);
+                        App.Database.SaveChanges();
+                        MessageBox.Show("Оперативная память успешно удалена.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                        LoadComponent();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при удалении оперативной памяти: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+
+        }
+
+        private void AddNewRAMButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddNewRAMDialog.Visibility = Visibility.Visible;
+        }
+
+        private bool ValidateDecimalTextBox(TextBox textBox, out decimal result)
+        {
+            if (!decimal.TryParse(textBox.Text, out result))
+            {
+                MessageBox.Show($"Неверный формат в поле {textBox.Tag}.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                textBox.Focus();
+                textBox.SelectAll();
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidateIntTextBox(TextBox textBox, out int result)
+        {
+            if (!int.TryParse(textBox.Text, out result))
+            {
+                MessageBox.Show($"Неверный формат в поле {textBox.Tag}.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                textBox.Focus();
+                textBox.SelectAll();
+                return false;
+            }
+            return true;
+        }
+        private void SaveAddNewRAMDialog_Click(object sender, RoutedEventArgs e)
+        {
+            // Проверка на заполнение всех полей и выбор изображения
+            if (string.IsNullOrWhiteSpace(NewCostTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewCountOnStorageTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewModelTextBox.Text) ||
+                NewRAMMemoryTypeComboBox.SelectedItem == null ||
+                string.IsNullOrWhiteSpace(NewCapacityGBTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewRAMSpeedMHzTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewRAMCASLatencyTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewRAMRAStoCASDelayTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewRAMRowPrechargeDelayTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewRAMActivatetoPrechargeDelayTextBox.Text) ||
+                selectedImageBytes == null)
+            {
+                MessageBox.Show("Пожалуйста, заполните все поля и выберите фото.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Проверка на правильный формат данных в текстовых полях
+            decimal cost;
+            if (!ValidateDecimalTextBox(NewCostTextBox, out cost))
+                return;
+
+            int storageCount;
+            if (!ValidateIntTextBox(NewCountOnStorageTextBox, out storageCount))
+                return;
+
+            int capacityGB;
+            if (!ValidateIntTextBox(NewCapacityGBTextBox, out capacityGB))
+                return;
+
+            int speedMHz;
+            if (!ValidateIntTextBox(NewRAMSpeedMHzTextBox, out speedMHz))
+                return;
+
+            int casLatency;
+            if (!ValidateIntTextBox(NewRAMCASLatencyTextBox, out casLatency))
+                return;
+
+            int raStoCasDelay;
+            if (!ValidateIntTextBox(NewRAMRAStoCASDelayTextBox, out raStoCasDelay))
+                return;
+
+            int rowPrechargeDelay;
+            if (!ValidateIntTextBox(NewRAMRowPrechargeDelayTextBox, out rowPrechargeDelay))
+                return;
+
+            int activateToPrechargeDelay;
+            if (!ValidateIntTextBox(NewRAMActivatetoPrechargeDelayTextBox, out activateToPrechargeDelay))
+                return;
+
+            // Создаем новый объект оперативной памяти с извлеченными данными
+            RAMS newRAM = new RAMS
+            {
+                Cost = cost,
+                RAM_Count_on_storage = storageCount,
+                RAM_Model = NewModelTextBox.Text,
+                Memory_Type = ((Memory_types)NewRAMMemoryTypeComboBox.SelectedItem).Memory_typeId,
+                Capacity_GB = capacityGB,
+                RAM_Speed_MHz = speedMHz,
+                CAS_Latency = casLatency,
+                RAS_to_CAS_Delay = raStoCasDelay,
+                Row_Precharge_Delay = rowPrechargeDelay,
+                Activate_to_Precharge_Delay = activateToPrechargeDelay,
+                Preview_Photo = selectedImageBytes,
+            };
+
+            try
+            {
+                App.Database.RAMS.Add(newRAM);
+                App.Database.SaveChanges();
+                MessageBox.Show("Новая запись успешно добавлена.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                AddNewRAMDialog.Visibility = Visibility.Collapsed;
+                LoadComponent();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при добавлении записи в базу данных: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            ClearFields();
+
+        }
+
+        private void CloseAddNewRANDialog_Click(object sender, RoutedEventArgs e)
+        {
+            ClearFields();
+            AddNewRAMDialog.Visibility = Visibility.Collapsed;
+        }
+
+        private void NewChoosePhotoButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string selectedImagePath = openFileDialog.FileName;
+
+                // Проверяем расширение выбранного файла
+                string extension = System.IO.Path.GetExtension(selectedImagePath).ToLower();
+                if (extension == ".jpg" || extension == ".jpeg" || extension == ".png")
+                {
+                    // Если выбран файл с поддерживаемым расширением, конвертируем его в массив байтов
+                    selectedImageBytes = ConvertImageToByteArray(selectedImagePath);
+                }
+                else
+                {
+                    // Выводим уведомление об ошибке, если выбран файл с неподдерживаемым расширением
+                    MessageBox.Show("Выбран неподдерживаемый формат файла. Пожалуйста, выберите изображение в формате JPG, JPEG или PNG.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
