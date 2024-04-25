@@ -1,6 +1,7 @@
 ﻿using ComputerArchitect.Database;
 using ComputerArchitect.UI.Pages;
 using ControlzEx.Standard;
+using ComputerArchitect.Pages;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,7 @@ namespace ComputerArchitect.Pages
             MostCheapestSort_Checked(null, null);
             NewCPUSoketComboBox.ItemsSource = App.Database.Sockets.ToList();
             NewCPUMemoryTypeComboBox.ItemsSource = App.Database.Memory_types.ToList();
+
             switch (CurrentUser.RoleId)
             {
                 case 1:
@@ -581,6 +583,7 @@ namespace ComputerArchitect.Pages
                 App.Database.CPUS.Add(newCPU);
                 App.Database.SaveChanges();
                 MessageBox.Show("Новая запись успешно добавлена.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                AddNewCPUDialog.Visibility = Visibility.Collapsed;
                 LoadComponent();
             }
             catch (Exception ex)
@@ -622,22 +625,39 @@ namespace ComputerArchitect.Pages
             if (result == MessageBoxResult.Yes)
             {
                 // Получение выбранного элемента ListBox
-                var selectedItem = (sender as Button)?.DataContext;
+                var selectedItem = (sender as Button)?.DataContext as CombinedData;
 
                 // Удаление записи из базы данных
                 if (selectedItem != null)
                 {
                     try
                     {
-                        App.Database.CPUS.Remove((CPUS)selectedItem);
+                        App.Database.CPUS.Remove(selectedItem.Processor);
                         App.Database.SaveChanges();
                         MessageBox.Show("Процессор успешно удален.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                        LoadComponent();
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show("Ошибка при удалении процессора: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
+            }
+        }
+
+
+        private void DeleteSelectedCPUButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+            switch (CurrentUser.RoleId)
+            {
+                case 1:
+                    if (combinedData != null)
+                    {
+                        button.Visibility = Visibility.Visible;
+                    }
+                    break;
             }
         }
     }

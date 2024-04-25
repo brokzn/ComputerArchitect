@@ -292,6 +292,287 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
+        <Border Name="AddNewMotherBoardDialog" Background="Transparent" Visibility="Collapsed" Panel.ZIndex="2" Grid.RowSpan="2">
+            <Grid>
+                <Border Background="#2F3037" 
+                        Opacity="0.66" 
+                        Grid.RowSpan="3"/>
+                <Border HorizontalAlignment="Center" 
+                        VerticalAlignment="Center"
+                        CornerRadius="5"
+                        Width="1000" Height="634"
+                        Background="#4B4C52">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="78"/>
+                            <RowDefinition/>
+                            <RowDefinition Height="78"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Добавление товара - Материнская плата"
+                               Margin="140 0 0 0"
+                               Style="{StaticResource UserInfoLabelStyle}"/>
+
+                        <Grid Grid.Row="1" Width="714">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Button Content="Выбрать изоражение"
+                                    Name="NewChoosePhotoButton"
+                                    Click="NewChoosePhotoButton_Click"
+                                    Grid.Row="0" 
+                                    Width="333"
+                                    FontSize="14"
+                                    Foreground="White"
+                                    Style="{StaticResource Simple2Button}"
+                                    Margin="0 0 0 0"
+                                    HorizontalAlignment="Left"
+                                    Height="44"/>
+
+                            <TextBox Grid.Row="1"
+                                     Style="{StaticResource UserInfoTextBox}"
+                                     x:Name="NewCostTextBox"
+                                     Margin="0 0 0 0"
+                                     MaxLength="30"
+                                     Tag="Цена"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     Width="333" 
+                                     Height="44">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+
+                            <TextBox Grid.Row="2"
+                                     Style="{StaticResource UserInfoTextBox}"
+                                     x:Name="NewCountOnStorageTextBox"
+                                     Margin="0 0 0 0"
+                                     MaxLength="30"
+                                     Tag="Количество на складе"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     Width="333" 
+                                     Height="44">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+
+                            <TextBox Grid.Row="3"
+                                     Style="{StaticResource UserInfoTextBox}"
+                                     x:Name="NewModelTextBox"
+                                     Margin="0 0 0 0"
+                                     MaxLength="30"
+                                     Tag="Модель"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     Width="333" 
+                                     Height="44">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+
+
+
+                            <Label Content="Сокет"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   Grid.Row="4"
+                                   FontSize="12"
+                                   Grid.Column="0"
+                                   Margin="0 0 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+
+                            <ComboBox Grid.Row="4" Grid.Column="0"
+                                      Name="NewMBSocketComboBox"
+                                      Style="{StaticResource ComboBoxFlatStyle}"
+                                      Margin="0 0 0 0"
+                                      ItemsSource="{Binding SocketName}" 
+                                      DisplayMemberPath="SocketName"
+                                      Tag="Сокет"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"
+                                      Width="270" 
+                                      Height="44">
+                                <ComboBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </ComboBox.Resources>
+                            </ComboBox>
+
+                            <TextBox Grid.Row="5"
+                                     Style="{StaticResource UserInfoTextBox}"
+                                     x:Name="NewMBMemorySlotsTextBox"
+                                     Margin="0 0 0 0"
+                                     MaxLength="30"
+                                     Tag="Количество слотов памяти"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     Width="333" 
+                                     Height="44">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+
+                            <TextBox Grid.Row="6"
+                                     Style="{StaticResource UserInfoTextBox}"
+                                     x:Name="NewMBMaxMemoryFrequencyMhzTextBox"
+                                     Margin="0 0 0 0"
+                                     MaxLength="30"
+                                     Tag="Максимальная частота памяти"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     Width="333" 
+                                     Height="44">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+
+                            <Label Content="DDR"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   Grid.Row="1"
+                                   FontSize="12"
+                                   Grid.Column="1"
+                                   Margin="0 0 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+
+                            <ComboBox Grid.Row="1" Grid.Column="1"
+                                      Name="NewMBMemoryTypeComboBox"
+                                      Style="{StaticResource ComboBoxFlatStyle}"
+                                      Margin="0 0 0 0"
+                                      ItemsSource="{Binding Memory_typeName}" 
+                                      DisplayMemberPath="Memory_typeName"
+                                      Tag="DDR"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"
+                                      Width="270" 
+                                      Height="44">
+                                <ComboBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </ComboBox.Resources>
+                            </ComboBox>
+
+                            <TextBox Grid.Row="2" Grid.Column="1"
+                                     Style="{StaticResource UserInfoTextBox}"
+                                     x:Name="NewMBPcie_X16_SlotsTextBox"
+                                     Margin="0 0 0 0"
+                                     MaxLength="30"
+                                     Tag="Количество слотов Pcie X16"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     Width="333" 
+                                     Height="44">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+
+                            <Label Content="Форм-фактор"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   Grid.Row="3"
+                                   FontSize="10"
+                                   Grid.Column="1"
+                                   Margin="0 0 5 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+
+                            <ComboBox Grid.Row="3" Grid.Column="1"
+                                      Name="NewMBFormFactorComboBox"
+                                      Style="{StaticResource ComboBoxFlatStyle}"
+                                      Margin="0 0 0 0"
+                                      ItemsSource="{Binding Form_FactorName}" 
+                                      DisplayMemberPath="Form_FactorName"
+                                      Tag="DDR"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"
+                                      Width="270" 
+                                      Height="44">
+                                <ComboBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </ComboBox.Resources>
+                            </ComboBox>
+
+                            <TextBox Grid.Row="4" Grid.Column="1"
+                                     Style="{StaticResource UserInfoTextBox}"
+                                     x:Name="NewMBChipsetTextBox"
+                                     Margin="0 0 0 0"
+                                     MaxLength="30"
+                                     Tag="Чипсет"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     Width="333" 
+                                     Height="44">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+
+                        </Grid>
+
+                        
+
+                        <Button Content="Сохранить"
+                                Name="SaveAddNewMBDialog"
+                                Click="SaveAddNewMBDialog_Click"
+                                Grid.Row="5" 
+                                Width="180"
+                                FontSize="20"
+                                Foreground="White"
+                                Style="{StaticResource SimpleButton}"
+                                Margin="140 0 0 0"
+                                HorizontalAlignment="Left"
+                                Height="49"/>
+
+                        <Button Content="Отмена"
+                                Name="CloseAddNewMBDialog"
+                                Click="CloseAddNewMBDialog_Click"
+                                Grid.Row="5" 
+                                Width="133"
+                                FontSize="20"
+                                Foreground="White"
+                                Style="{StaticResource Simple2Button}"
+                                Margin="340 0 0 0"
+                                HorizontalAlignment="Left"
+                                Height="49"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
         <Grid Width="1220">
 
             <Label Grid.Column="0"
@@ -512,7 +793,19 @@
                     FontWeight="Bold"
                     Content="сначала недорогие"/>
 
-
+            <Button Content="Добавить"
+                    Name="AddNewMBButton"
+                    Click="AddNewMBButton_Click"
+                    Visibility="Collapsed"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Width="180"
+                    FontSize="14"
+                    Foreground="White"
+                    Style="{StaticResource SimpleButton}"
+                    Margin="0 0 60 0"
+                    HorizontalAlignment="Right"
+                    Height="30"/>
 
             <Border Width="300"
                     Name="SortBorder"
@@ -662,6 +955,17 @@
                                     HorizontalAlignment="Right"
                                     Content="Купить"
                                     Height="45"/>
+                                    <Button Width="100"
+                                            x:Name="DeleteSelectedMBButton"
+                                            Loaded="DeleteSelectedMBButton_Loaded"
+                                            Visibility="Collapsed"
+                                            Click="DeleteSelectedMBButton_Click"
+                                            Style="{StaticResource RedButton}"
+                                            Margin="0 100 15 0"
+                                            HorizontalAlignment="Right"
+                                            FontSize="12"
+                                            Content="Удалить"
+                                            Height="30"/>
                                     <TextBlock Text="{Binding Motherboard.Cost, StringFormat={}{0:N0} ₽}"
                                    FontFamily="Arial"
                                    FontWeight="Bold"

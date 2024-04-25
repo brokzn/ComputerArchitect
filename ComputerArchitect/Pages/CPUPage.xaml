@@ -440,7 +440,16 @@
                                     </Style>
                                 </TextBox.Resources>
                             </TextBox>
-
+                            
+                            <Label Content="Сокет"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   Grid.Row="1"
+                                   FontSize="12"
+                                   Grid.Column="1"
+                                   Margin="0 0 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+                            
                             <ComboBox Grid.Row="1" Grid.Column="1"
                                       Name="NewCPUSoketComboBox"
                                       Style="{StaticResource ComboBoxFlatStyle}"
@@ -450,7 +459,7 @@
                                       Tag="Сокет"
                                       HorizontalAlignment="Left"
                                       VerticalAlignment="Center"
-                                      Width="333" 
+                                      Width="270" 
                                       Height="44">
                                 <ComboBox.Resources>
                                     <Style TargetType="{x:Type Border}">
@@ -492,7 +501,16 @@
                                     </Style>
                                 </TextBox.Resources>
                             </TextBox>
-
+                                
+                            <Label Content="DDR"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   Grid.Row="4"
+                                   FontSize="12"
+                                   Grid.Column="1"
+                                   Margin="0 0 30 0"
+                                   Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+                            
                             <ComboBox Grid.Row="4" Grid.Column="1"
                                       Name="NewCPUMemoryTypeComboBox"
                                       Style="{StaticResource ComboBoxFlatStyle}"
@@ -502,7 +520,7 @@
                                       Tag="Сокет"
                                       HorizontalAlignment="Left"
                                       VerticalAlignment="Center"
-                                      Width="333" 
+                                      Width="270" 
                                       Height="44">
                                 <ComboBox.Resources>
                                     <Style TargetType="{x:Type Border}">
@@ -893,19 +911,18 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Grid.Row="1"
-                  Height="180"
-                 Width="850"
-                              
-                  Grid.Column="1">
+                              Height="180"
+                              Width="850"      
+                              Grid.Column="1">
                             <Border Background="#4B4C52" CornerRadius="5">
                                 <Grid>
 
                                     <Image Width="150"
                                            Stretch="Fill"
-                           Source="{Binding Processor.Preview_Photo}"
-                           Margin="22 0 0 0"
-                           Height="150"
-                           HorizontalAlignment="Left"/>
+                                           Source="{Binding Processor.Preview_Photo}"
+                                           Margin="22 0 0 0"
+                                           Height="150"
+                                           HorizontalAlignment="Left"/>
                                     <TextBlock
                                    x:Name="CPUShortParametersLabel"
                                    MouseEnter="CPUShortParametersLabel_MouseEnter"
@@ -975,12 +992,12 @@
                                     Content="Купить"
                                     Height="45"/>
                                     <Button Width="100"
-                                            Name="DeleteSelectedCPUButton"
+                                            x:Name="DeleteSelectedCPUButton"
+                                            Loaded="DeleteSelectedCPUButton_Loaded"
                                             Visibility="Collapsed"
                                             Click="DeleteSelectedCPUButton_Click"
                                             Style="{StaticResource RedButton}"
                                             Margin="0 100 15 0"
-                                            Loaded="AddToCartCPUButton_Loaded"
                                             HorizontalAlignment="Right"
                                             FontSize="12"
                                             Content="Удалить"
