@@ -1,8 +1,10 @@
 ﻿using ComputerArchitect.Database;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +35,13 @@ namespace ComputerArchitect.Pages
             InitializeComponent();
             LoadComponent();
             MostCheapestSort_Checked(null, null);
+            NewCaseSizeNameComboBox.ItemsSource = App.Database.CaseSizes.ToList();
+            switch (CurrentUser.RoleId)
+            {
+                case 1:
+                    AddNewCaseButton.Visibility = Visibility.Visible;
+                    break;
+            }
 
         }
 
@@ -338,5 +347,211 @@ namespace ComputerArchitect.Pages
                 }
             }
         }
+        private byte[] selectedImageBytes;
+
+        private byte[] ConvertImageToByteArray(string imagePath)
+        {
+            try
+            {
+                using (FileStream fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+                {
+                    using (BinaryReader binaryReader = new BinaryReader(fileStream))
+                    {
+                        return binaryReader.ReadBytes((int)fileStream.Length);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при конвертации изображения: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
+        }
+
+        private bool ValidateDecimalTextBox(TextBox textBox, out decimal value)
+        {
+            if (!decimal.TryParse(textBox.Text, out value))
+            {
+                MessageBox.Show($"Неправильный формат числа в поле {textBox.Tag}.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                textBox.Focus();
+                textBox.SelectAll();
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidateIntTextBox(TextBox textBox, out int value)
+        {
+            if (!int.TryParse(textBox.Text, out value))
+            {
+                MessageBox.Show($"Неправильный формат числа в поле {textBox.Tag}.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                textBox.Focus();
+                textBox.SelectAll();
+                return false;
+            }
+            return true;
+        }
+
+        private void ClearFields()
+        {
+            // Очистка текстовых полей
+            NewCostTextBox.Text = "";
+            NewCountOnStorageTextBox.Text = "";
+            NewModelTextBox.Text = "";
+            NewCaseMainColorTextBox.Text = "";
+            NewCompatibleMotherboardFormFactorsTextBox.Text = "";
+            NewFrontPanelIOPortsTextBox.Text = "";
+
+            // Сброс выбранных элементов в комбобоксах
+            NewCaseSizeNameComboBox.SelectedItem = null;
+
+            // Очистка выбранного изображения (если применимо)
+            selectedImageBytes = null;
+        }
+
+
+        private void NewChoosePhotoButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string selectedImagePath = openFileDialog.FileName;
+
+                // Проверяем расширение выбранного файла
+                string extension = System.IO.Path.GetExtension(selectedImagePath).ToLower();
+                if (extension == ".jpg" || extension == ".jpeg" || extension == ".png")
+                {
+                    // Если выбран файл с поддерживаемым расширением, конвертируем его в массив байтов
+                    selectedImageBytes = ConvertImageToByteArray(selectedImagePath);
+                }
+                else
+                {
+                    // Выводим уведомление об ошибке, если выбран файл с неподдерживаемым расширением
+                    MessageBox.Show("Выбран неподдерживаемый формат файла. Пожалуйста, выберите изображение в формате JPG, JPEG или PNG.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void SaveAddNewCaseDialog_Click(object sender, RoutedEventArgs e)
+        {
+            // Проверка на заполненность всех необходимых полей и выбора изображения
+            if (string.IsNullOrWhiteSpace(NewCostTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewCountOnStorageTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewModelTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewCaseMainColorTextBox.Text) ||
+                NewCaseSizeNameComboBox.SelectedItem == null ||
+                string.IsNullOrWhiteSpace(NewCompatibleMotherboardFormFactorsTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewFrontPanelIOPortsTextBox.Text) ||
+                selectedImageBytes == null)
+            {
+                MessageBox.Show("Пожалуйста, заполните все поля и выберите фото.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Валидация стоимости
+            decimal cost;
+            if (!ValidateDecimalTextBox(NewCostTextBox, out cost))
+                return;
+
+            // Валидация количества на складе
+            int storageCount;
+            if (!ValidateIntTextBox(NewCountOnStorageTextBox, out storageCount))
+                return;
+
+            // Получение данных из текстовых полей
+            string model = NewModelTextBox.Text;
+            string mainColor = NewCaseMainColorTextBox.Text;
+            string compatibleMotherboardFormFactors = NewCompatibleMotherboardFormFactorsTextBox.Text;
+            string frontPanelIOPorts = NewFrontPanelIOPortsTextBox.Text;
+
+            // Получение идентификатора выбранного размера корпуса
+            int caseSizeId = ((CaseSizes)NewCaseSizeNameComboBox.SelectedItem).CaseSize_Id;
+
+            // Создание нового объекта корпуса (Case)
+            Cases newCase = new Cases
+            {
+                Cost = cost,
+                Cases_Count_on_storage = storageCount,
+                Model = model,
+                Main_Color = mainColor,
+                Compatible_Motherboard_Form_Factors = compatibleMotherboardFormFactors,
+                Front_Panel_IO_Ports = frontPanelIOPorts,
+                Case_Size = caseSizeId,
+                Preview_Photo = selectedImageBytes
+            };
+
+            try
+            {
+                // Добавление нового корпуса в базу данных и сохранение изменений
+                App.Database.Cases.Add(newCase);
+                App.Database.SaveChanges();
+                MessageBox.Show("Новый корпус успешно добавлен.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                AddNewMotherBoardDialog.Visibility = Visibility.Collapsed; // Скрытие диалогового окна после сохранения
+                LoadComponent(); // Перезагрузка компонента для отображения обновленного списка корпусов
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при добавлении корпуса в базу данных: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            // Очистка полей корпуса после сохранения
+            ClearFields();
+        }
+
+
+        private void CloseAddNewCaseDialog_Click(object sender, RoutedEventArgs e)
+        {
+            ClearFields();
+            AddNewMotherBoardDialog.Visibility = Visibility.Collapsed;
+        }
+
+        private void AddNewCaseButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddNewMotherBoardDialog.Visibility = Visibility.Visible;
+        }
+
+        private void DeleteSelectedCaseButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+            switch (CurrentUser.RoleId)
+            {
+                case 1:
+                    if (combinedData != null)
+                    {
+                        button.Visibility = Visibility.Visible;
+                    }
+                    break;
+            }
+        }
+
+        private void DeleteSelectedCaseButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить этот корпус?", "Удаление корпуса", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                // Получение выбранного элемента ListBox
+                var selectedItem = (sender as Button)?.DataContext as CombinedData;
+
+                // Удаление записи из базы данных
+                if (selectedItem != null)
+                {
+                    try
+                    {
+                        App.Database.Cases.Remove(selectedItem.Case);
+                        App.Database.SaveChanges();
+                        LoadComponent(); // Перезагрузка компонента для обновления списка корпусов
+                        MessageBox.Show("Корпус успешно удален.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при удалении корпуса: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+        }
+
     }
 }
