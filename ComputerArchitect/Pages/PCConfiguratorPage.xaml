@@ -2272,6 +2272,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                 <Run Text="Кулер" />
                                 <Run Text="{Binding Cooler.Model}"/>
                                 <Run Text="{Binding Cooler.Base_Material, StringFormat=' [ основание - {0},'}" />
+                                <Run Text="{Binding Socket.SocketName, StringFormat=' {0},'}" />
                                 <Run Text="{Binding Cooler.Min_Fan_Speed_RPM, StringFormat=' {0} об/мин,'}" />
                                 <Run Text="{Binding Cooler.Max_Noise_Level_dB, StringFormat=' {0} дБ,'}" />
                                 <Run Text="{Binding Cooler.Fan_Connector_Type, StringFormat=' {0},'}" />
