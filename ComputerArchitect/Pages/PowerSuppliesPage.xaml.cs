@@ -1,8 +1,10 @@
 ﻿using ComputerArchitect.Database;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +35,12 @@ namespace ComputerArchitect.Pages
             InitializeComponent();
             LoadComponent();
             MostCheapestSort_Checked(null, null);
-
+            switch (CurrentUser.RoleId)
+            {
+                case 1:
+                    AddNewPSButton.Visibility = Visibility.Visible;
+                    break;
+            }
         }
 
         
@@ -337,5 +344,212 @@ namespace ComputerArchitect.Pages
                 }
             }
         }
+
+        private void ClearFields()
+        {
+            NewCostTextBox.Text = "";
+            NewCountOnStorageTextBox.Text = "";
+            NewModelTextBox.Text = "";
+            NewPSPowerWattTextBox.Text = "";
+            NewPSMainPowerConnectorTextBox.Text = "";
+            NewPSSATAConnectorCountTextBox.Text = "";
+            NewPSCPUPowerConnectorTextBox.Text = "";
+            selectedImageBytes = null;
+        }
+        private byte[] selectedImageBytes;
+
+        private byte[] ConvertImageToByteArray(string imagePath)
+        {
+            try
+            {
+                using (FileStream fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+                {
+                    using (BinaryReader binaryReader = new BinaryReader(fileStream))
+                    {
+                        return binaryReader.ReadBytes((int)fileStream.Length);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при конвертации изображения: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
+        }
+
+        private void AddNewPSButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddNewPSDialog.Visibility = Visibility.Visible;
+        }
+
+        private bool ValidateIntTextBox(TextBox textBox, out int value)
+        {
+            if (!int.TryParse(textBox.Text, out value))
+            {
+                MessageBox.Show($"Неправильный формат числа в поле {textBox.Tag}.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                textBox.Focus();
+                textBox.SelectAll();
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidateDecimalTextBox(TextBox textBox, out decimal value)
+        {
+            if (!decimal.TryParse(textBox.Text, out value))
+            {
+                MessageBox.Show($"Неправильный формат числа в поле {textBox.Tag}.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                textBox.Focus();
+                textBox.SelectAll();
+                return false;
+            }
+            return true;
+        }
+
+        private void SaveAddNewPSDialog_Click(object sender, RoutedEventArgs e)
+        {
+            // Проверка наличия пустых обязательных полей
+            if (string.IsNullOrWhiteSpace(NewCostTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewCountOnStorageTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewModelTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewPSPowerWattTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewPSMainPowerConnectorTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewPSSATAConnectorCountTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewPSCPUPowerConnectorTextBox.Text) ||
+                selectedImageBytes == null)
+            {
+                MessageBox.Show("Пожалуйста, заполните все поля и выберите фото.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Проверка корректности числовых полей
+            decimal cost;
+            if (!ValidateDecimalTextBox(NewCostTextBox, out cost))
+                return;
+
+            int storageCount;
+            if (!ValidateIntTextBox(NewCountOnStorageTextBox, out storageCount))
+                return;
+
+            int powerWatt;
+            if (!ValidateIntTextBox(NewPSPowerWattTextBox, out powerWatt))
+                return;
+
+            int sataConnectorCount;
+            if (!ValidateIntTextBox(NewPSSATAConnectorCountTextBox, out sataConnectorCount))
+                return;
+
+            string cpuPowerConnector = NewPSCPUPowerConnectorTextBox.Text;
+
+            string model = NewModelTextBox.Text;
+
+            
+            PowerSupplies newPowerSupply = new PowerSupplies
+            {
+                Cost = cost,
+                PS__Count_on_storage = storageCount,
+                Model = model,
+                Power_Watt = powerWatt,
+                Main_Power_Connector = NewPSMainPowerConnectorTextBox.Text,
+                SATA_Connector_Count = sataConnectorCount,
+                CPU_Power_Connector = cpuPowerConnector,
+                Preview_Photo = selectedImageBytes,
+            };
+
+            try
+            {
+                
+                App.Database.PowerSupplies.Add(newPowerSupply);
+                App.Database.SaveChanges();
+
+                MessageBox.Show("Новая запись успешно добавлена.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                
+                AddNewPSDialog.Visibility = Visibility.Collapsed;
+
+                
+                LoadComponent();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при добавлении записи в базу данных: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            // Очистка полей после сохранения
+            ClearFields();
+        }
+
+
+
+        private void CloseAddNewPSDialog_Click(object sender, RoutedEventArgs e)
+        {
+            AddNewPSDialog.Visibility = Visibility.Collapsed;
+        }
+
+        private void NewChoosePhotoButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string selectedImagePath = openFileDialog.FileName;
+
+                // Проверяем расширение выбранного файла
+                string extension = System.IO.Path.GetExtension(selectedImagePath).ToLower();
+                if (extension == ".jpg" || extension == ".jpeg" || extension == ".png")
+                {
+                    // Если выбран файл с поддерживаемым расширением, конвертируем его в массив байтов
+                    selectedImageBytes = ConvertImageToByteArray(selectedImagePath);
+                }
+                else
+                {
+                    // Выводим уведомление об ошибке, если выбран файл с неподдерживаемым расширением
+                    MessageBox.Show("Выбран неподдерживаемый формат файла. Пожалуйста, выберите изображение в формате JPG, JPEG или PNG.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void DeleteSelectedPSButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+            switch (CurrentUser.RoleId)
+            {
+                case 1:
+                    if (combinedData != null)
+                    {
+                        button.Visibility = Visibility.Visible;
+                    }
+                    break;
+            }
+        }
+
+        private void DeleteSelectedPSButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить этот блок питания?", "Удаление блока питания", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                // Получение выбранного элемента ListBox
+                var selectedItem = (sender as Button)?.DataContext as CombinedData;
+
+                // Удаление записи из базы данных
+                if (selectedItem != null)
+                {
+                    try
+                    {
+                        App.Database.PowerSupplies.Remove(selectedItem.Powersupplies);
+                        App.Database.SaveChanges();
+                        LoadComponent();
+                        MessageBox.Show("Блок питания успешно удален.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при удалении блока питания: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+        }
+
     }
 }
