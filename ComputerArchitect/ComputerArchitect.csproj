@@ -389,6 +389,7 @@
       <DependentUpon>ComputerArchitectDataBase.edmx</DependentUpon>
       <LastGenOutput>ComputerArchitectDataBase.cs</LastGenOutput>
     </Content>
+    <Resource Include="UI\Elements\Computer Architect Logo.png" />
     <Resource Include="UI\ComponentsPreviewImages\BasicPCC\image cpu.png" />
     <Resource Include="UI\ComponentsPreviewImages\BasicPCC\image box.png" />
     <Resource Include="UI\ComponentsPreviewImages\BasicPCC\image bp.png" />

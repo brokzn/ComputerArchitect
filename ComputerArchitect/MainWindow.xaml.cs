@@ -798,5 +798,10 @@ namespace ComputerArchitect
             passwordBox.Password = string.Empty;
             passwordBox.LostFocus += lostFocusHandler;
         }
+
+        private void CloseWelcomeBorderButton_Click(object sender, RoutedEventArgs e)
+        {
+            WelcomeBorder.Visibility = Visibility.Collapsed;
+        }
     }
 }
