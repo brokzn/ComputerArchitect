@@ -1,8 +1,10 @@
 ﻿using ComputerArchitect.Database;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +35,12 @@ namespace ComputerArchitect.Pages
             InitializeComponent();
             LoadComponent();
             MostCheapestSort_Checked(null, null);
-
+            switch (CurrentUser.RoleId)
+            {
+                case 1:
+                    AddNewHDDButton.Visibility = Visibility.Visible;
+                    break;
+            }
         }
 
         
@@ -314,6 +321,19 @@ namespace ComputerArchitect.Pages
             }
         }
 
+        private void ClearFields()
+        {
+            NewCostTextBox.Text = "";
+            NewCountOnStorageTextBox.Text = "";
+            NewModelTextBox.Text = "";
+            NewCapacityTBTextBox.Text = "";
+            NewInterfaceTextBox.Text = "";
+            NewInterfaceBandwidthGBpsTextBox.Text = "";
+            NewSpindleSpeedRPMTextBox.Text = "";
+            NewCacheMBTextBox.Text = "";
+            selectedImageBytes = null;
+        }
+
         private void AddToCartHDDButton_Loaded(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
@@ -332,6 +352,214 @@ namespace ComputerArchitect.Pages
                     button.IsEnabled = true;
                 }
             }
+        }
+
+        private bool ValidateDecimalTextBox(TextBox textBox, out decimal value)
+        {
+            if (!decimal.TryParse(textBox.Text, out value))
+            {
+                MessageBox.Show($"Неправильный формат числа в поле {textBox.Tag}.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                textBox.Focus();
+                textBox.SelectAll();
+                return false;
+            }
+            return true;
+        }
+
+        private byte[] selectedImageBytes;
+
+        private byte[] ConvertImageToByteArray(string imagePath)
+        {
+            try
+            {
+                using (FileStream fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+                {
+                    using (BinaryReader binaryReader = new BinaryReader(fileStream))
+                    {
+                        return binaryReader.ReadBytes((int)fileStream.Length);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при конвертации изображения: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
+        }
+
+
+        private bool ValidateIntTextBox(TextBox textBox, out int value)
+        {
+            if (!int.TryParse(textBox.Text, out value))
+            {
+                MessageBox.Show($"Неправильный формат числа в поле {textBox.Tag}.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                textBox.Focus();
+                textBox.SelectAll();
+                return false;
+            }
+            return true;
+        }
+
+        private void AddNewHDDButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddNewHDDDialog.Visibility = Visibility.Visible;
+        }
+
+        private void SaveAddNewHDDDialog_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(NewCostTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewCountOnStorageTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewModelTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewCapacityTBTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewInterfaceTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewInterfaceBandwidthGBpsTextBox.Text) ||
+                string.IsNullOrWhiteSpace(NewSpindleSpeedRPMTextBox.Text) ||
+                selectedImageBytes == null ||
+                string.IsNullOrWhiteSpace(NewCacheMBTextBox.Text))
+            {
+                MessageBox.Show("Пожалуйста, заполните все поля и выберите фото.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            decimal cost;
+            if (!ValidateDecimalTextBox(NewCostTextBox, out cost))
+                return;
+
+            int storageCount;
+            if (!ValidateIntTextBox(NewCountOnStorageTextBox, out storageCount))
+                return;
+
+            string model = NewModelTextBox.Text;
+            int capacityGB;
+            if (!ValidateIntTextBox(NewCapacityTBTextBox, out capacityGB))
+                return;
+
+            string interfaceType = NewInterfaceTextBox.Text;
+
+            decimal interfaceBandwidth;
+            if (!decimal.TryParse(NewInterfaceBandwidthGBpsTextBox.Text, out interfaceBandwidth))
+            {
+                MessageBox.Show("Неверный формат пропускной способности интерфейса. Пожалуйста, введите числовое значение.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            int spindleSpeedRPM;
+            if (!ValidateIntTextBox(NewSpindleSpeedRPMTextBox, out spindleSpeedRPM))
+                return;
+
+            int cacheMB;
+            if (!ValidateIntTextBox(NewCacheMBTextBox, out cacheMB))
+                return;
+
+            
+
+            // Создание нового объекта HDD для добавления в базу данных
+            HDDs newHDD = new HDDs
+            {
+                Cost = cost,
+                HDD_Count_on_storage = storageCount,
+                Model = model,
+                Capacity_TB = capacityGB,
+                Interface = interfaceType,
+                Interface_Bandwidth_GBps = interfaceBandwidth,
+                Spindle_Speed_RPM = spindleSpeedRPM,
+                Cache_MB = cacheMB,
+                Preview_Photo = selectedImageBytes,
+            };
+
+            try
+            {
+                // Добавление нового HDD в базу данных и сохранение изменений
+                App.Database.HDDs.Add(newHDD);
+                App.Database.SaveChanges();
+                MessageBox.Show("Новая запись успешно добавлена.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Скрытие диалогового окна после успешного добавления
+                AddNewHDDDialog.Visibility = Visibility.Collapsed;
+
+                // Обновление компонентов интерфейса (если требуется)
+                LoadComponent();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при добавлении записи в базу данных: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            // Очистка полей после сохранения
+            ClearFields();
+        }
+
+
+        private void CloseAddNewHDDDialog_Click(object sender, RoutedEventArgs e)
+        {
+            ClearFields();
+            AddNewHDDDialog.Visibility = Visibility.Collapsed;
+        }
+
+        private void NewChoosePhotoButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string selectedImagePath = openFileDialog.FileName;
+
+                // Проверяем расширение выбранного файла
+                string extension = System.IO.Path.GetExtension(selectedImagePath).ToLower();
+                if (extension == ".jpg" || extension == ".jpeg" || extension == ".png")
+                {
+                    // Если выбран файл с поддерживаемым расширением, конвертируем его в массив байтов
+                    selectedImageBytes = ConvertImageToByteArray(selectedImagePath);
+                }
+                else
+                {
+                    // Выводим уведомление об ошибке, если выбран файл с неподдерживаемым расширением
+                    MessageBox.Show("Выбран неподдерживаемый формат файла. Пожалуйста, выберите изображение в формате JPG, JPEG или PNG.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void DeleteSelectedButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+            switch (CurrentUser.RoleId)
+            {
+                case 1:
+                    if (combinedData != null)
+                    {
+                        button.Visibility = Visibility.Visible;
+                    }
+                    break;
+            }
+        }
+
+        private void DeleteSelectedButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить этот жесткий диск?", "Удаление жесткого диска", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                
+                var selectedItem = (sender as Button)?.DataContext as CombinedData;
+
+                
+                if (selectedItem != null)
+                {
+                    try
+                    {
+                        App.Database.HDDs.Remove(selectedItem.Hdds); 
+                        App.Database.SaveChanges();
+                        LoadComponent(); 
+                        MessageBox.Show("Жесткий диск успешно удален.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при удалении жесткого диска: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+
         }
     }
 }
