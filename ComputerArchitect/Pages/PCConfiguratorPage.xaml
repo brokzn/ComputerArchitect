@@ -357,6 +357,63 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
             </Border>
         </Grid>
 
+        <Grid Height="200" 
+              Width="300" 
+              Visibility="Collapsed" 
+              Name="DialogCart" 
+              Panel.ZIndex="2" 
+              Grid.RowSpan="2">
+            <Border Background="#42424B" 
+            Opacity="1" 
+            CornerRadius="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Border Background="#6DB2E3" 
+                    CornerRadius="5 5 5 5"
+                    Opacity="1"  />
+                    <Label  
+                    Grid.Column="1" 
+                    Content="Добавление в корзину"
+                    VerticalAlignment="Center"
+                    Margin="10 0 0 0"
+                    HorizontalContentAlignment="Left"
+                    HorizontalAlignment="Left"
+                    Foreground="White" 
+                    FontFamily="Arial" 
+                    FontSize="16" 
+                    FontWeight="Bold"/>
+                    <Label  Grid.Column="1" Grid.Row="1" 
+                    VerticalAlignment="Top"
+                    Margin="0 40 0 0"
+                    Width="280"
+                    HorizontalContentAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Foreground="#D6D6D6" 
+                    FontFamily="Arial" 
+                    FontSize="14" 
+                    FontWeight="Bold">
+                        <TextBlock Text="Компоненты добавлены в корзину" 
+                           TextWrapping="Wrap"/>
+                    </Label>
+                    <Button Width="120"
+                    x:Name="DialogYesCart"
+                    Click="DialogYesCart_Click"
+                    Margin="0 0 0 10"
+                    HorizontalAlignment="Center"    
+                    VerticalAlignment="Bottom"
+                    Foreground="White" 
+                    FontSize="14"
+                    Grid.Row="1"
+                    Style="{StaticResource SimpleButton}" 
+                    Height="40" 
+                    Content="Продолжить"/>
+                </Grid>
+            </Border>
+        </Grid>
+
 
 
 
@@ -693,6 +750,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             Height="40"/>
                     <Button Width="160"
                             x:Name="AddToCartConfingButton"
+                            Click="AddToCartConfingButton_Click"
                             Style="{StaticResource Simple2Button}"
                             Margin="0 0 20 0"
                             Grid.Row="2"

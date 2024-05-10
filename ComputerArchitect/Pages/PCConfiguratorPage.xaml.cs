@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class PCConfiguratorPage : Page
     {
+        public event EventHandler CartUpdated;
         int totalPowerWattUsing = 0;
         int componentsCompability = 0;
         SolidColorBrush DefaultColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D9D9"));
@@ -2349,6 +2351,84 @@ namespace ComputerArchitect.Pages
         {
             DialogBack.Visibility = Visibility.Collapsed;
             Dialog.Visibility = Visibility.Collapsed;
+        }
+
+        private void AddToCartConfingButton_Click(object sender, RoutedEventArgs e)
+        {
+            int userId = CurrentUser.Id;
+
+            using (var context = new ComputerArchitectDataBaseEntities())
+            {
+                // Получаем текущую конфигурацию пользователя из базы данных
+                UserConfiguration currentUserConfig = context.UserConfiguration
+                    .FirstOrDefault(config => config.UserId == userId);
+
+                if (currentUserConfig != null)
+                {
+                    var userCart = context.UsersCarts
+                        .Include("CartItems")
+                        .FirstOrDefault(c => c.UserId == userId);
+
+                    if (userCart == null)
+                    {
+                        userCart = new UsersCarts
+                        {
+                            UserId = userId
+                        };
+
+                        context.UsersCarts.Add(userCart);
+                    }
+
+                    // Создаем новый объект CartItems для каждого компонента в конфигурации пользователя
+                    var cartItems = new List<CartItems>
+            {
+                new CartItems { CartId = userCart.CartId, CpuId = currentUserConfig.CpuId },
+                new CartItems { CartId = userCart.CartId, MotherboardId = currentUserConfig.MotherboardId },
+                new CartItems { CartId = userCart.CartId, CaseId = currentUserConfig.CaseId },
+                new CartItems { CartId = userCart.CartId, GPUId = currentUserConfig.GPUId },
+                new CartItems { CartId = userCart.CartId, FanId = currentUserConfig.FanId },
+                new CartItems { CartId = userCart.CartId, RAMId = currentUserConfig.RAMId },
+                new CartItems { CartId = userCart.CartId, MemoryId = currentUserConfig.MemoryId },
+                new CartItems { CartId = userCart.CartId, PowerSuppliesId = currentUserConfig.PowerSuppliesId }
+            };
+
+                    // Добавляем только те компоненты, которых еще нет в корзине пользователя
+                    foreach (var cartItem in cartItems)
+                    {
+                        // Проверяем, есть ли уже такой компонент в корзине
+                        if (!userCart.CartItems.Any(item =>
+                            item.CpuId == cartItem.CpuId &&
+                            item.MotherboardId == cartItem.MotherboardId &&
+                            item.CaseId == cartItem.CaseId &&
+                            item.GPUId == cartItem.GPUId &&
+                            item.FanId == cartItem.FanId &&
+                            item.RAMId == cartItem.RAMId &&
+                            item.MemoryId == cartItem.MemoryId &&
+                            item.PowerSuppliesId == cartItem.PowerSuppliesId))
+                        {
+                            userCart.CartItems.Add(cartItem);
+                        }
+                    }
+
+                    // Сохраняем изменения в базе данных
+                    context.SaveChanges();
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка: Конфигурация пользователя не найдена.");
+                }
+            }
+
+            // ОБНОВЛЕНИЕ ИНФОРМАЦИИ О КОРЗИНЕ
+            CartUpdated?.Invoke(this, EventArgs.Empty);
+            DialogBack.Visibility = Visibility.Visible;
+            DialogCart.Visibility = Visibility.Visible;
+        }
+
+        private void DialogYesCart_Click(object sender, RoutedEventArgs e)
+        {
+            DialogBack.Visibility = Visibility.Collapsed;
+            DialogCart.Visibility = Visibility.Collapsed;
         }
     }
 }
