@@ -79,6 +79,7 @@ namespace ComputerArchitect.UI.Pages
                     case CoolerPage coolerPage:
                     case HDDPage hddPage:
                     case PCConfiguratorPage pccPage:
+                    case ReadyMadeAssembliesPage RMAP:
                     case UserCartPage userCartPage:
                         EventHandler cartUpdatedHandler = (obj, args) =>
                         {

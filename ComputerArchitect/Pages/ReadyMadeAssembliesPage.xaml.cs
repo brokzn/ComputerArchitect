@@ -25,6 +25,7 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class ReadyMadeAssembliesPage : Page
     {
+        public event EventHandler CartUpdated;
         public Users CurrentUser { get; set; }
         public ReadyMadeAssembliesPage(Users currentUser)
         {
@@ -35,6 +36,7 @@ namespace ComputerArchitect.Pages
         }
         public class CombinedData
         {
+
             public ReadyMadeAssemblies Assembly { get; set; }
             public CPUS Processor { get; set; }
             public Motherboards Motherboards { get; set; }
@@ -309,6 +311,97 @@ namespace ComputerArchitect.Pages
             {
                 ComponentListBox.ItemsSource = originalCombineds;
             }
+        }
+
+
+
+
+        private void AddToCartButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var combinedData = button?.DataContext as CombinedData;
+
+            if (combinedData != null)
+            {
+                var assembly = combinedData.Assembly;
+
+                int userId = CurrentUser.Id;
+
+                using (var context = new ComputerArchitectDataBaseEntities())
+                {
+                    var userCart = context.UsersCarts
+                        .Include("CartItems")
+                        .FirstOrDefault(c => c.UserId == userId);
+
+                    if (userCart == null)
+                    {
+                        userCart = new UsersCarts
+                        {
+                            UserId = userId
+                        };
+
+                        context.UsersCarts.Add(userCart);
+                    }
+
+                    // Перечень компонентов для добавления в корзину
+                    var componentsToAdd = new List<int?>
+            {
+                assembly.CpuId,
+                assembly.MotherboardId,
+                assembly.CaseId,
+                assembly.GPUId,
+                assembly.FanId,
+                assembly.RAMId,
+                assembly.MemoryId,
+                assembly.PowerSuppliesId
+                // Добавьте сюда остальные компоненты, если есть
+            };
+
+                    foreach (var componentId in componentsToAdd)
+                    {
+                        if (componentId != null)
+                        {
+                            var cartItem = new CartItems
+                            {
+                                CartId = userCart.CartId,
+                                UsersCarts = userCart
+                            };
+
+                            // Устанавливаем соответствующий Id компонента в зависимости от типа
+                            if (componentId == assembly.CpuId)
+                                cartItem.CpuId = componentId;
+                            else if (componentId == assembly.MotherboardId)
+                                cartItem.MotherboardId = componentId;
+                            else if (componentId == assembly.CaseId)
+                                cartItem.CaseId = componentId;
+                            else if (componentId == assembly.GPUId)
+                                cartItem.GPUId = componentId;
+                            else if (componentId == assembly.FanId)
+                                cartItem.FanId = componentId;
+                            else if (componentId == assembly.RAMId)
+                                cartItem.RAMId = componentId;
+                            else if (componentId == assembly.MemoryId)
+                                cartItem.MemoryId = componentId;
+                            else if (componentId == assembly.PowerSuppliesId)
+                                cartItem.PowerSuppliesId = componentId;
+
+                            userCart.CartItems.Add(cartItem);
+                        }
+                    }
+
+                    context.SaveChanges();
+
+                    // Обновление состояния кнопки
+                    button.Content = "Добавлено";
+                    button.IsEnabled = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ошибка: не удалось определить выбранную сборку.");
+            }
+            // Обновление информации о корзине
+            CartUpdated?.Invoke(this, EventArgs.Empty);
         }
     }
 }
