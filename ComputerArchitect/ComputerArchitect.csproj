@@ -35,17 +35,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.4.4.0\lib\net462\ControlzEx.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -175,6 +169,9 @@
     <Compile Include="Pages\CoolerPage.xaml.cs">
       <DependentUpon>CoolerPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\CreateOrderPage.xaml.cs">
+      <DependentUpon>CreateOrderPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\DeliveryPanelPage.xaml.cs">
       <DependentUpon>DeliveryPanelPage.xaml</DependentUpon>
     </Compile>
@@ -251,6 +248,10 @@
     <Page Include="Pages\CoolerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\CreateOrderPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\DeliveryPanelPage.xaml">
       <SubType>Designer</SubType>
@@ -389,6 +390,7 @@
       <DependentUpon>ComputerArchitectDataBase.edmx</DependentUpon>
       <LastGenOutput>ComputerArchitectDataBase.cs</LastGenOutput>
     </Content>
+    <Resource Include="UI\Elements\Map.png" />
     <Resource Include="UI\Elements\Computer Architect Logo.png" />
     <Resource Include="UI\ComponentsPreviewImages\BasicPCC\image cpu.png" />
     <Resource Include="UI\ComponentsPreviewImages\BasicPCC\image box.png" />

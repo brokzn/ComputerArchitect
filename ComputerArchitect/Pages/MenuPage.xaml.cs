@@ -19,7 +19,6 @@ using System.Windows.Shapes;
 using ComputerArchitect.Database;
 using ComputerArchitect.ModalWindows;
 using ComputerArchitect.Pages;
-using ControlzEx.Standard;
 
 
 namespace ComputerArchitect.UI.Pages

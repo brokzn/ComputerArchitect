@@ -493,6 +493,8 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
 
                 <Button Width="325" 
                         Height="65"
+                        Name="CreateOrderButton"
+                        Click="CreateOrderButton_Click"
                         Style="{StaticResource SimpleButton}"
                         Margin="0 0 0 12"
                         Foreground="White"

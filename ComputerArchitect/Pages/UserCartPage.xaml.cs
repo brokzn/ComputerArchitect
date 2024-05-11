@@ -274,5 +274,10 @@ namespace ComputerArchitect.Pages
         {
             NavigationService.Navigate(new CatalogPage(CurrentUser));
         }
+
+        private void CreateOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new CreateOrderPage(CurrentUser));
+        }
     }
 }

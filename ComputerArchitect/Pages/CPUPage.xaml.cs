@@ -1,6 +1,5 @@
 ﻿using ComputerArchitect.Database;
 using ComputerArchitect.UI.Pages;
-using ControlzEx.Standard;
 using ComputerArchitect.Pages;
 using Microsoft.Win32;
 using System;
