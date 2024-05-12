@@ -80,6 +80,7 @@ namespace ComputerArchitect.UI.Pages
                     case PCConfiguratorPage pccPage:
                     case ReadyMadeAssembliesPage RMAP:
                     case UserCartPage userCartPage:
+                    case CreateOrderPage createOrderPage:
                         EventHandler cartUpdatedHandler = (obj, args) =>
                         {
                             int itemCount = GetItemCountInCart();

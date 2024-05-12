@@ -339,7 +339,26 @@ namespace ComputerArchitect.Pages
 
             if (combinedData != null)
             {
-                if (IsItemInCart(combinedData.Rams))
+                int userId = CurrentUser.Id;
+                bool itemInCart;
+
+                // Проверяем наличие оперативной памяти в корзине на основе актуальных данных из базы данных
+                using (var context = new ComputerArchitectDataBaseEntities())
+                {
+                    var userCart = context.UsersCarts.Include("CartItems").FirstOrDefault(c => c.UserId == userId);
+
+                    if (userCart != null)
+                    {
+                        itemInCart = userCart.CartItems.Any(item => item.RAMId == combinedData.Rams.RAMId);
+                    }
+                    else
+                    {
+                        itemInCart = false;
+                    }
+                }
+
+                // Устанавливаем состояние кнопки в зависимости от результата проверки
+                if (itemInCart)
                 {
                     button.Content = "В корзине";
                     button.IsEnabled = false;
@@ -351,6 +370,7 @@ namespace ComputerArchitect.Pages
                 }
             }
         }
+
 
         private void ClearFields()
         {

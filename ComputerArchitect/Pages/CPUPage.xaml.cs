@@ -35,7 +35,7 @@ namespace ComputerArchitect.Pages
         private UsersCarts currentUserCart;
         public Users CurrentUser { get; set; }
         public CPUPage(Users currentUser)
-        {
+        {  
             CurrentUser = currentUser;
             InitializeComponent();
             LoadComponent();
@@ -104,7 +104,26 @@ namespace ComputerArchitect.Pages
 
             if (combinedData != null)
             {
-                if (IsItemInCart(combinedData.Processor))
+                int userId = CurrentUser.Id;
+                bool itemInCart;
+
+                
+                using (var context = new ComputerArchitectDataBaseEntities())
+                {
+                    var userCart = context.UsersCarts.Include("CartItems").FirstOrDefault(c => c.UserId == userId);
+
+                    if (userCart != null)
+                    {
+                        itemInCart = userCart.CartItems.Any(item => item.CpuId == combinedData.Processor.CPUId);
+                    }
+                    else
+                    {
+                        itemInCart = false;
+                    }
+                }
+
+                
+                if (itemInCart)
                 {
                     button.Content = "В корзине";
                     button.IsEnabled = false;
@@ -116,6 +135,7 @@ namespace ComputerArchitect.Pages
                 }
             }
         }
+
 
 
         private void SearchInCategoryTextBox_TextChanged(object sender, TextChangedEventArgs e)

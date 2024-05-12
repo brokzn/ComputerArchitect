@@ -331,7 +331,26 @@ namespace ComputerArchitect.Pages
 
             if (combinedData != null)
             {
-                if (IsItemInCart(combinedData.Cooler))
+                int userId = CurrentUser.Id;
+                bool itemInCart;
+
+                // Проверяем наличие кулера в корзине на основе актуальных данных из базы данных
+                using (var context = new ComputerArchitectDataBaseEntities())
+                {
+                    var userCart = context.UsersCarts.Include("CartItems").FirstOrDefault(c => c.UserId == userId);
+
+                    if (userCart != null)
+                    {
+                        itemInCart = userCart.CartItems.Any(item => item.FanId == combinedData.Cooler.CoolerId);
+                    }
+                    else
+                    {
+                        itemInCart = false;
+                    }
+                }
+
+                // Устанавливаем состояние кнопки в зависимости от результата проверки
+                if (itemInCart)
                 {
                     button.Content = "В корзине";
                     button.IsEnabled = false;
@@ -343,6 +362,7 @@ namespace ComputerArchitect.Pages
                 }
             }
         }
+
 
         private void DeleteSelectedCoolerButton_Loaded(object sender, RoutedEventArgs e)
         {

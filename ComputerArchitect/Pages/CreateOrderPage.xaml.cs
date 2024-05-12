@@ -25,6 +25,7 @@ namespace ComputerArchitect.Pages
     public partial class CreateOrderPage : Page
     {
         int totalCost = 0;
+        public event EventHandler CartUpdated;
         public Users CurrentUser { get; set; }
         public CreateOrderPage(Users currentUser)
         {
@@ -162,7 +163,6 @@ namespace ComputerArchitect.Pages
             Error.Visibility = Visibility.Collapsed;
             int userId = CurrentUser.Id;
 
-
             using (var context = new ComputerArchitectDataBaseEntities())
             {
                 var userCart = context.UsersCarts.Include("CartItems")
@@ -180,7 +180,6 @@ namespace ComputerArchitect.Pages
                     {
                         deliverymethod = 1;
                     }
-
 
                     int paymentmethod;
 
@@ -205,11 +204,10 @@ namespace ComputerArchitect.Pages
                         OrderCreateDate = DateTime.Now,
                     };
 
-
                     context.Orders.Add(newOrder);
                     context.SaveChanges();
 
-
+                    
                     foreach (var cartItem in userCart.CartItems)
                     {
                         var orderCartItem = new OrderCartItems
@@ -228,13 +226,27 @@ namespace ComputerArchitect.Pages
                         context.OrderCartItems.Add(orderCartItem);
                     }
 
+                   
                     context.SaveChanges();
 
+                    // Создаем копию списка элементов для удаления
+                    var itemsToRemove = userCart.CartItems.ToList();
+
+                    // Перечисляем копию списка и удаляем элементы из основной коллекции
+                    foreach (var cartItem in itemsToRemove)
+                    {
+                        context.CartItems.Remove(cartItem);
+                    }
+
+                    
+                    context.SaveChanges();
+                    CartUpdated?.Invoke(this, EventArgs.Empty);
                     DialogBack.Visibility = Visibility.Visible;
                     OrderCreateMessageDialog.Visibility = Visibility.Visible;
                 }
             }
         }
+
 
         private void AddNewOrderButton_Click(object sender, RoutedEventArgs e)
         {
@@ -286,6 +298,7 @@ namespace ComputerArchitect.Pages
         {
             DialogBack.Visibility = Visibility.Collapsed;
             OrderCreateMessageDialog.Visibility = Visibility.Collapsed;
+            CartUpdated?.Invoke(this, EventArgs.Empty);
             NavigationService.Navigate(new CatalogPage(CurrentUser));
         }
     }
