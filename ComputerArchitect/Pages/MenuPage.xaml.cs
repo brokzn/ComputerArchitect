@@ -292,5 +292,10 @@ namespace ComputerArchitect.UI.Pages
         {
             MenuFrame.NavigationService.Navigate(new InfoAboutProgramPage());
         }
+
+        private void OrderOpenButton_Click(object sender, RoutedEventArgs e)
+        {
+            MenuFrame.NavigationService.Navigate(new UserOrdersPage(CurrentUser));
+        }
     }
 }
