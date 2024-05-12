@@ -46,5 +46,9 @@ namespace ComputerArchitect.Database
         public virtual DbSet<CartItems> CartItems { get; set; }
         public virtual DbSet<UsersCarts> UsersCarts { get; set; }
         public virtual DbSet<UserRoles> UserRoles { get; set; }
+        public virtual DbSet<OrderCartItems> OrderCartItems { get; set; }
+        public virtual DbSet<Orders> Orders { get; set; }
+        public virtual DbSet<DeliveryMethodType> DeliveryMethodType { get; set; }
+        public virtual DbSet<PaymentMethodType> PaymentMethodType { get; set; }
     }
 }

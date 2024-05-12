@@ -20,6 +20,7 @@ namespace ComputerArchitect.Database
             this.UserConfiguration = new HashSet<UserConfiguration>();
             this.ReadyMadeAssemblies = new HashSet<ReadyMadeAssemblies>();
             this.UsersCarts = new HashSet<UsersCarts>();
+            this.Orders = new HashSet<Orders>();
         }
     
         public string Name { get; set; }
@@ -44,5 +45,7 @@ namespace ComputerArchitect.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UsersCarts> UsersCarts { get; set; }
         public virtual UserRoles UserRoles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Orders> Orders { get; set; }
     }
 }

@@ -24,12 +24,14 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class CreateOrderPage : Page
     {
+        int totalCost = 0;
         public Users CurrentUser { get; set; }
         public CreateOrderPage(Users currentUser)
         {
             CurrentUser = currentUser;
             InitializeComponent();
             RadioButtonSelfTake.IsChecked = true;
+            RadioButtonMoney.IsChecked = true;
             InfoUserEmailTextBox.Text = currentUser.Email;
             InfoUserPhoneTextBox.Text = currentUser.PhoneNumber;
             LoadUserCart();
@@ -53,7 +55,7 @@ namespace ComputerArchitect.Pages
         private void LoadUserCart()
         {
             List<CartItems> cartItems = new List<CartItems>();
-            int totalCost = 0;
+            
 
             try
             {
@@ -155,14 +157,136 @@ namespace ComputerArchitect.Pages
             DeliveryBorder.Visibility = Visibility.Visible;
         }
 
-        private void RadioButtonMoney_Checked(object sender, RoutedEventArgs e)
+        private void CreateNewOrder()
         {
+            Error.Visibility = Visibility.Collapsed;
+            int userId = CurrentUser.Id;
 
+
+            using (var context = new ComputerArchitectDataBaseEntities())
+            {
+                var userCart = context.UsersCarts.Include("CartItems")
+                                                 .FirstOrDefault(u => u.UserId == userId);
+
+                if (userCart != null)
+                {
+                    int deliverymethod;
+
+                    if (RadioButtonDelivery.IsChecked == true)
+                    {
+                        deliverymethod = 2;
+                    }
+                    else
+                    {
+                        deliverymethod = 1;
+                    }
+
+
+                    int paymentmethod;
+
+                    if (RadioButtonOnline.IsChecked == true)
+                    {
+                        paymentmethod = 2;
+                    }
+                    else
+                    {
+                        paymentmethod = 1;
+                    }
+
+                    var newOrder = new Orders
+                    {
+                        UserId = userId,
+                        PhoneNumber = userCart.Users.PhoneNumber,
+                        Email = userCart.Users.Email,
+                        TotalCost = totalCost,
+                        DeliveryMethod = deliverymethod,
+                        PaymentMethod = paymentmethod,
+                        DeliveryAddress = InfoUserAdressTextBox.Text,
+                        OrderCreateDate = DateTime.Now,
+                    };
+
+
+                    context.Orders.Add(newOrder);
+                    context.SaveChanges();
+
+
+                    foreach (var cartItem in userCart.CartItems)
+                    {
+                        var orderCartItem = new OrderCartItems
+                        {
+                            OrderId = newOrder.OrderId,
+                            CpuId = cartItem.CpuId,
+                            MotherboardId = cartItem.MotherboardId,
+                            CaseId = cartItem.CaseId,
+                            GPUId = cartItem.GPUId,
+                            FanId = cartItem.FanId,
+                            RAMId = cartItem.RAMId,
+                            MemoryId = cartItem.MemoryId,
+                            PowerSuppliesId = cartItem.PowerSuppliesId
+                        };
+
+                        context.OrderCartItems.Add(orderCartItem);
+                    }
+
+                    context.SaveChanges();
+
+                    DialogBack.Visibility = Visibility.Visible;
+                    OrderCreateMessageDialog.Visibility = Visibility.Visible;
+                }
+            }
         }
 
-        private void RadioButtonOnline_Checked(object sender, RoutedEventArgs e)
+        private void AddNewOrderButton_Click(object sender, RoutedEventArgs e)
         {
+            if (RadioButtonDelivery.IsChecked == true && string.IsNullOrEmpty(InfoUserAdressTextBox.Text))
+            {
+                Error.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                if (RadioButtonOnline.IsChecked == true)
+                {
+                    OnlinePayMethodDialog.Visibility = Visibility.Visible;
+                    DialogBack.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    CreateNewOrder();
+                }
+            }
+        }
 
+        private void InfoUserAdressTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Error.Visibility = Visibility.Collapsed;
+        }
+
+        private void OnlinePayMethodDialogYes_Click(object sender, RoutedEventArgs e)
+        {
+            if (RadioButtonDelivery.IsChecked == true && string.IsNullOrEmpty(InfoUserAdressTextBox.Text))
+            {
+                Error.Visibility = Visibility.Visible;
+                OnlinePayMethodDialog.Visibility = Visibility.Collapsed;
+                DialogBack.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                CreateNewOrder();
+                OnlinePayMethodDialog.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void OnlinePayMethodDialogNo_Click(object sender, RoutedEventArgs e)
+        {
+            OnlinePayMethodDialog.Visibility = Visibility.Collapsed;
+            DialogBack.Visibility = Visibility.Collapsed;
+        }
+
+        private void OrderCreateMessageDialogYes_Click(object sender, RoutedEventArgs e)
+        {
+            DialogBack.Visibility = Visibility.Collapsed;
+            OrderCreateMessageDialog.Visibility = Visibility.Collapsed;
+            NavigationService.Navigate(new CatalogPage(CurrentUser));
         }
     }
 }

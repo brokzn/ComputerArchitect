@@ -97,6 +97,9 @@
     <Compile Include="Database\CPUS.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\DeliveryMethodType.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\Form_Factors.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
@@ -113,6 +116,15 @@
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Motherboards.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\OrderCartItems.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Orders.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\PaymentMethodType.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\PowerSupplies.cs">

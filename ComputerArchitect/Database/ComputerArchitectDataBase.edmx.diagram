@@ -81,6 +81,22 @@
         <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_CartItems_RAMS" />
         <EntityTypeShape EntityType="ComputerArchitectDataBaseModel.UserRoles" Width="1.5" PointX="7.375" PointY="11.875" />
         <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_Users_UserRoles" />
+        <EntityTypeShape EntityType="ComputerArchitectDataBaseModel.OrderCartItems" Width="1.5" PointX="31.625" PointY="10" />
+        <EntityTypeShape EntityType="ComputerArchitectDataBaseModel.Orders" Width="1.5" PointX="5.25" PointY="14.75" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_Cases" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_Coolers" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_CPUS" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_GPUS" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_HDDs" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_Motherboards" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_Orders" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_PowerSupplies" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_RAMS" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_Orders_Users" />
+        <EntityTypeShape EntityType="ComputerArchitectDataBaseModel.DeliveryMethodType" Width="1.5" PointX="3.375" PointY="15.75" />
+        <EntityTypeShape EntityType="ComputerArchitectDataBaseModel.PaymentMethodType" Width="1.5" PointX="0.75" PointY="12.875" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_Orders_DeliveryMethodType" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_Orders_PaymentMethodType" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

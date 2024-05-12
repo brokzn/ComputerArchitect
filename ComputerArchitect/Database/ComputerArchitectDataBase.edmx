@@ -173,6 +173,13 @@
           <Property Name="Virtualization_technology" Type="bit" />
           <Property Name="Additional_info" Type="varchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="DeliveryMethodType">
+          <Key>
+            <PropertyRef Name="DeliveryMethodId" />
+          </Key>
+          <Property Name="DeliveryMethodId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeliveryMethodName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Form_Factors">
           <Key>
             <PropertyRef Name="Form_FactorId" />
@@ -351,6 +358,42 @@
           <Property Name="Package_Width_Cm" Type="decimal" Precision="5" Scale="2" />
           <Property Name="Package_Height_Cm" Type="decimal" Precision="5" Scale="2" />
           <Property Name="Package_Weight_Kg" Type="decimal" Precision="5" Scale="2" />
+        </EntityType>
+        <EntityType Name="OrderCartItems">
+          <Key>
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="ItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderId" Type="int" />
+          <Property Name="CpuId" Type="int" />
+          <Property Name="MotherboardId" Type="int" />
+          <Property Name="CaseId" Type="int" />
+          <Property Name="GPUId" Type="int" />
+          <Property Name="FanId" Type="int" />
+          <Property Name="RAMId" Type="int" />
+          <Property Name="MemoryId" Type="int" />
+          <Property Name="PowerSuppliesId" Type="int" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="16" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="TotalCost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="PaymentMethod" Type="int" />
+          <Property Name="DeliveryMethod" Type="int" />
+          <Property Name="DeliveryAddress" Type="varchar" MaxLength="200" />
+          <Property Name="OrderCreateDate" Type="date" />
+        </EntityType>
+        <EntityType Name="PaymentMethodType">
+          <Key>
+            <PropertyRef Name="PaymentMethodId" />
+          </Key>
+          <Property Name="PaymentMethodId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentMethodName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="PowerSupplies">
           <Key>
@@ -535,6 +578,18 @@
           <Property Name="CountryName" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <Association Name="FK_CartItems_Cases">
+          <End Role="Cases" Type="Self.Cases" Multiplicity="0..1" />
+          <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cases">
+              <PropertyRef Name="CaseId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="CaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_Cases1">
           <End Role="Cases" Type="Self.Cases" Multiplicity="0..1" />
           <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
           <ReferentialConstraint>
@@ -855,6 +910,150 @@
             </Principal>
             <Dependent Role="Motherboards">
               <PropertyRef Name="Country_of_Origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCartItems_Cases">
+          <End Role="Cases" Type="Self.Cases" Multiplicity="0..1" />
+          <End Role="OrderCartItems" Type="Self.OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cases">
+              <PropertyRef Name="CaseId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="CaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCartItems_Coolers">
+          <End Role="Coolers" Type="Self.Coolers" Multiplicity="0..1" />
+          <End Role="OrderCartItems" Type="Self.OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coolers">
+              <PropertyRef Name="CoolerId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="FanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCartItems_CPUS">
+          <End Role="CPUS" Type="Self.CPUS" Multiplicity="0..1" />
+          <End Role="OrderCartItems" Type="Self.OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CPUS">
+              <PropertyRef Name="CPUId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="CpuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCartItems_GPUS">
+          <End Role="GPUS" Type="Self.GPUS" Multiplicity="0..1" />
+          <End Role="OrderCartItems" Type="Self.OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GPUS">
+              <PropertyRef Name="GPUId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="GPUId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCartItems_HDDs">
+          <End Role="HDDs" Type="Self.HDDs" Multiplicity="0..1" />
+          <End Role="OrderCartItems" Type="Self.OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HDDs">
+              <PropertyRef Name="HDDId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="MemoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCartItems_Motherboards">
+          <End Role="Motherboards" Type="Self.Motherboards" Multiplicity="0..1" />
+          <End Role="OrderCartItems" Type="Self.OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Motherboards">
+              <PropertyRef Name="MotherboardId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="MotherboardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCartItems_Orders">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
+          <End Role="OrderCartItems" Type="Self.OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCartItems_PowerSupplies">
+          <End Role="PowerSupplies" Type="Self.PowerSupplies" Multiplicity="0..1" />
+          <End Role="OrderCartItems" Type="Self.OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PowerSupplies">
+              <PropertyRef Name="PowerSupplyId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="PowerSuppliesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCartItems_RAMS">
+          <End Role="RAMS" Type="Self.RAMS" Multiplicity="0..1" />
+          <End Role="OrderCartItems" Type="Self.OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RAMS">
+              <PropertyRef Name="RAMId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="RAMId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_DeliveryMethodType">
+          <End Role="DeliveryMethodType" Type="Self.DeliveryMethodType" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryMethodType">
+              <PropertyRef Name="DeliveryMethodId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="DeliveryMethod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_PaymentMethodType">
+          <End Role="PaymentMethodType" Type="Self.PaymentMethodType" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMethodType">
+              <PropertyRef Name="PaymentMethodId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="PaymentMethod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1188,12 +1387,16 @@
           <EntitySet Name="CaseSizes" EntityType="Self.CaseSizes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Coolers" EntityType="Self.Coolers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CPUS" EntityType="Self.CPUS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeliveryMethodType" EntityType="Self.DeliveryMethodType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Form_Factors" EntityType="Self.Form_Factors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GPUS" EntityType="Self.GPUS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HDDs" EntityType="Self.HDDs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Manufacturers" EntityType="Self.Manufacturers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Memory_types" EntityType="Self.Memory_types" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Motherboards" EntityType="Self.Motherboards" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderCartItems" EntityType="Self.OrderCartItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentMethodType" EntityType="Self.PaymentMethodType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PowerSupplies" EntityType="Self.PowerSupplies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RAMS" EntityType="Self.RAMS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReadyMadeAssemblies" EntityType="Self.ReadyMadeAssemblies" Schema="dbo" store:Type="Tables" />
@@ -1205,6 +1408,10 @@
           <EntitySet Name="UsersCarts" EntityType="Self.UsersCarts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Сountries" EntityType="Self.Сountries" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CartItems_Cases" Association="Self.FK_CartItems_Cases">
+            <End Role="Cases" EntitySet="Cases" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_Cases1" Association="Self.FK_CartItems_Cases1">
             <End Role="Cases" EntitySet="Cases" />
             <End Role="CartItems" EntitySet="CartItems" />
           </AssociationSet>
@@ -1311,6 +1518,54 @@
           <AssociationSet Name="FK_Motherboards_Сountries" Association="Self.FK_Motherboards_Сountries">
             <End Role="Сountries" EntitySet="Сountries" />
             <End Role="Motherboards" EntitySet="Motherboards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCartItems_Cases" Association="Self.FK_OrderCartItems_Cases">
+            <End Role="Cases" EntitySet="Cases" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCartItems_Coolers" Association="Self.FK_OrderCartItems_Coolers">
+            <End Role="Coolers" EntitySet="Coolers" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCartItems_CPUS" Association="Self.FK_OrderCartItems_CPUS">
+            <End Role="CPUS" EntitySet="CPUS" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCartItems_GPUS" Association="Self.FK_OrderCartItems_GPUS">
+            <End Role="GPUS" EntitySet="GPUS" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCartItems_HDDs" Association="Self.FK_OrderCartItems_HDDs">
+            <End Role="HDDs" EntitySet="HDDs" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCartItems_Motherboards" Association="Self.FK_OrderCartItems_Motherboards">
+            <End Role="Motherboards" EntitySet="Motherboards" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCartItems_Orders" Association="Self.FK_OrderCartItems_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCartItems_PowerSupplies" Association="Self.FK_OrderCartItems_PowerSupplies">
+            <End Role="PowerSupplies" EntitySet="PowerSupplies" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCartItems_RAMS" Association="Self.FK_OrderCartItems_RAMS">
+            <End Role="RAMS" EntitySet="RAMS" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_DeliveryMethodType" Association="Self.FK_Orders_DeliveryMethodType">
+            <End Role="DeliveryMethodType" EntitySet="DeliveryMethodType" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_PaymentMethodType" Association="Self.FK_Orders_PaymentMethodType">
+            <End Role="PaymentMethodType" EntitySet="PaymentMethodType" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Users" Association="Self.FK_Orders_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_PowerSupplies_Manufacturers" Association="Self.FK_PowerSupplies_Manufacturers">
             <End Role="Manufacturers" EntitySet="Manufacturers" />
@@ -1447,6 +1702,7 @@
           <NavigationProperty Name="UserRoles" Relationship="ComputerArchitectDataBaseModel.FK_Users_UserRoles" FromRole="Users" ToRole="UserRoles" />
           <Property Name="UserIsBlocked" Type="Boolean" />
           <Property Name="UserBlockReason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="ComputerArchitectDataBaseModel.FK_Orders_Users" FromRole="Users" ToRole="Orders" />
         </EntityType>
         <EntityType Name="Сountries">
           <Key>
@@ -1719,6 +1975,58 @@
             <End Role="UserRoles" EntitySet="UserRoles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="OrderCartItems" EntityType="ComputerArchitectDataBaseModel.OrderCartItems" />
+          <EntitySet Name="Orders" EntityType="ComputerArchitectDataBaseModel.Orders" />
+          <AssociationSet Name="FK_OrderCartItems_Cases" Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_Cases">
+            <End Role="Cases" EntitySet="Cases" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCartItems_Coolers" Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_Coolers">
+            <End Role="Coolers" EntitySet="Coolers" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCartItems_CPUS" Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_CPUS">
+            <End Role="CPUS" EntitySet="CPUS" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCartItems_GPUS" Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_GPUS">
+            <End Role="GPUS" EntitySet="GPUS" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCartItems_HDDs" Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_HDDs">
+            <End Role="HDDs" EntitySet="HDDs" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCartItems_Motherboards" Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_Motherboards">
+            <End Role="Motherboards" EntitySet="Motherboards" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCartItems_Orders" Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCartItems_PowerSupplies" Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_PowerSupplies">
+            <End Role="PowerSupplies" EntitySet="PowerSupplies" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCartItems_RAMS" Association="ComputerArchitectDataBaseModel.FK_OrderCartItems_RAMS">
+            <End Role="RAMS" EntitySet="RAMS" />
+            <End Role="OrderCartItems" EntitySet="OrderCartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Users" Association="ComputerArchitectDataBaseModel.FK_Orders_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <EntitySet Name="DeliveryMethodType" EntityType="ComputerArchitectDataBaseModel.DeliveryMethodType" />
+          <EntitySet Name="PaymentMethodType" EntityType="ComputerArchitectDataBaseModel.PaymentMethodType" />
+          <AssociationSet Name="FK_Orders_DeliveryMethodType" Association="ComputerArchitectDataBaseModel.FK_Orders_DeliveryMethodType">
+            <End Role="DeliveryMethodType" EntitySet="DeliveryMethodType" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_PaymentMethodType" Association="ComputerArchitectDataBaseModel.FK_Orders_PaymentMethodType">
+            <End Role="PaymentMethodType" EntitySet="PaymentMethodType" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="CPUS">
           <Key>
@@ -1769,6 +2077,7 @@
           <NavigationProperty Name="Сountries" Relationship="ComputerArchitectDataBaseModel.FK_CPUS_Сountries" FromRole="CPUS" ToRole="Сountries" />
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_CPUS" FromRole="CPUS" ToRole="UserConfiguration" />
           <NavigationProperty Name="CartItems" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_CPUS" FromRole="CPUS" ToRole="CartItems" />
+          <NavigationProperty Name="OrderCartItems" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_CPUS" FromRole="CPUS" ToRole="OrderCartItems" />
           </EntityType>
         <EntityType Name="Manufacturers">
           <Key>
@@ -1936,6 +2245,7 @@
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_Motherboards" FromRole="Motherboards" ToRole="UserConfiguration" />
           <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Motherboards" FromRole="Motherboards" ToRole="ReadyMadeAssemblies" />
           <NavigationProperty Name="CartItems" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_Motherboards" FromRole="Motherboards" ToRole="CartItems" />
+          <NavigationProperty Name="OrderCartItems" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_Motherboards" FromRole="Motherboards" ToRole="OrderCartItems" />
         </EntityType>
         <Association Name="FK_Motherboards_Form_Factors">
           <End Type="ComputerArchitectDataBaseModel.Form_Factors" Role="Form_Factors" Multiplicity="0..1" />
@@ -2044,6 +2354,7 @@
           <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_GPUS" FromRole="GPUS" ToRole="ReadyMadeAssemblies" />
           <NavigationProperty Name="ReadyMadeAssemblies1" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_GPUS1" FromRole="GPUS" ToRole="ReadyMadeAssemblies" />
           <NavigationProperty Name="CartItems" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_GPUS" FromRole="GPUS" ToRole="CartItems" />
+          <NavigationProperty Name="OrderCartItems" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_GPUS" FromRole="GPUS" ToRole="OrderCartItems" />
           </EntityType>
         <Association Name="FK_GPUS_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -2104,6 +2415,7 @@
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_RAMS" FromRole="RAMS" ToRole="UserConfiguration" />
           <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_RAMS" FromRole="RAMS" ToRole="ReadyMadeAssemblies" />
           <NavigationProperty Name="CartItems" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_RAMS" FromRole="RAMS" ToRole="CartItems" />
+          <NavigationProperty Name="OrderCartItems" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_RAMS" FromRole="RAMS" ToRole="OrderCartItems" />
         </EntityType>
         <Association Name="FK_RAMS_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -2191,6 +2503,7 @@
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_PowerSupplies" FromRole="PowerSupplies" ToRole="UserConfiguration" />
           <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_PowerSupplies" FromRole="PowerSupplies" ToRole="ReadyMadeAssemblies" />
           <NavigationProperty Name="CartItems" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_PowerSupplies" FromRole="PowerSupplies" ToRole="CartItems" />
+          <NavigationProperty Name="OrderCartItems" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_PowerSupplies" FromRole="PowerSupplies" ToRole="OrderCartItems" />
         </EntityType>
         <Association Name="FK_PowerSupplies_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -2289,6 +2602,7 @@
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_Cases" FromRole="Cases" ToRole="UserConfiguration" />
           <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Cases" FromRole="Cases" ToRole="ReadyMadeAssemblies" />
           <NavigationProperty Name="CartItems" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_Cases" FromRole="Cases" ToRole="CartItems" />
+          <NavigationProperty Name="OrderCartItems" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_Cases" FromRole="Cases" ToRole="OrderCartItems" />
         </EntityType>
         <Association Name="FK_Cases_CaseSizes">
           <End Type="ComputerArchitectDataBaseModel.CaseSizes" Role="CaseSizes" Multiplicity="0..1" />
@@ -2373,6 +2687,7 @@
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_Coolers" FromRole="Coolers" ToRole="UserConfiguration" />
           <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_Coolers" FromRole="Coolers" ToRole="ReadyMadeAssemblies" />
           <NavigationProperty Name="CartItems" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_Coolers" FromRole="Coolers" ToRole="CartItems" />
+          <NavigationProperty Name="OrderCartItems" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_Coolers" FromRole="Coolers" ToRole="OrderCartItems" />
         </EntityType>
         <Association Name="FK_Coolers_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -2504,6 +2819,7 @@
           <NavigationProperty Name="UserConfiguration" Relationship="ComputerArchitectDataBaseModel.FK_UserConfiguration_HDDs" FromRole="HDDs" ToRole="UserConfiguration" />
           <NavigationProperty Name="ReadyMadeAssemblies" Relationship="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_HDDs" FromRole="HDDs" ToRole="ReadyMadeAssemblies" />
           <NavigationProperty Name="CartItems" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_HDDs" FromRole="HDDs" ToRole="CartItems" />
+          <NavigationProperty Name="OrderCartItems" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_HDDs" FromRole="HDDs" ToRole="OrderCartItems" />
         </EntityType>
         <Association Name="FK_HDDs_Manufacturers">
           <End Type="ComputerArchitectDataBaseModel.Manufacturers" Role="Manufacturers" Multiplicity="0..1" />
@@ -2963,6 +3279,208 @@
             </Principal>
             <Dependent Role="Users">
               <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OrderCartItems">
+          <Key>
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="ItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="CpuId" Type="Int32" />
+          <Property Name="MotherboardId" Type="Int32" />
+          <Property Name="CaseId" Type="Int32" />
+          <Property Name="GPUId" Type="Int32" />
+          <Property Name="FanId" Type="Int32" />
+          <Property Name="RAMId" Type="Int32" />
+          <Property Name="MemoryId" Type="Int32" />
+          <Property Name="PowerSuppliesId" Type="Int32" />
+          <NavigationProperty Name="Cases" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_Cases" FromRole="OrderCartItems" ToRole="Cases" />
+          <NavigationProperty Name="Coolers" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_Coolers" FromRole="OrderCartItems" ToRole="Coolers" />
+          <NavigationProperty Name="CPUS" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_CPUS" FromRole="OrderCartItems" ToRole="CPUS" />
+          <NavigationProperty Name="GPUS" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_GPUS" FromRole="OrderCartItems" ToRole="GPUS" />
+          <NavigationProperty Name="HDDs" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_HDDs" FromRole="OrderCartItems" ToRole="HDDs" />
+          <NavigationProperty Name="Motherboards" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_Motherboards" FromRole="OrderCartItems" ToRole="Motherboards" />
+          <NavigationProperty Name="Orders" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_Orders" FromRole="OrderCartItems" ToRole="Orders" />
+          <NavigationProperty Name="PowerSupplies" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_PowerSupplies" FromRole="OrderCartItems" ToRole="PowerSupplies" />
+          <NavigationProperty Name="RAMS" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_RAMS" FromRole="OrderCartItems" ToRole="RAMS" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TotalCost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="PaymentMethod" Type="Int32" />
+          <Property Name="DeliveryMethod" Type="Int32" />
+          <Property Name="DeliveryAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="OrderCreateDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="OrderCartItems" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_Orders" FromRole="Orders" ToRole="OrderCartItems" />
+          <NavigationProperty Name="Users" Relationship="ComputerArchitectDataBaseModel.FK_Orders_Users" FromRole="Orders" ToRole="Users" />
+          <NavigationProperty Name="DeliveryMethodType" Relationship="ComputerArchitectDataBaseModel.FK_Orders_DeliveryMethodType" FromRole="Orders" ToRole="DeliveryMethodType" />
+          <NavigationProperty Name="PaymentMethodType" Relationship="ComputerArchitectDataBaseModel.FK_Orders_PaymentMethodType" FromRole="Orders" ToRole="PaymentMethodType" />
+        </EntityType>
+        <Association Name="FK_OrderCartItems_Cases">
+          <End Type="ComputerArchitectDataBaseModel.Cases" Role="Cases" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.OrderCartItems" Role="OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cases">
+              <PropertyRef Name="CaseId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="CaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCartItems_Coolers">
+          <End Type="ComputerArchitectDataBaseModel.Coolers" Role="Coolers" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.OrderCartItems" Role="OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coolers">
+              <PropertyRef Name="CoolerId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="FanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCartItems_CPUS">
+          <End Type="ComputerArchitectDataBaseModel.CPUS" Role="CPUS" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.OrderCartItems" Role="OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CPUS">
+              <PropertyRef Name="CPUId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="CpuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCartItems_GPUS">
+          <End Type="ComputerArchitectDataBaseModel.GPUS" Role="GPUS" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.OrderCartItems" Role="OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GPUS">
+              <PropertyRef Name="GPUId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="GPUId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCartItems_HDDs">
+          <End Type="ComputerArchitectDataBaseModel.HDDs" Role="HDDs" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.OrderCartItems" Role="OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HDDs">
+              <PropertyRef Name="HDDId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="MemoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCartItems_Motherboards">
+          <End Type="ComputerArchitectDataBaseModel.Motherboards" Role="Motherboards" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.OrderCartItems" Role="OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Motherboards">
+              <PropertyRef Name="MotherboardId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="MotherboardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCartItems_Orders">
+          <End Type="ComputerArchitectDataBaseModel.Orders" Role="Orders" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.OrderCartItems" Role="OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCartItems_PowerSupplies">
+          <End Type="ComputerArchitectDataBaseModel.PowerSupplies" Role="PowerSupplies" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.OrderCartItems" Role="OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PowerSupplies">
+              <PropertyRef Name="PowerSupplyId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="PowerSuppliesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCartItems_RAMS">
+          <End Type="ComputerArchitectDataBaseModel.RAMS" Role="RAMS" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.OrderCartItems" Role="OrderCartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RAMS">
+              <PropertyRef Name="RAMId" />
+            </Principal>
+            <Dependent Role="OrderCartItems">
+              <PropertyRef Name="RAMId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Users">
+          <End Type="ComputerArchitectDataBaseModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DeliveryMethodType">
+          <Key>
+            <PropertyRef Name="DeliveryMethodId" />
+          </Key>
+          <Property Name="DeliveryMethodId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeliveryMethodName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="ComputerArchitectDataBaseModel.FK_Orders_DeliveryMethodType" FromRole="DeliveryMethodType" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="PaymentMethodType">
+          <Key>
+            <PropertyRef Name="PaymentMethodId" />
+          </Key>
+          <Property Name="PaymentMethodId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentMethodName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="ComputerArchitectDataBaseModel.FK_Orders_PaymentMethodType" FromRole="PaymentMethodType" ToRole="Orders" />
+        </EntityType>
+        <Association Name="FK_Orders_DeliveryMethodType">
+          <End Type="ComputerArchitectDataBaseModel.DeliveryMethodType" Role="DeliveryMethodType" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryMethodType">
+              <PropertyRef Name="DeliveryMethodId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="DeliveryMethod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_PaymentMethodType">
+          <End Type="ComputerArchitectDataBaseModel.PaymentMethodType" Role="PaymentMethodType" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMethodType">
+              <PropertyRef Name="PaymentMethodId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="PaymentMethod" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3519,6 +4037,53 @@
               <MappingFragment StoreEntitySet="UserRoles">
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderCartItems">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.OrderCartItems">
+              <MappingFragment StoreEntitySet="OrderCartItems">
+                <ScalarProperty Name="PowerSuppliesId" ColumnName="PowerSuppliesId" />
+                <ScalarProperty Name="MemoryId" ColumnName="MemoryId" />
+                <ScalarProperty Name="RAMId" ColumnName="RAMId" />
+                <ScalarProperty Name="FanId" ColumnName="FanId" />
+                <ScalarProperty Name="GPUId" ColumnName="GPUId" />
+                <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+                <ScalarProperty Name="MotherboardId" ColumnName="MotherboardId" />
+                <ScalarProperty Name="CpuId" ColumnName="CpuId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.Orders">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="OrderCreateDate" ColumnName="OrderCreateDate" />
+                <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
+                <ScalarProperty Name="DeliveryMethod" ColumnName="DeliveryMethod" />
+                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+                <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeliveryMethodType">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.DeliveryMethodType">
+              <MappingFragment StoreEntitySet="DeliveryMethodType">
+                <ScalarProperty Name="DeliveryMethodName" ColumnName="DeliveryMethodName" />
+                <ScalarProperty Name="DeliveryMethodId" ColumnName="DeliveryMethodId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentMethodType">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.PaymentMethodType">
+              <MappingFragment StoreEntitySet="PaymentMethodType">
+                <ScalarProperty Name="PaymentMethodName" ColumnName="PaymentMethodName" />
+                <ScalarProperty Name="PaymentMethodId" ColumnName="PaymentMethodId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
