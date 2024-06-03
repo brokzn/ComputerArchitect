@@ -344,48 +344,75 @@ namespace ComputerArchitect.Pages
                     }
 
                     // Перечень компонентов для добавления в корзину
-                    var componentsToAdd = new List<int?>
-            {
-                assembly.CpuId,
-                assembly.MotherboardId,
-                assembly.CaseId,
-                assembly.GPUId,
-                assembly.FanId,
-                assembly.RAMId,
-                assembly.MemoryId,
-                assembly.PowerSuppliesId
-                // Добавьте сюда остальные компоненты, если есть
-            };
-
-                    foreach (var componentId in componentsToAdd)
+                    var componentsToAdd = new Dictionary<string, int?>
                     {
+                        { "CpuId", assembly.CpuId },
+                        { "MotherboardId", assembly.MotherboardId },
+                        { "CaseId", assembly.CaseId },
+                        { "GPUId", assembly.GPUId },
+                        { "FanId", assembly.FanId },
+                        { "RAMId", assembly.RAMId },
+                        { "MemoryId", assembly.MemoryId },
+                        { "PowerSuppliesId", assembly.PowerSuppliesId }
+                    };
+
+                    foreach (var component in componentsToAdd)
+                    {
+                        var componentId = component.Value;
+                        var componentName = component.Key;
+
                         if (componentId != null)
                         {
-                            var cartItem = new CartItems
+                            bool componentExists = userCart.CartItems.Any(ci =>
+                                (componentName == "CpuId" && ci.CpuId == componentId) ||
+                                (componentName == "MotherboardId" && ci.MotherboardId == componentId) ||
+                                (componentName == "CaseId" && ci.CaseId == componentId) ||
+                                (componentName == "GPUId" && ci.GPUId == componentId) ||
+                                (componentName == "FanId" && ci.FanId == componentId) ||
+                                (componentName == "RAMId" && ci.RAMId == componentId) ||
+                                (componentName == "MemoryId" && ci.MemoryId == componentId) ||
+                                (componentName == "PowerSuppliesId" && ci.PowerSuppliesId == componentId)
+                            );
+
+                            if (!componentExists)
                             {
-                                CartId = userCart.CartId,
-                                UsersCarts = userCart
-                            };
+                                var cartItem = new CartItems
+                                {
+                                    CartId = userCart.CartId,
+                                    UsersCarts = userCart
+                                };
 
-                            // Устанавливаем соответствующий Id компонента в зависимости от типа
-                            if (componentId == assembly.CpuId)
-                                cartItem.CpuId = componentId;
-                            else if (componentId == assembly.MotherboardId)
-                                cartItem.MotherboardId = componentId;
-                            else if (componentId == assembly.CaseId)
-                                cartItem.CaseId = componentId;
-                            else if (componentId == assembly.GPUId)
-                                cartItem.GPUId = componentId;
-                            else if (componentId == assembly.FanId)
-                                cartItem.FanId = componentId;
-                            else if (componentId == assembly.RAMId)
-                                cartItem.RAMId = componentId;
-                            else if (componentId == assembly.MemoryId)
-                                cartItem.MemoryId = componentId;
-                            else if (componentId == assembly.PowerSuppliesId)
-                                cartItem.PowerSuppliesId = componentId;
+                                // Устанавливаем соответствующий Id компонента в зависимости от типа
+                                switch (componentName)
+                                {
+                                    case "CpuId":
+                                        cartItem.CpuId = componentId;
+                                        break;
+                                    case "MotherboardId":
+                                        cartItem.MotherboardId = componentId;
+                                        break;
+                                    case "CaseId":
+                                        cartItem.CaseId = componentId;
+                                        break;
+                                    case "GPUId":
+                                        cartItem.GPUId = componentId;
+                                        break;
+                                    case "FanId":
+                                        cartItem.FanId = componentId;
+                                        break;
+                                    case "RAMId":
+                                        cartItem.RAMId = componentId;
+                                        break;
+                                    case "MemoryId":
+                                        cartItem.MemoryId = componentId;
+                                        break;
+                                    case "PowerSuppliesId":
+                                        cartItem.PowerSuppliesId = componentId;
+                                        break;
+                                }
 
-                            userCart.CartItems.Add(cartItem);
+                                userCart.CartItems.Add(cartItem);
+                            }
                         }
                     }
 
@@ -403,5 +430,6 @@ namespace ComputerArchitect.Pages
             // Обновление информации о корзине
             CartUpdated?.Invoke(this, EventArgs.Empty);
         }
+
     }
 }
