@@ -12,30 +12,18 @@ namespace ComputerArchitect.Database
     using System;
     using System.Collections.Generic;
     
-    public partial class Orders
+    public partial class OrderStatuses
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Orders()
+        public OrderStatuses()
         {
-            this.OrderCartItems = new HashSet<OrderCartItems>();
+            this.Orders = new HashSet<Orders>();
         }
     
-        public int OrderId { get; set; }
-        public Nullable<int> UserId { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
-        public Nullable<decimal> TotalCost { get; set; }
-        public Nullable<int> PaymentMethod { get; set; }
-        public Nullable<int> DeliveryMethod { get; set; }
-        public string DeliveryAddress { get; set; }
-        public Nullable<System.DateTime> OrderCreateDate { get; set; }
-        public Nullable<int> OrderStatusId { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderCartItems> OrderCartItems { get; set; }
-        public virtual Users Users { get; set; }
-        public virtual DeliveryMethodType DeliveryMethodType { get; set; }
-        public virtual PaymentMethodType PaymentMethodType { get; set; }
-        public virtual OrderStatuses OrderStatuses { get; set; }
+        public virtual ICollection<Orders> Orders { get; set; }
     }
 }

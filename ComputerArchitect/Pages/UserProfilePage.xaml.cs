@@ -38,6 +38,7 @@ namespace ComputerArchitect.Pages
             //Загрузка данных текущего пользователя
             CurrentUser = currentUser;
             InitializeComponent();
+            LoadUserOrdersHistoryListBoxData();
             //Загрузка списка стран из базы в InfoUserCountryCombo комбобокс
             List<Сountries> countries;
 
@@ -65,7 +66,7 @@ namespace ComputerArchitect.Pages
 
                 if (currentUser.Photo != null && currentUser.Photo.Length > 0)
                 {
-                    
+
                     BitmapImage bitmapImage = new BitmapImage();
                     using (MemoryStream stream = new MemoryStream(currentUser.Photo))
                     {
@@ -75,12 +76,12 @@ namespace ComputerArchitect.Pages
                         bitmapImage.EndInit();
                     }
 
-                    
+
                     UserAvatarBigImage.Source = bitmapImage;
                 }
                 else
                 {
-                    
+
                     UserAvatarBigImage.Source = new BitmapImage(new Uri("/UI/Elements/UserMissedPictureBig.png", UriKind.Relative));
                 }
 
@@ -109,11 +110,28 @@ namespace ComputerArchitect.Pages
                     RadioButtonGenderFemale.IsChecked = true;
                     break;
             }
-           
+
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += Timer_Tick;
         }
+
+        private void LoadUserOrdersHistoryListBoxData()
+        {
+            UserOrdersHistoryListBox.ItemsSource = App.Database.Orders
+                .Where(o => o.UserId == CurrentUser.Id && o.OrderStatusId == 2 || o.OrderStatusId == 3)
+                .ToList();
+
+            string MoneySpentCountCount = Convert.ToString(App.Database.Orders.Where(o => o.OrderStatusId == 3).Sum(o => o.TotalCost));
+
+            
+            MoneySpentCount.Content = "Всего полученно заказов на сумму: " + MoneySpentCountCount + " ₽";
+            
+
+            NumberOfCancelledOrders.Content = "Всего заказов отмененно: " + Convert.ToString(App.Database.Orders.Where(o=>o.OrderStatusId == 2).Count());
+        }
+
+
         //Таймер исчезновения уведомления об успешном обновлении
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -125,6 +143,7 @@ namespace ComputerArchitect.Pages
         //Контейнер Персональные данные
         private void ShowUserInfoGridButton_Click(object sender, RoutedEventArgs e)
         {
+            UserOrderHistoryGrid.Visibility = Visibility.Collapsed;
             UserInfoGrid.Visibility = Visibility.Visible;
             UserSecurityGrid.Visibility = Visibility.Collapsed;
         }
@@ -220,6 +239,7 @@ namespace ComputerArchitect.Pages
         //Контейнер Безопасность
         private void ShowUserSecurityGridButton_Click(object sender, RoutedEventArgs e)
         {
+            UserOrderHistoryGrid.Visibility = Visibility.Collapsed;
             UserInfoGrid.Visibility = Visibility.Collapsed;
             UserSecurityGrid.Visibility = Visibility.Visible;
         }
@@ -458,5 +478,11 @@ namespace ComputerArchitect.Pages
             }
         }
 
+        private void UserOrdersHistory_Click(object sender, RoutedEventArgs e)
+        {
+            UserOrderHistoryGrid.Visibility = Visibility.Visible;
+            UserInfoGrid.Visibility = Visibility.Collapsed;
+            UserSecurityGrid.Visibility = Visibility.Collapsed;
+        }
     }
 }

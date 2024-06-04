@@ -28,12 +28,13 @@ namespace ComputerArchitect.UI.Pages
     /// </summary>
     public partial class MenuPage : Page
     {
+        
         public Users CurrentUser { get; set; }
         public MenuPage(Users currentUser)
         {
             InitializeComponent();
             CurrentUser = currentUser;
-
+            
             switch (CurrentUser.RoleId)
             {
                 case 1:
@@ -67,6 +68,7 @@ namespace ComputerArchitect.UI.Pages
 
             MenuFrame.Navigated += (sender, e) =>
             {
+                UpdateCounts();
                 switch (MenuFrame.Content)
                 {
                     case CPUPage cpuPage:
@@ -81,10 +83,10 @@ namespace ComputerArchitect.UI.Pages
                     case ReadyMadeAssembliesPage RMAP:
                     case UserCartPage userCartPage:
                     case CreateOrderPage createOrderPage:
+                    case UserOrdersPage userOrdersPage:
                         EventHandler cartUpdatedHandler = (obj, args) =>
                         {
-                            int itemCount = GetItemCountInCart();
-                            UpdateItemCountInCart(itemCount);
+                            UpdateCounts();
                         };
                         (MenuFrame.Content as dynamic).CartUpdated += cartUpdatedHandler;
                         break;
@@ -93,6 +95,15 @@ namespace ComputerArchitect.UI.Pages
                 }
             };
         }
+        private void UpdateCounts()
+        {
+            int itemCount = GetItemCountInCart();
+            UpdateItemCountInCart(itemCount);
+
+            int ordersCount = GetUserOrdersCount();
+            UpdateUserOrdersCount(ordersCount);
+        }
+
 
         private void UpdateItemCountInCart(int count)
         {
@@ -117,7 +128,6 @@ namespace ComputerArchitect.UI.Pages
             ItemCountBack.Visibility = count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
-
         private int GetItemCountInCart()
         {
             if (CurrentUser != null)
@@ -134,9 +144,46 @@ namespace ComputerArchitect.UI.Pages
                     }
                 }
             }
-            return 0;
+            return 0; 
+        }
 
-            
+
+        private void UpdateUserOrdersCount(int orderscount)
+        {
+            if (orderscount >= 10)
+            {
+                UserOrdersCountBack.Width = 27;
+                UserOrdersCountLabel.Content = orderscount.ToString();
+            }
+            else if (orderscount >= 99)
+            {
+                UserOrdersCountLabel.Content = "99+";
+                UserOrdersCountBack.Width = 37;
+            }
+            else
+            {
+                UserOrdersCountBack.Width = 20;
+                UserOrdersCountLabel.Content = orderscount.ToString();
+            }
+
+            UserOrdersCountLabel.Visibility = orderscount > 0 ? Visibility.Visible : Visibility.Collapsed;
+            UserOrdersCountBack.Visibility = orderscount > 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private int GetUserOrdersCount()
+        {
+            if (CurrentUser != null)
+            {
+                using (var context = new ComputerArchitectDataBaseEntities())
+                {
+                    // Получаем количество заказов пользователя
+                    var orderscount = context.Orders
+                        .Count(o => o.UserId == CurrentUser.Id && o.OrderStatuses.Id == 1);
+
+                    return orderscount;
+                }
+            }
+            return 0;
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)

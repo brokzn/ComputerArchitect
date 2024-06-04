@@ -387,6 +387,14 @@
           <Property Name="DeliveryMethod" Type="int" />
           <Property Name="DeliveryAddress" Type="varchar" MaxLength="200" />
           <Property Name="OrderCreateDate" Type="date" />
+          <Property Name="OrderStatusId" Type="int" />
+        </EntityType>
+        <EntityType Name="OrderStatuses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="PaymentMethodType">
           <Key>
@@ -1033,6 +1041,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Orders_OrderStatuses">
+          <End Role="OrderStatuses" Type="Self.OrderStatuses" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderStatuses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="OrderStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Orders_PaymentMethodType">
           <End Role="PaymentMethodType" Type="Self.PaymentMethodType" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
@@ -1396,6 +1416,7 @@
           <EntitySet Name="Motherboards" EntityType="Self.Motherboards" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderCartItems" EntityType="Self.OrderCartItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderStatuses" EntityType="Self.OrderStatuses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentMethodType" EntityType="Self.PaymentMethodType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PowerSupplies" EntityType="Self.PowerSupplies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RAMS" EntityType="Self.RAMS" Schema="dbo" store:Type="Tables" />
@@ -1557,6 +1578,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Orders_DeliveryMethodType" Association="Self.FK_Orders_DeliveryMethodType">
             <End Role="DeliveryMethodType" EntitySet="DeliveryMethodType" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_OrderStatuses" Association="Self.FK_Orders_OrderStatuses">
+            <End Role="OrderStatuses" EntitySet="OrderStatuses" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Orders_PaymentMethodType" Association="Self.FK_Orders_PaymentMethodType">
@@ -2025,6 +2050,11 @@
           </AssociationSet>
           <AssociationSet Name="FK_Orders_PaymentMethodType" Association="ComputerArchitectDataBaseModel.FK_Orders_PaymentMethodType">
             <End Role="PaymentMethodType" EntitySet="PaymentMethodType" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <EntitySet Name="OrderStatuses" EntityType="ComputerArchitectDataBaseModel.OrderStatuses" />
+          <AssociationSet Name="FK_Orders_OrderStatuses" Association="ComputerArchitectDataBaseModel.FK_Orders_OrderStatuses">
+            <End Role="OrderStatuses" EntitySet="OrderStatuses" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           </EntityContainer>
@@ -3323,6 +3353,8 @@
           <NavigationProperty Name="Users" Relationship="ComputerArchitectDataBaseModel.FK_Orders_Users" FromRole="Orders" ToRole="Users" />
           <NavigationProperty Name="DeliveryMethodType" Relationship="ComputerArchitectDataBaseModel.FK_Orders_DeliveryMethodType" FromRole="Orders" ToRole="DeliveryMethodType" />
           <NavigationProperty Name="PaymentMethodType" Relationship="ComputerArchitectDataBaseModel.FK_Orders_PaymentMethodType" FromRole="Orders" ToRole="PaymentMethodType" />
+          <Property Name="OrderStatusId" Type="Int32" />
+          <NavigationProperty Name="OrderStatuses" Relationship="ComputerArchitectDataBaseModel.FK_Orders_OrderStatuses" FromRole="Orders" ToRole="OrderStatuses" />
         </EntityType>
         <Association Name="FK_OrderCartItems_Cases">
           <End Type="ComputerArchitectDataBaseModel.Cases" Role="Cases" Multiplicity="0..1" />
@@ -3481,6 +3513,26 @@
             </Principal>
             <Dependent Role="Orders">
               <PropertyRef Name="PaymentMethod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OrderStatuses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="ComputerArchitectDataBaseModel.FK_Orders_OrderStatuses" FromRole="OrderStatuses" ToRole="Orders" />
+        </EntityType>
+        <Association Name="FK_Orders_OrderStatuses">
+          <End Type="ComputerArchitectDataBaseModel.OrderStatuses" Role="OrderStatuses" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderStatuses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="OrderStatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4059,6 +4111,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.Orders">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="OrderStatusId" ColumnName="OrderStatusId" />
                 <ScalarProperty Name="OrderCreateDate" ColumnName="OrderCreateDate" />
                 <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
                 <ScalarProperty Name="DeliveryMethod" ColumnName="DeliveryMethod" />
@@ -4084,6 +4137,14 @@
               <MappingFragment StoreEntitySet="PaymentMethodType">
                 <ScalarProperty Name="PaymentMethodName" ColumnName="PaymentMethodName" />
                 <ScalarProperty Name="PaymentMethodId" ColumnName="PaymentMethodId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderStatuses">
+            <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.OrderStatuses">
+              <MappingFragment StoreEntitySet="OrderStatuses">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

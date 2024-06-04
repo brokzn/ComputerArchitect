@@ -8,13 +8,821 @@
       MinHeight="800" 
       MinWidth="1550"
       Title="UserOrdersPage">
+    <Page.Resources>
+        <CollectionViewSource x:Key="FilteredProcessors" Source="{Binding Path=ProcessorListBox.ItemsSource}" />
+        <LinearGradientBrush x:Key="GradientBackground" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#2F3037" Offset="0.25"/>
+            <GradientStop Color="#373840"  Offset="0.7512"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="StandardBorderBrush" Color="#888" />
+        <SolidColorBrush x:Key="StandardBackgroundBrush" Color="Red" />
+        <SolidColorBrush x:Key="HoverBorderBrush" Color="#DDD" />
+        <SolidColorBrush x:Key="SelectedBackgroundBrush" Color="Gray" />
+        <SolidColorBrush x:Key="SelectedForegroundBrush" Color="Red" />
+        <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" />
+        <SolidColorBrush x:Key="NormalBrush" Color="#888" />
+        <SolidColorBrush x:Key="NormalBorderBrush" Color="#888" />
+        <SolidColorBrush x:Key="HorizontalNormalBrush" Color="#888" />
+        <SolidColorBrush x:Key="HorizontalNormalBorderBrush" Color="#888" />
+        <LinearGradientBrush x:Key="ListBoxBackgroundBrush"
+      StartPoint="0,0" EndPoint="1,0.001">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="White" Offset="0.0" />
+                    <GradientStop Color="White" Offset="0.6" />
+                    <GradientStop Color="#DDDDDD" Offset="1.2"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="StandardBrush"
+      StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#FFF" Offset="0.0"/>
+                    <GradientStop Color="#CCC" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="GlyphBrush" Color="#444" />
+        <LinearGradientBrush x:Key="PressedBrush"
+      StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#BBB" Offset="0.0"/>
+                    <GradientStop Color="#EEE" Offset="0.1"/>
+                    <GradientStop Color="#EEE" Offset="0.9"/>
+                    <GradientStop Color="#FFF" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
 
+
+        <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border
+    Name="Border"
+    Margin="1"
+    CornerRadius="2"
+    Background="#2F3037"
+    BorderBrush="#2F3037"
+    BorderThickness="1">
+                            <Path
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center"
+      Fill="#26262C"
+      Data="{Binding Path=Content,
+          RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="Border" Property="Background"
+                          Value="{StaticResource PressedBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground"
+                          Value="{StaticResource DisabledForegroundBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border Background="Transparent" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border
+    CornerRadius="2"
+    Background="{TemplateBinding Background}"
+    BorderBrush="{TemplateBinding BorderBrush}"
+    BorderThickness="1" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ControlTemplate x:Key="VerticalScrollBar"
+      TargetType="{x:Type ScrollBar}">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition MaxHeight="18"/>
+                    <RowDefinition Height="0.00001*"/>
+                    <RowDefinition MaxHeight="18"/>
+                </Grid.RowDefinitions>
+                <Border
+Grid.RowSpan="3"
+CornerRadius="2"
+Background="#2F3037" />
+                <RepeatButton
+Grid.Row="0"
+Style="{StaticResource ScrollBarLineButton}"
+Height="18"
+Command="ScrollBar.LineUpCommand"
+Content="M 0 4 L 8 4 L 4 0 Z" />
+                <Track
+Name="PART_Track"
+Grid.Row="1"
+IsDirectionReversed="true">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton
+    Style="{StaticResource ScrollBarPageButton}"
+    Command="ScrollBar.PageUpCommand" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb
+    Style="{StaticResource ScrollBarThumb}"
+    Margin="3,0,3,0"
+                                                                          
+    Background="#26262C"
+    BorderBrush="#26262C" />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton
+    Style="{StaticResource ScrollBarPageButton}"
+    Command="ScrollBar.PageDownCommand" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+                <RepeatButton
+Grid.Row="3"
+Style="{StaticResource ScrollBarLineButton}"
+Height="18"
+Command="ScrollBar.LineDownCommand"
+Content="M 0 0 L 4 4 L 8 0 Z"/>
+            </Grid>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="HorizontalScrollBar"
+      TargetType="{x:Type ScrollBar}">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MaxWidth="18"/>
+                    <ColumnDefinition Width="0.00001*"/>
+                    <ColumnDefinition MaxWidth="18"/>
+                </Grid.ColumnDefinitions>
+                <Border
+Grid.ColumnSpan="3"
+CornerRadius="2"
+Background="#F0F0F0" />
+                <RepeatButton
+Grid.Column="0"
+Style="{StaticResource ScrollBarLineButton}"
+Width="18"
+Command="ScrollBar.LineLeftCommand"
+Content="M 4 0 L 4 8 L 0 4 Z" />
+                <Track
+Name="PART_Track"
+Grid.Column="1"
+IsDirectionReversed="False">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton
+    Style="{StaticResource ScrollBarPageButton}"
+    Command="ScrollBar.PageLeftCommand" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb
+    Style="{StaticResource ScrollBarThumb}"
+    Margin="0,1,0,1"
+    Background="{StaticResource NormalBrush}"
+    BorderBrush="{StaticResource NormalBorderBrush}" />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton
+    Style="{StaticResource ScrollBarPageButton}"
+    Command="ScrollBar.PageRightCommand" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+                <RepeatButton
+Grid.Column="3"
+Style="{StaticResource ScrollBarLineButton}"
+Width="18"
+Command="ScrollBar.LineRightCommand"
+Content="M 0 0 L 4 4 L 0 8 Z"/>
+            </Grid>
+        </ControlTemplate>
+
+        <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="Width" Value="Auto"/>
+                    <Setter Property="Height" Value="18" />
+                    <Setter Property="Template"
+                  Value="{StaticResource HorizontalScrollBar}" />
+                </Trigger>
+                <Trigger Property="Orientation" Value="Vertical">
+                    <Setter Property="Width" Value="18"/>
+                    <Setter Property="Height" Value="Auto" />
+                    <Setter Property="Template"
+                  Value="{StaticResource VerticalScrollBar}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+        <Style x:Key="FavsScrollViewer" TargetType="{x:Type ScrollViewer}">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <ScrollContentPresenter Grid.Column="1"/>
+
+                            <ScrollBar Name="PART_VerticalScrollBar"
+      Value="{TemplateBinding VerticalOffset}"
+      Maximum="{TemplateBinding ScrollableHeight}"
+      ViewportSize="{TemplateBinding ViewportHeight}"
+      Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                            <ScrollBar Name="PART_HorizontalScrollBar"
+      Orientation="Horizontal"
+      Grid.Row="1"
+      Grid.Column="1"
+      Value="{TemplateBinding HorizontalOffset}"
+      Maximum="{TemplateBinding ScrollableWidth}"
+      ViewportSize="{TemplateBinding ViewportWidth}"
+      Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="110"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+
+        <Border Background="#131316" 
+                Name="DialogBack"
+                Panel.ZIndex="2" 
+                Opacity="0.8"
+                Visibility="Collapsed"
+                Grid.RowSpan="2">
+            
+        </Border>
+
         
+
+        <Border Width="800"
+                Grid.RowSpan="2"
+                Visibility="Collapsed"
+                Name="OrderDialog"
+                CornerRadius="5"
+                Background="#4B4C52"
+                Panel.ZIndex="2" 
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Height="456">
+            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+
+                <Border Background="#131316" 
+                    Name="DeleteDialogBack"
+                    Panel.ZIndex="2" 
+                    Opacity="0.8"
+                        CornerRadius="5"
+                    Visibility="Collapsed"
+                        Grid.ColumnSpan="2"
+                    Grid.RowSpan="2">
+                </Border>
+
+
+                <Grid Height="200" Width="300" Visibility="Collapsed" Name="DeleteDialog" Grid.ColumnSpan="2" Panel.ZIndex="2" Grid.RowSpan="2">
+                    <Border Background="#42424B" Opacity="1" CornerRadius="5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Border Background="#6DB2E3" 
+                    CornerRadius="5 5 5 5"
+                    Opacity="1"  />
+
+                            <Label  Name="MessageText" Grid.Column="1" Content="Отмена заказа"
+                    VerticalAlignment="Center"
+                    Margin="10 0 0 0"
+                    HorizontalContentAlignment="Left"
+                    HorizontalAlignment="Left"
+                    Foreground="White" 
+                    FontFamily="Arial" 
+                    FontSize="16" 
+                    FontWeight="Bold"/>
+
+                            <Label  Grid.Column="1" Grid.Row="1" 
+                    VerticalAlignment="Top"
+                    Margin="0 20 0 0"
+                    Width="280"
+                    HorizontalContentAlignment="Left"
+                    HorizontalAlignment="Center"
+                    Foreground="#D6D6D6" 
+                    FontFamily="Arial" 
+                    FontSize="14" 
+                    FontWeight="Bold">
+                                <TextBlock Text="Отменить заказ? Отменить действие будет невозможно." TextWrapping="Wrap"/>
+                            </Label>
+                            <Button Width="120"
+                    x:Name="DialogYes"
+                    Click="DialogYes_Click"
+                    Margin="20 0 0 10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Foreground="White" 
+                    FontSize="14"
+                     Tag="{Binding}"                               Grid.Row="1"
+                    Style="{StaticResource SimpleButton}" 
+                    Height="40" 
+                    Content="Отменить"/>
+                            <Button Width="120"
+                    x:Name="DialogNo"
+                    Margin="0 0 20 10"
+                    Foreground="White" 
+                    Click="DialogNo_Click"                             Grid.Row="1"
+                    FontSize="14"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Style="{StaticResource Simple2Button}" 
+                    Height="40" 
+                    Content="Оставить"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+
+
+
+                <Label Content="Заказ №000000"
+                       Name="OrderId"
+                       Margin="38 0 0 0"
+                       FontSize="24"
+                       VerticalAlignment="Bottom"
+                       HorizontalAlignment="Left"
+                       Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+
+
+
+                <ListBox x:Name="UserOrderItemsListBox"
+                         BorderThickness="0"
+                         Grid.Row="1"
+                         Visibility="Visible"
+                         Margin="0 10 0 0"
+                         Background="Transparent"
+                         Width="360"
+                         Height="375"
+                         
+                         VerticalAlignment="Top"
+                         HorizontalAlignment="Right"
+                         Grid.Column="0">
+                    <ListBox.ItemTemplate>
+
+                        <DataTemplate>
+                            <Grid Grid.Row="1" Height="38" Width="315" Grid.Column="1">
+                                <Border Background="#5B5C62" CornerRadius="5">
+                                    <Grid>
+                                        <!-- Вывод процессора -->
+                                        <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Setter Property="Source" Value="{Binding CPUS.Preview_Photo}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding CPUS}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                        <TextBlock FontFamily="Arial" FontWeight="Bold" 
+                                                   HorizontalAlignment="Left" 
+                                                   VerticalAlignment="Center" 
+                                                   TextAlignment="Left" 
+                                                   TextWrapping="Wrap" 
+                                                   Margin="60 0 10 0"  
+                                                   Foreground="#D6D6D6" 
+                                                   FontSize="12">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding CPUS}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        <Run Text="Процессор" />
+                                        <Run Text="{Binding CPUS.Model}" />
+                                        </TextBlock>
+                                        
+                                        <!-- Вывод Материнская плата -->
+                                        <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Setter Property="Source" Value="{Binding Motherboards.Preview_Photo}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Motherboards}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                        <TextBlock FontFamily="Arial" FontWeight="Bold" 
+                                                   HorizontalAlignment="Left" 
+                                                   VerticalAlignment="Center" 
+                                                   TextAlignment="Left" 
+                                                   TextWrapping="Wrap" 
+                                                   Margin="60 0 10 0"  
+                                                   Foreground="#D6D6D6" 
+                                                   FontSize="12">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Motherboards}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        <Run Text="Материнская плата" />
+                                        <Run Text="{Binding Motherboards.Motherboard_Model}" />
+                                        </TextBlock>
+                                        <!-- Вывод Корпус -->
+                                        <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Setter Property="Source" Value="{Binding Cases.Preview_Photo}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Cases}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                        <TextBlock FontFamily="Arial" FontWeight="Bold" 
+                                                   HorizontalAlignment="Left" 
+                                                   VerticalAlignment="Center" 
+                                                   TextAlignment="Left" 
+                                                   TextWrapping="Wrap" 
+                                                   Margin="60 0 10 0"  
+                                                   Foreground="#D6D6D6" 
+                                                   FontSize="12">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Cases}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        <Run Text="Корпус" />
+                                        <Run Text="{Binding Cases.Model}" />
+                                        </TextBlock>
+                                        <!-- Вывод Видеокарта -->
+                                        <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Setter Property="Source" Value="{Binding GPUS.Preview_Photo}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding GPUS}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                        <TextBlock FontFamily="Arial" FontWeight="Bold" 
+                                                   HorizontalAlignment="Left" 
+                                                   VerticalAlignment="Center" 
+                                                   TextAlignment="Left" 
+                                                   TextWrapping="Wrap" 
+                                                   Margin="60 0 10 0"  
+                                                   Foreground="#D6D6D6" 
+                                                   FontSize="12">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding GPUS}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        <Run Text="Видеокарта" />
+                                        <Run Text="{Binding GPUS.GPU_Model}" />
+                                        </TextBlock>
+                                        
+                                        <!-- Вывод Охлаждение -->
+                                        <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Setter Property="Source" Value="{Binding Coolers.Preview_Photo}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Coolers}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                        <TextBlock FontFamily="Arial" FontWeight="Bold" 
+                                                   HorizontalAlignment="Left" 
+                                                   VerticalAlignment="Center" 
+                                                   TextAlignment="Left" 
+                                                   TextWrapping="Wrap" 
+                                                   Margin="60 0 10 0"  
+                                                   Foreground="#D6D6D6" 
+                                                   FontSize="12">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Coolers}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                            <Run Text="Кулер"/>
+                                            <Run Text="{Binding Coolers.Model}" />
+                                        </TextBlock>
+                                        <!-- Вывод ОЗУ -->
+                                        <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Setter Property="Source" Value="{Binding RAMS.Preview_Photo}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding RAMS}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                        <TextBlock FontFamily="Arial" FontWeight="Bold" 
+                                                   HorizontalAlignment="Left" 
+                                                   VerticalAlignment="Center" 
+                                                   TextAlignment="Left" 
+                                                   TextWrapping="Wrap" 
+                                                   Margin="60 0 10 0"  
+                                                   Foreground="#D6D6D6" 
+                                                   FontSize="12">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding RAMS}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        <Run Text="Оперативная память"/>
+                                        <Run Text="{Binding RAMS.RAM_Model}" />
+                                        </TextBlock>
+                                        <!-- Вывод Хранение данных -->
+                                        <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Setter Property="Source" Value="{Binding HDDs.Preview_Photo}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding HDDs}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                        <TextBlock FontFamily="Arial" FontWeight="Bold" 
+                                                   HorizontalAlignment="Left" 
+                                                   VerticalAlignment="Center" 
+                                                   TextAlignment="Left" 
+                                                   TextWrapping="Wrap" 
+                                                   Margin="60 0 10 0"  
+                                                   Foreground="#D6D6D6" 
+                                                   FontSize="12">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding HDDs}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                            <Run Text="Жесткий диск"/>
+                                            <Run Text="{Binding HDDs.Model}" />
+                                        </TextBlock>
+                                        <!-- Вывод Блок питания -->
+                                        <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Setter Property="Source" Value="{Binding PowerSupplies.Preview_Photo}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding PowerSupplies}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                        <TextBlock FontFamily="Arial" FontWeight="Bold" 
+                                                   HorizontalAlignment="Left" 
+                                                   VerticalAlignment="Center" 
+                                                   TextAlignment="Left" 
+                                                   TextWrapping="Wrap" 
+                                                   Margin="60 0 10 0"  
+                                                   Foreground="#D6D6D6" 
+                                                   FontSize="12">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding PowerSupplies}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        <Run Text="Блок питания"/>
+                                        <Run Text="{Binding PowerSupplies.Model}" />
+                                        </TextBlock>
+                                    </Grid>
+                                    <Border.Effect>
+                                        <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="Black" Opacity="0.3"/>
+                                    </Border.Effect>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="Margin" Value="0 0 0 8"/>
+                            <Setter Property="Padding" Value="0 0 0 0"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                        <Border x:Name="brd" Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                            <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" 
+                     ContentTemplate="{TemplateBinding ContentTemplate}" 
+                     ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                     RecognizesAccessKey="True"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+
+                <Grid Grid.Row="2" 
+                      Grid.Column="1"
+                      VerticalAlignment="Top"
+                      Height="150">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Label Content="Статус:"
+                           Name="OrderStatus"
+                           Grid.Row="0"
+                           Margin="20 0 0 0"
+                           FontSize="18"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+                    <Label Content="Дата создания:"
+                           Name="OrderDate"
+                           Grid.Row="1"
+                           Margin="20 0 0 0"
+                           FontSize="18"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+                    <Label Content="Общая стоимость:"
+                           Name="OrderCost"
+                           Grid.Row="2"
+                           Margin="20 0 0 0"
+                           FontSize="18"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+                    <Label Content="Оплата:"
+                           Name="OrderPaymentType"
+                           Grid.Row="3"
+                           Margin="20 0 0 0"
+                           FontSize="18"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+                    <Label Content="Способ получения:"
+                           Name="OrderDeliveryType"
+                           Grid.Row="4"
+                           Margin="20 0 0 0"
+                           FontSize="18"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+                </Grid>
+
+                <Grid Grid.Row="2" 
+                      VerticalAlignment="Bottom"
+                      Grid.Column="2"
+                      
+                      Height="220">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Button Content="Отменить"
+                            Name="DeleteOrderInfoDialog"
+                            Click="DeleteOrderInfoDialog_Click"
+                            Grid.Row="0"
+                            Margin="20 0 0 0"
+                            HorizontalAlignment="Left"
+                            Width="339"
+                            Height="49"
+                            Style="{StaticResource RedButton}"/>
+
+                    <Button Content="Закрыть"
+                            Name="CloseOrderInfoDialog"
+                            Click="CloseOrderInfoDialog_Click"
+                            Grid.Row="2"
+                            Margin="20 0 0 0"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left"
+                            Width="339"
+                            Height="49"
+                            Style="{StaticResource SimpleButton}"/>
+                </Grid>
+            </Grid>
+        </Border>
+        
+        
+        
+        
+
+
         <Label Grid.Column="0" 
                FontFamily="Arial"
                FontSize="30"
@@ -25,41 +833,123 @@
                Foreground="#D6D6D6"
                FontWeight="Bold"
                Content="Ваши заказы"/>
+
+
+        <TextBlock Grid.Row="1" 
+            Name="EmptyOrdersLabel"
+            Visibility="Collapsed"
+            FontFamily="Arial"
+            FontSize="18"
+            TextAlignment="Center"
+            TextWrapping="Wrap"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Center"
+            Foreground="#D6D6D6"
+            FontWeight="Bold">
+            <Run Text="Здесь будут ваши заказы"/>
+            <LineBreak/>
+            <LineBreak/>
+            <Run Text="Оформите заказ в"/>
+            <Run Text="               "/>
+            <Run Text="и возвращайтесь."/>
+        </TextBlock>
+
         
         <Label Grid.Row="1" 
-               Name="EmptyCartLabel"
+               Name="CartLink"
                Visibility="Collapsed"
                FontFamily="Arial"
                FontSize="18"
+               Panel.ZIndex="2"
+               MouseEnter="CartLink_MouseEnter"  
+               MouseLeave="CartLink_MouseLeave"
+               PreviewMouseLeftButtonDown="CartLink_MouseLeftButtonDown"
+               Margin="112 36.3 110 0"
                VerticalAlignment="Top"
                HorizontalAlignment="Center"
-               Foreground="#D6D6D6"
+               Foreground="#6DB2E3"
                FontWeight="Bold"
-               Content="Вы не выбрали ни одного товара"/>
-         <Label Grid.Row="1" 
-                Name="EmptyCartLabelRedirect"
-                Visibility="Collapsed"
-                FontFamily="Arial"
-                FontSize="18"
-                Margin="0 30 110 0"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Center"
-                Foreground="#D6D6D6"
-                FontWeight="Bold"
-                Content="Воспользуйтесь"/>
-    <!--    <TextBlock Grid.Row="1" 
-                Name="EmptyCartLabelLink"
-                Visibility="Collapsed"
-                FontFamily="Arial"
-                FontSize="18"
-                MouseLeftButtonDown="EmptyCartLabelLink_MouseLeftButtonDown"
-                MouseEnter="EmptyCartLabelLink_MouseEnter"
-                MouseLeave="EmptyCartLabelLink_MouseLeave"
-                Margin="140 35 0 0"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Center"
-                Foreground="#6DB2E3"
-                FontWeight="Bold"
-                Text="каталогом"/>-->
+               Content="корзине"/>
+
+
+
+
+
+
+
+
+        <Grid Width="1210" Grid.Row="2">
+            <ListBox x:Name="UserOrdersListBox"
+                    BorderThickness="0"
+                    Grid.Row="1"
+                     Margin="0 0 0 145"
+                    Visibility="Visible"
+                    Background="Transparent"
+                    Grid.Column="1">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Grid.Row="1"
+                              Height="72"
+                              Width="1170"      
+                              Grid.Column="1">
+                            <Border Background="#4B4C52"
+                                    MouseLeftButtonDown="OrderLabel_MouseLeftButtonDown"
+                                    MouseEnter="OrderLabel_MouseEnter"
+                                    MouseLeave="OrderLabel_MouseLeave"
+                                    CornerRadius="5" 
+                                    Style="{StaticResource CatalogBorderStyle}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="220"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock x:Name="OrderLabel"
+                                               HorizontalAlignment="Center" 
+                                               Grid.Column="0" Style="{StaticResource OrderTextStyle}">
+                                        <Run Text="Заказ №"/>
+                                        <Run Text="{Binding OrderId}"/>
+                                    </TextBlock>
+                                    <TextBlock HorizontalAlignment="Center" Grid.Column="1" Style="{StaticResource OrderTextStyle}">
+                                        <Run Text="{Binding OrderStatuses.Name}"/>
+                                    </TextBlock>
+                                    <TextBlock HorizontalAlignment="Center" Grid.Column="2" Style="{StaticResource OrderTextStyle}">
+                                        <Run Text="{Binding OrderCreateDate, StringFormat={}{0:yyyy.MM.dd}}"/>
+                                    </TextBlock>
+                                    <TextBlock HorizontalAlignment="Center" Margin="0 0 40 0" Grid.Column="3" Style="{StaticResource OrderTextStyle}">
+                                        <Run Text="{Binding TotalCost, StringFormat={}{0:N0} ₽}"/>
+                                    </TextBlock>
+                                </Grid>
+                            </Border>
+
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Margin" Value="0 0 0 20"/>
+                        <Setter Property="Padding" Value="0 0 0 0"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <Border x:Name="brd" Background="{TemplateBinding Background}" 
+                              BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" 
+                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                              ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                              RecognizesAccessKey="True"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </Grid>
     </Grid>
 </Page>

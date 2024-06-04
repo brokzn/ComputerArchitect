@@ -324,6 +324,27 @@
                         </Grid>
                     </Viewbox>
 
+                    <Border Background="#6DB2E3"
+                    Name="UserOrdersCountBack"
+                    Visibility="Visible"
+                    Margin="0 15 0 0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Width="20" 
+                    CornerRadius="10"
+                    Height="20"/>
+                    <Label Content="0"
+                     Name="UserOrdersCountLabel"  
+                     Visibility="Visible"
+                     FontFamily="arial"
+                     FontWeight="Bold"
+                     Margin="0 0 1 0"
+                     Foreground="#D6D6D6"
+                     FontSize="14"
+                     HorizontalAlignment="Right"
+                     VerticalAlignment="Center"/>
+
+
                 </Grid>
             </Button>
 

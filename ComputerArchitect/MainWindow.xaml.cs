@@ -20,6 +20,7 @@ using System.Xml.Linq;
 using ComputerArchitect.UI.Pages;
 using ComputerArchitect.ModalWindows;
 using ComputerArchitect.Database;
+using System.Data.SqlClient;
 
 
 namespace ComputerArchitect
@@ -33,9 +34,9 @@ namespace ComputerArchitect
         public MainWindow()
         {
             InitializeComponent();
-            UserAuthorizationEmailTextBox.Text = "goi_96@bk.ru";
-            UserPasswordAuthorizationPasswordBox.Password = "12345";
-            UserPasswordAuthorizationTextBox.Text = "12345";
+           // UserAuthorizationEmailTextBox.Text = "goi_96@bk.ru";
+           // UserPasswordAuthorizationPasswordBox.Password = "12345";
+           // UserPasswordAuthorizationTextBox.Text = "12345";
         }
         
         //Управление окном
@@ -801,7 +802,56 @@ namespace ComputerArchitect
 
         private void CloseWelcomeBorderButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!IsInternetAvailable())
+            {
+                MessageBox.Show("Нет интернет-соединения.");
+                return;
+            }
+
+            if (!IsConnected())
+            {
+                MessageBox.Show("Нет подключения к базе данных.");
+                return;
+            }
+
             WelcomeBorder.Visibility = Visibility.Collapsed;
         }
+
+        public bool IsConnected()
+        {
+
+            using (var connection = new ComputerArchitectDataBaseEntities())
+            {
+                try
+                {
+                    connection.Database.Connection.Open();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+
+        private bool IsInternetAvailable()
+        {
+            try
+            {
+                using (var client = new System.Net.WebClient())
+                using (client.OpenRead("http://www.google.com/"))
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        
+        
+
     }
 }

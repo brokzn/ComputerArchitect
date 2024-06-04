@@ -202,6 +202,7 @@ namespace ComputerArchitect.Pages
                         PaymentMethod = paymentmethod,
                         DeliveryAddress = InfoUserAdressTextBox.Text,
                         OrderCreateDate = DateTime.Now,
+                        OrderStatusId = 1,
                     };
 
                     context.Orders.Add(newOrder);

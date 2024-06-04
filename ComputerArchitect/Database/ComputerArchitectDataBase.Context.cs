@@ -50,5 +50,6 @@ namespace ComputerArchitect.Database
         public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<DeliveryMethodType> DeliveryMethodType { get; set; }
         public virtual DbSet<PaymentMethodType> PaymentMethodType { get; set; }
+        public virtual DbSet<OrderStatuses> OrderStatuses { get; set; }
     }
 }
