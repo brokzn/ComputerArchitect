@@ -119,16 +119,17 @@ namespace ComputerArchitect.Pages
         private void LoadUserOrdersHistoryListBoxData()
         {
             UserOrdersHistoryListBox.ItemsSource = App.Database.Orders
-                .Where(o => o.UserId == CurrentUser.Id && o.OrderStatusId == 2 || o.OrderStatusId == 3)
-                .ToList();
+            .Where(o => o.UserId == CurrentUser.Id && (o.OrderStatusId == 2 || o.OrderStatusId == 3))
+            .ToList();
 
-            string MoneySpentCountCount = Convert.ToString(App.Database.Orders.Where(o => o.OrderStatusId == 3).Sum(o => o.TotalCost));
 
-            
-            MoneySpentCount.Content = "Всего полученно заказов на сумму: " + MoneySpentCountCount + " ₽";
-            
+            string MoneySpentCountCount = Convert.ToString(App.Database.Orders.Where(o => o.OrderStatusId == 3 && o.UserId == CurrentUser.Id).Sum(o => o.TotalCost));
 
-            NumberOfCancelledOrders.Content = "Всего заказов отмененно: " + Convert.ToString(App.Database.Orders.Where(o=>o.OrderStatusId == 2).Count());
+
+            MoneySpentCount.Content = "Всего получено заказов на сумму: " + MoneySpentCountCount + " ₽";
+
+
+            NumberOfCancelledOrders.Content = "Всего заказов отменено: " + Convert.ToString(App.Database.Orders.Where(o => o.OrderStatusId == 2 && o.UserId == CurrentUser.Id).Count());
         }
 
 
