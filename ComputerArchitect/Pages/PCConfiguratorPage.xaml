@@ -299,7 +299,95 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
         Visibility="Collapsed"
         Grid.RowSpan="2">
         </Border>
-        
+
+
+        <Grid Height="200" 
+              Width="300" 
+              Visibility="Collapsed" 
+              Name="SelectRMATypeDialog" 
+              Panel.ZIndex="2" 
+              Grid.RowSpan="2">
+            <Border Background="#42424B" 
+            Opacity="1" 
+            CornerRadius="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Border Background="#6DB2E3" 
+                    CornerRadius="5 5 5 5"
+                    Opacity="1"  />
+                    <Label
+                    Grid.Column="1" 
+                    Content="Поделиться сборкой"
+                    VerticalAlignment="Center"
+                    Margin="10 0 0 0"
+                    HorizontalContentAlignment="Left"
+                    HorizontalAlignment="Left"
+                    Foreground="White" 
+                    FontFamily="Arial" 
+                    FontSize="16" 
+                    FontWeight="Bold"/>
+                    <Label  Grid.Column="1" Grid.Row="1" 
+                    VerticalAlignment="Top"
+                    Margin="0 5 0 0"
+                    Width="280"
+                    HorizontalContentAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Foreground="#D6D6D6" 
+                    FontFamily="Arial" 
+                    FontSize="14" 
+                    FontWeight="Bold">
+                        <TextBlock Text="Выберите назначение вашей конфигурации" 
+                           TextWrapping="Wrap" TextAlignment="Center"/>
+                    </Label>
+
+                    <ComboBox Grid.Row="3"
+                              SelectionChanged="SelectRMATypeComboBox_SelectionChanged"
+                              Name="SelectRMATypeComboBox"
+                              Style="{StaticResource ComboBoxFlatStyle}"
+                              Margin="0 55 0 0"
+                              ItemsSource="{Binding Name}" 
+                              DisplayMemberPath="Name"
+                              Tag="Тип сборки"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Top"
+                              Width="250" 
+                              Height="30">
+                        <ComboBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="3"/>
+                            </Style>
+                        </ComboBox.Resources>
+                    </ComboBox>
+
+                    <Button Width="120"
+                    x:Name="SelectRMATypeButton"
+                    Click="SelectRMATypeButton_Click"
+                    Margin="0 0 0 10"
+                    IsEnabled="False"
+                    HorizontalAlignment="Center"    
+                    VerticalAlignment="Bottom"
+                    Foreground="White" 
+                    FontSize="14"
+                    Grid.Row="1"
+                    Style="{StaticResource SimpleButton}" 
+                    Height="40" 
+                    Content="Готово"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+
+
+
+
+
+
+
+
+
         <Grid Height="200" 
               Width="300" 
               Visibility="Collapsed" 

@@ -34,9 +34,9 @@ namespace ComputerArchitect
         public MainWindow()
         {
             InitializeComponent();
-           // UserAuthorizationEmailTextBox.Text = "goi_96@bk.ru";
-           // UserPasswordAuthorizationPasswordBox.Password = "12345";
-           // UserPasswordAuthorizationTextBox.Text = "12345";
+            UserAuthorizationEmailTextBox.Text = "goi_96@bk.ru";
+            UserPasswordAuthorizationPasswordBox.Password = "12345";
+            UserPasswordAuthorizationTextBox.Text = "12345";
         }
         
         //Управление окном

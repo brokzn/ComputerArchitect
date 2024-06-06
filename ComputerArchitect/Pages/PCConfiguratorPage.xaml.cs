@@ -82,13 +82,15 @@ namespace ComputerArchitect.Pages
         public Users CurrentUser { get; set; }
         public PCConfiguratorPage(Users currentUser)
         {
-            CurrentUser = currentUser;
-
+            CurrentUser = currentUser;   
             Loaded += Page_Loaded;
             InitializeComponent();
         }
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            SelectRMATypeComboBox.ItemsSource = App.Database.ReadyMadeAssembleTypes.ToList();
+            SelectRMATypeComboBox.DisplayMemberPath = "Name";
+
             CPULoadComponent();
             CPUMostCheapestSort_Checked(null, null);
 
@@ -2313,44 +2315,15 @@ namespace ComputerArchitect.Pages
 
         private void ShareConfigButton_Click(object sender, RoutedEventArgs e)
         {
-
-            using (var context = new ComputerArchitectDataBaseEntities())
-            {
-                // Получение текущей конфигурации пользователя
-                UserConfiguration currentUserConfig = context.UserConfiguration
-                    .FirstOrDefault(config => config.UserId == CurrentUser.Id);
-
-                if (currentUserConfig != null)
-                {
-                    // Создание новой записи ReadyMadeAssemblies
-                    ReadyMadeAssemblies newAssembly = new ReadyMadeAssemblies
-                    {
-                        UserId = currentUserConfig.UserId,
-                        CpuId = currentUserConfig.CpuId,
-                        MotherboardId = currentUserConfig.MotherboardId,
-                        CaseId = currentUserConfig.CaseId,
-                        GPUId = currentUserConfig.GPUId,
-                        FanId = currentUserConfig.FanId,
-                        RAMId = currentUserConfig.RAMId,
-                        MemoryId = currentUserConfig.MemoryId,
-                        PowerSuppliesId = currentUserConfig.PowerSuppliesId
-                        // Добавьте остальные поля, если необходимо
-                    };
-
-                    // Добавление новой записи ReadyMadeAssemblies в контекст данных
-                    context.ReadyMadeAssemblies.Add(newAssembly);
-                    context.SaveChanges();
-
-                    DialogBack.Visibility = Visibility.Visible;
-                    Dialog.Visibility = Visibility.Visible;
-                }
-            }
+            SelectRMATypeDialog.Visibility = Visibility.Visible;
+            DialogBack.Visibility = Visibility.Visible;
         }
 
         private void DialogYes_Click(object sender, RoutedEventArgs e)
         {
             DialogBack.Visibility = Visibility.Collapsed;
             Dialog.Visibility = Visibility.Collapsed;
+            SelectRMATypeDialog.Visibility = Visibility.Collapsed;
         }
 
         private void AddToCartConfingButton_Click(object sender, RoutedEventArgs e)
@@ -2429,6 +2402,56 @@ namespace ComputerArchitect.Pages
         {
             DialogBack.Visibility = Visibility.Collapsed;
             DialogCart.Visibility = Visibility.Collapsed;
+        }
+
+        private void SelectRMATypeButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (var context = new ComputerArchitectDataBaseEntities())
+            {
+                // Получение текущей конфигурации пользователя
+                UserConfiguration currentUserConfig = context.UserConfiguration
+                    .FirstOrDefault(config => config.UserId == CurrentUser.Id);
+
+
+
+                if (currentUserConfig != null)
+                {
+
+                    var selectedRMAtype = ((ReadyMadeAssembleTypes)SelectRMATypeComboBox.SelectedItem).Id;
+
+                    // Создание новой записи ReadyMadeAssemblies
+                    ReadyMadeAssemblies newAssembly = new ReadyMadeAssemblies
+                    {
+                        UserId = currentUserConfig.UserId,
+                        CpuId = currentUserConfig.CpuId,
+                        MotherboardId = currentUserConfig.MotherboardId,
+                        CaseId = currentUserConfig.CaseId,
+                        GPUId = currentUserConfig.GPUId,
+                        FanId = currentUserConfig.FanId,
+                        RAMId = currentUserConfig.RAMId,
+                        MemoryId = currentUserConfig.MemoryId,
+                        PowerSuppliesId = currentUserConfig.PowerSuppliesId,
+                        ReadyMadeAssembleTypeId = selectedRMAtype,
+                    };
+
+                    // Добавление новой записи ReadyMadeAssemblies в контекст данных
+                    context.ReadyMadeAssemblies.Add(newAssembly);
+                    context.SaveChanges();
+                    Dialog.Visibility = Visibility.Visible;
+                }
+            }
+        }
+
+        private void SelectRMATypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (SelectRMATypeComboBox.SelectedValue == null)
+            {
+                SelectRMATypeButton.IsEnabled = false;
+            }
+            else
+            {
+                SelectRMATypeButton.IsEnabled = true;
+            }
         }
     }
 }

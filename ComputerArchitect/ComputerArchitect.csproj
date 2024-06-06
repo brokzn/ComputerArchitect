@@ -136,6 +136,9 @@
     <Compile Include="Database\RAMS.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\ReadyMadeAssembleTypes.cs">
+      <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\ReadyMadeAssemblies.cs">
       <DependentUpon>ComputerArchitectDataBase.tt</DependentUpon>
     </Compile>

@@ -24,6 +24,7 @@ namespace ComputerArchitect.Database
         public Nullable<int> RAMId { get; set; }
         public Nullable<int> MemoryId { get; set; }
         public Nullable<int> PowerSuppliesId { get; set; }
+        public Nullable<int> ReadyMadeAssembleTypeId { get; set; }
     
         public virtual Cases Cases { get; set; }
         public virtual Coolers Coolers { get; set; }
@@ -33,5 +34,6 @@ namespace ComputerArchitect.Database
         public virtual PowerSupplies PowerSupplies { get; set; }
         public virtual RAMS RAMS { get; set; }
         public virtual Users Users { get; set; }
+        public virtual ReadyMadeAssembleTypes ReadyMadeAssembleTypes { get; set; }
     }
 }

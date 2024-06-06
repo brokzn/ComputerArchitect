@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ComputerArchitect.Pages
 {
@@ -46,7 +47,8 @@ namespace ComputerArchitect.Pages
             public RAMS RAMS { get; set; }
             public HDDs HDDs { get; set; }
             public PowerSupplies PowerSupplies { get; set; }
-
+            public Users users { get; set; }
+            public ReadyMadeAssembleTypes assembleTypes { get; set; }
             public decimal TotalCost => ((Processor?.Cost ?? 0) +
                                  (Motherboards?.Cost ?? 0) +
                                  (Cases?.Cost ?? 0) +
@@ -78,6 +80,10 @@ namespace ComputerArchitect.Pages
                                      from hddData in configurationHDDGroup.DefaultIfEmpty()
                                      join psu in App.Database.PowerSupplies on assembly.PowerSuppliesId equals psu.PowerSupplyId into configurationPSUGroup
                                      from psuData in configurationPSUGroup.DefaultIfEmpty()
+                                     join user in App.Database.Users on assembly.UserId equals user.Id into configurationUserGroup
+                                     from userData in configurationUserGroup.DefaultIfEmpty()
+                                     join assembleType in App.Database.ReadyMadeAssembleTypes on assembly.ReadyMadeAssembleTypeId equals assembleType.Id into configurationAssembleTypeGroup
+                                     from assembleTypeData in configurationAssembleTypeGroup.DefaultIfEmpty()
                                      select new CombinedData
                                      {
                                          Assembly = assembly,
@@ -88,8 +94,11 @@ namespace ComputerArchitect.Pages
                                          Coolers = coolerData,
                                          RAMS = ramData,
                                          HDDs = hddData,
-                                         PowerSupplies = psuData
+                                         PowerSupplies = psuData,
+                                         users = userData,
+                                         assembleTypes = assembleTypeData
                                      };
+
 
             if (combinedAssemblies.Any())
             {
@@ -431,5 +440,6 @@ namespace ComputerArchitect.Pages
             CartUpdated?.Invoke(this, EventArgs.Empty);
         }
 
+        
     }
 }

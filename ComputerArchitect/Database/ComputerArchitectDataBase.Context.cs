@@ -51,5 +51,6 @@ namespace ComputerArchitect.Database
         public virtual DbSet<DeliveryMethodType> DeliveryMethodType { get; set; }
         public virtual DbSet<PaymentMethodType> PaymentMethodType { get; set; }
         public virtual DbSet<OrderStatuses> OrderStatuses { get; set; }
+        public virtual DbSet<ReadyMadeAssembleTypes> ReadyMadeAssembleTypes { get; set; }
     }
 }

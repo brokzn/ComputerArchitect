@@ -99,6 +99,8 @@
         <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_Orders_PaymentMethodType" />
         <EntityTypeShape EntityType="ComputerArchitectDataBaseModel.OrderStatuses" Width="1.5" PointX="13.375" PointY="13.875" />
         <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_Orders_OrderStatuses" />
+        <EntityTypeShape EntityType="ComputerArchitectDataBaseModel.ReadyMadeAssembleTypes" Width="1.5" PointX="7.375" PointY="14.875" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_ReadyMadeAssembleTypes" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
