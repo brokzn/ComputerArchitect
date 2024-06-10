@@ -23,7 +23,7 @@
                 <TextBlock TextWrapping="Wrap" Width="880" FontSize="14">
                 <Bold Foreground="#D6D6D6" FontSize="20">Описание приложения "ComputerArchitect"</Bold>
                 <LineBreak/>
-                <Bold Foreground="#D6D6D6" FontSize="18">Версия: 6.0</Bold> 
+                <Bold Foreground="#D6D6D6" FontSize="18">Версия: 6.1</Bold> 
                 <LineBreak/>
                 <Bold Foreground="#D6D6D6" FontSize="18">Авторское право © 2024 Коновалов И.О. "ComputerArchitect"</Bold>
                 <LineBreak/><LineBreak/><LineBreak/>

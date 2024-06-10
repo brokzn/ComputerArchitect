@@ -62,27 +62,39 @@ namespace ComputerArchitect.Pages
         double maxValue;
         private void LoadComponent()
         {
-            List<ReadyMadeAssemblies> assemblies = App.Database.ReadyMadeAssemblies.ToList();
+            // Загружаем все данные с сервера в клиентскую память
+            var assemblies = App.Database.ReadyMadeAssemblies.ToList();
+            var processors = App.Database.CPUS.ToList();
+            var motherboards = App.Database.Motherboards.ToList();
+            var cases = App.Database.Cases.ToList();
+            var gpus = App.Database.GPUS.ToList();
+            var coolers = App.Database.Coolers.ToList();
+            var rams = App.Database.RAMS.ToList();
+            var hdds = App.Database.HDDs.ToList();
+            var psus = App.Database.PowerSupplies.ToList();
+            var users = App.Database.Users.ToList();
+            var assembleTypes = App.Database.ReadyMadeAssembleTypes.ToList();
+
             var combinedAssemblies = from assembly in assemblies
-                                     join processor in App.Database.CPUS on assembly.CpuId equals processor.CPUId into configurationProcessorGroup
+                                     join processor in processors on assembly.CpuId equals processor.CPUId into configurationProcessorGroup
                                      from processorData in configurationProcessorGroup.DefaultIfEmpty()
-                                     join motherboard in App.Database.Motherboards on assembly.MotherboardId equals motherboard.MotherboardId into configurationMotherboardGroup
+                                     join motherboard in motherboards on assembly.MotherboardId equals motherboard.MotherboardId into configurationMotherboardGroup
                                      from motherboardData in configurationMotherboardGroup.DefaultIfEmpty()
-                                     join caseItem in App.Database.Cases on assembly.CaseId equals caseItem.CaseId into configurationCaseGroup
+                                     join caseItem in cases on assembly.CaseId equals caseItem.CaseId into configurationCaseGroup
                                      from caseData in configurationCaseGroup.DefaultIfEmpty()
-                                     join gpu in App.Database.GPUS on assembly.GPUId equals gpu.GPUId into configurationGPUGroup
+                                     join gpu in gpus on assembly.GPUId equals gpu.GPUId into configurationGPUGroup
                                      from gpuData in configurationGPUGroup.DefaultIfEmpty()
-                                     join cooler in App.Database.Coolers on assembly.FanId equals cooler.CoolerId into configurationCoolerGroup
+                                     join cooler in coolers on assembly.FanId equals cooler.CoolerId into configurationCoolerGroup
                                      from coolerData in configurationCoolerGroup.DefaultIfEmpty()
-                                     join ram in App.Database.RAMS on assembly.RAMId equals ram.RAMId into configurationRAMGroup
+                                     join ram in rams on assembly.RAMId equals ram.RAMId into configurationRAMGroup
                                      from ramData in configurationRAMGroup.DefaultIfEmpty()
-                                     join hdd in App.Database.HDDs on assembly.MemoryId equals hdd.HDDId into configurationHDDGroup
+                                     join hdd in hdds on assembly.MemoryId equals hdd.HDDId into configurationHDDGroup
                                      from hddData in configurationHDDGroup.DefaultIfEmpty()
-                                     join psu in App.Database.PowerSupplies on assembly.PowerSuppliesId equals psu.PowerSupplyId into configurationPSUGroup
+                                     join psu in psus on assembly.PowerSuppliesId equals psu.PowerSupplyId into configurationPSUGroup
                                      from psuData in configurationPSUGroup.DefaultIfEmpty()
-                                     join user in App.Database.Users on assembly.UserId equals user.Id into configurationUserGroup
+                                     join user in users on assembly.UserId equals user.Id into configurationUserGroup
                                      from userData in configurationUserGroup.DefaultIfEmpty()
-                                     join assembleType in App.Database.ReadyMadeAssembleTypes on assembly.ReadyMadeAssembleTypeId equals assembleType.Id into configurationAssembleTypeGroup
+                                     join assembleType in assembleTypes on assembly.ReadyMadeAssembleTypeId equals assembleType.Id into configurationAssembleTypeGroup
                                      from assembleTypeData in configurationAssembleTypeGroup.DefaultIfEmpty()
                                      select new CombinedData
                                      {
@@ -96,14 +108,15 @@ namespace ComputerArchitect.Pages
                                          HDDs = hddData,
                                          PowerSupplies = psuData,
                                          users = userData,
-                                         assembleTypes = assembleTypeData
+                                         assembleTypes = assembleTypeData,
                                      };
 
+            var combinedList = combinedAssemblies.ToList();
 
-            if (combinedAssemblies.Any())
+            if (combinedList.Any())
             {
-                decimal minAssemblyCost = Convert.ToInt32( combinedAssemblies.Min(item => item.TotalCost));
-                decimal maxAssemblyCost = Convert.ToInt32(combinedAssemblies.Max(item => item.TotalCost));
+                decimal minAssemblyCost = combinedList.Min(item => item.TotalCost);
+                decimal maxAssemblyCost = combinedList.Max(item => item.TotalCost);
                 MinPrice.Tag = "от " + minAssemblyCost.ToString();
                 MaxPrice.Tag = "до " + maxAssemblyCost.ToString();
             }
@@ -113,11 +126,11 @@ namespace ComputerArchitect.Pages
                 MaxPrice.Tag = "до 0";
             }
 
-
             // Вывод информации о сборках.
-            ComponentListBox.ItemsSource = combinedAssemblies;
+            ComponentListBox.ItemsSource = combinedList;
             OnStorageCountLabel.Content = $"Готовые сборки {ComponentListBox.Items.Count} шт";
         }
+
 
 
 
