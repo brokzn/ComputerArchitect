@@ -1,8 +1,11 @@
 ﻿using ComputerArchitect.Database;
+using IronBarCode;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +16,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static IronSoftware.Drawing.AnyBitmap;
+
 
 
 
@@ -158,6 +163,36 @@ namespace ComputerArchitect.Pages
             DeliveryBorder.Visibility = Visibility.Visible;
         }
 
+
+        private void GenerationQRCode(string text)
+        {
+            // Create the QR code with the specified text and dimensions
+            var qrCode = QRCodeWriter.CreateQrCode(text, 250, QRCodeWriter.QrErrorCorrectionLevel.Medium);
+
+            // Convert the QR code to a Bitmap
+            var bitmap = qrCode.ToBitmap();
+
+            // Create a memory stream to save the Bitmap as a PNG
+            using (var stream = new MemoryStream())
+            {
+                // Save the Bitmap to the stream as a PNG
+                bitmap.ExportStream(stream, ImageFormat.Png);
+                stream.Seek(0, SeekOrigin.Begin);
+
+                // Create a BitmapImage and set its StreamSource to the memory stream
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = stream;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+
+                // Set the Source of the Image control to the BitmapImage
+                qrCodeImage.Source = bitmapImage;
+            }
+        }
+
+
+
         private void CreateNewOrder()
         {
             Error.Visibility = Visibility.Collapsed;
@@ -259,6 +294,7 @@ namespace ComputerArchitect.Pages
             {
                 if (RadioButtonOnline.IsChecked == true)
                 {
+                    GenerationQRCode("https://business.tbank.ru/openapi/sandbox/secured/api/v1/payment/card-transfer/pay");
                     OnlinePayMethodDialog.Visibility = Visibility.Visible;
                     DialogBack.Visibility = Visibility.Visible;
                 }
