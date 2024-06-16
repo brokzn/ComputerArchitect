@@ -36,6 +36,8 @@ namespace ComputerArchitect.Database
         public Nullable<int> RoleId { get; set; }
         public Nullable<bool> UserIsBlocked { get; set; }
         public string UserBlockReason { get; set; }
+        public Nullable<int> IsBusy { get; set; }
+        public Nullable<int> DeliveryOrderInProcess { get; set; }
     
         public virtual Сountries Сountries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -47,5 +49,6 @@ namespace ComputerArchitect.Database
         public virtual UserRoles UserRoles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders> Orders { get; set; }
+        public virtual Orders Orders1 { get; set; }
     }
 }

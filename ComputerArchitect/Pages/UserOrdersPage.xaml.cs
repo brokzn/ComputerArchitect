@@ -33,12 +33,13 @@ namespace ComputerArchitect.Pages
 
         private void LoadUserOrderListBoxData()
         {
-            
-            var userOrders = App.Database.Orders
-                .Where(o => o.UserId == CurrentUser.Id && o.OrderStatusId == 1)
-                .ToList();
 
-           
+            var userOrders = App.Database.Orders
+            .Where(o => o.UserId == CurrentUser.Id && (o.OrderStatusId == 1 || o.OrderStatusId == 8 || o.OrderStatusId == 6 || o.OrderStatusId == 7))
+            .ToList();
+
+
+
             UserOrdersListBox.ItemsSource = userOrders;
 
             
@@ -87,7 +88,7 @@ namespace ComputerArchitect.Pages
                 lastSelectedOrder = listBoxItem.DataContext as Orders;
 
 
-                UserOrderItemsListBox.ItemsSource = lastSelectedOrder.OrderCartItems.Where(oci=> oci.OrderId == order.OrderId).ToList();
+                UserOrderItemsListBox.ItemsSource = lastSelectedOrder.OrderCartItems.Where(oci => oci.OrderId == order.OrderId).ToList();
 
 
                 if (order != null)
@@ -100,12 +101,30 @@ namespace ComputerArchitect.Pages
                     OrderDeliveryType.Content = $"Способ получения: {order.DeliveryMethodType.DeliveryMethodName}";
                 }
 
+                if (order.OrderStatusId == 7 || order.OrderStatusId == 8)
+                {
+                    DeleteOrderInfoDialog.IsEnabled = false;
+                }
+                else
+                {
+                    if(order.PaymentMethod == 2)
+                    {
+                        DeleteOrderInfoDialog.IsEnabled = false;
+                    }
+                    else
+                    {
+                        DeleteOrderInfoDialog.IsEnabled = true;
+                    } 
+                }
 
                 DialogBack.Visibility = Visibility.Visible;
                 OrderDialog.Visibility = Visibility.Visible;
 
             }
         }
+
+
+
         private T FindAncestor<T>(DependencyObject current)
         where T : DependencyObject
         {

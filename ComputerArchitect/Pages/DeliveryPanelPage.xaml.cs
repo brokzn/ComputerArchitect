@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ComputerArchitect.Pages.DeliveryPages;
 
 namespace ComputerArchitect.Pages
 {
@@ -26,6 +27,19 @@ namespace ComputerArchitect.Pages
         {
             CurrentUser = currentUser;
             InitializeComponent();
+            DeliveryPanelFrame.NavigationService.Navigate(new WaitingOrdersPage(CurrentUser));
+        }
+
+        private void WaitingOrdersButton_Click(object sender, RoutedEventArgs e)
+        {
+            DeliveryPanelFrame.NavigationService.Navigate(new WaitingOrdersPage(CurrentUser));
+            CurrentSelectedTableLabel.Content = "Доступные заказы";
+        }
+
+        private void OrderInProcess_Click(object sender, RoutedEventArgs e)
+        {
+            DeliveryPanelFrame.NavigationService.Navigate(new OrderInProcessPage(CurrentUser));
+            CurrentSelectedTableLabel.Content = "Текущий заказ";
         }
     }
 }

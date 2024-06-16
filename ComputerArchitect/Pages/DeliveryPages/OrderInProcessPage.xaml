@@ -1,0 +1,615 @@
+﻿<Page x:Class="ComputerArchitect.Pages.DeliveryPages.OrderInProcessPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ComputerArchitect.Pages.DeliveryPages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="OrderInProcessPage">
+
+    <Grid>
+
+        <Label Content="Тут будет подробная информация о заказе после того как вы его возьмете"
+               Visibility="Collapsed"
+               Name="NoOrdersLabel"  
+               Grid.Row="0"
+               Margin="0"
+               FontSize="18"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center"
+               Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+
+
+        <Border Background="#131316" 
+         Name="DialogBack"
+         Panel.ZIndex="2" 
+         Opacity="0.8"
+         Visibility="Collapsed"
+         Grid.RowSpan="2">
+        </Border>
+
+
+
+        <Grid Height="200" Width="300" Visibility="Collapsed" Name="EndOrderDialog" Grid.ColumnSpan="2" Panel.ZIndex="2" Grid.RowSpan="2">
+            <Border Background="#42424B" Opacity="1" CornerRadius="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Border Background="#6DB2E3" 
+    CornerRadius="5 5 5 5"
+    Opacity="1"  />
+
+                    <Label  Name="MessageText" Grid.Column="1" Content="Завершение заказа"
+    VerticalAlignment="Center"
+    Margin="10 0 0 0"
+    HorizontalContentAlignment="Left"
+    HorizontalAlignment="Left"
+    Foreground="White" 
+    FontFamily="Arial" 
+    FontSize="16" 
+    FontWeight="Bold"/>
+
+                    <Label  Grid.Column="1" Grid.Row="1" 
+    VerticalAlignment="Top"
+    Margin="0 20 0 0"
+    Width="280"
+    HorizontalContentAlignment="Left"
+    HorizontalAlignment="Center"
+    Foreground="#D6D6D6" 
+    FontFamily="Arial" 
+    FontSize="14" 
+    FontWeight="Bold">
+                        <TextBlock Text="Завершить заказ? Отменить действие будет невозможно." TextWrapping="Wrap"/>
+                    </Label>
+                    <Button Width="120"
+    x:Name="EndOrderDialogYes"
+    Click="EndOrderDialogYes_Click"
+    Margin="20 0 0 10"
+    HorizontalAlignment="Left"
+    VerticalAlignment="Bottom"
+    Foreground="White" 
+    FontSize="14"
+     Tag="{Binding}"                               Grid.Row="1"
+    Style="{StaticResource SimpleButton}" 
+    Height="40" 
+    Content="Завершить"/>
+                    <Button Width="120"
+    x:Name="EndOrderDialogNo"
+    Margin="0 0 20 10"
+    Foreground="White" 
+    Click="EndOrderDialogNo_Click"                             Grid.Row="1"
+    FontSize="14"
+    HorizontalAlignment="Right"
+    VerticalAlignment="Bottom"
+    Style="{StaticResource Simple2Button}" 
+    Height="40" 
+    Content="Назад"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+
+
+
+
+
+
+
+
+
+        <Grid x:Name="OrderFullInfo" Visibility="Visible">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Content="Информация о заказе"
+            Name="OrderNumber"  
+            Grid.Row="0"
+            Margin="20 10 0 0"
+            FontSize="24"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid  VerticalAlignment="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        
+                    </Grid.RowDefinitions>
+                    <Label Content="Общая информация"
+               Grid.Row="0"
+               Margin="20 0 0 0"
+               FontSize="24"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Left"
+               Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+
+                    <Label Content="Статус:"
+               Name="OrderStatus"
+               Grid.Row="1"
+               Margin="20 0 0 0"
+               FontSize="18"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Left"
+               Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+                    <Label Content="Дата создания:"
+                Name="OrderDate"
+                Grid.Row="2"
+                Margin="20 0 0 0"
+                FontSize="18"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+                    <Label Content="Общая стоимость:"
+                Name="OrderCost"
+                Grid.Row="3"
+                Margin="20 0 0 0"
+                FontSize="18"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+                    <Label Content="Оплата:"
+                Name="OrderPaymentType"
+                Grid.Row="4"
+                Margin="20 0 0 0"
+                FontSize="18"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+                    <Label Content="Способ получения:"
+                Name="OrderDeliveryAdress"
+                Grid.Row="5"
+                Margin="20 0 0 0"
+                FontSize="18"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+
+                    <Label Content="Контактные данные заказчика"
+                    Grid.Row="6"
+                    Margin="20 0 0 0"
+                    FontSize="18"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+                                        <Label Content="ИФ:"
+                    Name="UserFSName"
+                    Grid.Row="7"
+                    Margin="20 0 0 0"
+                    FontSize="18"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+                                        <Label Content="Номер телефона:"
+                    Name="UserPhoneNumber"
+                    Grid.Row="8"
+                    Margin="20 0 0 0"
+                    FontSize="18"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+                                        <Label Content="Почта:"
+                    Name="UserEmail"
+                    Grid.Row="9"
+                    Margin="20 0 0 0"
+                    FontSize="18"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+
+
+
+                    <Button Width="220"
+                        x:Name="DialogYes"
+                        Margin="22 0 0 10"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Foreground="White" 
+                        FontSize="14"
+                        Tag="{Binding}"
+                        Grid.Row="11"
+                        IsEnabled="False"
+                        Style="{StaticResource SimpleButton}" 
+                        Height="40" 
+                        Content="Уведомление для заказчика"/>
+                    <Button Width="220"
+                        IsEnabled="False"
+                        Margin="22 0 0 10"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Foreground="White" 
+                        FontSize="14"
+                        Tag="{Binding}"
+                        Grid.Row="12"
+                        Style="{StaticResource SimpleButton}" 
+                        Height="40" 
+                        Content="Накладная"/>
+                    <Button Width="220"
+                        Name="EndOrderButton"
+                        Click="EndOrderButton_Click"
+                        Margin="22 0 0 10"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Foreground="White" 
+                        FontSize="14"
+                        Tag="{Binding}"
+                        Grid.Row="14"
+                        Style="{StaticResource SimpleButton}" 
+                        Height="40" 
+                        Content="Завершить заказ"/>
+
+
+
+
+                </Grid>
+                
+
+                <Grid Grid.Column="1">
+                    <Label Content="Содержимое заказа"
+                            Grid.Row="0"
+                            Margin="20 0 0 0"
+                            FontSize="24"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource ConfiguratorSelectedComponentLabel}"/>
+
+
+                    <ListBox x:Name="ItemsListBox"
+                    BorderThickness="0"
+                    Grid.Row="1"
+                    Visibility="Visible"
+                    Margin="20 50 0 0"
+                    Background="Transparent"
+                    Width="560"
+                    Height="430"
+         
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                   >
+                        <ListBox.ItemTemplate>
+
+                            <DataTemplate>
+                                <Grid Grid.Row="1" Height="38.5" Width="520" Grid.Column="1">
+                                    <Border Background="#5B5C62" CornerRadius="5">
+                                        <Grid>
+                                            <!-- Вывод процессора -->
+                                            <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Setter Property="Source" Value="{Binding CPUS.Preview_Photo}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding CPUS}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                            <TextBlock FontFamily="Arial" FontWeight="Bold" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center" 
+                                   TextAlignment="Left" 
+                                   TextWrapping="Wrap" 
+                                   Margin="60 0 10 0"  
+                                   Foreground="#D6D6D6" 
+                                   FontSize="12">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding CPUS}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                        <Run Text="Процессор" />
+                        <Run Text="{Binding CPUS.Model}" />
+                                            </TextBlock>
+
+                                            <!-- Вывод Материнская плата -->
+                                            <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Setter Property="Source" Value="{Binding Motherboards.Preview_Photo}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Motherboards}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                            <TextBlock FontFamily="Arial" FontWeight="Bold" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center" 
+                                   TextAlignment="Left" 
+                                   TextWrapping="Wrap" 
+                                   Margin="60 0 10 0"  
+                                   Foreground="#D6D6D6" 
+                                   FontSize="12">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Motherboards}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                        <Run Text="Материнская плата" />
+                        <Run Text="{Binding Motherboards.Motherboard_Model}" />
+                                            </TextBlock>
+                                            <!-- Вывод Корпус -->
+                                            <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Setter Property="Source" Value="{Binding Cases.Preview_Photo}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Cases}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                            <TextBlock FontFamily="Arial" FontWeight="Bold" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center" 
+                                   TextAlignment="Left" 
+                                   TextWrapping="Wrap" 
+                                   Margin="60 0 10 0"  
+                                   Foreground="#D6D6D6" 
+                                   FontSize="12">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Cases}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                        <Run Text="Корпус" />
+                        <Run Text="{Binding Cases.Model}" />
+                                            </TextBlock>
+                                            <!-- Вывод Видеокарта -->
+                                            <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Setter Property="Source" Value="{Binding GPUS.Preview_Photo}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding GPUS}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                            <TextBlock FontFamily="Arial" FontWeight="Bold" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center" 
+                                   TextAlignment="Left" 
+                                   TextWrapping="Wrap" 
+                                   Margin="60 0 10 0"  
+                                   Foreground="#D6D6D6" 
+                                   FontSize="12">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding GPUS}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                        <Run Text="Видеокарта" />
+                        <Run Text="{Binding GPUS.GPU_Model}" />
+                                            </TextBlock>
+
+                                            <!-- Вывод Охлаждение -->
+                                            <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Setter Property="Source" Value="{Binding Coolers.Preview_Photo}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Coolers}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                            <TextBlock FontFamily="Arial" FontWeight="Bold" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center" 
+                                   TextAlignment="Left" 
+                                   TextWrapping="Wrap" 
+                                   Margin="60 0 10 0"  
+                                   Foreground="#D6D6D6" 
+                                   FontSize="12">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Coolers}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                            <Run Text="Кулер"/>
+                            <Run Text="{Binding Coolers.Model}" />
+                                            </TextBlock>
+                                            <!-- Вывод ОЗУ -->
+                                            <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Setter Property="Source" Value="{Binding RAMS.Preview_Photo}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding RAMS}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                            <TextBlock FontFamily="Arial" FontWeight="Bold" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center" 
+                                   TextAlignment="Left" 
+                                   TextWrapping="Wrap" 
+                                   Margin="60 0 10 0"  
+                                   Foreground="#D6D6D6" 
+                                   FontSize="12">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding RAMS}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                        <Run Text="Оперативная память"/>
+                        <Run Text="{Binding RAMS.RAM_Model}" />
+                                            </TextBlock>
+                                            <!-- Вывод Хранение данных -->
+                                            <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Setter Property="Source" Value="{Binding HDDs.Preview_Photo}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding HDDs}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                            <TextBlock FontFamily="Arial" FontWeight="Bold" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center" 
+                                   TextAlignment="Left" 
+                                   TextWrapping="Wrap" 
+                                   Margin="60 0 10 0"  
+                                   Foreground="#D6D6D6" 
+                                   FontSize="12">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding HDDs}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                            <Run Text="Жесткий диск"/>
+                            <Run Text="{Binding HDDs.Model}" />
+                                            </TextBlock>
+                                            <!-- Вывод Блок питания -->
+                                            <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Setter Property="Source" Value="{Binding PowerSupplies.Preview_Photo}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding PowerSupplies}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                            <TextBlock FontFamily="Arial" FontWeight="Bold" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center" 
+                                   TextAlignment="Left" 
+                                   TextWrapping="Wrap" 
+                                   Margin="60 0 10 0"  
+                                   Foreground="#D6D6D6" 
+                                   FontSize="12">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding PowerSupplies}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            <Run Text="Блок питания"/>
+                                            <Run Text="{Binding PowerSupplies.Model}" />
+                                            </TextBlock>
+                                        </Grid>
+                                        
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Margin" Value="0 0 0 8"/>
+                                <Setter Property="Padding" Value="0 0 0 0"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                            <Border x:Name="brd" Background="{TemplateBinding Background}" 
+                                        BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                                                                <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" 
+                                     ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                     ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                     RecognizesAccessKey="True"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                </Grid>
+
+            </Grid>
+
+        </Grid>
+
+
+        <Grid>
+            
+        </Grid>
+        
+        
+    </Grid>
+</Page>

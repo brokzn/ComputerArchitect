@@ -178,7 +178,7 @@ namespace ComputerArchitect.UI.Pages
                 {
                     // Получаем количество заказов пользователя
                     var orderscount = context.Orders
-                        .Count(o => o.UserId == CurrentUser.Id && o.OrderStatuses.Id == 1);
+                        .Count(o => o.UserId == CurrentUser.Id && (o.OrderStatusId == 1 || o.OrderStatusId == 8 || o.OrderStatusId == 6 || o.OrderStatusId == 7));
 
                     return orderscount;
                 }

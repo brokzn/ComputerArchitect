@@ -24,7 +24,7 @@
 
 
 
-        <Grid Height="500" Width="300" Visibility="Visible" Name="OnlinePayMethodDialog" Panel.ZIndex="2" Grid.RowSpan="2">
+        <Grid Height="500" Width="300" Visibility="Collapsed" Name="OnlinePayMethodDialog" Panel.ZIndex="2" Grid.RowSpan="2">
             <Border Background="#42424B" Opacity="1" CornerRadius="5">
                 <Grid>
                     <Grid.RowDefinitions>

@@ -579,6 +579,8 @@
           <Property Name="RoleId" Type="int" />
           <Property Name="UserIsBlocked" Type="bit" />
           <Property Name="UserBlockReason" Type="nvarchar" MaxLength="255" />
+          <Property Name="IsBusy" Type="int" />
+          <Property Name="DeliveryOrderInProcess" Type="int" />
         </EntityType>
         <EntityType Name="UsersCarts">
           <Key>
@@ -1386,6 +1388,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Users_Orders">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="DeliveryOrderInProcess" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_UserRoles">
           <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="0..1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -1714,6 +1728,10 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="UserConfiguration" EntitySet="UserConfiguration" />
           </AssociationSet>
+          <AssociationSet Name="FK_Users_Orders" Association="Self.FK_Users_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
           <AssociationSet Name="FK_Users_UserRoles" Association="Self.FK_Users_UserRoles">
             <End Role="UserRoles" EntitySet="UserRoles" />
             <End Role="Users" EntitySet="Users" />
@@ -1754,6 +1772,9 @@
           <Property Name="UserIsBlocked" Type="Boolean" />
           <Property Name="UserBlockReason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Orders" Relationship="ComputerArchitectDataBaseModel.FK_Orders_Users" FromRole="Users" ToRole="Orders" />
+          <Property Name="IsBusy" Type="Int32" />
+          <Property Name="DeliveryOrderInProcess" Type="Int32" />
+          <NavigationProperty Name="Orders1" Relationship="ComputerArchitectDataBaseModel.FK_Users_Orders" FromRole="Users" ToRole="Orders" />
         </EntityType>
         <EntityType Name="Сountries">
           <Key>
@@ -2087,6 +2108,10 @@
           <AssociationSet Name="FK_ReadyMadeAssemblies_ReadyMadeAssembleTypes" Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_ReadyMadeAssembleTypes">
             <End Role="ReadyMadeAssembleTypes" EntitySet="ReadyMadeAssembleTypes" />
             <End Role="ReadyMadeAssemblies" EntitySet="ReadyMadeAssemblies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Orders" Association="ComputerArchitectDataBaseModel.FK_Users_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="CPUS">
@@ -3388,6 +3413,7 @@
           <NavigationProperty Name="PaymentMethodType" Relationship="ComputerArchitectDataBaseModel.FK_Orders_PaymentMethodType" FromRole="Orders" ToRole="PaymentMethodType" />
           <Property Name="OrderStatusId" Type="Int32" />
           <NavigationProperty Name="OrderStatuses" Relationship="ComputerArchitectDataBaseModel.FK_Orders_OrderStatuses" FromRole="Orders" ToRole="OrderStatuses" />
+          <NavigationProperty Name="Users1" Relationship="ComputerArchitectDataBaseModel.FK_Users_Orders" FromRole="Orders" ToRole="Users" />
         </EntityType>
         <Association Name="FK_OrderCartItems_Cases">
           <End Type="ComputerArchitectDataBaseModel.Cases" Role="Cases" Multiplicity="0..1" />
@@ -3590,6 +3616,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Users_Orders">
+          <End Type="ComputerArchitectDataBaseModel.Orders" Role="Orders" Multiplicity="0..1" />
+          <End Type="ComputerArchitectDataBaseModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="DeliveryOrderInProcess" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3599,6 +3637,8 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="DeliveryOrderInProcess" ColumnName="DeliveryOrderInProcess" />
+                <ScalarProperty Name="IsBusy" ColumnName="IsBusy" />
                 <ScalarProperty Name="UserBlockReason" ColumnName="UserBlockReason" />
                 <ScalarProperty Name="UserIsBlocked" ColumnName="UserIsBlocked" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />

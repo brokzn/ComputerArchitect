@@ -38,5 +38,73 @@
        Foreground="#D6D6D6"
        FontWeight="Bold"
        Content="Сотрудники > Курьер"/>
+        <Grid x:Name="DeliveryPanelMainGrid" 
+      HorizontalAlignment="Center"
+      Grid.Row="1"
+      Width="1200">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="43"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid x:Name="SelectTableButtonsGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button Width="192"
+                x:Name="WaitingOrdersButton"
+                Click="WaitingOrdersButton_Click"
+                FontSize="12"
+                Style="{StaticResource Simple3Button}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Grid.Column="0"
+                Content="Доступные заказы"
+                Height="35"/>
+                <Button Width="192"
+                x:Name="OrderInProcess"
+                Click="OrderInProcess_Click"
+                FontSize="12"
+                Style="{StaticResource Simple3Button}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Grid.Column="1"
+                Content="Текущий заказ"
+                Height="35"/>
+            </Grid>
+
+
+            <Grid x:Name="SelectedTableFrameGrid" 
+                Grid.Row="1"
+                Margin="0 0 0 50"
+                Width="1200">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="43"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label FontFamily="Arial"
+               Name="CurrentSelectedTableLabel"
+               FontSize="12"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Left"
+               Foreground="#D6D6D6"
+               FontWeight="Bold"
+               Content="Доступные заказы"/>
+                <Border Background="#26262C"
+                CornerRadius="5"
+                Grid.Row="1"
+                Grid.Column="0" Grid.ColumnSpan="2">
+                    <Frame Name="DeliveryPanelFrame" NavigationUIVisibility="Hidden" Grid.Row="1"/>
+                </Border>
+            </Grid>
+        </Grid>
     </Grid>
 </Page>

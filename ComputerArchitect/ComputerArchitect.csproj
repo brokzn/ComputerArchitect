@@ -101,6 +101,9 @@
     <Reference Include="Microsoft.ML.OnnxRuntime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f27f157f0a5b7bb6, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ML.OnnxRuntime.Managed.1.17.1\lib\netstandard2.0\Microsoft.ML.OnnxRuntime.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="SixLabors.Fonts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
       <HintPath>..\packages\SixLabors.Fonts.1.0.0\lib\netstandard2.0\SixLabors.Fonts.dll</HintPath>
     </Reference>
@@ -329,6 +332,12 @@
     <Compile Include="Pages\CreateOrderPage.xaml.cs">
       <DependentUpon>CreateOrderPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\DeliveryPages\OrderInProcessPage.xaml.cs">
+      <DependentUpon>OrderInProcessPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\DeliveryPages\WaitingOrdersPage.xaml.cs">
+      <DependentUpon>WaitingOrdersPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\DeliveryPanelPage.xaml.cs">
       <DependentUpon>DeliveryPanelPage.xaml</DependentUpon>
     </Compile>
@@ -407,6 +416,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\CreateOrderPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\DeliveryPages\OrderInProcessPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\DeliveryPages\WaitingOrdersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

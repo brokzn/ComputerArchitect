@@ -101,6 +101,7 @@
         <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_Orders_OrderStatuses" />
         <EntityTypeShape EntityType="ComputerArchitectDataBaseModel.ReadyMadeAssembleTypes" Width="1.5" PointX="7.375" PointY="14.875" />
         <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_ReadyMadeAssemblies_ReadyMadeAssembleTypes" />
+        <AssociationConnector Association="ComputerArchitectDataBaseModel.FK_Users_Orders" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

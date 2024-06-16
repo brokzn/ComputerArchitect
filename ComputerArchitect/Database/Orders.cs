@@ -18,6 +18,7 @@ namespace ComputerArchitect.Database
         public Orders()
         {
             this.OrderCartItems = new HashSet<OrderCartItems>();
+            this.Users1 = new HashSet<Users>();
         }
     
         public int OrderId { get; set; }
@@ -37,5 +38,7 @@ namespace ComputerArchitect.Database
         public virtual DeliveryMethodType DeliveryMethodType { get; set; }
         public virtual PaymentMethodType PaymentMethodType { get; set; }
         public virtual OrderStatuses OrderStatuses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Users> Users1 { get; set; }
     }
 }
