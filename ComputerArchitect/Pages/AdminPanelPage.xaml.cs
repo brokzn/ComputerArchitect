@@ -35,5 +35,17 @@ namespace ComputerArchitect.Pages
             CurrentSelectedTableLabel.Content = "Список пользователей";
             AdminPanelFrame.NavigationService.Navigate(new UsersTabelPage());
         }
+
+        private void SelfTakeOrdersButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentSelectedTableLabel.Content = "Заказы на самовывоз";
+            AdminPanelFrame.NavigationService.Navigate(new SelfTakeOrdersPage());
+        }
+
+        private void EndingComponentsButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentSelectedTableLabel.Content = "Заканчивающиеся компоненты";
+            AdminPanelFrame.NavigationService.Navigate(new EndingComponentsPage());
+        }
     }
 }

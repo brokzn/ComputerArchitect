@@ -882,14 +882,14 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
             <ListBox x:Name="UserOrdersListBox"
                     BorderThickness="0"
                     Grid.Row="1"
-                     Margin="0 0 0 145"
+                     Margin="0 0 0 178"
                     Visibility="Visible"
                     Background="Transparent"
                     Grid.Column="1">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Grid.Row="1"
-                              Height="72"
+                              Height="73.5"
                               Width="1170"      
                               Grid.Column="1">
                             <Border Background="#4B4C52"

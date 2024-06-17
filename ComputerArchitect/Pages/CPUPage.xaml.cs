@@ -398,24 +398,24 @@ namespace ComputerArchitect.Pages
 
         private void CPUShortParametersLabel_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (sender is TextBlock cpuShortParametersLabel)
+           /* if (sender is TextBlock cpuShortParametersLabel)
             {
                 cpuShortParametersLabel.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6DB2E3"));
-            }
+            }*/
         }
 
         private void CPUShortParametersLabel_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (sender is TextBlock cpuShortParametersLabel)
+           /* if (sender is TextBlock cpuShortParametersLabel)
             {
                 cpuShortParametersLabel.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D6D6D6"));
-            }
+            }*/
         }
 
         private void CPUShortParametersLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             
-            ListBoxItem listBoxItem = FindAncestor<ListBoxItem>((DependencyObject)sender);
+           /* ListBoxItem listBoxItem = FindAncestor<ListBoxItem>((DependencyObject)sender);
 
             
             var item = listBoxItem?.DataContext as CombinedData;
@@ -424,7 +424,7 @@ namespace ComputerArchitect.Pages
             if (item != null)
             {
                 MessageBox.Show("Processor ID: " + item.Processor.CPUId);
-            }
+            }*/
         }
         private T FindAncestor<T>(DependencyObject current)
         where T : DependencyObject

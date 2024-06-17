@@ -69,6 +69,26 @@
                         Grid.Column="0"
                         Content="Cписок пользователей"
                         Height="35"/>
+                <Button Width="192"
+                        x:Name="SelfTakeOrdersButton"
+                        Click="SelfTakeOrdersButton_Click"
+                        FontSize="12"
+                        Style="{StaticResource Simple3Button}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Grid.Column="1"
+                        Content="Заказы на самовывоз"
+                        Height="35"/>
+                <Button Width="192"
+                        x:Name="EndingComponentsButton"
+                        Click="EndingComponentsButton_Click"
+                        FontSize="11"
+                        Style="{StaticResource Simple3Button}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Grid.Column="2"
+                        Content="Заканчивающиеся компоненты"
+                        Height="35"/>
             </Grid>
 
 

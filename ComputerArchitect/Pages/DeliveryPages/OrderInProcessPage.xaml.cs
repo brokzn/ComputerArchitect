@@ -79,90 +79,106 @@ namespace ComputerArchitect.Pages.DeliveryPages
                 App.Database.Orders.AddOrUpdate(orderinfo);
                 App.Database.SaveChanges();
 
-                // Обновление количества компонентов на складе
-                foreach (var orderCartItem in orderinfo.OrderCartItems)
+                if (orderinfo != null)
                 {
-                    if (orderCartItem.CpuId.HasValue)
+                    // Установка статуса заказа как завершенного
+                    orderinfo.OrderStatusId = 3;
+                    App.Database.Orders.AddOrUpdate(orderinfo);
+                    App.Database.SaveChanges();
+
+                    foreach (var orderCartItem in orderinfo.OrderCartItems)
                     {
-                        var cpu = App.Database.CPUS.Where(c => c.CPUId == orderCartItem.CpuId.Value).FirstOrDefault();
-                        if (cpu != null)
+                        if (orderCartItem.CpuId.HasValue)
                         {
-                            cpu.CPU_Count_on_storage -= 1; // Предполагаем, что количество каждого компонента в заказе всегда 1
-                            App.Database.CPUS.AddOrUpdate(cpu);
+                            var cpu = App.Database.CPUS.Where(c => c.CPUId == orderCartItem.CpuId.Value).FirstOrDefault();
+                            if (cpu != null && cpu.CPU_Count_on_storage > 0)
+                            {
+                                cpu.CPU_Count_on_storage -= 1;
+                                App.Database.CPUS.AddOrUpdate(cpu);
+                            }
                         }
+
+                        if (orderCartItem.MotherboardId.HasValue)
+                        {
+                            var motherboard = App.Database.Motherboards.Where(m => m.MotherboardId == orderCartItem.MotherboardId.Value).FirstOrDefault();
+                            if (motherboard != null && motherboard.Motherboard_Count_on_storage > 0)
+                            {
+                                motherboard.Motherboard_Count_on_storage -= 1;
+                                App.Database.Motherboards.AddOrUpdate(motherboard);
+                            }
+                        }
+
+                        if (orderCartItem.GPUId.HasValue)
+                        {
+                            var gpu = App.Database.GPUS.Where(g => g.GPUId == orderCartItem.GPUId.Value).FirstOrDefault();
+                            if (gpu != null && gpu.GPU_Count_on_storage > 0)
+                            {
+                                gpu.GPU_Count_on_storage -= 1;
+                                App.Database.GPUS.AddOrUpdate(gpu);
+                            }
+                        }
+
+                        if (orderCartItem.CaseId.HasValue)
+                        {
+                            var caseComponent = App.Database.Cases.Where(c => c.CaseId == orderCartItem.CaseId.Value).FirstOrDefault();
+                            if (caseComponent != null && caseComponent.Cases_Count_on_storage > 0)
+                            {
+                                caseComponent.Cases_Count_on_storage -= 1;
+                                App.Database.Cases.AddOrUpdate(caseComponent);
+                            }
+                        }
+
+                        if (orderCartItem.FanId.HasValue)
+                        {
+                            var fan = App.Database.Coolers.Where(f => f.CoolerId == orderCartItem.FanId.Value).FirstOrDefault();
+                            if (fan != null && fan.Cooler_Count_on_storage > 0)
+                            {
+                                fan.Cooler_Count_on_storage -= 1;
+                                App.Database.Coolers.AddOrUpdate(fan);
+                            }
+                        }
+
+                        if (orderCartItem.RAMId.HasValue)
+                        {
+                            var ram = App.Database.RAMS.Where(r => r.RAMId == orderCartItem.RAMId.Value).FirstOrDefault();
+                            if (ram != null && ram.RAM_Count_on_storage > 0)
+                            {
+                                ram.RAM_Count_on_storage -= 1;
+                                App.Database.RAMS.AddOrUpdate(ram);
+                            }
+                        }
+
+                        if (orderCartItem.MemoryId.HasValue)
+                        {
+                            var memory = App.Database.HDDs.Where(h => h.HDDId == orderCartItem.MemoryId.Value).FirstOrDefault();
+                            if (memory != null && memory.HDD_Count_on_storage > 0)
+                            {
+                                memory.HDD_Count_on_storage -= 1;
+                                App.Database.HDDs.AddOrUpdate(memory);
+                            }
+                        }
+
+                        if (orderCartItem.PowerSuppliesId.HasValue)
+                        {
+                            var powerSupply = App.Database.PowerSupplies.Where(p => p.PowerSupplyId == orderCartItem.PowerSuppliesId.Value).FirstOrDefault();
+                            if (powerSupply != null && powerSupply.PS__Count_on_storage > 0)
+                            {
+                                powerSupply.PS__Count_on_storage -= 1;
+                                App.Database.PowerSupplies.AddOrUpdate(powerSupply);
+                            }
+                        }
+
+
                     }
 
-                    if (orderCartItem.MotherboardId.HasValue)
-                    {
-                        var motherboard = App.Database.Motherboards.Where(m => m.MotherboardId == orderCartItem.MotherboardId.Value).FirstOrDefault();
-                        if (motherboard != null)
-                        {
-                            motherboard.Motherboard_Count_on_storage -= 1;
-                            App.Database.Motherboards.AddOrUpdate(motherboard);
-                        }
-                    }
+                    App.Database.SaveChanges();
 
-                    if (orderCartItem.GPUId.HasValue)
-                    {
-                        var gpu = App.Database.GPUS.Where(g => g.GPUId == orderCartItem.GPUId.Value).FirstOrDefault();
-                        if (gpu != null)
-                        {
-                            gpu.GPU_Count_on_storage -= 1;
-                            App.Database.GPUS.AddOrUpdate(gpu);
-                        }
-                    }
+                    // Перезагрузка данных
+                    LoadData();
 
-                    // Добавьте аналогичные проверки для других типов компонентов (Cases, Coolers, HDDs, PowerSupplies, RAMS)
-
-                    if (orderCartItem.CaseId.HasValue)
-                    {
-                        var caseComponent = App.Database.Cases.Where(c => c.CaseId == orderCartItem.CaseId.Value).FirstOrDefault();
-                        if (caseComponent != null)
-                        {
-                            caseComponent.Cases_Count_on_storage -= 1;
-                            App.Database.Cases.AddOrUpdate(caseComponent);
-                        }
-                    }
-
-                    if (orderCartItem.FanId.HasValue)
-                    {
-                        var fan = App.Database.Coolers.Where(f => f.CoolerId == orderCartItem.FanId.Value).FirstOrDefault();
-                        if (fan != null)
-                        {
-                            fan.Cooler_Count_on_storage -= 1;
-                            App.Database.Coolers.AddOrUpdate(fan);
-                        }
-                    }
-
-                    if (orderCartItem.RAMId.HasValue)
-                    {
-                        var ram = App.Database.RAMS.Where(r => r.RAMId == orderCartItem.RAMId.Value).FirstOrDefault();
-                        if (ram != null)
-                        {
-                            ram.RAM_Count_on_storage -= 1;
-                            App.Database.RAMS.AddOrUpdate(ram);
-                        }
-                    }
-
-                    if (orderCartItem.MemoryId.HasValue)
-                    {
-                        var memory = App.Database.HDDs.Where(h => h.HDDId == orderCartItem.MemoryId.Value).FirstOrDefault();
-                        if (memory != null)
-                        {
-                            memory.HDD_Count_on_storage -= 1;
-                            App.Database.HDDs.AddOrUpdate(memory);
-                        }
-                    }
-
-                    if (orderCartItem.PowerSuppliesId.HasValue)
-                    {
-                        var powerSupply = App.Database.PowerSupplies.Where(p => p.PowerSupplyId == orderCartItem.PowerSuppliesId.Value).FirstOrDefault();
-                        if (powerSupply != null)
-                        {
-                            powerSupply.PS__Count_on_storage -= 1;
-                            App.Database.PowerSupplies.AddOrUpdate(powerSupply);
-                        }
-                    }
+                    // Закрытие диалога
+                    DialogBack.Visibility = Visibility.Collapsed;
+                    OrderFullInfo.Visibility = Visibility.Collapsed;
                 }
                 App.Database.SaveChanges();
 

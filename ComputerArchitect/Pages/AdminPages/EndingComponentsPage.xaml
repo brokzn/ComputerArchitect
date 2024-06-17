@@ -1,0 +1,937 @@
+﻿<Page x:Class="ComputerArchitect.Pages.AdminPages.EndingComponentsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ComputerArchitect.Pages.AdminPages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="EndingComponentsPage">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Border Name="DialogBack"
+                Background="#131316"   
+                Panel.ZIndex="2" 
+                Opacity="0.8"
+                Grid.ColumnSpan="2"
+                Visibility="Collapsed"
+                Grid.RowSpan="2">
+        </Border>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button Width="192"
+                    x:Name="EndingCPUButton"
+                    Click="EndingCPUButton_Click"
+                    FontSize="12"
+                    Margin="20 0 0 0"
+                    Grid.Row="1"
+                    Style="{StaticResource Simple3Button}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Процессоры"
+                    Height="35"/>
+            <Button Width="192"
+                    x:Name="EndingMotherboardButton"
+                    Click="EndingMotherboardButton_Click"
+                    FontSize="12"
+                    Margin="20 0 0 0"
+                    Grid.Row="2"
+                    Style="{StaticResource Simple3Button}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Мат. платы"
+                    Height="35"/>
+            <Button Width="192"
+                    x:Name="EndingCaseButton"
+                    Click="EndingCaseButton_Click"
+                    FontSize="12"
+                    Margin="20 0 0 0"
+                    Grid.Row="3"
+                    Style="{StaticResource Simple3Button}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Корпуса"
+                    Height="35"/>
+            <Button Width="192"
+                    x:Name="EndingGPUButton"
+                    Click="EndingGPUButton_Click"
+                    FontSize="12"
+                    Margin="20 0 0 0"
+                    Grid.Row="4"
+                    Style="{StaticResource Simple3Button}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Видеокарты"
+                    Height="35"/>
+            <Button Width="192"
+                    x:Name="EndingCoolerButton"
+                    Click="EndingCoolerButton_Click"
+                    FontSize="12"
+                    Margin="20 0 0 0"
+                    Grid.Row="5"
+                    Style="{StaticResource Simple3Button}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Охл. процессора"
+                    Height="35"/>
+            <Button Width="192"
+                    x:Name="EndingRAMButton"
+                    Click="EndingRAMButton_Click"
+                    FontSize="12"
+                    Margin="20 0 0 0"
+                    Grid.Row="6"
+                    Style="{StaticResource Simple3Button}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="ОЗУ"
+                    Height="35"/>
+            <Button Width="192"
+                    x:Name="EndingMemoryButton"
+                    Click="EndingMemoryButton_Click"
+                    FontSize="12"
+                    Margin="20 0 0 0"
+                    Grid.Row="7"
+                    Style="{StaticResource Simple3Button}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="ЖД"
+                    Height="35"/>
+            <Button Width="192"
+                    x:Name="EndingPSButton"
+                    Click="EndingPSButton_Click"
+                    FontSize="12"
+                    Margin="20 0 0 0"
+                    Grid.Row="8"
+                    Style="{StaticResource Simple3Button}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Блоки питания"
+                    Height="35"/>
+        </Grid>
+
+        <Grid Name="AddDialog"
+              Height="200" 
+              Width="300" 
+              Visibility="Collapsed" 
+              Grid.ColumnSpan="2"
+              Panel.ZIndex="2" 
+              Grid.RowSpan="2">
+            <Border Background="#42424B" 
+                    Opacity="1" 
+                    CornerRadius="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Border Background="#6DB2E3" 
+                            CornerRadius="5 5 5 5"
+                            Opacity="1"  />
+                    <Label
+                            Grid.Column="1" 
+                            Content="Добавить на склад"
+                            VerticalAlignment="Center"
+                            Margin="10 0 0 0"
+                            HorizontalContentAlignment="Left"
+                            HorizontalAlignment="Left"
+                            Foreground="White" 
+                            FontFamily="Arial" 
+                            FontSize="16" 
+                            FontWeight="Bold"/>
+                    <Label  Grid.Column="1" Grid.Row="1" 
+                            VerticalAlignment="Top"
+                            Margin="0 15 0 0"
+                            Width="280"
+                            HorizontalContentAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Foreground="#D6D6D6" 
+                            FontFamily="Arial" 
+                            FontSize="14" 
+                            FontWeight="Bold">
+                        <TextBlock Text="Введите количество" 
+                                   TextWrapping="Wrap" TextAlignment="Center"/>
+                    </Label>
+
+                    <TextBox Grid.Row="1"
+                             Style="{StaticResource UserInfoTextBox}"
+                             x:Name="AddCountTB"
+                             Margin="0 0 0 20"
+                             MaxLength="30"
+                             Tag="Количество в шт."
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             Width="250" 
+                             Height="44">
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="3"/>
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
+
+
+                    <Button Width="120"
+                            x:Name="AddCountButton"
+                            Click="AddCountButton_Click"
+                            Margin="0 0 130 10"
+                            IsEnabled="True"
+                            HorizontalAlignment="Center"    
+                            VerticalAlignment="Bottom"
+                            Foreground="White" 
+                            FontSize="14"
+                            Grid.Row="1"
+                            Style="{StaticResource SimpleButton}" 
+                            Height="40" 
+                            Content="Добавить"/>
+                    <Button Width="120"
+                            x:Name="CloseDialogButton"
+                            Click="CloseDialogButton_Click"
+                            Margin="130 0 0 10"
+                            IsEnabled="True"
+                            HorizontalAlignment="Center"    
+                            VerticalAlignment="Bottom"
+                            Foreground="White" 
+                            FontSize="14"
+                            Grid.Row="1"
+                            Style="{StaticResource Simple2Button}" 
+                            Height="40" 
+                            Content="Назад"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <ListBox x:Name="CPUListBox"
+         BorderThickness="0"
+         Visibility="Collapsed"
+         Margin="0 30 20 18"
+         Background="Transparent"
+         Width="930"
+         SelectionChanged="ListBox_SelectionChanged"
+         VerticalAlignment="Top"
+         HorizontalAlignment="Left"
+         Grid.Column="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Grid.Row="1"
+                          Height="80"
+                          Width="885"      
+                          Grid.Column="1">
+                        <Border Background="#4B4C52"
+                                Name="CPUBorder"
+                                Style="{StaticResource CatalogBorderStyle}"
+                                CornerRadius="5">
+                            <Grid>
+                                <Image Width="50"
+                                       Stretch="Fill"
+                                       Source="{Binding Preview_Photo}"
+                                       Margin="22 0 0 0"
+                                       Height="50"
+                                       HorizontalAlignment="Left"/>
+                                <TextBlock   
+                                           FontFamily="Arial"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Top"
+                                           TextAlignment="Left"
+                                           TextWrapping="Wrap"
+                                           Width="490"
+                                           Height="40"
+                                           Margin="100 20 0 0"
+                                           Foreground="#D6D6D6"
+                                           FontSize="16">
+                                <Run Text="Процессор" />
+                                <Run Text="{Binding Model}"/>
+                                </TextBlock>
+
+                                <TextBlock Text="В наличии:"
+                                           FontFamily="Arial"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Bottom"
+                                           Width="100"
+                                           Height="21"
+                                           Margin="100 0 0 22"
+                                           Foreground="#D6D6D6"
+                                           FontSize="18"/>
+                                <TextBlock Text="{Binding CPU_Count_on_storage, StringFormat=' {0} штук'}"
+                                           FontFamily="Arial"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Bottom"
+                                           Width="150"
+                                           Height="21"
+                                           Margin="200 0 0 22"
+                                           Foreground="#CD6565"
+                                           FontSize="18"/>
+
+                            </Grid>
+                        </Border>
+
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Margin" Value="0 0 0 20"/>
+                    <Setter Property="Padding" Value="0 0 0 0"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="brd" Background="{TemplateBinding Background}" 
+                                        BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" 
+                                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                                      ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                                      RecognizesAccessKey="True"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+        <ListBox x:Name="MotherboardListBox"
+                 BorderThickness="0"
+                 SelectionChanged="ListBox_SelectionChanged"
+                 Visibility="Collapsed"
+                 Margin="0 30 20 18"
+                 Background="Transparent"
+                 Width="930"
+                 VerticalAlignment="Top"
+                 HorizontalAlignment="Left"
+                 Grid.Column="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Grid.Row="1"
+                  Height="80"
+                  Width="885"      
+                  Grid.Column="1">
+                        <Border Background="#4B4C52" CornerRadius="5" Style="{StaticResource CatalogBorderStyle}">
+                            <Grid>
+                                <Image Width="50"
+                               Stretch="Fill"
+                               Source="{Binding Preview_Photo}"
+                               Margin="22 0 0 0"
+                               Height="50"
+                               HorizontalAlignment="Left"/>
+                                <TextBlock   
+                                   FontFamily="Arial"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   TextAlignment="Left"
+                                   TextWrapping="Wrap"
+                                   Width="490"
+                                   Height="40"
+                                   Margin="100 20 0 0"
+                                   Foreground="#D6D6D6"
+                                   FontSize="16">
+                        <Run Text="Материнская плата" />
+                        <Run Text="{Binding Model}"/>
+                                </TextBlock>
+
+                                <TextBlock Text="В наличии:"
+                                   FontFamily="Arial"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Bottom"
+                                   Width="100"
+                                   Height="21"
+                                   Margin="100 0 0 22"
+                                   Foreground="#D6D6D6"
+                                   FontSize="18"/>
+                                <TextBlock Text="{Binding Motherboard_Count_on_storage, StringFormat=' {0} штук'}"
+                                   FontFamily="Arial"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Bottom"
+                                   Width="150"
+                                   Height="21"
+                                   Margin="200 0 0 22"
+                                   Foreground="#CD6565"
+                                   FontSize="18"/>
+                            </Grid>
+                        </Border>
+
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Margin" Value="0 0 0 20"/>
+                    <Setter Property="Padding" Value="0 0 0 0"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="brd" Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                              RecognizesAccessKey="True"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+        <ListBox x:Name="CaseListBox"
+         BorderThickness="0"
+         Visibility="Collapsed"
+         Margin="0 30 20 18"
+         SelectionChanged="ListBox_SelectionChanged"
+         Background="Transparent"
+         Width="930"
+         VerticalAlignment="Top"
+         HorizontalAlignment="Left"
+         Grid.Column="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Grid.Row="1"
+                          Height="80"
+                          Width="885"      
+                          Grid.Column="1">
+                        <Border Background="#4B4C52" CornerRadius="5" Style="{StaticResource CatalogBorderStyle}">
+                            <Grid>
+                                <Image Width="50"
+                       Stretch="Fill"
+                       Source="{Binding Preview_Photo}"
+                       Margin="22 0 0 0"
+                       Height="50"
+                       HorizontalAlignment="Left"/>
+                                <TextBlock   
+                           FontFamily="Arial"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           TextAlignment="Left"
+                           TextWrapping="Wrap"
+                           Width="490"
+                           Height="40"
+                           Margin="100 20 0 0"
+                           Foreground="#D6D6D6"
+                           FontSize="16">
+                <Run Text="Корпус"/>
+                <Run Text="{Binding Model}"/>
+                                </TextBlock>
+
+                                <TextBlock Text="В наличии:"
+                           FontFamily="Arial"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
+                           Width="100"
+                           Height="21"
+                           Margin="100 0 0 22"
+                           Foreground="#D6D6D6"
+                           FontSize="18"/>
+                                <TextBlock Text="{Binding Cases_Count_on_storage, StringFormat=' {0} штук'}"
+                           FontFamily="Arial"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
+                           Width="150"
+                           Height="21"
+                           Margin="200 0 0 22"
+                           Foreground="#CD6565"
+                           FontSize="18"/>
+                            </Grid>
+                        </Border>
+
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Margin" Value="0 0 0 20"/>
+                    <Setter Property="Padding" Value="0 0 0 0"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="brd" Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" 
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                      ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                      RecognizesAccessKey="True"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+        <ListBox x:Name="GPUSListBox"
+                  BorderThickness="0"
+                  Visibility="Collapsed"
+                  Margin="0 30 20 18"
+                  SelectionChanged="ListBox_SelectionChanged"
+                  Background="Transparent"
+                  Width="930"
+                  VerticalAlignment="Top"
+                  HorizontalAlignment="Left"
+                  Grid.Column="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Grid.Row="1"
+                  Height="80"
+                  Width="885"      
+                  Grid.Column="1">
+                        <Border Background="#4B4C52" CornerRadius="5" Style="{StaticResource CatalogBorderStyle}">
+                            <Grid>
+                                <Image Width="50"
+                                Stretch="Fill"
+                                Source="{Binding Preview_Photo}"
+                                Margin="22 0 0 0"
+                                Height="50"
+                                HorizontalAlignment="Left"/>
+                                <TextBlock   
+                   FontFamily="Arial"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   TextAlignment="Left"
+                   TextWrapping="Wrap"
+                   Width="490"
+                   Height="40"
+                   Margin="100 20 0 0"
+                   Foreground="#D6D6D6"
+                   FontSize="16">
+        <Run Text="Корпус"/>
+        <Run Text="{Binding Model}"/>
+                                </TextBlock>
+
+                                <TextBlock Text="В наличии:"
+                   FontFamily="Arial"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Bottom"
+                   Width="100"
+                   Height="21"
+                   Margin="100 0 0 22"
+                   Foreground="#D6D6D6"
+                   FontSize="18"/>
+                                <TextBlock Text="{Binding GPU_Count_on_storage, StringFormat=' {0} штук'}"
+                   FontFamily="Arial"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Bottom"
+                   Width="150"
+                   Height="21"
+                   Margin="200 0 0 22"
+                   Foreground="#CD6565"
+                   FontSize="18"/>
+                            </Grid>
+                        </Border>
+
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Margin" Value="0 0 0 20"/>
+                    <Setter Property="Padding" Value="0 0 0 0"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="brd" Background="{TemplateBinding Background}" 
+                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" 
+                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                              ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                              RecognizesAccessKey="True"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+        <ListBox x:Name="CoolerListBox"
+          BorderThickness="0"
+          SelectionChanged="ListBox_SelectionChanged"
+          Visibility="Collapsed"
+          Margin="0 30 20 18"
+          Background="Transparent"
+          Width="930"
+          VerticalAlignment="Top"
+          HorizontalAlignment="Left"
+          Grid.Column="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Grid.Row="1"
+          Height="80"
+          Width="885"      
+          Grid.Column="1">
+                        <Border Background="#4B4C52" CornerRadius="5" Style="{StaticResource CatalogBorderStyle}">
+                            <Grid>
+                                <Image Width="50"
+                        Stretch="Fill"
+                        Source="{Binding Preview_Photo}"
+                        Margin="22 0 0 0"
+                        Height="50"
+                        HorizontalAlignment="Left"/>
+                                <TextBlock   
+           FontFamily="Arial"
+           FontWeight="Bold"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"
+           TextAlignment="Left"
+           TextWrapping="Wrap"
+           Width="490"
+           Height="40"
+           Margin="100 20 0 0"
+           Foreground="#D6D6D6"
+           FontSize="16">
+<Run Text="Корпус"/>
+<Run Text="{Binding Model}"/>
+                                </TextBlock>
+
+                                <TextBlock Text="В наличии:"
+           FontFamily="Arial"
+           FontWeight="Bold"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Bottom"
+           Width="100"
+           Height="21"
+           Margin="100 0 0 22"
+           Foreground="#D6D6D6"
+           FontSize="18"/>
+                                <TextBlock Text="{Binding Cooler_Count_on_storage, StringFormat=' {0} штук'}"
+           FontFamily="Arial"
+           FontWeight="Bold"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Bottom"
+           Width="150"
+           Height="21"
+           Margin="200 0 0 22"
+           Foreground="#CD6565"
+           FontSize="18"/>
+                            </Grid>
+                        </Border>
+
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Margin" Value="0 0 0 20"/>
+                    <Setter Property="Padding" Value="0 0 0 0"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="brd" Background="{TemplateBinding Background}" 
+        BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" 
+                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                      ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                      RecognizesAccessKey="True"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+        <ListBox x:Name="RAMListBox"
+          BorderThickness="0"
+          SelectionChanged="ListBox_SelectionChanged"
+          Visibility="Collapsed"
+          Margin="0 30 20 18"
+          Background="Transparent"
+          Width="930"
+          VerticalAlignment="Top"
+          HorizontalAlignment="Left"
+          Grid.Column="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Grid.Row="1"
+          Height="80"
+          Width="885"      
+          Grid.Column="1">
+                        <Border Background="#4B4C52" CornerRadius="5" Style="{StaticResource CatalogBorderStyle}">
+                            <Grid>
+                                <Image Width="50"
+                        Stretch="Fill"
+                        Source="{Binding Preview_Photo}"
+                        Margin="22 0 0 0"
+                        Height="50"
+                        HorizontalAlignment="Left"/>
+                                <TextBlock   
+           FontFamily="Arial"
+           FontWeight="Bold"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"
+           TextAlignment="Left"
+           TextWrapping="Wrap"
+           Width="490"
+           Height="40"
+           Margin="100 20 0 0"
+           Foreground="#D6D6D6"
+           FontSize="16">
+<Run Text="Корпус"/>
+<Run Text="{Binding Model}"/>
+                                </TextBlock>
+
+                                <TextBlock Text="В наличии:"
+           FontFamily="Arial"
+           FontWeight="Bold"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Bottom"
+           Width="100"
+           Height="21"
+           Margin="100 0 0 22"
+           Foreground="#D6D6D6"
+           FontSize="18"/>
+                                <TextBlock Text="{Binding RAM_Count_on_storage, StringFormat=' {0} штук'}"
+           FontFamily="Arial"
+           FontWeight="Bold"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Bottom"
+           Width="150"
+           Height="21"
+           Margin="200 0 0 22"
+           Foreground="#CD6565"
+           FontSize="18"/>
+                            </Grid>
+                        </Border>
+
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Margin" Value="0 0 0 20"/>
+                    <Setter Property="Padding" Value="0 0 0 0"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="brd" Background="{TemplateBinding Background}" 
+        BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" 
+                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                      ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                      RecognizesAccessKey="True"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+        <ListBox x:Name="MemoryListBox"
+          BorderThickness="0"
+          SelectionChanged="ListBox_SelectionChanged"
+          Visibility="Collapsed"
+          Margin="0 30 20 18"
+          Background="Transparent"
+          Width="930"
+          VerticalAlignment="Top"
+          HorizontalAlignment="Left"
+          Grid.Column="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Grid.Row="1"
+          Height="80"
+          Width="885"      
+          Grid.Column="1">
+                        <Border Background="#4B4C52" CornerRadius="5" Style="{StaticResource CatalogBorderStyle}">
+                            <Grid>
+                                <Image Width="50"
+                        Stretch="Fill"
+                        Source="{Binding Preview_Photo}"
+                        Margin="22 0 0 0"
+                        Height="50"
+                        HorizontalAlignment="Left"/>
+                                <TextBlock   
+           FontFamily="Arial"
+           FontWeight="Bold"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"
+           TextAlignment="Left"
+           TextWrapping="Wrap"
+           Width="490"
+           Height="40"
+           Margin="100 20 0 0"
+           Foreground="#D6D6D6"
+           FontSize="16">
+<Run Text="Корпус"/>
+<Run Text="{Binding Model}"/>
+                                </TextBlock>
+
+                                <TextBlock Text="В наличии:"
+           FontFamily="Arial"
+           FontWeight="Bold"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Bottom"
+           Width="100"
+           Height="21"
+           Margin="100 0 0 22"
+           Foreground="#D6D6D6"
+           FontSize="18"/>
+                                <TextBlock Text="{Binding HDD_Count_on_storage, StringFormat=' {0} штук'}"
+           FontFamily="Arial"
+           FontWeight="Bold"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Bottom"
+           Width="150"
+           Height="21"
+           Margin="200 0 0 22"
+           Foreground="#CD6565"
+           FontSize="18"/>
+                            </Grid>
+                        </Border>
+
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Margin" Value="0 0 0 20"/>
+                    <Setter Property="Padding" Value="0 0 0 0"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="brd" Background="{TemplateBinding Background}" 
+        BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" 
+                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                      ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                      RecognizesAccessKey="True"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+        <ListBox x:Name="PSListBox"
+          BorderThickness="0"
+          Visibility="Collapsed"
+          Margin="0 30 20 18"
+          Background="Transparent"
+          Width="930"
+          SelectionChanged="ListBox_SelectionChanged"
+          VerticalAlignment="Top"
+          HorizontalAlignment="Left"
+          Grid.Column="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Grid.Row="1"
+          Height="80"
+          Width="885"      
+          Grid.Column="1">
+                        <Border Background="#4B4C52" CornerRadius="5" Style="{StaticResource CatalogBorderStyle}">
+                            <Grid>
+                                <Image Width="50"
+                        Stretch="Fill"
+                        Source="{Binding Preview_Photo}"
+                        Margin="22 0 0 0"
+                        Height="50"
+                        HorizontalAlignment="Left"/>
+                                <TextBlock   
+           FontFamily="Arial"
+           FontWeight="Bold"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"
+           TextAlignment="Left"
+           TextWrapping="Wrap"
+           Width="490"
+           Height="40"
+           Margin="100 20 0 0"
+           Foreground="#D6D6D6"
+           FontSize="16">
+<Run Text="Корпус"/>
+<Run Text="{Binding Model}"/>
+                                </TextBlock>
+
+                                <TextBlock Text="В наличии:"
+           FontFamily="Arial"
+           FontWeight="Bold"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Bottom"
+           Width="100"
+           Height="21"
+           Margin="100 0 0 22"
+           Foreground="#D6D6D6"
+           FontSize="18"/>
+                                <TextBlock Text="{Binding PS__Count_on_storage, StringFormat=' {0} штук'}"
+           FontFamily="Arial"
+           FontWeight="Bold"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Bottom"
+           Width="150"
+           Height="21"
+           Margin="200 0 0 22"
+           Foreground="#CD6565"
+           FontSize="18"/>
+                            </Grid>
+                        </Border>
+
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Margin" Value="0 0 0 20"/>
+                    <Setter Property="Padding" Value="0 0 0 0"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="brd" Background="{TemplateBinding Background}" 
+        BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" 
+                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                      ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                      RecognizesAccessKey="True"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+    </Grid>
+</Page>
