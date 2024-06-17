@@ -51,9 +51,16 @@ namespace ComputerArchitect.Pages.DeliveryPages
                 WaitingOrdersListBox.Visibility = Visibility.Visible;
                 IsBusyTB.Visibility = Visibility.Collapsed;
             }
+
+            if (userOrders.Count == 0)
+            {
+                NoOrdersTB.Visibility = Visibility.Visible;   
+            }
+            else
+            {
+                NoOrdersTB.Visibility = Visibility.Collapsed;
+            }
         }
-
-
 
         private void OrderLabel_MouseEnter(object sender, MouseEventArgs e)
         {

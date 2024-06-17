@@ -79,6 +79,13 @@
             </Border>
         </Grid>
 
+        <TextBlock x:Name="NoOrdersTB"
+           Visibility="Collapsed"
+           HorizontalAlignment="Center" 
+           Grid.Column="0" Style="{StaticResource OrderTextStyle}">
+        <Run Text="На данный момент нет никаких заказов"/>
+        </TextBlock>
+
 
 
         <TextBlock x:Name="IsBusyTB"
