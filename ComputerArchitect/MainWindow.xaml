@@ -978,12 +978,13 @@
                                     VerticalAlignment="Bottom"
                                     Height="25"/>
                             <!-- Восстановление пароля -->
-                            <TextBlock 
+                            <TextBlock
+                                    Visibility="Collapsed"
                                     x:Name="UserResetPasswordTB"
                                     Margin="0 0 0 0"
                                     FontFamily="Arial"
                                     FontSize="14"
-                                              FontWeight="Bold"
+                                    FontWeight="Bold"
                                     TextDecorations="Underline"
                                     Text="Забыли пароль?"
                                     HorizontalAlignment="Center"

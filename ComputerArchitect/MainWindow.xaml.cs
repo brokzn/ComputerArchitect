@@ -1,26 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Text.RegularExpressions;
-using System.ComponentModel;
-using System.Net.Mail;
-using System.Net;
-using System.Xml.Linq;
 using ComputerArchitect.UI.Pages;
 using ComputerArchitect.ModalWindows;
 using ComputerArchitect.Database;
-using System.Data.SqlClient;
+using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 
 namespace ComputerArchitect
@@ -31,50 +21,84 @@ namespace ComputerArchitect
     
     public partial class MainWindow : Window
     {
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO lpmi);
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
+        private struct MONITORINFO
+        {
+            public int cbSize;
+            public RECT rcMonitor;
+            public RECT rcWork;
+            public int dwFlags;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct RECT
+        {
+            public int left;
+            public int top;
+            public int right;
+            public int bottom;
+        }
+
+        private const uint MONITOR_DEFAULTTONEAREST = 0x00000002;
+
         public MainWindow()
         {
             InitializeComponent();
-            UserAuthorizationEmailTextBox.Text = "goi_96@bk.ru";
-            UserPasswordAuthorizationPasswordBox.Password = "12345";
-            UserPasswordAuthorizationTextBox.Text = "12345";
+            UserAuthorizationEmailTextBox.Text = "admin@mail.ru";
+            UserPasswordAuthorizationPasswordBox.Password = "admin@mail.ru";
+            UserPasswordAuthorizationTextBox.Text = "admin@mail.ru";
         }
-        
-        //Управление окном
+
         private void СloseAppButton_Click(object sender, RoutedEventArgs e)
         {
             CloseAppNotification notification = new CloseAppNotification();
-
-            
             notification.Closed += Notification_Closed;
-
             notification.Show();
             BlureRectangle.Visibility = Visibility.Visible;
         }
+
         private void Notification_Closed(object sender, EventArgs e)
         {
-            
             BlureRectangle.Visibility = Visibility.Hidden;
         }
+
         private void TrayAppButton_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
-             
         }
+
         private void ResizeClick_Click(object sender, RoutedEventArgs e)
         {
             Resize2Click.Visibility = Visibility.Visible;
             ResizeClick.Visibility = Visibility.Hidden;
-            this.WindowState = WindowState.Normal;
-            this.WindowStyle = WindowStyle.None;
-            this.Top = 0;
-            this.Left = 0;
-            this.Width = SystemParameters.PrimaryScreenWidth;
-            this.Height = SystemParameters.WorkArea.Height;
-            AppBorderWidth1.Width = new GridLength(0);
-            AppBorderWidth2.Width = new GridLength(0);
-            AppBorderHeight1.Height = new GridLength(0);
-            AppBorderHeight2.Height = new GridLength(0);
+
+            var hwnd = new WindowInteropHelper(this).Handle;
+            IntPtr monitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+
+            MONITORINFO monitorInfo = new MONITORINFO();
+            monitorInfo.cbSize = Marshal.SizeOf(monitorInfo);
+            if (GetMonitorInfo(monitor, ref monitorInfo))
+            {
+                var rcWork = monitorInfo.rcWork;
+                this.WindowState = WindowState.Normal;
+                this.WindowStyle = WindowStyle.None;
+                this.Top = rcWork.top;
+                this.Left = rcWork.left;
+                this.Width = rcWork.right - rcWork.left;
+                this.Height = rcWork.bottom - rcWork.top;
+                AppBorderWidth1.Width = new GridLength(0);
+                AppBorderWidth2.Width = new GridLength(0);
+                AppBorderHeight1.Height = new GridLength(0);
+                AppBorderHeight2.Height = new GridLength(0);
+            }
         }
+
         private void Resize2Click_Click(object sender, RoutedEventArgs e)
         {
             Resize2Click.Visibility = Visibility.Hidden;
@@ -87,6 +111,7 @@ namespace ComputerArchitect
             AppBorderHeight1.Height = new GridLength(3);
             AppBorderHeight2.Height = new GridLength(3);
         }
+
         private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
