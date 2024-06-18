@@ -1,5 +1,4 @@
 ﻿using ComputerArchitect.Database;
-using IronBarCode;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using static IronSoftware.Drawing.AnyBitmap;
+
 
 
 
@@ -156,7 +155,7 @@ namespace ComputerArchitect.Pages
         }
 
 
-        private void GenerationQRCode(string text)
+        /*private void GenerationQRCode(string text)
         {
             
             var qrCode = QRCodeWriter.CreateQrCode(text, 250, QRCodeWriter.QrErrorCorrectionLevel.Medium);
@@ -181,7 +180,7 @@ namespace ComputerArchitect.Pages
                
                 qrCodeImage.Source = bitmapImage;
             }
-        }
+        }*/
 
         private void CreateNewOrder()
         {

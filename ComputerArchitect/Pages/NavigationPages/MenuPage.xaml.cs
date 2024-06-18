@@ -325,11 +325,6 @@ namespace ComputerArchitect.UI.Pages
             MenuFrame.NavigationService.Navigate(new AdminPanelPage(CurrentUser));
         }
 
-        private void ManagerPanelOpenButton_Click(object sender, RoutedEventArgs e)
-        {
-            MenuFrame.NavigationService.Navigate(new ManagerPanelPage(CurrentUser));
-        }
-
         private void DeliveryPanelOpenButton_Click(object sender, RoutedEventArgs e)
         {
             MenuFrame.NavigationService.Navigate(new DeliveryPanelPage(CurrentUser));
