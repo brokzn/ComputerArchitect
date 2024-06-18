@@ -26,6 +26,7 @@ namespace ComputerArchitect.Pages
     {
         public event EventHandler CartUpdated;
         int totalCost = 0;
+        int outofstockCount = 0;
         public Users CurrentUser { get; set; }
         public UserCartPage(Users currentUser)
         {
@@ -72,7 +73,7 @@ namespace ComputerArchitect.Pages
                     MessageBox.Show("Корзина для текущего пользователя не найдена.");
                 }
 
-
+                
 
                 foreach (var cartItem in cartItems)
                 {
@@ -83,47 +84,110 @@ namespace ComputerArchitect.Pages
                     {
                         itemData.Processor = cartItem.CPUS;
                         totalCost += Convert.ToInt32(cartItem.CPUS.Cost);
-                    }
 
+                        if (cartItem.CPUS.CPU_Count_on_storage == 0)
+                        {
+                            outofstockCount++;
+                        }
+                    }
 
                     if (cartItem.Motherboards != null)
                     {
                         itemData.Motherboards = cartItem.Motherboards;
                         totalCost += Convert.ToInt32(cartItem.Motherboards.Cost);
+
+                        if (cartItem.Motherboards.Motherboard_Count_on_storage == 0)
+                        {
+                            outofstockCount++;
+                        }
                     }
+
                     if (cartItem.Cases != null)
                     {
                         itemData.Cases = cartItem.Cases;
                         totalCost += Convert.ToInt32(cartItem.Cases.Cost);
+
+                        if (cartItem.Cases.Cases_Count_on_storage == 0)
+                        {
+                            outofstockCount++;
+                        }
                     }
+
                     if (cartItem.GPUS != null)
                     {
                         itemData.GPUS = cartItem.GPUS;
                         totalCost += Convert.ToInt32(cartItem.GPUS.Cost);
+
+                        if (cartItem.GPUS.GPU_Count_on_storage == 0)
+                        {
+                            outofstockCount++;
+                        }
                     }
+
                     if (cartItem.Coolers != null)
                     {
                         itemData.Coolers = cartItem.Coolers;
                         totalCost += Convert.ToInt32(cartItem.Coolers.Cost);
+
+                        if (cartItem.Coolers.Cooler_Count_on_storage == 0)
+                        {
+                            outofstockCount++;
+                        }
                     }
+
                     if (cartItem.RAMS != null)
                     {
                         itemData.RAMS = cartItem.RAMS;
                         totalCost += Convert.ToInt32(cartItem.RAMS.Cost);
+
+                        if (cartItem.RAMS.RAM_Count_on_storage == 0)
+                        {
+                            outofstockCount++;
+                        }
                     }
+
                     if (cartItem.HDDs != null)
                     {
                         itemData.HDDs = cartItem.HDDs;
                         totalCost += Convert.ToInt32(cartItem.HDDs.Cost);
+
+                        if (cartItem.HDDs.HDD_Count_on_storage == 0)
+                        {
+                            outofstockCount++;
+                        }
                     }
+
                     if (cartItem.PowerSupplies != null)
                     {
                         itemData.PowerSupplies = cartItem.PowerSupplies;
                         totalCost += Convert.ToInt32(cartItem.PowerSupplies.Cost);
+
+                        if (cartItem.PowerSupplies.PS__Count_on_storage == 0)
+                        {
+                            outofstockCount++;
+                        }
                     }
 
                     combinedData.Add(itemData);
                 }
+
+                // Check if any item was out of stock
+                if (outofstockCount > 0)
+                {
+                    CreateOrderButton.IsEnabled = false;
+                    outofstockCount=0; 
+                }
+                else
+                {
+                    CreateOrderButton.IsEnabled = true;
+                }
+
+                
+
+
+
+
+
 
                 UserCartListBox.ItemsSource = combinedData;
                 CartItemsCount.Content = $"товары {UserCartListBox.Items.Count} шт";
@@ -146,6 +210,8 @@ namespace ComputerArchitect.Pages
                     UserCartListBox.Visibility = Visibility.Visible;
                     CardInfo.Visibility = Visibility.Visible;
                 }
+
+               
             }
             catch (Exception ex)
             {
@@ -209,6 +275,8 @@ namespace ComputerArchitect.Pages
                         UserCartListBox.ItemsSource = null;
                         UserCartListBox.ItemsSource = combinedData;
 
+                        
+
                         // Пересчитываем общую стоимость
                         totalCost = combinedData.Sum(item => GetCost(item));
 
@@ -239,8 +307,9 @@ namespace ComputerArchitect.Pages
                         DeleteDialog.Visibility = Visibility.Collapsed;
                         DeleteDialogBack.Visibility = Visibility.Collapsed;
                         lastSelectedItem = null;
-
+                        
                         CartUpdated?.Invoke(this, EventArgs.Empty);
+
                     }
                     else
                     {

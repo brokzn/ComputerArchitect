@@ -547,7 +547,7 @@
                                     x:Name="InfoUserAdressTextBox"
                                     TextChanged="InfoUserAdressTextBox_TextChanged"
                                     Margin="0"
-                                    MaxLength="200"
+                                    MaxLength="198"
                                     IsEnabled="True"
                                     Tag="Адрес"
                                     HorizontalAlignment="Left"

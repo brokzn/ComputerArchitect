@@ -149,7 +149,7 @@ namespace ComputerArchitect.Pages
 
         private void RadioButtonDelivery_Checked(object sender, RoutedEventArgs e)
         {
-            InfoUserAdressTextBox.Text = string.Empty;
+            InfoUserAdressTextBox.Text = CurrentUser.About;
             SelfTakeBorder.Visibility = Visibility.Collapsed;
             DeliveryBorder.Visibility = Visibility.Visible;
         }

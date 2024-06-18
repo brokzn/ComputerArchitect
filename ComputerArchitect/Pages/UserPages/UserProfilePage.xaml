@@ -384,13 +384,13 @@
                 <TextBox Grid.Row="3"
                          Name="InfoUserAboutTextBox"
                          Style="{StaticResource UserInfoTextBox}"
-                         Margin="0 0 0 5"
-                         MaxLength="300"
-                         Tag="О себе"
+                         Margin="0 64 0 5"
+                         MaxLength="198"
+                         Tag="Адрес"
                          HorizontalAlignment="Center"
-                         VerticalAlignment="Bottom"
+                         VerticalAlignment="Top"
                          Width="333" 
-                         Height="104">
+                         Height="44">
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="3"/>

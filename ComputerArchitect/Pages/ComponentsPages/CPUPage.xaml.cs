@@ -89,7 +89,7 @@ namespace ComputerArchitect.Pages
             MaxPrice.Tag = "до " + maxValue.ToString();
 
             ComponentListBox.ItemsSource = combinedData;
-            OnStorageCountLabel.Content = $"Процессоры {ComponentListBox.Items.Count} шт";
+            OnStorageCountLabel.Content = $"Процессоры {ComponentListBox.Items.Count} товаров";
 
 
             currentUserCart = App.Database.UsersCarts

@@ -68,7 +68,7 @@ namespace ComputerArchitect.Pages
             maxValue = (double)combinedData.Max(item => item.Case.Cost.GetValueOrDefault());
             MaxPrice.Tag = "до " + maxValue.ToString();
             ComponentListBox.ItemsSource = combinedData;
-            OnStorageCountLabel.Content = $"Корпуса {ComponentListBox.Items.Count} шт";
+            OnStorageCountLabel.Content = $"Корпуса {ComponentListBox.Items.Count} товаров";
             currentUserCart = App.Database.UsersCarts
             .Include("CartItems")
             .FirstOrDefault(c => c.UserId == CurrentUser.Id);

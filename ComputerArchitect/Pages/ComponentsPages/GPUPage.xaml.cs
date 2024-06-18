@@ -65,7 +65,7 @@ namespace ComputerArchitect.Pages
 
 
             ComponentListBox.ItemsSource = combinedData;
-            OnStorageCountLabel.Content = $"Видеокарты {ComponentListBox.Items.Count} шт";
+            OnStorageCountLabel.Content = $"Видеокарты {ComponentListBox.Items.Count} товаров";
             currentUserCart = App.Database.UsersCarts
             .Include("CartItems")
             .FirstOrDefault(c => c.UserId == CurrentUser.Id);

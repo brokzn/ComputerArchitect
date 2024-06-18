@@ -494,6 +494,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                 <Button Width="325" 
                         Height="65"
                         Name="CreateOrderButton"
+                        IsEnabled="True"
                         Click="CreateOrderButton_Click"
                         Style="{StaticResource SimpleButton}"
                         Margin="0 0 0 12"
@@ -547,6 +548,19 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                     <Run Text="Процессор" />
                                     <Run Text="{Binding Processor.Model}" />
                                     </TextBlock>
+                                    <TextBlock FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" TextAlignment="Left" TextWrapping="Wrap" Width="490" Height="100" Margin="195 20 0 0" Foreground="#CD6565" FontSize="16">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Processor.CPU_Count_on_storage}" Value="0">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    <Run Text="Нет в наличии"/>
+                                    </TextBlock>
                                     <TextBlock Text="{Binding Processor.Cost, StringFormat={}{0:N0} ₽}" FontFamily="Arial" FontWeight="Bold" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Width="300" Height="20" Margin="0 0 19 90" Foreground="#D6D6D6" FontSize="20">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
@@ -559,6 +573,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
+                                    
                                     <!-- Вывод Материнская плата -->
                                     <Image Width="150" Stretch="Fill" Margin="22 0 0 0" Height="150" HorizontalAlignment="Left">
                                         <Image.Style>
@@ -585,6 +600,19 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                         </TextBlock.Style>
                                         <Run Text="Материнская плата" />
                                         <Run Text="{Binding Motherboards.Motherboard_Model}" />
+                                    </TextBlock>
+                                    <TextBlock FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" TextAlignment="Left" TextWrapping="Wrap" Width="490" Height="100" Margin="195 20 0 0" Foreground="#CD6565" FontSize="16">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Motherboards.Motherboard_Count_on_storage}" Value="0">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    <Run Text="Нет в наличии"/>
                                     </TextBlock>
                                     <TextBlock Text="{Binding Motherboards.Cost, StringFormat={}{0:N0} ₽}" FontFamily="Arial" FontWeight="Bold" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Width="300" Height="20" Margin="0 0 19 90" Foreground="#D6D6D6" FontSize="20">
                                         <TextBlock.Style>
@@ -625,6 +653,19 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                     <Run Text="Корпус" />
                                     <Run Text="{Binding Cases.Model}" />
                                     </TextBlock>
+                                    <TextBlock FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" TextAlignment="Left" TextWrapping="Wrap" Width="490" Height="100" Margin="195 20 0 0" Foreground="#CD6565" FontSize="16">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Cases.Cases_Count_on_storage}" Value="0">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    <Run Text="Нет в наличии"/>
+                                    </TextBlock>
                                     <TextBlock Text="{Binding Cases.Cost, StringFormat={}{0:N0} ₽}" FontFamily="Arial" FontWeight="Bold" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Width="300" Height="20" Margin="0 0 19 90" Foreground="#D6D6D6" FontSize="20">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
@@ -663,6 +704,19 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                         </TextBlock.Style>
                                     <Run Text="Видеокарта" />
                                     <Run Text="{Binding GPUS.GPU_Model}" />
+                                    </TextBlock>
+                                    <TextBlock FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" TextAlignment="Left" TextWrapping="Wrap" Width="490" Height="100" Margin="195 20 0 0" Foreground="#CD6565" FontSize="16">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding GPUS.GPU_Count_on_storage}" Value="0">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    <Run Text="Нет в наличии"/>
                                     </TextBlock>
                                     <TextBlock Text="{Binding GPUS.Cost, StringFormat={}{0:N0} ₽}" FontFamily="Arial" FontWeight="Bold" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Width="300" Height="20" Margin="0 0 19 90" Foreground="#D6D6D6" FontSize="20">
                                         <TextBlock.Style>
@@ -703,6 +757,19 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                     <Run Text="Кулер"/>
                                     <Run Text="{Binding Coolers.Model}" />
                                     </TextBlock>
+                                    <TextBlock FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" TextAlignment="Left" TextWrapping="Wrap" Width="490" Height="100" Margin="195 20 0 0" Foreground="#CD6565" FontSize="16">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Coolers.Cooler_Count_on_storage}" Value="0">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    <Run Text="Нет в наличии"/>
+                                    </TextBlock>
                                     <TextBlock Text="{Binding Coolers.Cost, StringFormat={}{0:N0} ₽}" FontFamily="Arial" FontWeight="Bold" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Width="300" Height="20" Margin="0 0 19 90" Foreground="#D6D6D6" FontSize="20">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
@@ -741,6 +808,19 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                         </TextBlock.Style>
                                     <Run Text="Оперативная память"/>
                                     <Run Text="{Binding RAMS.RAM_Model}" />
+                                    </TextBlock>
+                                    <TextBlock FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" TextAlignment="Left" TextWrapping="Wrap" Width="490" Height="100" Margin="195 20 0 0" Foreground="#CD6565" FontSize="16">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RAMS.RAM_Count_on_storage}" Value="0">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    <Run Text="Нет в наличии"/>
                                     </TextBlock>
                                     <TextBlock Text="{Binding RAMS.Cost, StringFormat={}{0:N0} ₽}" FontFamily="Arial" FontWeight="Bold" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Width="300" Height="20" Margin="0 0 19 90" Foreground="#D6D6D6" FontSize="20">
                                         <TextBlock.Style>
@@ -781,6 +861,19 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                         <Run Text="Жесткий диск"/>
                                         <Run Text="{Binding HDDs.Model}" />
                                     </TextBlock>
+                                    <TextBlock FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" TextAlignment="Left" TextWrapping="Wrap" Width="490" Height="100" Margin="195 20 0 0" Foreground="#CD6565" FontSize="16">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding HDDs.HDD_Count_on_storage}" Value="0">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    <Run Text="Нет в наличии"/>
+                                    </TextBlock>
                                     <TextBlock Text="{Binding HDDs.Cost, StringFormat={}{0:N0} ₽}" FontFamily="Arial" FontWeight="Bold" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Width="300" Height="20" Margin="0 0 19 90" Foreground="#D6D6D6" FontSize="20">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
@@ -819,6 +912,19 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                         </TextBlock.Style>
                                         <Run Text="Блок питания"/>
                                         <Run Text="{Binding PowerSupplies.Model}" />
+                                    </TextBlock>
+                                    <TextBlock FontFamily="Arial" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" TextAlignment="Left" TextWrapping="Wrap" Width="490" Height="100" Margin="195 20 0 0" Foreground="#CD6565" FontSize="16">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding PowerSupplies.PS__Count_on_storage}" Value="0">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    <Run Text="Нет в наличии"/>
                                     </TextBlock>
                                     <TextBlock Text="{Binding PowerSupplies.Cost, StringFormat={}{0:N0} ₽}" FontFamily="Arial" FontWeight="Bold" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Width="300" Height="20" Margin="0 0 19 90" Foreground="#D6D6D6" FontSize="20">
                                         <TextBlock.Style>
