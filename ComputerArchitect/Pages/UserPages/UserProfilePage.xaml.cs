@@ -1,25 +1,15 @@
 ﻿using ComputerArchitect.Database;
-using ComputerArchitect.UI.Pages;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 
@@ -118,18 +108,25 @@ namespace ComputerArchitect.Pages
 
         private void LoadUserOrdersHistoryListBoxData()
         {
-            UserOrdersHistoryListBox.ItemsSource = App.Database.Orders
-            .Where(o => o.UserId == CurrentUser.Id && (o.OrderStatusId == 2 || o.OrderStatusId == 3))
+            var completedUserOrders = App.Database.Orders
+            .Where(o => o.UserId == CurrentUser.Id && o.OrderStatusId == 3)
             .ToList();
 
+
+            UserOrdersHistoryListBox.ItemsSource = completedUserOrders;
 
             string MoneySpentCountCount = Convert.ToString(App.Database.Orders.Where(o => o.OrderStatusId == 3 && o.UserId == CurrentUser.Id).Sum(o => o.TotalCost));
 
 
-            MoneySpentCount.Content = "Всего получено заказов на сумму: " + MoneySpentCountCount + " ₽";
-
-
-            NumberOfCancelledOrders.Content = "Всего заказов отменено: " + Convert.ToString(App.Database.Orders.Where(o => o.OrderStatusId == 2 && o.UserId == CurrentUser.Id).Count());
+            if(completedUserOrders.Count == 0)
+            {
+                MoneySpentCount.Content = "На данный момент у вас еще нет ни одного полученного заказа.";
+            }
+            else
+            {
+                MoneySpentCount.Content = "Всего получено заказов на сумму: " + MoneySpentCountCount + " ₽";
+            }
+  
         }
 
 

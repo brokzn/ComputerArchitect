@@ -743,18 +743,7 @@
                        Foreground="#D6D6D6"
                        FontWeight="Bold"
                        Content="Всего полученно заказов на сумму:"/>
-                <Label Grid.Column="0"
-                       x:Name="NumberOfCancelledOrders"
-                       Grid.Row="1"
-                       FontFamily="Arial"
-                       FontSize="18"
-                       Margin="20 0 0 0 "
-                       VerticalAlignment="Bottom"
-                       HorizontalAlignment="Left"
-                       Foreground="#D6D6D6"
-                       FontWeight="Bold"
-                       Content="Всего заказов отмененно:"/>
-
+                
                 <ListBox x:Name="UserOrdersHistoryListBox"
                         BorderThickness="0"
                         Grid.Row="2"

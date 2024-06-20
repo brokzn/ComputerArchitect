@@ -27,6 +27,7 @@ namespace ComputerArchitect.Pages.AdminPages
         {
             InitializeComponent();
             LoadLabelInfo();
+            CPUListBox.Visibility = Visibility.Visible;
         }
 
         private void LoadLabelInfo()
@@ -168,6 +169,7 @@ namespace ComputerArchitect.Pages.AdminPages
                 LoadLabelInfo();
                 AddDialog.Visibility = Visibility.Collapsed;
                 DialogBack.Visibility = Visibility.Collapsed;
+                AddCountTB.Text = string.Empty;
             }
             else
             {

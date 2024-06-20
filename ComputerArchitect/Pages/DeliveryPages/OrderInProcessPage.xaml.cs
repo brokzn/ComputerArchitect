@@ -1,4 +1,6 @@
 ﻿using ComputerArchitect.Database;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
@@ -201,6 +203,191 @@ namespace ComputerArchitect.Pages.DeliveryPages
         {
             EndOrderDialog.Visibility = Visibility.Collapsed;
             DialogBack.Visibility = Visibility.Collapsed;
+        }
+
+        private void CreateAndSavePdf(Orders orderinfo)
+        {
+            PdfDocument document = new PdfDocument();
+            document.Info.Title = $"Order {orderinfo.OrderId}";
+
+            PdfPage page = document.AddPage();
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+            XFont fontRegular = new XFont("Arial", 10);
+            XFont fontBold = new XFont("Arial", 10);
+
+            DrawOrderInformation(gfx, fontBold, orderinfo);
+            DrawOrderItemsTable(gfx, fontRegular, orderinfo);
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+            saveFileDialog.Filter = "PDF файлы (*.pdf)|*.pdf|Все файлы (*.*)|*.*";
+            saveFileDialog.FileName = $"Order_{orderinfo.OrderId}.pdf";
+            saveFileDialog.Title = "Сохранить как PDF";
+            bool? result = saveFileDialog.ShowDialog();
+
+            if (result == true)
+            {
+                string filename = saveFileDialog.FileName;
+                document.Save(filename);
+
+                MessageBox.Show($"Файл сохранен по следующему пути:\n{filename}", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void DrawOrderInformation(XGraphics gfx, XFont font, Orders orderinfo)
+        {
+            XRect rect = new XRect(40, 70, 500, 100);
+            gfx.DrawString($"Информация о заказе №{orderinfo.OrderId}", font, XBrushes.Black, rect, XStringFormats.TopLeft);
+
+            rect = new XRect(40, 100, 500, 100);
+            gfx.DrawString($"Дата создания заказа: {orderinfo.OrderCreateDate:yyyy.MM.dd}", font, XBrushes.Black, rect, XStringFormats.TopLeft);
+
+            rect = new XRect(40, 130, 500, 100);
+            gfx.DrawString($"Общая стоимость: {orderinfo.TotalCost:N0}₽", font, XBrushes.Black, rect, XStringFormats.TopLeft);
+
+            rect = new XRect(40, 160, 500, 100);
+            gfx.DrawString($"Оплата: {orderinfo.PaymentMethodType.PaymentMethodName}", font, XBrushes.Black, rect, XStringFormats.TopLeft);
+
+            rect = new XRect(40, 190, 500, 100);
+            gfx.DrawString($"Адрес доставки: {orderinfo.DeliveryAddress}", font, XBrushes.Black, rect, XStringFormats.TopLeft);
+
+            rect = new XRect(40, 220, 500, 100);
+            gfx.DrawString($"Заказчик: {orderinfo.Users.Name} {orderinfo.Users.SecondName}", font, XBrushes.Black, rect, XStringFormats.TopLeft);
+
+            rect = new XRect(40, 250, 500, 100);
+            gfx.DrawString($"Номер телефона: {orderinfo.Users.PhoneNumber}", font, XBrushes.Black, rect, XStringFormats.TopLeft);
+
+            rect = new XRect(40, 280, 500, 100);
+            gfx.DrawString($"Почта: {orderinfo.Users.Email}", font, XBrushes.Black, rect, XStringFormats.TopLeft);
+
+            rect = new XRect(40, 310, 500, 100);
+            gfx.DrawString($"Подпись заказчика ________________", font, XBrushes.Black, rect, XStringFormats.TopLeft);
+
+            rect = new XRect(40, 340, 500, 100);
+            gfx.DrawString($"Подпись курьера ________________", font, XBrushes.Black, rect, XStringFormats.TopLeft);
+
+        }
+
+        private void DrawOrderItemsTable(XGraphics gfx, XFont font, Orders orderinfo)
+        {
+            
+            const int startX = 40;
+            const int startY = 380;
+            const int columnWidth = 220;
+
+            
+            gfx.DrawString("Наименование", font, XBrushes.Black, new XRect(startX, startY, columnWidth, 20), XStringFormats.TopLeft);
+            gfx.DrawString("Цена в рублях", font, XBrushes.Black, new XRect(startX + columnWidth, startY, columnWidth, 20), XStringFormats.TopLeft);
+            gfx.DrawString("Кол-во", font, XBrushes.Black, new XRect(startX + 2 * columnWidth, startY, columnWidth, 20), XStringFormats.TopLeft);
+
+           
+            int currentY = startY + 20;
+
+            
+            foreach (var item in orderinfo.OrderCartItems)
+            {
+                if (item.CPUS != null)
+                {
+                    gfx.DrawString("Процессор: " + item.CPUS.Model, font, XBrushes.Black, new XRect(startX, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(item.CPUS.Cost.ToString(), font, XBrushes.Black, new XRect(startX + columnWidth, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(item.CpuCount.ToString(), font, XBrushes.Black, new XRect(startX + 2 * columnWidth, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    currentY += 20;
+                }
+            }
+
+            
+            foreach (var item in orderinfo.OrderCartItems)
+            {
+                if (item.Motherboards != null)
+                {
+                    gfx.DrawString("Мат. плата: " + item.Motherboards.Motherboard_Model, font, XBrushes.Black, new XRect(startX, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(item.Motherboards.Cost.ToString(), font, XBrushes.Black, new XRect(startX + columnWidth, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(item.MotherboardCount.ToString(), font, XBrushes.Black, new XRect(startX + 2 * columnWidth, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    currentY += 20;
+                }
+            }
+
+            
+            foreach (var item in orderinfo.OrderCartItems)
+            {
+                if (item.Cases != null)
+                {
+                    gfx.DrawString("Корпус: " + item.Cases.Model, font, XBrushes.Black, new XRect(startX, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(item.Cases.Cost.ToString(), font, XBrushes.Black, new XRect(startX + columnWidth, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(item.CaseCount.ToString(), font, XBrushes.Black, new XRect(startX + 2 * columnWidth, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    currentY += 20;
+                }
+            }
+
+            
+            foreach (var item in orderinfo.OrderCartItems)
+            {
+                if (item.GPUS != null)
+                {
+                    gfx.DrawString("Видеокарта: " + item.GPUS.GPU_Model, font, XBrushes.Black, new XRect(startX, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(item.GPUS.Cost.ToString(), font, XBrushes.Black, new XRect(startX + columnWidth, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(item.GPUCount.ToString(), font, XBrushes.Black, new XRect(startX + 2 * columnWidth, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    currentY += 20;
+                }
+            }
+
+            
+            foreach (var item in orderinfo.OrderCartItems)
+            {
+                if (item.Coolers != null)
+                {
+                    gfx.DrawString("Кулер: " + item.Coolers.Model, font, XBrushes.Black, new XRect(startX, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(item.Coolers.Cost.ToString(), font, XBrushes.Black, new XRect(startX + columnWidth, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(item.FanCount.ToString(), font, XBrushes.Black, new XRect(startX + 2 * columnWidth, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    currentY += 20;
+                }
+            }
+
+            
+            foreach (var item in orderinfo.OrderCartItems)
+            {
+                if (item.RAMS != null)
+                {
+                    gfx.DrawString("ОЗУ: " + item.RAMS.RAM_Model, font, XBrushes.Black, new XRect(startX, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(item.RAMS.Cost.ToString(), font, XBrushes.Black, new XRect(startX + columnWidth, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(item.RAMCount.ToString(), font, XBrushes.Black, new XRect(startX + 2 * columnWidth, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    currentY += 20;
+                }
+            }
+
+            
+            foreach (var item in orderinfo.OrderCartItems)
+            {
+                if (item.HDDs != null)
+                {
+                    gfx.DrawString("ЖД: " + item.HDDs.Model, font, XBrushes.Black, new XRect(startX, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(item.HDDs.Cost.ToString(), font, XBrushes.Black, new XRect(startX + columnWidth, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(item.MemoryCount.ToString(), font, XBrushes.Black, new XRect(startX + 2 * columnWidth, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    currentY += 20;
+                }
+            }
+            foreach (var item in orderinfo.OrderCartItems)
+            {
+                if (item.PowerSupplies != null)
+                {
+                    gfx.DrawString("Блок питания: " + item.PowerSupplies.Model, font, XBrushes.Black, new XRect(startX, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(item.PowerSupplies.Cost.ToString(), font, XBrushes.Black, new XRect(startX + columnWidth, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(item.PowerSuppliesCount.ToString(), font, XBrushes.Black, new XRect(startX + 2 * columnWidth, currentY, columnWidth, 20), XStringFormats.TopLeft);
+                    currentY += 20;
+                }
+            }
+        }
+
+            private void CreatePDFButton_Click(object sender, RoutedEventArgs e)
+            {
+            var orderinfo = App.Database.Orders.Where(o => o.OrderId == CurrentUser.DeliveryOrderInProcess).FirstOrDefault();
+            if (orderinfo != null)
+            {
+                CreateAndSavePdf(orderinfo);
+            }
+            else
+            {
+                MessageBox.Show("Не удалось загрузить информацию о заказе.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
