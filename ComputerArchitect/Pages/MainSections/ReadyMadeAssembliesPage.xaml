@@ -731,15 +731,15 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                                                    Source="{Binding users.Photo}" />
                                         </Grid>
                                     </Border>
-                                    
-                                    
-                                    
-                                    
-                                    
 
 
 
-                                    <TextBlock Text="{Binding TotalCost, StringFormat={}{0:N0} ₽}"
+
+
+
+
+
+                                    <TextBlock Text="{Binding TotalCost, StringFormat={}{0:N0} ₽, ConverterCulture=ru-RU}"
                                                Grid.Row="2"
                                                FontFamily="Arial"
                                                FontWeight="Bold"

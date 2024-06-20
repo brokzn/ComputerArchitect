@@ -1187,7 +1187,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             Content="Выбрать"
                             Click="CPUSelectButton_Click"
                             Height="45"/>
-                                                <TextBlock Text="{Binding Processor.Cost, StringFormat={}{0:N0} ₽}"
+                                                <TextBlock Text="{Binding Processor.Cost, StringFormat={}{0:N0} ₽, ConverterCulture=ru-RU}"
                            FontFamily="Arial"
                            FontWeight="Bold"
                            TextAlignment="Right"
@@ -1533,7 +1533,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             HorizontalAlignment="Right"
                             Content="Купить"
                             Height="45"/>
-                                                <TextBlock Text="{Binding Motherboard.Cost, StringFormat={}{0:N0} ₽}"
+                                                <TextBlock Text="{Binding Motherboard.Cost, StringFormat={}{0:N0} ₽, ConverterCulture=ru-RU}"
                            FontFamily="Arial"
                            FontWeight="Bold"
                            TextAlignment="Right"
@@ -1858,7 +1858,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             HorizontalAlignment="Right"
                             Content="Купить"
                             Height="45"/>
-                                                <TextBlock Text="{Binding Case.Cost, StringFormat={}{0:N0} ₽}"
+                                                <TextBlock Text="{Binding Case.Cost, StringFormat={}{0:N0} ₽, ConverterCulture=ru-RU}"
                            FontFamily="Arial"
                            FontWeight="Bold"
                            TextAlignment="Right"
@@ -2175,7 +2175,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             HorizontalAlignment="Right"
                             Content="Купить"
                             Height="45"/>
-                                                <TextBlock Text="{Binding GPUProcessor.Cost, StringFormat={}{0:N0} ₽}"
+                                                <TextBlock Text="{Binding GPUProcessor.Cost, StringFormat={}{0:N0} ₽, ConverterCulture=ru-RU}"
                            FontFamily="Arial"
                            FontWeight="Bold"
                            TextAlignment="Right"
@@ -2513,7 +2513,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             HorizontalAlignment="Right"
                             Content="Купить"
                             Height="45"/>
-                                                <TextBlock Text="{Binding Cooler.Cost, StringFormat={}{0:N0} ₽}"
+                                                <TextBlock Text="{Binding Cooler.Cost, StringFormat={}{0:N0} ₽, ConverterCulture=ru-RU}"
                            FontFamily="Arial"
                            FontWeight="Bold"
                            TextAlignment="Right"
@@ -2860,7 +2860,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             HorizontalAlignment="Right"
                             Content="Купить"
                             Height="45"/>
-                                                <TextBlock Text="{Binding Rams.Cost, StringFormat={}{0:N0} ₽}"
+                                                <TextBlock Text="{Binding Rams.Cost, StringFormat={}{0:N0} ₽, ConverterCulture=ru-RU}"
                            FontFamily="Arial"
                            FontWeight="Bold"
                            TextAlignment="Right"
@@ -3183,7 +3183,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             HorizontalAlignment="Right"
                             Content="Купить"
                             Height="45"/>
-                                                <TextBlock Text="{Binding Hdds.Cost, StringFormat={}{0:N0} ₽}"
+                                                <TextBlock Text="{Binding Hdds.Cost, StringFormat={}{0:N0} ₽, ConverterCulture=ru-RU}"
                            FontFamily="Arial"
                            FontWeight="Bold"
                            TextAlignment="Right"
@@ -3512,7 +3512,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
                             HorizontalAlignment="Right"
                             Content="Купить"
                             Height="45"/>
-                                                <TextBlock Text="{Binding Powersupplies.Cost, StringFormat={}{0:N0} ₽}"
+                                                <TextBlock Text="{Binding Powersupplies.Cost, StringFormat={}{0:N0} ₽, ConverterCulture=ru-RU}"
                            FontFamily="Arial"
                            FontWeight="Bold"
                            TextAlignment="Right"

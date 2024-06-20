@@ -41,10 +41,20 @@ namespace ComputerArchitect.Pages.DeliveryPages
 
             WaitingOrdersListBox.ItemsSource = userOrders;
 
+            if (userOrders.Count == 0)
+            {
+                NoOrdersTB.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                NoOrdersTB.Visibility = Visibility.Collapsed;
+            }
+
             if (CurrentUser.IsBusy == 1)
             {
                 WaitingOrdersListBox.Visibility = Visibility.Collapsed;
                 IsBusyTB.Visibility = Visibility.Visible;
+                NoOrdersTB.Visibility = Visibility.Collapsed;
             }
             else
             {
@@ -52,14 +62,6 @@ namespace ComputerArchitect.Pages.DeliveryPages
                 IsBusyTB.Visibility = Visibility.Collapsed;
             }
 
-            if (userOrders.Count == 0)
-            {
-                NoOrdersTB.Visibility = Visibility.Visible;   
-            }
-            else
-            {
-                NoOrdersTB.Visibility = Visibility.Collapsed;
-            }
         }
 
         private void OrderLabel_MouseEnter(object sender, MouseEventArgs e)

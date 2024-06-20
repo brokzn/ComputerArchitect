@@ -328,6 +328,7 @@ namespace ComputerArchitect.Pages
                     {
                         CartId = userCart.CartId,
                         MotherboardId = selectedMotherboard.MotherboardId,
+                        MotherboardCount = 1,
                         UsersCarts = userCart
                     };
 

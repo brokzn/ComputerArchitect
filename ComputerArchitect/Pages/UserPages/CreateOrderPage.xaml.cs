@@ -3,15 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-
-
-
-
-
 
 namespace ComputerArchitect.Pages
 {
@@ -20,7 +16,7 @@ namespace ComputerArchitect.Pages
     /// </summary>
     public partial class CreateOrderPage : Page
     {
-        int totalCost = 0;
+        decimal totalCost = 0;
         public event EventHandler CartUpdated;
         public Users CurrentUser { get; set; }
         public CreateOrderPage(Users currentUser)
@@ -52,7 +48,7 @@ namespace ComputerArchitect.Pages
         private void LoadUserCart()
         {
             List<CartItems> cartItems = new List<CartItems>();
-            
+
 
             try
             {
@@ -72,65 +68,32 @@ namespace ComputerArchitect.Pages
                 else
                 {
                     MessageBox.Show("Корзина для текущего пользователя не найдена.");
-                    return; 
+                    return;
                 }
 
-                foreach (var cartItem in cartItems)
+                using (var context = new ComputerArchitectDataBaseEntities())
                 {
-                    CombinedData itemData = new CombinedData();
-                    itemData.CartItems = cartItem;
-
-                    if (cartItem.CPUS != null)
-                    {
-                        itemData.Processor = cartItem.CPUS;
-                        totalCost += Convert.ToInt32(cartItem.CPUS.Cost);
-                    }
-
-
-                    if (cartItem.Motherboards != null)
-                    {
-                        itemData.Motherboards = cartItem.Motherboards;
-                        totalCost += Convert.ToInt32(cartItem.Motherboards.Cost);
-                    }
-                    if (cartItem.Cases != null)
-                    {
-                        itemData.Cases = cartItem.Cases;
-                        totalCost += Convert.ToInt32(cartItem.Cases.Cost);
-                    }
-                    if (cartItem.GPUS != null)
-                    {
-                        itemData.GPUS = cartItem.GPUS;
-                        totalCost += Convert.ToInt32(cartItem.GPUS.Cost);
-                    }
-                    if (cartItem.Coolers != null)
-                    {
-                        itemData.Coolers = cartItem.Coolers;
-                        totalCost += Convert.ToInt32(cartItem.Coolers.Cost);
-                    }
-                    if (cartItem.RAMS != null)
-                    {
-                        itemData.RAMS = cartItem.RAMS;
-                        totalCost += Convert.ToInt32(cartItem.RAMS.Cost);
-                    }
-                    if (cartItem.HDDs != null)
-                    {
-                        itemData.HDDs = cartItem.HDDs;
-                        totalCost += Convert.ToInt32(cartItem.HDDs.Cost);
-                    }
-                    if (cartItem.PowerSupplies != null)
-                    {
-                        itemData.PowerSupplies = cartItem.PowerSupplies;
-                        totalCost += Convert.ToInt32(cartItem.PowerSupplies.Cost);
-                    }
-
+                    int totalItemCount = 0;
                     
 
-                    combinedData.Add(itemData);
-                }
+                    foreach (var item in cartItems)
+                    {
+                        totalItemCount += (item.CpuCount ?? 0) + (item.MotherboardCount ?? 0) + (item.CaseCount ?? 0) +
+                                          (item.GPUCount ?? 0) + (item.FanCount ?? 0) + (item.RAMCount ?? 0) +
+                                          (item.MemoryCount ?? 0) + (item.PowerSuppliesCount ?? 0);
 
-                
-                CartItemsCount.Content = $"товары {combinedData.Count} шт";
-                CartTotalCost.Content = totalCost + "  ₽";
+                        totalCost += ((item.CpuCount ?? 0) * (item.CPUS?.Cost ?? 0)) +
+                                     ((item.MotherboardCount ?? 0) * (item.Motherboards?.Cost ?? 0)) +
+                                     ((item.CaseCount ?? 0) * (item.Cases?.Cost ?? 0)) +
+                                     ((item.GPUCount ?? 0) * (item.GPUS?.Cost ?? 0)) +
+                                     ((item.FanCount ?? 0) * (item.Coolers?.Cost ?? 0)) +
+                                     ((item.RAMCount ?? 0) * (item.RAMS?.Cost ?? 0)) +
+                                     ((item.MemoryCount ?? 0) * (item.HDDs?.Cost ?? 0)) +
+                                     ((item.PowerSuppliesCount ?? 0) * (item.PowerSupplies?.Cost ?? 0));
+                    }
+                    CartItemsCount.Content = "товары " + totalItemCount.ToString() + " шт.";
+                    CartTotalCost.Content = $"{totalCost:N0} ₽";
+                }
             }
             catch (Exception ex)
             {
@@ -192,6 +155,26 @@ namespace ComputerArchitect.Pages
                 var userCart = context.UsersCarts.Include("CartItems")
                                                  .FirstOrDefault(u => u.UserId == userId);
 
+                List<CartItems> cartItems = new List<CartItems>();
+                int totalItemCount = 0;
+
+
+                foreach (var item in cartItems)
+                {
+                    totalItemCount += (item.CpuCount ?? 0) + (item.MotherboardCount ?? 0) + (item.CaseCount ?? 0) +
+                                      (item.GPUCount ?? 0) + (item.FanCount ?? 0) + (item.RAMCount ?? 0) +
+                                      (item.MemoryCount ?? 0) + (item.PowerSuppliesCount ?? 0);
+
+                    totalCost += ((item.CpuCount ?? 0) * (item.CPUS?.Cost ?? 0)) +
+                                 ((item.MotherboardCount ?? 0) * (item.Motherboards?.Cost ?? 0)) +
+                                 ((item.CaseCount ?? 0) * (item.Cases?.Cost ?? 0)) +
+                                 ((item.GPUCount ?? 0) * (item.GPUS?.Cost ?? 0)) +
+                                 ((item.FanCount ?? 0) * (item.Coolers?.Cost ?? 0)) +
+                                 ((item.RAMCount ?? 0) * (item.RAMS?.Cost ?? 0)) +
+                                 ((item.MemoryCount ?? 0) * (item.HDDs?.Cost ?? 0)) +
+                                 ((item.PowerSuppliesCount ?? 0) * (item.PowerSupplies?.Cost ?? 0));
+                }
+
                 if (userCart != null)
                 {
                     int deliverymethod;
@@ -245,7 +228,15 @@ namespace ComputerArchitect.Pages
                             FanId = cartItem.FanId,
                             RAMId = cartItem.RAMId,
                             MemoryId = cartItem.MemoryId,
-                            PowerSuppliesId = cartItem.PowerSuppliesId
+                            PowerSuppliesId = cartItem.PowerSuppliesId,
+                            CpuCount = cartItem.CpuCount,
+                            MotherboardCount = cartItem.MotherboardCount,
+                            CaseCount = cartItem.CaseCount,
+                            GPUCount = cartItem.GPUCount,
+                            FanCount = cartItem.FanCount,
+                            RAMCount = cartItem.RAMCount,
+                            MemoryCount = cartItem.MemoryCount,
+                            PowerSuppliesCount = cartItem.PowerSuppliesCount,
                         };
 
                         context.OrderCartItems.Add(orderCartItem);

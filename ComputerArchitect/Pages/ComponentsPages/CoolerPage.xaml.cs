@@ -305,6 +305,7 @@ namespace ComputerArchitect.Pages
                     {
                         CartId = userCart.CartId,
                         FanId = selectedcoolers.CoolerId,
+                        FanCount = 1,
                         UsersCarts = userCart
                     };
 

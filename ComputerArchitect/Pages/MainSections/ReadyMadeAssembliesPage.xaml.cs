@@ -367,16 +367,16 @@ namespace ComputerArchitect.Pages
 
                     // Перечень компонентов для добавления в корзину
                     var componentsToAdd = new Dictionary<string, int?>
-                    {
-                        { "CpuId", assembly.CpuId },
-                        { "MotherboardId", assembly.MotherboardId },
-                        { "CaseId", assembly.CaseId },
-                        { "GPUId", assembly.GPUId },
-                        { "FanId", assembly.FanId },
-                        { "RAMId", assembly.RAMId },
-                        { "MemoryId", assembly.MemoryId },
-                        { "PowerSuppliesId", assembly.PowerSuppliesId }
-                    };
+            {
+                { "CpuId", assembly.CpuId },
+                { "MotherboardId", assembly.MotherboardId },
+                { "CaseId", assembly.CaseId },
+                { "GPUId", assembly.GPUId },
+                { "FanId", assembly.FanId },
+                { "RAMId", assembly.RAMId },
+                { "MemoryId", assembly.MemoryId },
+                { "PowerSuppliesId", assembly.PowerSuppliesId }
+            };
 
                     foreach (var component in componentsToAdd)
                     {
@@ -385,7 +385,7 @@ namespace ComputerArchitect.Pages
 
                         if (componentId != null)
                         {
-                            bool componentExists = userCart.CartItems.Any(ci =>
+                            var existingCartItem = userCart.CartItems.FirstOrDefault(ci =>
                                 (componentName == "CpuId" && ci.CpuId == componentId) ||
                                 (componentName == "MotherboardId" && ci.MotherboardId == componentId) ||
                                 (componentName == "CaseId" && ci.CaseId == componentId) ||
@@ -396,7 +396,38 @@ namespace ComputerArchitect.Pages
                                 (componentName == "PowerSuppliesId" && ci.PowerSuppliesId == componentId)
                             );
 
-                            if (!componentExists)
+                            if (existingCartItem != null)
+                            {
+                                // Increment the existing component count
+                                switch (componentName)
+                                {
+                                    case "CpuId":
+                                        existingCartItem.CpuCount = (existingCartItem.CpuCount ?? 0) + 1;
+                                        break;
+                                    case "MotherboardId":
+                                        existingCartItem.MotherboardCount = (existingCartItem.MotherboardCount ?? 0) + 1;
+                                        break;
+                                    case "CaseId":
+                                        existingCartItem.CaseCount = (existingCartItem.CaseCount ?? 0) + 1;
+                                        break;
+                                    case "GPUId":
+                                        existingCartItem.GPUCount = (existingCartItem.GPUCount ?? 0) + 1;
+                                        break;
+                                    case "FanId":
+                                        existingCartItem.FanCount = (existingCartItem.FanCount ?? 0) + 1;
+                                        break;
+                                    case "RAMId":
+                                        existingCartItem.RAMCount = (existingCartItem.RAMCount ?? 0) + 1;
+                                        break;
+                                    case "MemoryId":
+                                        existingCartItem.MemoryCount = (existingCartItem.MemoryCount ?? 0) + 1;
+                                        break;
+                                    case "PowerSuppliesId":
+                                        existingCartItem.PowerSuppliesCount = (existingCartItem.PowerSuppliesCount ?? 0) + 1;
+                                        break;
+                                }
+                            }
+                            else
                             {
                                 var cartItem = new CartItems
                                 {
@@ -404,32 +435,40 @@ namespace ComputerArchitect.Pages
                                     UsersCarts = userCart
                                 };
 
-                                // Устанавливаем соответствующий Id компонента в зависимости от типа
+                                // Устанавливаем соответствующий Id компонента в зависимости от типа и начальный счетчик
                                 switch (componentName)
                                 {
                                     case "CpuId":
                                         cartItem.CpuId = componentId;
+                                        cartItem.CpuCount = 1;
                                         break;
                                     case "MotherboardId":
                                         cartItem.MotherboardId = componentId;
+                                        cartItem.MotherboardCount = 1;
                                         break;
                                     case "CaseId":
                                         cartItem.CaseId = componentId;
+                                        cartItem.CaseCount = 1;
                                         break;
                                     case "GPUId":
                                         cartItem.GPUId = componentId;
+                                        cartItem.GPUCount = 1;
                                         break;
                                     case "FanId":
                                         cartItem.FanId = componentId;
+                                        cartItem.FanCount = 1;
                                         break;
                                     case "RAMId":
                                         cartItem.RAMId = componentId;
+                                        cartItem.RAMCount = 1;
                                         break;
                                     case "MemoryId":
                                         cartItem.MemoryId = componentId;
+                                        cartItem.MemoryCount = 1;
                                         break;
                                     case "PowerSuppliesId":
                                         cartItem.PowerSuppliesId = componentId;
+                                        cartItem.PowerSuppliesCount = 1;
                                         break;
                                 }
 
@@ -453,6 +492,7 @@ namespace ComputerArchitect.Pages
             CartUpdated?.Invoke(this, EventArgs.Empty);
         }
 
-        
+
+
     }
 }

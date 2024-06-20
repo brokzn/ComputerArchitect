@@ -302,6 +302,7 @@ namespace ComputerArchitect.Pages
                     {
                         CartId = userCart.CartId,
                         MemoryId = selectedHDD.HDDId,
+                        MemoryCount = 1,
                         UsersCarts = userCart
                     };
 

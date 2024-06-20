@@ -24,6 +24,9 @@ namespace ComputerArchitect.Pages
     {
         public event EventHandler CartUpdated;
         public Users CurrentUser { get; set; }
+        public OrderCartItems OrderCartItems { get; set; }
+
+        private Orders Orders { get; set; }
         public UserOrdersPage(Users currentUser)
         {
             CurrentUser = currentUser;
@@ -96,7 +99,7 @@ namespace ComputerArchitect.Pages
                     OrderId.Content = $"Заказ №{order.OrderId}";
                     OrderStatus.Content = $"Статус: {order.OrderStatuses.Name}";
                     OrderDate.Content = $"Дата создания: {order.OrderCreateDate:yyyy.MM.dd}";
-                    OrderCost.Content = $"Общая стоимость: {order.TotalCost:0}₽";
+                    OrderCost.Content = $"Общая стоимость: {order.TotalCost:N0} ₽";
                     OrderPaymentType.Content = $"Оплата: {order.PaymentMethodType.PaymentMethodName}";
                     OrderDeliveryType.Content = $"Способ получения: {order.DeliveryMethodType.DeliveryMethodName}";
                 }

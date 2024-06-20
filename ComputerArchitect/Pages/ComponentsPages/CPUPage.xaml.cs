@@ -376,6 +376,7 @@ namespace ComputerArchitect.Pages
                     {
                         CartId = userCart.CartId,
                         CpuId = selectedProcessor.CPUId,
+                        CpuCount = 1,
                         UsersCarts = userCart
                     };
 

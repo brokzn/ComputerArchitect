@@ -327,8 +327,12 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </TextBlock.Style>
-                        <Run Text="Процессор" />
-                        <Run Text="{Binding CPUS.Model}" />
+                                            <Run Text="Процессор" />
+                                            <Run Text="{Binding CPUS.Model}" />
+                                            <Run Text="["/> 
+                                            <Run Text="{Binding CpuCount}"/>
+                                            <Run Text="шт."/>
+                                            <Run Text="]"/>
                                             </TextBlock>
 
                                             <!-- Вывод Материнская плата -->
@@ -362,8 +366,12 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </TextBlock.Style>
-                        <Run Text="Материнская плата" />
-                        <Run Text="{Binding Motherboards.Motherboard_Model}" />
+                                                <Run Text="Материнская плата" />
+                                                <Run Text="{Binding Motherboards.Motherboard_Model}" />
+                                                <Run Text="["/> 
+                                                <Run Text="{Binding MotherboardCount}"/>
+                                                <Run Text="шт."/>
+                                                <Run Text="]"/>
                                             </TextBlock>
                                             <!-- Вывод Корпус -->
                                             <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
@@ -396,8 +404,12 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </TextBlock.Style>
-                        <Run Text="Корпус" />
-                        <Run Text="{Binding Cases.Model}" />
+                                                <Run Text="Корпус" />
+                                                <Run Text="{Binding Cases.Model}" />
+                                                <Run Text="["/> 
+                                                <Run Text="{Binding CaseCount}"/>
+                                                <Run Text="шт."/>
+                                                <Run Text="]"/>
                                             </TextBlock>
                                             <!-- Вывод Видеокарта -->
                                             <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
@@ -430,8 +442,12 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </TextBlock.Style>
-                        <Run Text="Видеокарта" />
-                        <Run Text="{Binding GPUS.GPU_Model}" />
+                                                <Run Text="Видеокарта" />
+                                                <Run Text="{Binding GPUS.GPU_Model}" />
+                                                <Run Text="["/> 
+                                                <Run Text="{Binding GPUCount}"/>
+                                                <Run Text="шт."/>
+                                                <Run Text="]"/>
                                             </TextBlock>
 
                                             <!-- Вывод Охлаждение -->
@@ -465,8 +481,12 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </TextBlock.Style>
-                            <Run Text="Кулер"/>
-                            <Run Text="{Binding Coolers.Model}" />
+                                                <Run Text="Кулер"/>
+                                                <Run Text="{Binding Coolers.Model}" />
+                                                <Run Text="["/> 
+                                                <Run Text="{Binding FanCount}"/>
+                                                <Run Text="шт."/>
+                                                <Run Text="]"/>
                                             </TextBlock>
                                             <!-- Вывод ОЗУ -->
                                             <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
@@ -499,8 +519,12 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </TextBlock.Style>
-                        <Run Text="Оперативная память"/>
-                        <Run Text="{Binding RAMS.RAM_Model}" />
+                                            <Run Text="Оперативная память"/>
+                                            <Run Text="{Binding RAMS.RAM_Model}" />
+                                            <Run Text="["/> 
+                                            <Run Text="{Binding RAMCount}"/>
+                                            <Run Text="шт."/>
+                                            <Run Text="]"/>
                                             </TextBlock>
                                             <!-- Вывод Хранение данных -->
                                             <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
@@ -533,8 +557,12 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </TextBlock.Style>
-                            <Run Text="Жесткий диск"/>
-                            <Run Text="{Binding HDDs.Model}" />
+                                                <Run Text="Жесткий диск"/>
+                                                <Run Text="{Binding HDDs.Model}" />
+                                                <Run Text="["/> 
+                                                <Run Text="{Binding MemoryCount}"/>
+                                                <Run Text="шт."/>
+                                                <Run Text="]"/>
                                             </TextBlock>
                                             <!-- Вывод Блок питания -->
                                             <Image Width="30" Stretch="Fill" Margin="22 0 0 0" Height="30" HorizontalAlignment="Left">
@@ -568,7 +596,11 @@
                                                     </Style>
                                                 </TextBlock.Style>
                                             <Run Text="Блок питания"/>
-                                            <Run Text="{Binding PowerSupplies.Model}" />
+                                            <Run Text="{Binding PowerSupplies.Model}" />   
+                                            <Run Text="["/> 
+                                            <Run Text="{Binding PowerSuppliesCount}"/>
+                                            <Run Text="шт."/>
+                                            <Run Text="]"/>
                                             </TextBlock>
                                         </Grid>
                                         

@@ -135,7 +135,7 @@
                         <Run Text="{Binding OrderCreateDate, StringFormat={}{0:yyyy.MM.dd}}"/>
                                 </TextBlock>
                                 <TextBlock HorizontalAlignment="Center" Margin="0 0 40 0" Grid.Column="3" Style="{StaticResource OrderTextStyle}">
-                        <Run Text="{Binding TotalCost, StringFormat={}{0:N0} ₽}"/>
+                        <Run Text="{Binding TotalCost, StringFormat={}{0:N0} ₽, ConverterCulture=ru-RU}"/>
                                 </TextBlock>
                             </Grid>
                         </Border>

@@ -305,6 +305,7 @@ namespace ComputerArchitect.Pages
                     {
                         CartId = userCart.CartId,
                         GPUId = selectedGPUProcessor.GPUId,
+                        GPUCount = 1,
                         UsersCarts = userCart
                     };
 

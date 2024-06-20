@@ -306,6 +306,7 @@ namespace ComputerArchitect.Pages
                     {
                         CartId = userCart.CartId,
                         PowerSuppliesId = selectedPowers.PowerSupplyId,
+                        PowerSuppliesCount = 1,
                         UsersCarts = userCart
                     };
 

@@ -24,6 +24,14 @@ namespace ComputerArchitect.Database
         public Nullable<int> RAMId { get; set; }
         public Nullable<int> MemoryId { get; set; }
         public Nullable<int> PowerSuppliesId { get; set; }
+        public Nullable<int> CpuCount { get; set; }
+        public Nullable<int> MotherboardCount { get; set; }
+        public Nullable<int> CaseCount { get; set; }
+        public Nullable<int> GPUCount { get; set; }
+        public Nullable<int> FanCount { get; set; }
+        public Nullable<int> RAMCount { get; set; }
+        public Nullable<int> MemoryCount { get; set; }
+        public Nullable<int> PowerSuppliesCount { get; set; }
     
         public virtual Cases Cases { get; set; }
         public virtual Coolers Coolers { get; set; }

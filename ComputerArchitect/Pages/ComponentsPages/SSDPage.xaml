@@ -653,7 +653,7 @@
                                     HorizontalAlignment="Right"
                                     Content="Купить"
                                     Height="45"/>
-                                    <TextBlock Text="{Binding Ssds.Cost, StringFormat={}{0:N0} ₽}"
+                                    <TextBlock Text="{Binding Ssds.Cost, StringFormat={}{0:N0} ₽, ConverterCulture=ru-RU}"
                                    FontFamily="Arial"
                                    FontWeight="Bold"
                                    TextAlignment="Right"

@@ -19,6 +19,14 @@
           <Property Name="RAMId" Type="int" />
           <Property Name="MemoryId" Type="int" />
           <Property Name="PowerSuppliesId" Type="int" />
+          <Property Name="CpuCount" Type="int" />
+          <Property Name="MotherboardCount" Type="int" />
+          <Property Name="CaseCount" Type="int" />
+          <Property Name="GPUCount" Type="int" />
+          <Property Name="FanCount" Type="int" />
+          <Property Name="RAMCount" Type="int" />
+          <Property Name="MemoryCount" Type="int" />
+          <Property Name="PowerSuppliesCount" Type="int" />
         </EntityType>
         <EntityType Name="Cases">
           <Key>
@@ -373,6 +381,14 @@
           <Property Name="RAMId" Type="int" />
           <Property Name="MemoryId" Type="int" />
           <Property Name="PowerSuppliesId" Type="int" />
+          <Property Name="CpuCount" Type="int" />
+          <Property Name="MotherboardCount" Type="int" />
+          <Property Name="CaseCount" Type="int" />
+          <Property Name="GPUCount" Type="int" />
+          <Property Name="FanCount" Type="int" />
+          <Property Name="RAMCount" Type="int" />
+          <Property Name="MemoryCount" Type="int" />
+          <Property Name="PowerSuppliesCount" Type="int" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -3220,6 +3236,14 @@
           <NavigationProperty Name="Motherboards" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_Motherboards" FromRole="CartItems" ToRole="Motherboards" />
           <NavigationProperty Name="PowerSupplies" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_PowerSupplies" FromRole="CartItems" ToRole="PowerSupplies" />
           <NavigationProperty Name="RAMS" Relationship="ComputerArchitectDataBaseModel.FK_CartItems_RAMS" FromRole="CartItems" ToRole="RAMS" />
+          <Property Name="CpuCount" Type="Int32" />
+          <Property Name="MotherboardCount" Type="Int32" />
+          <Property Name="CaseCount" Type="Int32" />
+          <Property Name="GPUCount" Type="Int32" />
+          <Property Name="FanCount" Type="Int32" />
+          <Property Name="RAMCount" Type="Int32" />
+          <Property Name="MemoryCount" Type="Int32" />
+          <Property Name="PowerSuppliesCount" Type="Int32" />
         </EntityType>
         <EntityType Name="UsersCarts">
           <Key>
@@ -3393,6 +3417,14 @@
           <NavigationProperty Name="Orders" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_Orders" FromRole="OrderCartItems" ToRole="Orders" />
           <NavigationProperty Name="PowerSupplies" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_PowerSupplies" FromRole="OrderCartItems" ToRole="PowerSupplies" />
           <NavigationProperty Name="RAMS" Relationship="ComputerArchitectDataBaseModel.FK_OrderCartItems_RAMS" FromRole="OrderCartItems" ToRole="RAMS" />
+          <Property Name="CpuCount" Type="Int32" />
+          <Property Name="MotherboardCount" Type="Int32" />
+          <Property Name="CaseCount" Type="Int32" />
+          <Property Name="GPUCount" Type="Int32" />
+          <Property Name="FanCount" Type="Int32" />
+          <Property Name="RAMCount" Type="Int32" />
+          <Property Name="MemoryCount" Type="Int32" />
+          <Property Name="PowerSuppliesCount" Type="Int32" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -4158,6 +4190,14 @@
           <EntitySetMapping Name="CartItems">
             <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.CartItems">
               <MappingFragment StoreEntitySet="CartItems">
+                <ScalarProperty Name="PowerSuppliesCount" ColumnName="PowerSuppliesCount" />
+                <ScalarProperty Name="MemoryCount" ColumnName="MemoryCount" />
+                <ScalarProperty Name="RAMCount" ColumnName="RAMCount" />
+                <ScalarProperty Name="FanCount" ColumnName="FanCount" />
+                <ScalarProperty Name="GPUCount" ColumnName="GPUCount" />
+                <ScalarProperty Name="CaseCount" ColumnName="CaseCount" />
+                <ScalarProperty Name="MotherboardCount" ColumnName="MotherboardCount" />
+                <ScalarProperty Name="CpuCount" ColumnName="CpuCount" />
                 <ScalarProperty Name="PowerSuppliesId" ColumnName="PowerSuppliesId" />
                 <ScalarProperty Name="MemoryId" ColumnName="MemoryId" />
                 <ScalarProperty Name="RAMId" ColumnName="RAMId" />
@@ -4190,6 +4230,14 @@
           <EntitySetMapping Name="OrderCartItems">
             <EntityTypeMapping TypeName="ComputerArchitectDataBaseModel.OrderCartItems">
               <MappingFragment StoreEntitySet="OrderCartItems">
+                <ScalarProperty Name="PowerSuppliesCount" ColumnName="PowerSuppliesCount" />
+                <ScalarProperty Name="MemoryCount" ColumnName="MemoryCount" />
+                <ScalarProperty Name="RAMCount" ColumnName="RAMCount" />
+                <ScalarProperty Name="FanCount" ColumnName="FanCount" />
+                <ScalarProperty Name="GPUCount" ColumnName="GPUCount" />
+                <ScalarProperty Name="CaseCount" ColumnName="CaseCount" />
+                <ScalarProperty Name="MotherboardCount" ColumnName="MotherboardCount" />
+                <ScalarProperty Name="CpuCount" ColumnName="CpuCount" />
                 <ScalarProperty Name="PowerSuppliesId" ColumnName="PowerSuppliesId" />
                 <ScalarProperty Name="MemoryId" ColumnName="MemoryId" />
                 <ScalarProperty Name="RAMId" ColumnName="RAMId" />

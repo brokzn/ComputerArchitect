@@ -309,6 +309,7 @@ namespace ComputerArchitect.Pages
                     {
                         CartId = userCart.CartId,
                         CaseId = selectedCase.CaseId,
+                        CaseCount = 1,
                         UsersCarts = userCart
                     };
 

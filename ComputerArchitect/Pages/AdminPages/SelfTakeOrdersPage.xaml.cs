@@ -98,7 +98,7 @@ namespace ComputerArchitect.Pages.AdminPages
                     OrderNumber.Content = $"Заказ №{order.OrderId}";
                     OrderStatus.Content = $"Статус: {order.OrderStatuses.Name}";
                     OrderDate.Content = $"Дата создания: {order.OrderCreateDate:yyyy.MM.dd}";
-                    OrderCost.Content = $"Общая стоимость: {order.TotalCost:0}₽";
+                    OrderCost.Content = $"Общая стоимость: {order.TotalCost:N0}₽";
                     OrderPaymentType.Content = $"Оплата: {order.PaymentMethodType.PaymentMethodName}";
                     UserFSName.Content = $"ИФ: {order.Users.Name} {order.Users.SecondName}";
                     UserPhoneNumber.Content = $"Номер телефона: {order.Users.PhoneNumber}";

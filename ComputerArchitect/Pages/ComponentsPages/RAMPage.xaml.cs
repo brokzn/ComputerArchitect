@@ -313,6 +313,7 @@ namespace ComputerArchitect.Pages
                     {
                         CartId = userCart.CartId,
                         RAMId = selectedram.RAMId,
+                        RAMCount = 1,
                         UsersCarts = userCart
                     };
 

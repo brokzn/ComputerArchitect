@@ -912,7 +912,7 @@
                                             FontSize="12"
                                             Content="Удалить"
                                             Height="30"/>
-                                    <TextBlock Text="{Binding GPUProcessor.Cost, StringFormat={}{0:N0} ₽}"
+                                    <TextBlock Text="{Binding GPUProcessor.Cost, StringFormat={}{0:N0} ₽, ConverterCulture=ru-RU}"
                                    FontFamily="Arial"
                                    FontWeight="Bold"
                                    TextAlignment="Right"

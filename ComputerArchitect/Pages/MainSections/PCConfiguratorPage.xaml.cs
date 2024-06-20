@@ -2365,36 +2365,15 @@ namespace ComputerArchitect.Pages
                         context.UsersCarts.Add(userCart);
                     }
 
-                    // Создаем новый объект CartItems для каждого компонента в конфигурации пользователя
-                    var cartItems = new List<CartItems>
-            {
-                new CartItems { CartId = userCart.CartId, CpuId = currentUserConfig.CpuId },
-                new CartItems { CartId = userCart.CartId, MotherboardId = currentUserConfig.MotherboardId },
-                new CartItems { CartId = userCart.CartId, CaseId = currentUserConfig.CaseId },
-                new CartItems { CartId = userCart.CartId, GPUId = currentUserConfig.GPUId },
-                new CartItems { CartId = userCart.CartId, FanId = currentUserConfig.FanId },
-                new CartItems { CartId = userCart.CartId, RAMId = currentUserConfig.RAMId },
-                new CartItems { CartId = userCart.CartId, MemoryId = currentUserConfig.MemoryId },
-                new CartItems { CartId = userCart.CartId, PowerSuppliesId = currentUserConfig.PowerSuppliesId }
-            };
-
-                    // Добавляем только те компоненты, которых еще нет в корзине пользователя
-                    foreach (var cartItem in cartItems)
-                    {
-                        // Проверяем, есть ли уже такой компонент в корзине
-                        if (!userCart.CartItems.Any(item =>
-                            item.CpuId == cartItem.CpuId &&
-                            item.MotherboardId == cartItem.MotherboardId &&
-                            item.CaseId == cartItem.CaseId &&
-                            item.GPUId == cartItem.GPUId &&
-                            item.FanId == cartItem.FanId &&
-                            item.RAMId == cartItem.RAMId &&
-                            item.MemoryId == cartItem.MemoryId &&
-                            item.PowerSuppliesId == cartItem.PowerSuppliesId))
-                        {
-                            userCart.CartItems.Add(cartItem);
-                        }
-                    }
+                    // Создаем или обновляем элементы корзины
+                    UpdateCartItem(context, userCart, currentUserConfig.CpuId, "CpuId", "CpuCount");
+                    UpdateCartItem(context, userCart, currentUserConfig.MotherboardId, "MotherboardId", "MotherboardCount");
+                    UpdateCartItem(context, userCart, currentUserConfig.CaseId, "CaseId", "CaseCount");
+                    UpdateCartItem(context, userCart, currentUserConfig.GPUId, "GPUId", "GPUCount");
+                    UpdateCartItem(context, userCart, currentUserConfig.FanId, "FanId", "FanCount");
+                    UpdateCartItem(context, userCart, currentUserConfig.RAMId, "RAMId", "RAMCount");
+                    UpdateCartItem(context, userCart, currentUserConfig.MemoryId, "MemoryId", "MemoryCount");
+                    UpdateCartItem(context, userCart, currentUserConfig.PowerSuppliesId, "PowerSuppliesId", "PowerSuppliesCount");
 
                     // Сохраняем изменения в базе данных
                     context.SaveChanges();
@@ -2410,6 +2389,49 @@ namespace ComputerArchitect.Pages
             DialogBack.Visibility = Visibility.Visible;
             DialogCart.Visibility = Visibility.Visible;
         }
+
+        private void UpdateCartItem(ComputerArchitectDataBaseEntities context, UsersCarts userCart, int? componentId, string componentIdName, string componentCountName)
+        {
+            if (componentId == null) return;
+
+            var cartItem = userCart.CartItems
+                .FirstOrDefault(item => (int?)item.GetType().GetProperty(componentIdName).GetValue(item, null) == componentId);
+
+            if (cartItem != null)
+            {
+                // Компонент уже существует в корзине, обновляем счетчик
+                var countProperty = cartItem.GetType().GetProperty(componentCountName);
+                int currentCount = (int)countProperty.GetValue(cartItem, null);
+                countProperty.SetValue(cartItem, currentCount + 1);
+            }
+            else
+            {
+                // Компонент не найден в корзине, добавляем новый
+                cartItem = new CartItems
+                {
+                    CartId = userCart.CartId,
+                    CpuId = componentIdName == "CpuId" ? componentId : (int?)null,
+                    MotherboardId = componentIdName == "MotherboardId" ? componentId : (int?)null,
+                    CaseId = componentIdName == "CaseId" ? componentId : (int?)null,
+                    GPUId = componentIdName == "GPUId" ? componentId : (int?)null,
+                    FanId = componentIdName == "FanId" ? componentId : (int?)null,
+                    RAMId = componentIdName == "RAMId" ? componentId : (int?)null,
+                    MemoryId = componentIdName == "MemoryId" ? componentId : (int?)null,
+                    PowerSuppliesId = componentIdName == "PowerSuppliesId" ? componentId : (int?)null,
+                    CpuCount = componentIdName == "CpuId" ? 1 : (int?)null,
+                    MotherboardCount = componentIdName == "MotherboardId" ? 1 : (int?)null,
+                    CaseCount = componentIdName == "CaseId" ? 1 : (int?)null,
+                    GPUCount = componentIdName == "GPUId" ? 1 : (int?)null,
+                    FanCount = componentIdName == "FanId" ? 1 : (int?)null,
+                    RAMCount = componentIdName == "RAMId" ? 1 : (int?)null,
+                    MemoryCount = componentIdName == "MemoryId" ? 1 : (int?)null,
+                    PowerSuppliesCount = componentIdName == "PowerSuppliesId" ? 1 : (int?)null
+                };
+                userCart.CartItems.Add(cartItem);
+            }
+        }
+
+
 
         private void DialogYesCart_Click(object sender, RoutedEventArgs e)
         {

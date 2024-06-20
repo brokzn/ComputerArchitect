@@ -40,7 +40,7 @@ namespace ComputerArchitect.Pages.DeliveryPages
                 OrderNumber.Content = "Информация о заказе №" + orderinfo.OrderId;
                 OrderStatus.Content = "Статус: " + orderinfo.OrderStatuses.Name;
                 OrderDate.Content = $"Дата создания: {orderinfo.OrderCreateDate:yyyy.MM.dd}";
-                OrderCost.Content = $"Общая стоимость: {orderinfo.TotalCost:0}₽";
+                OrderCost.Content = $"Общая стоимость: {orderinfo.TotalCost:N0}₽";
                 OrderPaymentType.Content = $"Оплата: {orderinfo.PaymentMethodType.PaymentMethodName}";
                 OrderDeliveryAdress.Content = $"Адрес доставки: {orderinfo.DeliveryAddress}";
                 UserFSName.Content = $"ИФ: {orderinfo.Users.Name} {orderinfo.Users.SecondName}";
