@@ -47,5 +47,11 @@ namespace ComputerArchitect.Pages
             CurrentSelectedTableLabel.Content = "Заканчивающиеся компоненты";
             AdminPanelFrame.NavigationService.Navigate(new EndingComponentsPage());
         }
+
+        private void SellStatsPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentSelectedTableLabel.Content = "Статистика продаж";
+            AdminPanelFrame.NavigationService.Navigate(new SellGraphPage());
+        }
     }
 }

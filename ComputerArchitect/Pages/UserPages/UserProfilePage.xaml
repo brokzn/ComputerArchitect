@@ -732,17 +732,18 @@
                        FontWeight="Bold"
                        Content="История заказов"/>
 
-                <Label Grid.Column="0"
+                <TextBlock Grid.Column="0"
                        x:Name="MoneySpentCount"
                        Grid.Row="1"
                        FontFamily="Arial"
                        FontSize="18"
+                       TextWrapping="Wrap"
                        Margin="20 0 0 0 "
                        VerticalAlignment="Top"
                        HorizontalAlignment="Left"
                        Foreground="#D6D6D6"
                        FontWeight="Bold"
-                       Content="Всего полученно заказов на сумму:"/>
+                       Text="Всего полученно заказов на сумму:"/>
                 
                 <ListBox x:Name="UserOrdersHistoryListBox"
                         BorderThickness="0"

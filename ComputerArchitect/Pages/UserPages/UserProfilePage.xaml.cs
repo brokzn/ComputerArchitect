@@ -120,11 +120,11 @@ namespace ComputerArchitect.Pages
 
             if(completedUserOrders.Count == 0)
             {
-                MoneySpentCount.Content = "На данный момент у вас еще нет ни одного полученного заказа.";
+                MoneySpentCount.Text = "На данный момент у вас еще нет ни одного полученного заказа.";
             }
             else
             {
-                MoneySpentCount.Content = "Всего получено заказов на сумму: " + MoneySpentCountCount + " ₽";
+                MoneySpentCount.Text = "Всего получено заказов на сумму: " + MoneySpentCountCount + " ₽";
             }
   
         }

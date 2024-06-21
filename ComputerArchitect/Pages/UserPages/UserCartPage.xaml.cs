@@ -258,6 +258,15 @@ namespace ComputerArchitect.Pages
 
                         CartUpdated?.Invoke(this, EventArgs.Empty);
 
+                        if (outofstockCount > 0)
+                        {
+                            CreateOrderButton.IsEnabled = false;
+                            outofstockCount = 0;
+                        }
+                        else
+                        {
+                            CreateOrderButton.IsEnabled = true;
+                        }
                     }
                     else
                     {

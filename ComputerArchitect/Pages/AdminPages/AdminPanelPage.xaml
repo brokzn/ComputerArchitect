@@ -89,6 +89,16 @@
                         Grid.Column="2"
                         Content="Заканчивающиеся компоненты"
                         Height="35"/>
+                <Button Width="192"
+                        x:Name="SellStatsPageButton"
+                        Click="SellStatsPageButton_Click"
+                        FontSize="11"
+                        Style="{StaticResource Simple3Button}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Grid.Column="3"
+                        Content="Статистика продаж"
+                        Height="35"/>
             </Grid>
 
 
