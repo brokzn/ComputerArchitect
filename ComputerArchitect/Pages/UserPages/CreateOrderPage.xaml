@@ -59,7 +59,7 @@
                     </Label>
 
 
-                    <Image x:Name="qrCodeImage" Grid.Row="1" Height="200"/>
+                    <Image x:Name="QRCodeImage" Grid.Row="1" Height="200"/>
 
 
 

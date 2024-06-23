@@ -1,6 +1,8 @@
 ﻿using ComputerArchitect.Database;
+using QRCoder;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
@@ -118,32 +120,7 @@ namespace ComputerArchitect.Pages
         }
 
 
-        /*private void GenerationQRCode(string text)
-        {
-            
-            var qrCode = QRCodeWriter.CreateQrCode(text, 250, QRCodeWriter.QrErrorCorrectionLevel.Medium);
-
-            
-            var bitmap = qrCode.ToBitmap();
-
-            
-            using (var stream = new MemoryStream())
-            {
-                
-                bitmap.ExportStream(stream, ImageFormat.Png);
-                stream.Seek(0, SeekOrigin.Begin);
-
-                
-                var bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.StreamSource = stream;
-                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapImage.EndInit();
-
-               
-                qrCodeImage.Source = bitmapImage;
-            }
-        }*/
+        
 
         private void CreateNewOrder()
         {
@@ -262,7 +239,26 @@ namespace ComputerArchitect.Pages
                 }
             }
         }
+        private void GenerateAndDisplayQRCode(string content)
+        {
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(content, QRCodeGenerator.ECCLevel.Q);
+            QRCode qrCode = new QRCode(qrCodeData);
+            System.Drawing.Bitmap qrCodeImage = qrCode.GetGraphic(20);
 
+            // Convert System.Drawing.Bitmap to BitmapImage
+            var bitmap = new System.Drawing.Bitmap(qrCodeImage);
+            var bitmapImage = new System.Windows.Media.Imaging.BitmapImage();
+            bitmapImage.BeginInit();
+            System.IO.MemoryStream memoryStream = new System.IO.MemoryStream();
+            bitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Bmp);
+            memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+            bitmapImage.StreamSource = memoryStream;
+            bitmapImage.EndInit();
+
+
+            QRCodeImage.Source = bitmapImage; 
+        }
 
         private void AddNewOrderButton_Click(object sender, RoutedEventArgs e)
         {
@@ -274,7 +270,8 @@ namespace ComputerArchitect.Pages
             {
                 if (RadioButtonOnline.IsChecked == true)
                 {
-                    //GenerationQRCode("https://github.com/brokzn");
+                    string exampleUrl = "https://github.com/brokzn";
+                    GenerateAndDisplayQRCode(exampleUrl);
                     OnlinePayMethodDialog.Visibility = Visibility.Visible;
                     DialogBack.Visibility = Visibility.Visible;
                 }

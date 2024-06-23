@@ -168,11 +168,13 @@ namespace ComputerArchitect.Pages
                 if (outofstockCount > 0)
                 {
                     CreateOrderButton.IsEnabled = false;
+                    OutOfStockMessageDialog.Visibility = Visibility.Visible;
                     outofstockCount = 0;
                 }
                 else
                 {
                     CreateOrderButton.IsEnabled = true;
+                    OutOfStockMessageDialog.Visibility = Visibility.Collapsed;
                 }
 
                 UserCartListBox.ItemsSource = combinedData;
@@ -258,14 +260,25 @@ namespace ComputerArchitect.Pages
 
                         CartUpdated?.Invoke(this, EventArgs.Empty);
 
-                        if (outofstockCount > 0)
+                        bool anyItemOutOfStock = combinedData.Any(item =>
+                        (item.Processor != null && item.Processor.CPU_Count_on_storage == 0) ||
+                        (item.Motherboards != null && item.Motherboards.Motherboard_Count_on_storage == 0) ||
+                        (item.Cases != null && item.Cases.Cases_Count_on_storage == 0) ||
+                        (item.GPUS != null && item.GPUS.GPU_Count_on_storage == 0) ||
+                        (item.Coolers != null && item.Coolers.Cooler_Count_on_storage == 0) ||
+                        (item.RAMS != null && item.RAMS.RAM_Count_on_storage == 0) ||
+                        (item.HDDs != null && item.HDDs.HDD_Count_on_storage == 0) ||
+                        (item.PowerSupplies != null && item.PowerSupplies.PS__Count_on_storage == 0));
+
+                        if (anyItemOutOfStock)
                         {
                             CreateOrderButton.IsEnabled = false;
-                            outofstockCount = 0;
+                            OutOfStockMessageDialog.Visibility = Visibility.Visible;
                         }
                         else
                         {
                             CreateOrderButton.IsEnabled = true;
+                            OutOfStockMessageDialog.Visibility = Visibility.Collapsed;
                         }
                     }
                     else

@@ -649,6 +649,7 @@ namespace ComputerArchitect
             string email = UserAuthorizationEmailTextBox.Text;
             bool isEmailValid = IsValidEmail(email);
 
+            OutOfStockMessageDialog.Visibility = Visibility.Collapsed;
 
             if (isEmailValid)
             {
@@ -726,6 +727,7 @@ namespace ComputerArchitect
 
         private void UserPasswordAuthorizationPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
+            OutOfStockMessageDialog.Visibility = Visibility.Collapsed;
             CheckFields();
         }
 
@@ -747,32 +749,41 @@ namespace ComputerArchitect
 
         private void UserAuthorizationButton_Click(object sender, RoutedEventArgs e)
         {
-            var currentUser = App.Database.Users.FirstOrDefault(u => u.Email == UserAuthorizationEmailTextBox.Text && 
-            u.Password == UserPasswordAuthorizationPasswordBox.Password);
+            // Получаем введенные пользователем email и пароль
+            string userEmail = UserAuthorizationEmailTextBox.Text;
+            string userPassword = UserPasswordAuthorizationPasswordBox.Password;
 
-            if (currentUser is null)
+            // Ищем пользователя в базе данных с учетом чувствительности регистра для пароля
+            var currentUser = App.Database.Users.FirstOrDefault(u =>
+                u.Email.Equals(userEmail, StringComparison.OrdinalIgnoreCase)); // Чувствительная к регистру проверка email
+
+            // Если пользователь не найден или пароль неверен, отображаем сообщение об ошибке
+            if (currentUser == null || currentUser.Password != userPassword)
             {
-                MessageBox.Show("Логин или пароль введены неверно!");
+                OutOfStockMessageDialog.Visibility = Visibility.Visible;
                 return;
+            }
+
+            // Проверяем, не заблокирован ли пользователь
+            if (currentUser.UserIsBlocked == true)
+            {
+                // Если пользователь заблокирован, отображаем причину блокировки
+                MessageBox.Show("Доступ к аккаунту заблокирован\nПричина: " + currentUser.UserBlockReason);
             }
             else
             {
-                if (currentUser.UserIsBlocked is true)
-                {
-                    MessageBox.Show("Доступ к аккаунту заблокирован\n" + "Причина: " + currentUser.UserBlockReason);
-                }
-                else
-                {
-                    MainContainer.Visibility = Visibility.Collapsed;
-                    UserAgreementContainer.Visibility = Visibility.Collapsed;
-                    MainFrame.Visibility = Visibility.Visible;
+                // Если пользователь не заблокирован, скрываем текущие контейнеры и отображаем главное окно
+                MainContainer.Visibility = Visibility.Collapsed;
+                UserAgreementContainer.Visibility = Visibility.Collapsed;
+                MainFrame.Visibility = Visibility.Visible;
 
-                    MenuPage menuPage = new MenuPage(currentUser);
-
-                    MainFrame.NavigationService.Navigate(menuPage);
-                }
+                // Переходим на страницу меню с текущим пользователем
+                MenuPage menuPage = new MenuPage(currentUser);
+                MainFrame.NavigationService.Navigate(menuPage);
             }
         }
+
+
 
 
         //Кнопка регистрации
