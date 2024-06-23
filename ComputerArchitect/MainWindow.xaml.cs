@@ -50,9 +50,9 @@ namespace ComputerArchitect
         public MainWindow()
         {
             InitializeComponent();
-            UserAuthorizationEmailTextBox.Text = "admin@mail.ru";
-            UserPasswordAuthorizationPasswordBox.Password = "admin@mail.ru";
-            UserPasswordAuthorizationTextBox.Text = "admin@mail.ru";
+           // UserAuthorizationEmailTextBox.Text = "admin@mail.ru";
+           // UserPasswordAuthorizationPasswordBox.Password = "admin@mail.ru";
+           // UserPasswordAuthorizationTextBox.Text = "admin@mail.ru";
         }
 
         private void СloseAppButton_Click(object sender, RoutedEventArgs e)
